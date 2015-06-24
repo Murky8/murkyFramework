@@ -1,0 +1,37 @@
+*.dgml
+*.suo
+*.obj
+*.lib
+*.log
+*.tlog
+*.idb
+*.pdb
+*.manifest
+*.lastbuildstate
+*.sdf
+*.psess
+*.opensdf
+[Dd]ebug*/
+[Rr]elease*/
+#ignore thumbnails created by windows
+Thumbs.db
+#Ignore files build by Visual Studio
+*.exe
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+[Bb]in
+*.sbr
+obj/
+_ReSharper*/
+[Tt]est[Rr]esult*
+external/

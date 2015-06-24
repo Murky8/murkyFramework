@@ -1,0 +1,39 @@
+//------------------------------------------------------------------------------
+// 2014 J. Coelho.
+//
+// Agnostic wrapper for all low level device specific graphics functions
+// Stateless, ie no current texture selected, vb, etc
+
+
+#pragma once
+#include <vector>
+
+#include <types.hpp>   // types, misc.
+#include <gfxLowLevel/gfxPrimativeTypes.hpp>
+#include <gfxLowLevel/vertexBuffer.hpp>
+#include <gfxLowLevel/shaders.hpp>
+#include <gfxLowLevel/textures.hpp>
+#include <appFramework.hpp>
+
+namespace GfxLowLevel //todo rename
+{     
+    //Data
+    extern mat4 projectionMatrix;
+    void onGfxDeviceErrorTriggerBreakpoint();
+    void initialise();    
+    void drawBegin();    
+    //void setShaderUniform_projMat(mat4 &projMat);
+    void drawEnd();            
+    void drawLines_pc(VertexBufferRef vertexBufferRef, std::vector<Line_pc> &lines);
+    void drawTriangles_pc(VertexBufferRef vertexBufferRef, std::vector<Triangle_pc> &triangles);    
+    void drawTriangles_pct(VertexBufferRef vertexBufferRef, std::vector<Triangle_pct> &triangles, TextureRef &texture);
+
+    // void fillBuffer_start();
+    // void fillBuffer_endAndDraw();
+}
+    //class VertexTypeInfo //todo implement ?
+    //{
+    //public:
+    //    u16 elementSize;  
+    //};
+

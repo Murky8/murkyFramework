@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\gfxLowLevel">
+      <UniqueIdentifier>{1b8b3380-37f1-4623-85ea-8f8df57c145b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gfxHighLevel">
+      <UniqueIdentifier>{9956757e-d72e-4811-a74f-52eec20e5ec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gfxLowLevel">
+      <UniqueIdentifier>{7cdbb241-84fc-46f8-b1cf-74cd45630193}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gfxHighLevel">
+      <UniqueIdentifier>{93fbcb4a-a7a5-4820-89d6-38e7af132631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\openGL">
+      <UniqueIdentifier>{8039f7fd-6ee3-4bde-8cb8-5cc767a29d92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gfxLowLevel\shaders">
+      <UniqueIdentifier>{017dbdbc-4387-45a5-a544-33561e54cf3c}</UniqueIdentifier>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\debugUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\inputDevices.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\loadSaveFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lodepng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\randomNumbers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\vectorMatrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\gfxPrimativeTypes.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxHighLevel\textRender.cpp">
+      <Filter>Source Files\gfxHighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\textures.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxHighLevel\render.cpp">
+      <Filter>Source Files\gfxHighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\shaders.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\external\glew\src\glew.c">
+      <Filter>Source Files\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\appFramework.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\fileTemplate don%27t build this.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\serialize.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\octree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxHighLevel\camera.cpp">
+      <Filter>Source Files\gfxHighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\fileUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxHighLevel\projectionMat.cpp">
+      <Filter>Source Files\gfxHighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\shead.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\appFramework.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\common.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\debugUtils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\inputDevices.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\loadSaveFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\lodepng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\randomNumbers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\stringHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\system.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vectorMatrix.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gfxLowLevel\gfxLowLevel.hpp">
+      <Filter>Header Files\gfxLowLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gfxLowLevel\gfxPrimativeTypes.hpp">
+      <Filter>Header Files\gfxLowLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gfxLowLevel\vertexBuffer.hpp">
+      <Filter>Header Files\gfxLowLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gfxLowLevel\textures.hpp">
+      <Filter>Header Files\gfxLowLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gfxHighLevel\render.hpp">
+      <Filter>Header Files\gfxHighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gfxLowLevel\shaders.hpp">
+      <Filter>Header Files\gfxLowLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gfxHighLevel\textRender.hpp">
+      <Filter>Header Files\gfxHighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\version.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\misc.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\serialize.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\octree.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gfxHighLevel\camera.hpp">
+      <Filter>Header Files\gfxHighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\fileUtils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gfxHighLevel\projectionMat.hpp">
+      <Filter>Header Files\gfxHighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\shaders\posColTex.fsh">
+      <Filter>Source Files\gfxLowLevel\shaders</Filter>
+    </None>
+    <None Include="..\..\src\shaders\posColTex.vsh">
+      <Filter>Source Files\gfxLowLevel\shaders</Filter>
+    </None>
+    <None Include="..\..\src\shaders\test.fsh">
+      <Filter>Source Files\gfxLowLevel\shaders</Filter>
+    </None>
+    <None Include="..\..\src\shaders\test.vsh">
+      <Filter>Source Files\gfxLowLevel\shaders</Filter>
+    </None>
+    <None Include="..\..\src\shaders\basicPos.fsh">
+      <Filter>Source Files\gfxLowLevel\shaders</Filter>
+    </None>
+    <None Include="..\..\src\shaders\basicPos.vsh">
+      <Filter>Source Files\gfxLowLevel\shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>
