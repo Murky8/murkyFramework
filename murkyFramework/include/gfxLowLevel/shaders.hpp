@@ -10,6 +10,9 @@
 
 namespace GfxLowLevel
 {       
+	u32 createShader(const char* sourceText, u32 type);
+	u32	createProgram(u32 vertexShader, u32 fragmentShader);
+
     class ShaderProgram
     {        
    public:

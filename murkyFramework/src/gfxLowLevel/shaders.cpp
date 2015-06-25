@@ -64,7 +64,62 @@ namespace GfxLowLevel
         onGfxDeviceErrorTriggerBreakpoint();
         out_shader = newShader;        
     }
-    void createProgram(const std::vector<GLuint> &in_shaderList, GLuint &out_program)
+    
+	u32 createShader(const char* sourceText, u32 type)
+	{
+		GLuint	shader = glCreateShader(type);
+		glShaderSource(shader, 1, &sourceText, NULL);
+		glCompileShader(shader);
+
+		// Check shader     
+		GLint status;
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+		if (status == GL_FALSE)
+		{
+			GLint infoLogLength;
+			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
+
+			GLchar *strInfoLog = new GLchar[infoLogLength + 1];
+			glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
+
+			debugLog << L"Compile failure\n";
+			debugLog << strInfoLog << L"\n";
+			triggerBreakpoint();
+
+			delete[] strInfoLog;
+		}
+		// Check shader   
+		return shader;
+	}
+
+	u32	createProgram(u32 vertexShader, u32 fragmentShader)
+	{
+		u32 program = glCreateProgram();
+		glAttachShader(program, fragmentShader);
+		glAttachShader(program, vertexShader);
+		glLinkProgram(program);
+
+		// check program
+		GLint status;
+		glGetProgramiv(program, GL_LINK_STATUS, &status);
+		if (status == GL_FALSE)
+		{
+			GLint infoLogLength;
+			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
+
+			GLchar *strInfoLog = new GLchar[infoLogLength + 1];
+			glGetProgramInfoLog(program, infoLogLength, NULL, strInfoLog);
+
+			debugLog << L"Compile failure\n";
+			debugLog << strInfoLog << L"\n";
+			delete[] strInfoLog;
+			triggerBreakpoint();
+		}
+		// check program
+		return program;
+	}
+
+	void createProgram(const std::vector<GLuint> &in_shaderList, GLuint &out_program)
     {
         out_program = glCreateProgram();
 

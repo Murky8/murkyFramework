@@ -24,7 +24,7 @@ namespace
 {
     RenderHi::Lines_pcSoftBuffer *linesSoftBuffer;          // todo temp
     RenderHi::Triangles_pcSoftBuffer *trianglesSoftBuffer;  // todo temp    
-    GfxLowLevel::VertexBufferRef *vbtris_pct;               //todo temp 
+    GfxLowLevel::VertexBufferRef_Depreciate *vbtris_pct;               //todo temp 
     GfxLowLevel::TextureRef   *textRef;                     //todo temp    
 
     // Font
@@ -139,7 +139,7 @@ namespace RenderHi
         ::linesSoftBuffer = new Lines_pcSoftBuffer(256);
         ::trianglesSoftBuffer = new Triangles_pcSoftBuffer(1);
       
-        ::vbtris_pct = new GfxLowLevel::VertexBufferRef(
+        ::vbtris_pct = new GfxLowLevel::VertexBufferRef_Depreciate(
             100, GfxLowLevel::VertexType::posColTex, GfxLowLevel::BufferAccessType::dynamic);
 
         // Font

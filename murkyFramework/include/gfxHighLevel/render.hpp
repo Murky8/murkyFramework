@@ -37,7 +37,7 @@ namespace RenderHi
         // Methods
         // Data
         std::vector<Line_pc> lines;
-        GfxLowLevel::VertexBufferRef vertexBuffer;   
+        GfxLowLevel::VertexBufferRef_Depreciate vertexBuffer;   
     };
 
     class Triangles_pcSoftBuffer
@@ -59,7 +59,7 @@ namespace RenderHi
         // Methods
         // Data
         std::vector<Triangle_pc> triangles;
-        GfxLowLevel::VertexBufferRef vertexBuffer;
+        GfxLowLevel::VertexBufferRef_Depreciate vertexBuffer;
     };
 
     class Triangles_pctSoftBuffer
@@ -81,7 +81,7 @@ namespace RenderHi
         // Methods
         // Data
         std::vector<Triangle_pct> triangles;
-        GfxLowLevel::VertexBufferRef vertexBuffer;
+        GfxLowLevel::VertexBufferRef_Depreciate vertexBuffer;
     };
 
     //class   SoftHardVB_pctTris

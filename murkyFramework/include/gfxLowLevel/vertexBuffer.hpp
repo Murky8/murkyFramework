@@ -10,12 +10,29 @@ namespace GfxLowLevel
     // Vertex buffer
     enum class VertexType{ posCol, posColTex };
     enum class BufferAccessType{ dynamic };
+	
+	class VertexBufferDynamic
+	{
+	public:
+		// Constructors		
+		VertexBufferDynamic(VertexType vertexType, u32 capacity);
 
-    class VertexBufferRef   //todo rename
+		// Methods		
+
+		// Data
+		const u32 capacity;
+		const VertexType vertexType;		
+	private:
+		u32 vbo;
+		u32 vao;
+		VertexBufferDynamic() = delete;
+	};
+
+    class VertexBufferRef_Depreciate   //todo rename
     {
     public:
         // Constructors
-        VertexBufferRef(u32 capacity, VertexType, BufferAccessType);
+        VertexBufferRef_Depreciate(u32 capacity, VertexType, BufferAccessType);
 
         // Methods
         u32 getBufferHandle() const;
@@ -26,7 +43,7 @@ namespace GfxLowLevel
         const BufferAccessType bufferAccessType;
     private:
         u32 bufferHandle;
-        VertexBufferRef() = delete;
+        VertexBufferRef_Depreciate() = delete;
     };
     //--------------------------------------------------------------------------
 }

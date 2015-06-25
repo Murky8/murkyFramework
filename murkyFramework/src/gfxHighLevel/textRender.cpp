@@ -18,6 +18,7 @@
 #include <gfxHighLevel/render.hpp>
 #include <vectorMatrix.hpp>
 #include <murkyFramework/include/gfxHighLevel/projectionMat.hpp>
+#include "gfxLowLevel/gfxPrimativeTypes.hpp"
 
 
 namespace RenderHi
@@ -52,7 +53,7 @@ namespace RenderHi
     extern GfxLowLevel::TextureRef             *font_texture;    // todo temp        
     extern RenderHi::Triangles_pctSoftBuffer   *font_softBuf;    // todo temp    
 
-    void drawChar(RenderHi::Triangles_pctSoftBuffer &triangles, wchar_t ch, vec2 pos, vec3 col, vec2 charScreenDim)
+    void drawChar( std::vector<Triangle_pct> &triangles, wchar_t ch, vec2 pos, vec3 col, vec2 charScreenDim)
     {
         const   auto    charloc = ( static_cast<int>(ch) ) -32; //Note: -32 as 32 is start of chrsa in texture
         const   auto    charTexDim = 1.f / 16.f;
@@ -78,8 +79,8 @@ namespace RenderHi
         vert[2].textCoords += vec2(0.f, charTexDim);
         vert[3].textCoords += vec2(charTexDim, charTexDim);
 
-        triangles.addTriangle(Triangle_pct(vert[0], vert[1], vert[2]));
-        triangles.addTriangle(Triangle_pct(vert[1], vert[3], vert[2]));        
+        triangles.push_back(Triangle_pct(vert[0], vert[1], vert[2]));
+        triangles.push_back(Triangle_pct(vert[1], vert[3], vert[2]));        
     }
 
     void drawText(const std::wstring &text, const GfxLowLevel::TextureRef &texture)
@@ -101,7 +102,8 @@ namespace RenderHi
             }
             else
             {
-                drawChar(*font_softBuf, ch, cursorPos, vec3(1.f, 1.f, 0.5f), charScreenDim);
+				triggerBreakpoint();
+                //drawChar(*font_softBuf, ch, cursorPos, vec3(1.f, 1.f, 0.5f), charScreenDim);
                 cursorPos += vec2(charScreenDim.x, 0.f);
             }
             ++it;

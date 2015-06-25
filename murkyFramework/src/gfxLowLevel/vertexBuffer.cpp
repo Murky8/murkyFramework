@@ -16,7 +16,14 @@ namespace GfxLowLevel
 {
     void onGfxDeviceErrorTriggerBreakpoint();
 
-    VertexBufferRef::VertexBufferRef(u32 in_capacity, VertexType vertexType, BufferAccessType bufferAccessType) :
+	// constructor
+	VertexBufferDynamic::VertexBufferDynamic(VertexType vertexType, u32 capacity) :
+		vertexType(vertexType), capacity(capacity)
+	{
+
+	}
+
+    VertexBufferRef_Depreciate::VertexBufferRef_Depreciate(u32 in_capacity, VertexType vertexType, BufferAccessType bufferAccessType) :
         capacity(in_capacity), vertexType(vertexType), bufferAccessType(bufferAccessType)
     {
         glGenBuffers(1, (GLuint*)&bufferHandle);
@@ -57,7 +64,7 @@ namespace GfxLowLevel
         onGfxDeviceErrorTriggerBreakpoint();
     }
 
-    u32 VertexBufferRef::getBufferHandle() const 
+    u32 VertexBufferRef_Depreciate::getBufferHandle() const 
     {
         return bufferHandle;
     }

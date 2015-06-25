@@ -16,6 +16,7 @@
 #include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 #include <murkyFramework/include/appFramework.hpp>
 
+
 namespace
 {
 	HDC			hDC;		// Private GDI Device Context
@@ -70,19 +71,35 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 
 
 GLuint vbo, vao, vs, fs, prog;
+GfxLowLevel::TextureRef *texture0;
+GfxLowLevel::TextureRef *texture1;
+GLuint textureSamplerID;
 
 const char* vertex_shader =
-"#version 400\n"
-"in vec3 vp;"
-"void main () {"
-"  gl_Position = vec4 (vp, 1.0);"
-"}";
+"#version 400 core\n"
+"layout(location = 0) in vec3 in_pos;"
+"layout(location = 1) in vec3 in_col;"
+"layout(location = 2) in vec2 in_textCoords;"
+"out vec3 colour;"
+"out vec2 textCoords;"
+""
+"void main()"
+"{"
+"	colour = in_col;"
+"	textCoords = in_textCoords;"
+"	gl_Position = vec4(in_pos, 1.0);"
+"};";
 
 const char* fragment_shader =
-"#version 400\n"
+"#version 400 core\n"
+"in vec3 colour;"
+"in vec2 textCoords;"
+"uniform sampler2D textureSamplerID;"
 "out vec4 frag_colour;"
-"void main () {"
-"  frag_colour = vec4 (0.5, 0.0, 0.5, 1.0);"
+""
+"void main ()"
+"{"
+"  frag_colour = vec4 (colour, 1.0)*texture( textureSamplerID, textCoords );"
 "}";
 
 
@@ -94,51 +111,46 @@ void init()
 	qdev::setCurrentDirectoryToAppRoot();
 
 	auto res = createWindow(wcstring, 800, 800);
-
-	vec3 tri[6] =
-	{
-		{ 0.0f, 0.0f, 1.0f },
-		{ 0.0f, 0.5f, 1.0f },
-		{ 0.5f, 0.0f, 1.0f },
-
-		{ 0.0f, 0.5f, 1.0f },
-		{ 0.5f, 0.5f, 1.0f },
-		{ 0.5f, 0.0f, 1.0f }
-	};
-
+	
 	GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+
+	texture0 = new GfxLowLevel::TextureRef(L"data/font.png");
+	texture1 = new GfxLowLevel::TextureRef(L"data/t0.png");
 
 	// buffers etc
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(tri), &tri, GL_STATIC_DRAW);
+	// dont need to actually put anything in buffer yet
+	//glBufferData(GL_ARRAY_BUFFER, tris.size()*sizeof(Triangle_pct), tris.data(), GL_DYNAMIC_DRAW);
 	
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
-	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	// layout
+	int szVertex = sizeof(Vert_pct);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, szVertex, 0);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3)));//col      
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3) + sizeof(vec3)));//tex        
 	
 	// shader
-	vs = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vs, 1, &vertex_shader, NULL);
-	glCompileShader(vs);
-	fs = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fs, 1, &fragment_shader, NULL);
-	glCompileShader(fs);
-	
-	prog = glCreateProgram();
-	glAttachShader(prog, fs);
-	glAttachShader(prog, vs);
-	glLinkProgram(prog);
-	
+	//vs = glCreateShader(GL_VERTEX_SHADER);
+	//glShaderSource(vs, 1, &vertex_shader, NULL);
+	//glCompileShader(vs);
+	vs = GfxLowLevel::createShader(vertex_shader, GL_VERTEX_SHADER);
+	fs = GfxLowLevel::createShader(fragment_shader, GL_FRAGMENT_SHADER);	
+	prog = GfxLowLevel::createProgram(vs, fs);
+	textureSamplerID = glGetUniformLocation(prog, "textureSamplerID");
 	
 	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 	GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
 
 }
-
-
 
 void mainLoop()
 {
@@ -152,9 +164,32 @@ void mainLoop()
 	
 	glUseProgram(prog);
 	glBindVertexArray(vao);
-	// draw points 0-3 from the currently bound VAO with current in-use shader
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	
+	// change data
+	std::vector<Triangle_pct> dtris;
+	float v = (float)(Gapp.frameCounter % 60) / 60.f;
+	Triangle_pct tri0
+	{
+		{ { v, 0.0f, 1.0f }, { 1.0f, 1.0f, 0.0f }, { 0.0f, 1.0f } },
+		{ { 0.0f, 0.5f, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
+		{ { 0.5f, 0.0f, 1.0f }, { 0.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
+	};
+	dtris.push_back(tri0);
 
+	Triangle_pct tri1
+	{
+		{ { 0.0f, 0.5f, 1.0f }, { 1.0f, 1.0f, 0.0f }, { 0.0f, 0.0f } },
+		{ { 0.5f, 0.5f, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f } },
+		{ { 0.5f, 0.0f, 1.0f }, { 0.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
+	};
+	dtris.push_back(tri1);
+
+	glBufferData(GL_ARRAY_BUFFER, dtris.size()*sizeof(Triangle_pct), dtris.data(), GL_DYNAMIC_DRAW);
+	// change data
+
+	glBindTexture( GL_TEXTURE_2D, texture1->getHandle() );
+	glDrawArrays( GL_TRIANGLES, 0, 6 );
+	glBindTexture(GL_TEXTURE_2D, 0);
 	////
 	glFlush();
 	SwapBuffers(hDC);
@@ -169,25 +204,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	wndProcCalled = true;
 	switch (message)
 	{
-	//case WM_SIZE: // If our window is resizing
-	//	debugLog << L" resize " << LOWORD(lParam) << " " << HIWORD(lParam) << L"\n";
-
-	//	//openglContext.reshapeWindow(LOWORD(lParam), HIWORD(lParam)); // Send the new window size to our OpenGLContext
-	//	if (Gapp.gfxInitialised)
-	//	{
-
-	//		Gapp.screenResX = LOWORD(lParam);
-	//		Gapp.screenResY = HIWORD(lParam);
-	//		if (Gapp.screenResX < 10 || Gapp.screenResX>1900)
-	//			triggerBreakpoint();
-
-	//		if (Gapp.screenResY < 10 || Gapp.screenResY>1000)
-	//			triggerBreakpoint();
-
-	//		GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
-	//	}
-	//	break;
-
+	
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
@@ -298,3 +315,13 @@ bool createWindow(LPCWSTR title, int width, int height)
 
 	return true;
 }
+/*
+class Wobject
+{
+std::Vector<*void> subObjects;
+void serialize(char* p, int capacity );
+int size();
+
+}
+
+*/

@@ -35,7 +35,7 @@ namespace GfxLowLevel
     // Data
     mat4 projectionMatrix(Unit::UNIT);    
         
-    //void serializeState();
+    //void serializeState();1
 
     void onGfxDeviceErrorTriggerBreakpoint()
     {
@@ -75,17 +75,7 @@ namespace GfxLowLevel
 		glClearColor(0.4f, 0.6f, 0.9f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-
-		onGfxDeviceErrorTriggerBreakpoint();
-		
-		//UseProgram( shaderProgram_posColText->getHandle() );
-		//GfxDeviceErrorTriggerBreakpoint();
-		
-		//Uniform1i(GfxLowLevel::uniforms_texture, 0);
-		//GfxDeviceErrorTriggerBreakpoint();
-
-		onGfxDeviceErrorTriggerBreakpoint();
-
+		onGfxDeviceErrorTriggerBreakpoint();	
     }
 
     /*void setShaderUniform_projMat(mat4 &projMat)
@@ -98,7 +88,7 @@ namespace GfxLowLevel
         glFlush();
     }    
         
-    void drawLines_pc(VertexBufferRef vertexBufferRef, std::vector<Line_pc> &lines)
+    void drawLines_pc(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Line_pc> &lines)
     {
         onGfxDeviceErrorTriggerBreakpoint(); 
 
@@ -139,7 +129,7 @@ namespace GfxLowLevel
         onGfxDeviceErrorTriggerBreakpoint();
     }
 
-    void drawTriangles_pc(VertexBufferRef vertexBufferRef, std::vector<Triangle_pc> &triangles)
+    void drawTriangles_pc(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Triangle_pc> &triangles)
     {
         onGfxDeviceErrorTriggerBreakpoint();
         
@@ -184,7 +174,7 @@ namespace GfxLowLevel
         onGfxDeviceErrorTriggerBreakpoint();
     }
     
-    void drawTriangles_pct(VertexBufferRef vertexBufferRef, std::vector<Triangle_pct> &triangles, TextureRef &texture)
+    void drawTriangles_pct(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Triangle_pct> &triangles, TextureRef &texture)
     {
         onGfxDeviceErrorTriggerBreakpoint();
         
