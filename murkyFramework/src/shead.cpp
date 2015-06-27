@@ -72,7 +72,8 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 
 
 //GLuint vbo, vao, vs, fs, prog;
-GfxLowLevel::VertexBufferDynamic *vertexBufferDynamic, *vertexBufferDynamic2;
+GfxLowLevel::VertexBufferDynamic *vertexBufferDynamic;
+GfxLowLevel::VertexBufferDynamic *vertexBufferDynamic2;
 GfxLowLevel::TextureRef *texture0;
 GfxLowLevel::TextureRef *texture1;
 
@@ -98,14 +99,14 @@ void init()
 		texture0->getHandle()
 		);
 		
-	/*
+	
 	vertexBufferDynamic2 = new GfxLowLevel::VertexBufferDynamic(
 		GfxLowLevel::VertexType::posColTex,
 		GfxLowLevel::PrimativeType::triangle,
 		GfxLowLevel::Shaders::posColText,
 		texture0->getHandle()
 		);
-		*/
+		
 	GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
 }
 
@@ -128,34 +129,33 @@ void mainLoop()
 	{
 		Triangle_pct tri0
 		{
-			{ { rn, rn, 1.0f }, { 1.0f, 1.0f, 0.0f }, { 0.0f, 1.0f } },
-			{ { rn, rn, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
-			{ { rn, rn, 1.0f }, { 0.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
+			{ { rn, rn, 1.0f }, { 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f } },
+			{ { rn, rn, 1.0f }, { 1.0f, 0.0f, 0.0f }, { 0.0f, 0.0f } },
+			{ { rn, rn, 1.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f } },
 		};
 		dtris.push_back(tri0);
 	}
 	// change data
 	
 	// change data
-	/*std::vector<Triangle_pct> dtris2;
+	std::vector<Triangle_pct> dtris2;
 
 	#define rn ((float)rand() / (float)RAND_MAX)
-	srand(0);
+	
 	for (int i1 = 0; i1 < 10; i1++)
 	{
 		Triangle_pct tri0
 		{
-			{ { rn, rn, 1.0f }, { 1.0f, 1.0f, 0.0f }, { 0.0f, 1.0f } },
-			{ { rn, rn, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
-			{ { rn, rn, 1.0f }, { 0.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
+			{ { rn, rn, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f } },
+			{ { rn, rn, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
+			{ { rn, rn, 1.0f }, { 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f } },
 		};
 		dtris2.push_back(tri0);
-	}*/
+	}
 	// change data
 
 	vertexBufferDynamic->draw(dtris.data(), dtris.size());
-
-	//vertexBufferDynamic2->draw(dtris2.data(), dtris2.size());
+	vertexBufferDynamic2->draw(dtris2.data(), dtris2.size());
 
 	
 	//RenderHi::drawAll();

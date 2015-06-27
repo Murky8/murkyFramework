@@ -24,52 +24,59 @@ namespace GfxLowLevel
 	VertexBufferDynamic::VertexBufferDynamic(VertexType vertexType, PrimativeType primativeType, u32 shaderProgram, u32 texture ) :
 		vertexType(vertexType), primativeType(primativeType), shaderProgram(shaderProgram), texture(texture)
 	{
+		static int c = 0;
+		c++;
 		onGfxDeviceErrorTriggerBreakpoint();
-		
+
 		//http://www.informit.com/articles/article.aspx?p=1377833&seqNum=8
 		// buffers etc
 		// dont need to actually put anything in buffer yet
-		vao = 0;
+	
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
-
-		vbo = 0;
+	
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);		
-		//glBufferData(GL_ARRAY_BUFFER, tris.size()*sizeof(Triangle_pct), tris.data(), GL_DYNAMIC_DRAW);
-		//glBufferData(GL_ARRAY_BUFFER, 0, NULL, GL_DYNAMIC_DRAW);
 		
 		glUseProgram(shaderProgram);
-
-			// layout
+	
+		// layout
 		int szVertex = sizeof(Vert_pct);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, szVertex, 0);
 		glEnableVertexAttribArray(0);
 
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3)));//col      
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3)+4));//col      
 		glEnableVertexAttribArray(1);
 
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3) + sizeof(vec3)));//tex        
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3) +4+ sizeof(vec3)+4));//tex        
 		glEnableVertexAttribArray(2);
 					
-		// reset
-		glBindVertexArray(0);
-		glDisableVertexAttribArray(2);
-		glDisableVertexAttribArray(1);
-		glDisableVertexAttribArray(0);
-
-		//glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+		//glBufferData(GL_ARRAY_BUFFER, tris.size()*sizeof(Triangle_pct), tris.data(), GL_DYNAMIC_DRAW);
+		//glBufferData(GL_ARRAY_BUFFER, 0, NULL, GL_DYNAMIC_DRAW);
+		
+		// reset		
+		glBindBuffer(GL_ARRAY_BUFFER, 0); // breaks
+		glBindVertexArray( 0 );
+		
+		glUseProgram(0);
+		
+//		glDisableVertexAttribArray(2);
+	//	glDisableVertexAttribArray(1);
+		//glDisableVertexAttribArray(0);
+		/*
+		*/
 		onGfxDeviceErrorTriggerBreakpoint();
 	}
 
 	// methods
 	void	VertexBufferDynamic::draw( void *data, int nPrimatives )
 	{
+		static int c = 0;
+		c++;
+
 		onGfxDeviceErrorTriggerBreakpoint();
 		u32 sizeVertex;
-
-		Triangle_pct *d2 = (Triangle_pct*)data;
+	
 
 		switch( vertexType )
 		{
@@ -85,13 +92,13 @@ namespace GfxLowLevel
 			triggerBreakpoint();
 		}
 
-		int nElementsPerPrimative;
+		int nVerticiesPerPrimative;
 		GLuint glPrimativeType;
 
 		switch (primativeType)
 		{
 		case PrimativeType::triangle:
-			nElementsPerPrimative = 3;
+			nVerticiesPerPrimative = 3;
 			glPrimativeType = GL_TRIANGLES;
 			break;
 		default:// Catch usage of unimplemented			
@@ -101,23 +108,25 @@ namespace GfxLowLevel
 		glBindVertexArray(vao);		
 
 		glUseProgram(shaderProgram);
-		glUniform1i(Shaders::uniforms_textureSamplerID, 0);
+		//glUniform1i(Shaders::uniforms_textureSamplerID, 0);
 
-		//glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
 		glBindTexture( GL_TEXTURE_2D, texture );//is this already bound to vao???
 		onGfxDeviceErrorTriggerBreakpoint();
 
-		//glBufferSubData(GL_ARRAY_BUFFER, 0, nPrimatives*nElementsPerPrimative*sizeVertex, data);
-		glBufferData(GL_ARRAY_BUFFER, nPrimatives*nElementsPerPrimative*sizeVertex, data, GL_DYNAMIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		//glBufferSubData(GL_ARRAY_BUFFER, 0, nPrimatives*nVerticiesPerPrimative*sizeVertex, data);
+		glBufferData(GL_ARRAY_BUFFER, nPrimatives*nVerticiesPerPrimative*sizeVertex, data, GL_DYNAMIC_DRAW);
+
 		onGfxDeviceErrorTriggerBreakpoint();
 		// change data
 		
-		glDrawArrays(glPrimativeType, 0, nPrimatives*nElementsPerPrimative);		
+		glDrawArrays(glPrimativeType, 0, nPrimatives*nVerticiesPerPrimative);		
 		onGfxDeviceErrorTriggerBreakpoint();
 
 		//reset state
 		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		//glBindTexture( GL_TEXTURE_2D, 0 );
 		//glUseProgram( 0 );
@@ -134,7 +143,6 @@ namespace GfxLowLevel
 
         glBindBuffer(GL_ARRAY_BUFFER, bufferHandle);
         onGfxDeviceErrorTriggerBreakpoint();
-
         u32 sizeVertex;
         switch (vertexType)
         {
