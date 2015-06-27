@@ -23,7 +23,20 @@
 
 namespace RenderHi
 {
+	// data
+	TextRender::TextRender()
+	{											
+		fontTextureRef = new GfxLowLevel::TextureRef(L"data/font.png");		
 
+		textTriangleBuffer = new GfxLowLevel::VertexBufferDynamic(
+			GfxLowLevel::VertexType::posColTex,
+			GfxLowLevel::PrimativeType::triangle,
+			GfxLowLevel::Shaders::posColText,
+			1);
+		//fontTextureRef->getHandle() );
+	}
+
+	// methods
     // Constructors
     //TextRender::TextRender(std::wstring textureFileName) : texture(textureFileName), cursorPos(-1.0f, 1.0f)
     //{    
@@ -50,8 +63,8 @@ namespace RenderHi
     Result[3][2] = -(zFar + zNear) / (zFar - zNear);
     */
 
-    extern GfxLowLevel::TextureRef             *font_texture;    // todo temp        
-    extern RenderHi::Triangles_pctSoftBuffer   *font_softBuf;    // todo temp    
+//    extern GfxLowLevel::TextureRef             *font_texture;    // todo temp        
+ //   extern RenderHi::Triangles_pctSoftBuffer   *font_softBuf;    // todo temp    
 
     void drawChar( std::vector<Triangle_pct> &triangles, wchar_t ch, vec2 pos, vec3 col, vec2 charScreenDim)
     {
@@ -83,7 +96,7 @@ namespace RenderHi
         triangles.push_back(Triangle_pct(vert[1], vert[3], vert[2]));        
     }
 
-    void drawText(const std::wstring &text, const GfxLowLevel::TextureRef &texture)
+	void TextRender::drawText()
     {
         // cordinates: 0,0 = top left        
         vec2    cursorPos(0.f,0.f);
@@ -102,14 +115,25 @@ namespace RenderHi
             }
             else
             {
-				triggerBreakpoint();
-                //drawChar(*font_softBuf, ch, cursorPos, vec3(1.f, 1.f, 0.5f), charScreenDim);
+                drawChar( textTris, ch, cursorPos, vec3(1.f, 1.f, 0.5f), charScreenDim );
                 cursorPos += vec2(charScreenDim.x, 0.f);
             }
             ++it;
         }        
 
-        setProjMatOrtho(1.f, 0.f, 0.f, 1.f, GfxLowLevel::projectionMatrix);
-        font_softBuf->drawAll();
+        //setProjMatOrtho(1.f, 0.f, 0.f, 1.f, GfxLowLevel::projectionMatrix);
+
+		#define rn ((float)rand() / (float)RAND_MAX)
+		srand(0);
+			Triangle_pct tri0
+			{
+				{ { rn, rn, 1.0f }, { 1.0f, 1.0f, 0.0f }, { 0.0f, 1.0f } },
+				{ { rn, rn, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
+				{ { rn, rn, 1.0f }, { 0.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
+			};
+
+			//this->textTriangleBuffer->draw(textTris.data(), textTris.size());
+			//this->textTriangleBuffer->draw(&tri0, 1);
+
     }
 }

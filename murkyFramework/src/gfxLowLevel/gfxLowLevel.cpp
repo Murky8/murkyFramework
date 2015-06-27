@@ -87,7 +87,7 @@ namespace GfxLowLevel
     {
         glFlush();
     }    
-        
+	/*
     void drawLines_pc(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Line_pc> &lines)
     {
         onGfxDeviceErrorTriggerBreakpoint(); 
@@ -245,5 +245,6 @@ namespace GfxLowLevel
         glBindTexture(GL_TEXTURE_2D, 0);        
         onGfxDeviceErrorTriggerBreakpoint();
     }
+	*/
 }
 

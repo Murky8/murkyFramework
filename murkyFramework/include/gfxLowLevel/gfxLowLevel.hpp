@@ -23,9 +23,9 @@ namespace GfxLowLevel //todo rename
     void initialise();    
     void drawBegin();        
     void drawEnd();            
-    void drawLines_pc(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Line_pc> &lines);
-    void drawTriangles_pc(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Triangle_pc> &triangles);    
-    void drawTriangles_pct(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Triangle_pct> &triangles, TextureRef &texture);
+    //void drawLines_pc(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Line_pc> &lines);
+    //void drawTriangles_pc(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Triangle_pc> &triangles);    
+    //void drawTriangles_pct(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Triangle_pct> &triangles, TextureRef &texture);
 
     // void fillBuffer_start();
     // void fillBuffer_endAndDraw();

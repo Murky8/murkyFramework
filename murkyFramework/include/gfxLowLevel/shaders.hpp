@@ -8,8 +8,17 @@
 #include <vector>
 #include <string>
 
+
 namespace GfxLowLevel
-{       
+{
+	namespace Shaders
+	{
+		extern u32  uniforms_textureSamplerID;
+		//extern u32   uniforms_projMatrix;
+		extern u32	posColText;
+		void		initialise();
+	}
+
 	u32 createShader(const char* sourceText, u32 type);
 	u32	createProgram(u32 vertexShader, u32 fragmentShader);
 
@@ -34,9 +43,7 @@ namespace GfxLowLevel
     u32     handle;     
     };        
 
-    // Data
-    extern u32     uniforms_texture;
-    extern u32     uniforms_projMatrix;
+    
 }
 
 /*

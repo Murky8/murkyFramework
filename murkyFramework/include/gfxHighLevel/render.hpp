@@ -9,80 +9,79 @@
 
 #include <types.hpp>
 #include <gfxLowLevel/gfxLowLevel.hpp>
+#include <gfxHighLevel/render.hpp>
+#include <gfxHighLevel/textRender.hpp>
 
-// Private data
-namespace
-{
-    //mat3 
-}
 
 namespace RenderHi
 {
-    class Lines_pcSoftBuffer
-    {
-    public:
-        // Constructors        
-        Lines_pcSoftBuffer(u32 capacity);
+	extern TextRender *textRenderer;
 
-        // Destructors
-        // Methods
-        void addLine(Line_pc line);        
-        void drawAll();
+    //class Lines_pcSoftBuffer
+    //{
+    //public:
+    //    // Constructors        
+    //    Lines_pcSoftBuffer(u32 capacity);
 
-        // Data
-    private:                
-        // Constructors        
-        Lines_pcSoftBuffer()= delete;
-        // Destructors
-        // Methods
-        // Data
-        std::vector<Line_pc> lines;
-        GfxLowLevel::VertexBufferRef_Depreciate vertexBuffer;   
-    };
+    //    // Destructors
+    //    // Methods
+    //    void addLine(Line_pc line);        
+    //    void drawAll();
 
-    class Triangles_pcSoftBuffer
-    {
-    public:
-        // Constructors        
-        Triangles_pcSoftBuffer(u32 capacity);
+    //    // Data
+    //private:                
+    //    // Constructors        
+    //    Lines_pcSoftBuffer()= delete;
+    //    // Destructors
+    //    // Methods
+    //    // Data
+    //    std::vector<Line_pc> lines;
+    //    GfxLowLevel::VertexBufferRef_Depreciate vertexBuffer;   
+    //};
 
-        // Destructors
-        // Methods
-        void addTriangle(Triangle_pc Triangle);
-        void drawAll();
+    //class Triangles_pcSoftBuffer
+    //{
+    //public:
+    //    // Constructors        
+    //    Triangles_pcSoftBuffer(u32 capacity);
 
-        // Data
-    private:
-        // Constructors        
-        Triangles_pcSoftBuffer() = delete;
-        // Destructors
-        // Methods
-        // Data
-        std::vector<Triangle_pc> triangles;
-        GfxLowLevel::VertexBufferRef_Depreciate vertexBuffer;
-    };
+    //    // Destructors
+    //    // Methods
+    //    void addTriangle(Triangle_pc Triangle);
+    //    void drawAll();
 
-    class Triangles_pctSoftBuffer
-    {
-    public:
-        // Constructors        
-        Triangles_pctSoftBuffer(u32 capacity);
+    //    // Data
+    //private:
+    //    // Constructors        
+    //    Triangles_pcSoftBuffer() = delete;
+    //    // Destructors
+    //    // Methods
+    //    // Data
+    //    std::vector<Triangle_pc> triangles;
+    //    GfxLowLevel::VertexBufferRef_Depreciate vertexBuffer;
+    //};
 
-        // Destructors
-        // Methods
-        void addTriangle(Triangle_pct Triangle);
-        void drawAll();
+    //class Triangles_pctSoftBuffer
+    //{
+    //public:
+    //    // Constructors        
+    //    Triangles_pctSoftBuffer(u32 capacity);
 
-        // Data
-    private:
-        // Constructors        
-        Triangles_pctSoftBuffer() = delete;
-        // Destructors
-        // Methods
-        // Data
-        std::vector<Triangle_pct> triangles;
-        GfxLowLevel::VertexBufferRef_Depreciate vertexBuffer;
-    };
+    //    // Destructors
+    //    // Methods
+    //    void addTriangle(Triangle_pct Triangle);
+    //    void drawAll();
+
+    //    // Data
+    //private:
+    //    // Constructors        
+    //    Triangles_pctSoftBuffer() = delete;
+    //    // Destructors
+    //    // Methods
+    //    // Data
+    //    std::vector<Triangle_pct> triangles;
+    //    GfxLowLevel::VertexBufferRef_Depreciate vertexBuffer;
+    //};
 
     //class   SoftHardVB_pctTris
     //{

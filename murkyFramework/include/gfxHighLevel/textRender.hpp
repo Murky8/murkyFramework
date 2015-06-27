@@ -2,13 +2,14 @@
 // 2014 J. Coelho.
 // Platform:
 #pragma once
-#include <murkyFramework/include/gfxLowLevel/textures.hpp>
+#include <gfxLowLevel/textures.hpp>
+#include <gfxLowLevel/gfxPrimativeTypes.hpp>
+#include <gfxLowLevel/vertexBuffer.hpp>
+#include <gfxLowLevel/textures.hpp>
 
 #include <string>
-
+#include <vector>
 #include <vectorMatrix.hpp>
-
-
 
 namespace RenderHi
 {
@@ -16,21 +17,26 @@ namespace RenderHi
     {
     public:
         // Constructors
-        //explicit TextRender::TextRender(std::wstring textureFileName);
+		TextRender();
 
         // Destructors
         //~TextRender();
         // Methods
+		void drawText();
         //void drawAllText();
         // Data
+		std::wstring						text;
+		std::vector<Triangle_pct>			textTris;
+		GfxLowLevel::VertexBufferDynamic	*textTriangleBuffer;
+		GfxLowLevel::TextureRef				*fontTextureRef;		
         //std::wstring text;
     private:
-        // Constructors
-        // TextRender() = delete;
+        // Constructors        
         // Destructors
         // Methods
         // Data                
     };
+		
 
     void drawText(const std::wstring &text, const GfxLowLevel::TextureRef &texture);
 }

@@ -1,49 +1,42 @@
 //------------------------------------------------------------------------------
-// 2014 J. Coelho.
-// Platform:
+// 2015 J. Coelho.
+// Platform: any, c++11
+// reference: http://antongerdelan.net/opengl/vertexbuffers.html
+// notes:
+// low level device vertex buffer encapsulation
+
 #pragma once
 #include <common.hpp>
 
 namespace GfxLowLevel
 { 
+
     //--------------------------------------------------------------------------
     // Vertex buffer
     enum class VertexType{ posCol, posColTex };
-    enum class BufferAccessType{ dynamic };
+    enum class PrimativeType{ triangle, line, point };
 	
 	class VertexBufferDynamic
 	{
 	public:
 		// Constructors		
-		VertexBufferDynamic(VertexType vertexType, u32 capacity);
+		// if not using a texture, pass '0'
+		VertexBufferDynamic( VertexType vertexType, PrimativeType primativeType, u32 shaderProgram, u32 texture );
 
 		// Methods		
+		void	draw(void *data, int nPrimatives);
 
 		// Data
-		const u32 capacity;
-		const VertexType vertexType;		
+		//const u32			capacity?;
+		const VertexType	vertexType;		
+		const PrimativeType primativeType;
+		const u32			shaderProgram;
+		const u32			texture;
 	private:
 		u32 vbo;
 		u32 vao;
 		VertexBufferDynamic() = delete;
 	};
-
-    class VertexBufferRef_Depreciate   //todo rename
-    {
-    public:
-        // Constructors
-        VertexBufferRef_Depreciate(u32 capacity, VertexType, BufferAccessType);
-
-        // Methods
-        u32 getBufferHandle() const;
-
-        // Data
-        const u32 capacity;
-        const VertexType vertexType;
-        const BufferAccessType bufferAccessType;
-    private:
-        u32 bufferHandle;
-        VertexBufferRef_Depreciate() = delete;
-    };
+  
     //--------------------------------------------------------------------------
 }

@@ -10,61 +10,57 @@
 
 #include <glew/include/GL/glew.h> 
 #include <glew/include/GL/wglew.h>
+extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
 
 namespace GfxLowLevel
-{
-    // Data
-	ShaderProgram *shaderProgram_pos; //TODO change
-    ShaderProgram *shaderProgram_line_pc; //TODO change
-    ShaderProgram *shaderProgram_posColText; //TODO change
+{    	
+	namespace Shaders
+	{
 
-    u32     uniforms_texture;
-    u32     uniforms_projMatrix;
-    
-    void onGfxDeviceErrorTriggerBreakpoint();
-    void loadAndCreateShaderFromFile(const std::wstring fileName, const GLenum newShaderType, GLuint &out_shader)
-    {
-        std::wstring s(L"hello\n");
-        debugLog << fileName << L"\n";
+		u32		uniforms_textureSamplerID;
+		//u32     uniforms_texture;
+		//u32     uniforms_projMatrix;
+		u32		posColText;
+	}
+           
+	const char* vertex_shader =
+		"#version 400 core\n"
+		"layout(location = 0) in vec3 in_pos;"
+		"layout(location = 1) in vec3 in_col;"
+		"layout(location = 2) in vec2 in_textCoords;"
+		"out vec3 colour;"
+		"out vec2 textCoords;"
+		""
+		"void main()"
+		"{"
+		"	colour = in_col;"
+		"	textCoords = in_textCoords;"
+		"	gl_Position = vec4(in_pos, 1.0);"
+		"};";
 
-        onGfxDeviceErrorTriggerBreakpoint();
+	const char* fragment_shader =
+		"#version 400 core\n"
+		"in vec3 colour;"
+		"in vec2 textCoords;"
+		"uniform sampler2D textureSamplerID;"
+		"out vec4 frag_colour;"
+		""
+		"void main ()"
+		"{"
+		"  frag_colour = vec4 (colour, 1.0)*texture( textureSamplerID, textCoords );"
+		"}";
 
-        // Load source code file
-        qdev::BinaryFileLoader srcText(fileName);
+	void	Shaders::initialise()
+	{
+		debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";
 
-        // Initialize new shader    
-        GLuint  newShader = glCreateShader(newShaderType);
+		u32 vs = GfxLowLevel::createShader(vertex_shader, GL_VERTEX_SHADER);
+		u32 fs = GfxLowLevel::createShader(fragment_shader, GL_FRAGMENT_SHADER);
+		posColText = GfxLowLevel::createProgram(vs, fs);
 
-        // Compile shader        
-        const char *pchar = srcText.data();
-        int len[] { srcText.getDataLength() };
+		uniforms_textureSamplerID = glGetUniformLocation(posColText, "textureSamplerID");
+	}
 
-        glShaderSource(newShader, 1, &pchar, len);
-        glCompileShader(newShader);
-
-        // Check shader     
-        GLint status;
-        glGetShaderiv(newShader, GL_COMPILE_STATUS, &status);
-        if (status == GL_FALSE)
-        {
-            GLint infoLogLength;
-            glGetShaderiv(newShader, GL_INFO_LOG_LENGTH, &infoLogLength);
-
-            GLchar *strInfoLog = new GLchar[infoLogLength + 1];
-            glGetShaderInfoLog(newShader, infoLogLength, NULL, strInfoLog);
-
-            debugLog << L"Compile failure\n";
-            debugLog << strInfoLog << L"\n";
-            triggerBreakpoint();
-
-            delete[] strInfoLog;
-        }
-        // Check shader     
-
-        onGfxDeviceErrorTriggerBreakpoint();
-        out_shader = newShader;        
-    }
-    
 	u32 createShader(const char* sourceText, u32 type)
 	{
 		GLuint	shader = glCreateShader(type);
@@ -91,7 +87,6 @@ namespace GfxLowLevel
 		// Check shader   
 		return shader;
 	}
-
 	u32	createProgram(u32 vertexShader, u32 fragmentShader)
 	{
 		u32 program = glCreateProgram();
@@ -119,90 +114,137 @@ namespace GfxLowLevel
 		return program;
 	}
 
-	void createProgram(const std::vector<GLuint> &in_shaderList, GLuint &out_program)
-    {
-        out_program = glCreateProgram();
 
-        for (size_t iLoop = 0; iLoop < in_shaderList.size(); iLoop++)
-                    glAttachShader(out_program, in_shaderList[iLoop]);
+	bool checkUniform(s32 a)
+	{
+		if (a < 0)triggerBreakpoint();
+		if (a == GL_INVALID_VALUE)triggerBreakpoint();
+		if (a == GL_INVALID_OPERATION)triggerBreakpoint();
+		if (a == GL_INVALID_OPERATION)triggerBreakpoint();
+		return true;
+	}
 
-        //for( GLuint shader: in_shaderList)
-        //{
-            //glAttachShader(out_program, shader);
-        //}
-      
-        glLinkProgram(out_program);
-        
-        GLint status;
-        glGetProgramiv(out_program, GL_LINK_STATUS, &status);
-        if(status == GL_FALSE)
-        {
-            GLint infoLogLength;
-            glGetProgramiv(out_program, GL_INFO_LOG_LENGTH, &infoLogLength);
-        
-            GLchar *strInfoLog = new GLchar[infoLogLength + 1];
-            glGetProgramInfoLog(out_program, infoLogLength, NULL, strInfoLog);
-        
-            debugLog << L"Compile failure\n";
-            debugLog << strInfoLog << L"\n";
-            delete[] strInfoLog;
-            triggerBreakpoint();
-        }
-        
-        for(size_t iLoop = 0; iLoop < in_shaderList.size(); iLoop++)
-            glDetachShader(out_program, in_shaderList[iLoop]);                
-    }
-    bool checkUniform(s32 a)
-    {
-        if (a < 0)triggerBreakpoint();
-        if (a == GL_INVALID_VALUE)triggerBreakpoint();
-        if (a == GL_INVALID_OPERATION)triggerBreakpoint();
-        if (a == GL_INVALID_OPERATION)triggerBreakpoint();
-        return true;
-    }
 
-    ShaderProgram::ShaderProgram(
-        const std::wstring &vertShaderFileName,
-        const std::wstring &fragShaderFileName )
-    {    
-        std::vector<GLuint> shaders;
+	//void loadAndCreateShaderFromFile(const std::wstring fileName, const GLenum newShaderType, GLuint &out_shader)
+ //   {
+ //       std::wstring s(L"hello\n");
+ //       debugLog << fileName << L"\n";
 
-        //debugLog << vertShaderFileName << L" moof \n";
+ //       onGfxDeviceErrorTriggerBreakpoint();
 
-        GLuint shader;
+ //       // Load source code file
+ //       qdev::BinaryFileLoader srcText(fileName);
 
-        loadAndCreateShaderFromFile(vertShaderFileName, GL_VERTEX_SHADER, shader);
-        shaders.push_back(shader);
+ //       // Initialize new shader    
+ //       GLuint  newShader = glCreateShader(newShaderType);
 
-        loadAndCreateShaderFromFile(fragShaderFileName, GL_FRAGMENT_SHADER, shader);
-        shaders.push_back(shader);
+ //       // Compile shader        
+ //       const char *pchar = srcText.data();
+ //       int len[] { srcText.getDataLength() };
 
-        createProgram(shaders, this->handle);
-    }    
+ //       glShaderSource(newShader, 1, &pchar, len);
+ //       glCompileShader(newShader);
 
-    u32 ShaderProgram::getHandle() { return handle; }
+ //       // Check shader     
+ //       GLint status;
+ //       glGetShaderiv(newShader, GL_COMPILE_STATUS, &status);
+ //       if (status == GL_FALSE)
+ //       {
+ //           GLint infoLogLength;
+ //           glGetShaderiv(newShader, GL_INFO_LOG_LENGTH, &infoLogLength);
+
+ //           GLchar *strInfoLog = new GLchar[infoLogLength + 1];
+ //           glGetShaderInfoLog(newShader, infoLogLength, NULL, strInfoLog);
+
+ //           debugLog << L"Compile failure\n";
+ //           debugLog << strInfoLog << L"\n";
+ //           triggerBreakpoint();
+
+ //           delete[] strInfoLog;
+ //       }
+ //       // Check shader     
+
+ //       onGfxDeviceErrorTriggerBreakpoint();
+ //       out_shader = newShader;        
+ //   }
+
+	//void createProgram(const std::vector<GLuint> &in_shaderList, GLuint &out_program)
+ //   {
+ //       out_program = glCreateProgram();
+
+ //       for (size_t iLoop = 0; iLoop < in_shaderList.size(); iLoop++)
+ //                   glAttachShader(out_program, in_shaderList[iLoop]);
+
+ //       //for( GLuint shader: in_shaderList)
+ //       //{
+ //           //glAttachShader(out_program, shader);
+ //       //}
+ //     
+ //       glLinkProgram(out_program);
+ //       
+ //       GLint status;
+ //       glGetProgramiv(out_program, GL_LINK_STATUS, &status);
+ //       if(status == GL_FALSE)
+ //       {
+ //           GLint infoLogLength;
+ //           glGetProgramiv(out_program, GL_INFO_LOG_LENGTH, &infoLogLength);
+ //       
+ //           GLchar *strInfoLog = new GLchar[infoLogLength + 1];
+ //           glGetProgramInfoLog(out_program, infoLogLength, NULL, strInfoLog);
+ //       
+ //           debugLog << L"Compile failure\n";
+ //           debugLog << strInfoLog << L"\n";
+ //           delete[] strInfoLog;
+ //           triggerBreakpoint();
+ //       }
+ //       
+ //       for(size_t iLoop = 0; iLoop < in_shaderList.size(); iLoop++)
+ //           glDetachShader(out_program, in_shaderList[iLoop]);                
+ //   }
+
     
-    void loadAllShaders()
-    {
-        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
-		
-		shaderProgram_line_pc       = new ShaderProgram(L"src/shaders/test.vsh", L"src/shaders/test.fsh");
-        shaderProgram_posColText    = new ShaderProgram(L"src/shaders/posColTex.vsh", L"src/shaders/posColTex.fsh");
+  //  ShaderProgram::ShaderProgram(
+  //      const std::wstring &vertShaderFileName,
+  //      const std::wstring &fragShaderFileName )
+  //  {    
+  //      std::vector<GLuint> shaders;
 
-        // Note: 'Tex1' location etc is consistant between all programs
-        {
-            auto loc = glGetUniformLocation(shaderProgram_posColText->getHandle(), "Tex1");
-            checkUniform(loc);
-            onGfxDeviceErrorTriggerBreakpoint();
-            GfxLowLevel::uniforms_texture = loc;
-        }
-        {
-            auto loc = glGetUniformLocation(shaderProgram_posColText->getHandle(), "projMatrix");
-            checkUniform(loc);
-            onGfxDeviceErrorTriggerBreakpoint();
-            GfxLowLevel::uniforms_projMatrix = loc;
-        }
-    }
+  //      //debugLog << vertShaderFileName << L" moof \n";
+
+  //      GLuint shader;
+
+  //      loadAndCreateShaderFromFile(vertShaderFileName, GL_VERTEX_SHADER, shader);
+  //      shaders.push_back(shader);
+
+  //      loadAndCreateShaderFromFile(fragShaderFileName, GL_FRAGMENT_SHADER, shader);
+  //      shaders.push_back(shader);
+
+  //      createProgram(shaders, this->handle);
+  //  }    
+
+  //  u32 ShaderProgram::getHandle() { return handle; }
+  //  
+  //  void loadAllShaders()
+  //  {
+  //      GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+		//
+		//shaderProgram_line_pc       = new ShaderProgram(L"src/shaders/test.vsh", L"src/shaders/test.fsh");
+  //      shaderProgram_posColText    = new ShaderProgram(L"src/shaders/posColTex.vsh", L"src/shaders/posColTex.fsh");
+
+  //      // Note: 'Tex1' location etc is consistant between all programs
+  //      {
+  //          auto loc = glGetUniformLocation(shaderProgram_posColText->getHandle(), "Tex1");
+  //          checkUniform(loc);
+  //          onGfxDeviceErrorTriggerBreakpoint();
+  //          GfxLowLevel::uniforms_texture = loc;
+  //      }
+  //      {
+  //          auto loc = glGetUniformLocation(shaderProgram_posColText->getHandle(), "projMatrix");
+  //          checkUniform(loc);
+  //          onGfxDeviceErrorTriggerBreakpoint();
+  //          GfxLowLevel::uniforms_projMatrix = loc;
+  //      }
+  //  }
     //GLuint Shaders::CreateProgram(const std::vector<GLuint> &shaderList)	
     //{
     //    Wopengl::getAndProcessGLError();

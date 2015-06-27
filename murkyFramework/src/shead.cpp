@@ -15,6 +15,8 @@
 #include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 #include <murkyFramework/include/appFramework.hpp>
+#include "gfxHighLevel/render.hpp"
+#include <stdlib.h>
 
 
 namespace
@@ -69,43 +71,13 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 }
 
 
-
-GLuint vbo, vao, vs, fs, prog;
+//GLuint vbo, vao, vs, fs, prog;
+GfxLowLevel::VertexBufferDynamic *vertexBufferDynamic, *vertexBufferDynamic2;
 GfxLowLevel::TextureRef *texture0;
 GfxLowLevel::TextureRef *texture1;
-GLuint textureSamplerID;
-
-const char* vertex_shader =
-"#version 400 core\n"
-"layout(location = 0) in vec3 in_pos;"
-"layout(location = 1) in vec3 in_col;"
-"layout(location = 2) in vec2 in_textCoords;"
-"out vec3 colour;"
-"out vec2 textCoords;"
-""
-"void main()"
-"{"
-"	colour = in_col;"
-"	textCoords = in_textCoords;"
-"	gl_Position = vec4(in_pos, 1.0);"
-"};";
-
-const char* fragment_shader =
-"#version 400 core\n"
-"in vec3 colour;"
-"in vec2 textCoords;"
-"uniform sampler2D textureSamplerID;"
-"out vec4 frag_colour;"
-""
-"void main ()"
-"{"
-"  frag_colour = vec4 (colour, 1.0)*texture( textureSamplerID, textCoords );"
-"}";
-
 
 void init()
 {
-
 	wchar_t wcstring[] = L"Murky8";
 	debugLog << L"Start\n";
 	qdev::setCurrentDirectoryToAppRoot();
@@ -116,40 +88,25 @@ void init()
 
 	texture0 = new GfxLowLevel::TextureRef(L"data/font.png");
 	texture1 = new GfxLowLevel::TextureRef(L"data/t0.png");
-
-	// buffers etc
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	// dont need to actually put anything in buffer yet
-	//glBufferData(GL_ARRAY_BUFFER, tris.size()*sizeof(Triangle_pct), tris.data(), GL_DYNAMIC_DRAW);
 	
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	RenderHi::initialise();
 
-	// layout
-	int szVertex = sizeof(Vert_pct);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, szVertex, 0);
-
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3)));//col      
-
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3) + sizeof(vec3)));//tex        
-	
-	// shader
-	//vs = glCreateShader(GL_VERTEX_SHADER);
-	//glShaderSource(vs, 1, &vertex_shader, NULL);
-	//glCompileShader(vs);
-	vs = GfxLowLevel::createShader(vertex_shader, GL_VERTEX_SHADER);
-	fs = GfxLowLevel::createShader(fragment_shader, GL_FRAGMENT_SHADER);	
-	prog = GfxLowLevel::createProgram(vs, fs);
-	textureSamplerID = glGetUniformLocation(prog, "textureSamplerID");
-	
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	vertexBufferDynamic = new GfxLowLevel::VertexBufferDynamic(
+		GfxLowLevel::VertexType::posColTex,
+		GfxLowLevel::PrimativeType::triangle,
+		GfxLowLevel::Shaders::posColText,
+		texture0->getHandle()
+		);
+		
+	/*
+	vertexBufferDynamic2 = new GfxLowLevel::VertexBufferDynamic(
+		GfxLowLevel::VertexType::posColTex,
+		GfxLowLevel::PrimativeType::triangle,
+		GfxLowLevel::Shaders::posColText,
+		texture0->getHandle()
+		);
+		*/
 	GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
-
 }
 
 void mainLoop()
@@ -161,35 +118,48 @@ void mainLoop()
 	glClearColor(0.4f, 0.6f, 0.9f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	////
-	
-	glUseProgram(prog);
-	glBindVertexArray(vao);
-	
+		
 	// change data
 	std::vector<Triangle_pct> dtris;
-	float v = (float)(Gapp.frameCounter % 60) / 60.f;
-	Triangle_pct tri0
+	
+#define rn ((float)rand() / (float)RAND_MAX)
+	srand(0);
+	for (int i = 0; i < 10; i++)
 	{
-		{ { v, 0.0f, 1.0f }, { 1.0f, 1.0f, 0.0f }, { 0.0f, 1.0f } },
-		{ { 0.0f, 0.5f, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
-		{ { 0.5f, 0.0f, 1.0f }, { 0.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
-	};
-	dtris.push_back(tri0);
+		Triangle_pct tri0
+		{
+			{ { rn, rn, 1.0f }, { 1.0f, 1.0f, 0.0f }, { 0.0f, 1.0f } },
+			{ { rn, rn, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
+			{ { rn, rn, 1.0f }, { 0.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
+		};
+		dtris.push_back(tri0);
+	}
+	// change data
+	
+	// change data
+	/*std::vector<Triangle_pct> dtris2;
 
-	Triangle_pct tri1
+	#define rn ((float)rand() / (float)RAND_MAX)
+	srand(0);
+	for (int i1 = 0; i1 < 10; i1++)
 	{
-		{ { 0.0f, 0.5f, 1.0f }, { 1.0f, 1.0f, 0.0f }, { 0.0f, 0.0f } },
-		{ { 0.5f, 0.5f, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f } },
-		{ { 0.5f, 0.0f, 1.0f }, { 0.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
-	};
-	dtris.push_back(tri1);
-
-	glBufferData(GL_ARRAY_BUFFER, dtris.size()*sizeof(Triangle_pct), dtris.data(), GL_DYNAMIC_DRAW);
+		Triangle_pct tri0
+		{
+			{ { rn, rn, 1.0f }, { 1.0f, 1.0f, 0.0f }, { 0.0f, 1.0f } },
+			{ { rn, rn, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
+			{ { rn, rn, 1.0f }, { 0.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
+		};
+		dtris2.push_back(tri0);
+	}*/
 	// change data
 
-	glBindTexture( GL_TEXTURE_2D, texture1->getHandle() );
-	glDrawArrays( GL_TRIANGLES, 0, 6 );
-	glBindTexture(GL_TEXTURE_2D, 0);
+	vertexBufferDynamic->draw(dtris.data(), dtris.size());
+
+	//vertexBufferDynamic2->draw(dtris2.data(), dtris2.size());
+
+	
+	//RenderHi::drawAll();
+
 	////
 	glFlush();
 	SwapBuffers(hDC);
