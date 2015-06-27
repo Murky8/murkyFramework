@@ -23,15 +23,7 @@ namespace GfxLowLevel
 	// constructor	
 	VertexBufferDynamic::VertexBufferDynamic(VertexType vertexType, PrimativeType primativeType, u32 shaderProgram, u32 texture ) :
 		vertexType(vertexType), primativeType(primativeType), shaderProgram(shaderProgram), texture(texture)
-	{
-		static int c = 0;
-		c++;
-		onGfxDeviceErrorTriggerBreakpoint();
-
-		//http://www.informit.com/articles/article.aspx?p=1377833&seqNum=8
-		// buffers etc
-		// dont need to actually put anything in buffer yet
-	
+	{				
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
 	
@@ -50,21 +42,17 @@ namespace GfxLowLevel
 
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3) +4+ sizeof(vec3)+4));//tex        
 		glEnableVertexAttribArray(2);
-					
-		//glBufferData(GL_ARRAY_BUFFER, tris.size()*sizeof(Triangle_pct), tris.data(), GL_DYNAMIC_DRAW);
-		//glBufferData(GL_ARRAY_BUFFER, 0, NULL, GL_DYNAMIC_DRAW);
+							
+		//f32 dummy[10000];
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(dummy), dummy, GL_DYNAMIC_DRAW); // unsure; test
+		glBufferData(GL_ARRAY_BUFFER, 0, NULL, GL_DYNAMIC_DRAW); // unsure; test
 		
-		// reset		
-		glBindBuffer(GL_ARRAY_BUFFER, 0); // breaks
+		// reset state		
+		glBindBuffer(GL_ARRAY_BUFFER, 0); 
 		glBindVertexArray( 0 );
 		
-		glUseProgram(0);
-		
-//		glDisableVertexAttribArray(2);
-	//	glDisableVertexAttribArray(1);
-		//glDisableVertexAttribArray(0);
-		/*
-		*/
+		glUseProgram(0);// unsure; test
+
 		onGfxDeviceErrorTriggerBreakpoint();
 	}
 
