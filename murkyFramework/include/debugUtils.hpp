@@ -25,6 +25,7 @@ void    outputDebugString(const std::wstring str);
 DebObj operator << (DebObj obj, const std::wstring str);
 DebObj operator << (DebObj obj, char *const str);
 DebObj operator << (DebObj obj, int i);
+DebObj operator << (DebObj obj, float f);
 // Output to IDE Output
 //------------------------------------------------------------------------------
 

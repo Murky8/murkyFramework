@@ -1,19 +1,22 @@
-//------------------------------------------------------------------------------
-// 2014 J. Coelho.
+//----------------------------------------------------------------------------//
+// 2015 J. Coelho.
 //
 // Agnostic wrapper for all low level device specific graphics functions
 // Stateless, ie no current texture selected, vb, etc
-
-
+////////////////////////////////////////////////////////////////
 #pragma once
+#include <murkyFramework/include/version.hpp>
+
 #include <vector>
 
-#include <types.hpp>   // types, misc.
+// murky framework
+#include <appFramework.hpp>
+#include <types.hpp>  
 #include <gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <gfxLowLevel/vertexBuffer.hpp>
 #include <gfxLowLevel/shaders.hpp>
 #include <gfxLowLevel/textures.hpp>
-#include <appFramework.hpp>
+
 
 namespace GfxLowLevel //todo rename
 {     

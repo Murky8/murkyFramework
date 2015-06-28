@@ -8,4 +8,6 @@ namespace system2
 {
     f64 readTimeSeconds();
     f64 readTimeSecondsSinceAppStart();
+	u64 ticksCPUSinceAppStart();
+	//u64 ticksCPUPerSecond;
 }

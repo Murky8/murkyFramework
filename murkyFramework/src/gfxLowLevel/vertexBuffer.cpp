@@ -37,10 +37,10 @@ namespace GfxLowLevel
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, szVertex, 0);
 		glEnableVertexAttribArray(0);
 
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3)+4));//col      
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3)));//col      
 		glEnableVertexAttribArray(1);
 
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3) +4+ sizeof(vec3)+4));//tex        
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3) + sizeof(vec3)));//tex        
 		glEnableVertexAttribArray(2);
 							
 		//f32 dummy[10000];
@@ -63,9 +63,7 @@ namespace GfxLowLevel
 		c++;
 
 		onGfxDeviceErrorTriggerBreakpoint();
-		u32 sizeVertex;
-	
-
+		u32 sizeVertex;	
 		switch( vertexType )
 		{
 		case VertexType::posCol:
@@ -77,6 +75,7 @@ namespace GfxLowLevel
 			sizeVertex = sizeof(Vert_pct);
 			break;
 		default:// Catch usage of unimplemented			
+			sizeVertex = 0;	// appease static analysis
 			triggerBreakpoint();
 		}
 
@@ -90,15 +89,17 @@ namespace GfxLowLevel
 			glPrimativeType = GL_TRIANGLES;
 			break;
 		default:// Catch usage of unimplemented			
+			nVerticiesPerPrimative = 0; // appease static analysis
 			triggerBreakpoint();
 		}
 
+		Vert_pct *d = static_cast<Vert_pct*>(data);
+		
 		glBindVertexArray(vao);		
 
 		glUseProgram(shaderProgram);
-		//glUniform1i(Shaders::uniforms_textureSamplerID, 0);
-
-
+		glUniform1i(Shaders::uniforms_textureSamplerID, 0);
+		
 		glBindTexture( GL_TEXTURE_2D, texture );//is this already bound to vao???
 		onGfxDeviceErrorTriggerBreakpoint();
 

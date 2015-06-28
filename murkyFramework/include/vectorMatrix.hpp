@@ -1,13 +1,15 @@
 //------------------------------------------------------------------------------
 // 2014 J. Coelho
-// Platform: All
-// Notes: No encapsulation, get/set here.
+// Platforms: Intel C++11, MS C++11(2013), Win32
+
 #pragma once
 
+#include <version.hpp>
 #include <vector>
 
-#include <common.hpp>
+#include <common.hpp>	
 #include <serialize.hpp>
+
 
 enum class Unit{ UNIT };
 enum class Zero{ ZERO };
@@ -24,13 +26,22 @@ public:
     // Methods
     friend std::wostream &operator<<(std::wostream &st, const vec2 &v);
     // Data
-    float   x, y;
+	
+	union
+	{
+		struct 
+		{
+			float	x, y;
+		};
+	float	s[nDim];
+	};
+	
 private:
     //vec2() = delete;
 };
 
 //------------------------------------------------------------------------------
-// Non-exclusively used for packed structures
+// used for packed structures. E.g. openGL buffers.
 class vec3
 {
 public:
@@ -38,14 +49,22 @@ public:
     // Constructors                
 	vec3(){}
     vec3(float x, float y, float z);
-    vec3(float a);
-    vec3(vec2 v);
+    explicit	vec3(float a);
+    explicit	vec3(vec2 v);
     // Destructors
     // Methods
     void serialize(SerializationStream s);
     friend std::wostream &operator<<(std::wostream &st, const vec3 &v);
     // Data
-    float   x, y, z;
+	union
+	{
+		struct
+		{
+			float	x, y, z;
+		};
+		float	s[nDim];
+	};
+			
 private:
     //vec3() = delete;
 };
@@ -69,7 +88,15 @@ public:
     void        split(vec4 &dir, float &len) const;    
     friend std::wostream &operator<<(std::wostream &st, const vec4 &v);
     // Data
-    float   x, y, z, w;
+	union
+	{
+		struct
+		{
+			float	x, y, z, w;
+		};
+		float	s[nDim];
+	};
+			
 private:
     //vec4() = delete;
 };
@@ -154,6 +181,7 @@ public:
 
 //--------------------------------------------------------------------------
 // Operators 
+
 // vec4
 vec4 operator +(const vec4 &a, const vec4 &b);
 vec4 operator +(const vec4 &a, const vec4 &b);

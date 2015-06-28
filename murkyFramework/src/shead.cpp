@@ -110,6 +110,10 @@ void init()
 	GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
 }
 
+	float rand2()
+	{
+		return (float)rand() / (float)RAND_MAX;
+	}
 void mainLoop()
 {
 	GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
@@ -121,17 +125,19 @@ void mainLoop()
 	////
 		
 	// change data
+#define rn (((float)rand() / (float)RAND_MAX))
+
 	std::vector<Triangle_pct> dtris;
 	
-#define rn ((float)rand() / (float)RAND_MAX)
 	srand(0);
+	
 	for (int i = 0; i < 10; i++)
 	{
 		Triangle_pct tri0
 		{
-			{ { rn, rn, 1.0f }, { 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f } },
-			{ { rn, rn, 1.0f }, { 1.0f, 0.0f, 0.0f }, { 0.0f, 0.0f } },
-			{ { rn, rn, 1.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f } },
+			 Vert_pct( vec3(rn, rn, 1.0f), vec3(0.8f, 0.0f, 0.0f), vec2(0.0f, 0.7f) ) ,
+			 Vert_pct( vec3(rn, rn, 1.0f), vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f) ) ,
+			 Vert_pct( vec3(rn, rn, 1.0f), vec3(0.33f, 0.34f, 0.35f), vec2( 0.36f, 0.37f) ) 
 		};
 		dtris.push_back(tri0);
 	}
@@ -139,8 +145,6 @@ void mainLoop()
 	
 	// change data
 	std::vector<Triangle_pct> dtris2;
-
-	#define rn ((float)rand() / (float)RAND_MAX)
 	
 	for (int i1 = 0; i1 < 10; i1++)
 	{

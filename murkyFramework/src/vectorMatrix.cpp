@@ -1,16 +1,18 @@
 //------------------------------------------------------------------------------
-// 2014 J. Coelho
-// Platform: All
-// Notes: All vec etc objects must be explicitly initialized to prevent bugs.
-#include <murkyFramework/include/vectorMatrix.hpp>
+// 2015 J. Coelho
+// Platforms: Intel C++11, MS C++11(2013), Win32
+
+#include <version.hpp>
+#include <vectorMatrix.hpp>
+
 #include <cmath>
 
 
 //------------------------------------------------------------------------------
 // vec4
 
-vec4::vec4(float x, float y, float z, float w)
-: x(x), y(y), z(z), w(w)
+vec4::vec4(float in_x, float in_y, float in_z, float in_w)
+	: x(in_x), y(in_y), z(in_z), w(in_w)
 {}
 
 vec4::vec4(float a)
@@ -110,7 +112,9 @@ vec4 vec4::unitDir() const
 // vec3
 vec3::vec3(float x, float y, float z)
 : x(x), y(y), z(z) 
-{}
+{
+	//debugLog << L"vec3 " << x << y << z << "\n";
+}
 
 vec3::vec3(float a)
 : x(a), y(a), z(a) 
@@ -172,7 +176,10 @@ vec3 operator -=(vec3 &a, const vec3 &b)
 //------------------------------------------------------------------------------
 // vec2
 
-vec2::vec2(float x, float y) : x(x), y(y){}
+vec2::vec2(float inx, float iny) : x(inx), y(iny)
+{
+	//debugLog << L"vec2 " << x << y << "\n";
+}
 
 vec2 operator +(const vec2 &a, const vec2 &b)
 {

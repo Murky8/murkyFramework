@@ -7,10 +7,12 @@
 #include <gfxLowLevel/gfxPrimativeTypes.hpp>
 
 Vert_pc::Vert_pc(vec3 p, vec3 c) : pos(p), col(c) 
-{}
+{
+}
 
 Vert_pct::Vert_pct(vec3 p, vec3 c, vec2 t) : pos(p), col(c), textCoords(t)
-{}
+{
+}
 
 Line_pc::Line_pc(Vert_pc v0, Vert_pc v1) //: v{v0, v1}
 {
