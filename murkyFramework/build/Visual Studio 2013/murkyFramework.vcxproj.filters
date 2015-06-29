@@ -112,6 +112,9 @@
     <ClCompile Include="..\..\src\shead.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\fixedPointMaths.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\appFramework.hpp">
@@ -187,6 +190,9 @@
       <Filter>Header Files\gfxHighLevel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\fixedPointMaths.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

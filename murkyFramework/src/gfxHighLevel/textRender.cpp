@@ -23,20 +23,20 @@
 
 namespace RenderHi
 {
-	// data
-	TextRender::TextRender()
-	{											
-		fontTextureRef = new GfxLowLevel::TextureRef(L"data/font.png");		
+    // data
+    TextRender::TextRender()
+    {											
+        fontTextureRef = new GfxLowLevel::TextureRef(L"data/font.png");		
 
-		textTriangleBuffer = new GfxLowLevel::VertexBufferDynamic(
-			GfxLowLevel::VertexType::posColTex,
-			GfxLowLevel::PrimativeType::triangle,
-			GfxLowLevel::Shaders::posColText,
-			1);
-		//fontTextureRef->getHandle() );
-	}
+        textTriangleBuffer = new GfxLowLevel::VertexBufferDynamic(
+            GfxLowLevel::VertexType::posColTex,
+            GfxLowLevel::PrimativeType::triangle,
+            GfxLowLevel::Shaders::posColText,
+            1);
+        //fontTextureRef->getHandle() );
+    }
 
-	// methods
+    // methods
     // Constructors
     //TextRender::TextRender(std::wstring textureFileName) : texture(textureFileName), cursorPos(-1.0f, 1.0f)
     //{    
@@ -66,14 +66,17 @@ namespace RenderHi
 //    extern GfxLowLevel::TextureRef             *font_texture;    // todo temp        
  //   extern RenderHi::Triangles_pctSoftBuffer   *font_softBuf;    // todo temp    
 
-    void drawChar( std::vector<Triangle_pct> &triangles, wchar_t ch, vec2 pos, vec3 col, vec2 charScreenDim)
+    void drawChar( std::vector<Triangle_pct> &triangles, 
+        wchar_t ch, vec2 pos, vec3 col, vec2 charScreenDim)
     {
-        const   auto    charloc = ( static_cast<int>(ch) ) -32; //Note: -32 as 32 is start of chrsa in texture
+        //Note: -32 as 32 is start of chrsa in texture
+        const   auto    charloc = ( static_cast<int>(ch) ) -32;
         const   auto    charTexDim = 1.f / 16.f;
         const   auto    tix = charloc & 15, tiy = charloc >> 4;
         const   vec3    pos3(pos);
         const   vec2    texCoord { tix*charTexDim, tiy*charTexDim };
 
+        // ---
         //  01
         //  23
         Vert_pct vert[] 
@@ -96,7 +99,7 @@ namespace RenderHi
         triangles.push_back(Triangle_pct(vert[1], vert[3], vert[2]));        
     }
 
-	void TextRender::drawText()
+    void TextRender::drawText(const std::wstring &text)
     {
         // cordinates: 0,0 = top left        
         vec2    cursorPos(0.f,0.f);
@@ -123,17 +126,6 @@ namespace RenderHi
 
         //setProjMatOrtho(1.f, 0.f, 0.f, 1.f, GfxLowLevel::projectionMatrix);
 
-		#define rn ((float)rand() / (float)RAND_MAX)
-		srand(0);
-			Triangle_pct tri0
-			{
-				{ { rn, rn, 1.0f }, { 1.0f, 1.0f, 0.0f }, { 0.0f, 1.0f } },
-				{ { rn, rn, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
-				{ { rn, rn, 1.0f }, { 0.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
-			};
-
-			//this->textTriangleBuffer->draw(textTris.data(), textTris.size());
-			//this->textTriangleBuffer->draw(&tri0, 1);
-
+        this->textTriangleBuffer->draw(textTris.data(), textTris.size());            
     }
 }

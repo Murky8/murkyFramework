@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // C++11. Windows. /*Android.*/
-// pragma once
+
+#pragma once
 
 #include <version.hpp>
 #include <common.hpp>

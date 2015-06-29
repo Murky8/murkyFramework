@@ -6,6 +6,7 @@
 //#include <GL/glew.h> 
 //#nclude <GL/wglew.h>
 
+#include <types.hpp>
 #include <debugUtils.hpp>
 #include <loadSaveFile.hpp>
 #include <randomNumbers.hpp>
@@ -20,41 +21,96 @@
 #include <gfxLowLevel/vertexBuffer.hpp>
 #include <gfxHighLevel/render.hpp>
 #include <gfxHighLevel/textRender.hpp>
+#include <external/glm/glm.hpp>
+
 
 namespace RenderHi
-{
-	// resources for this app	
-	TextRender *textRenderer;
-	
+{    
+    // data
+    TextRender *textRenderer;
+    mat4	projectionMatrix;
+
+    // functions
+    /*
+    void glFrustumf(float near, float far){
+        float aspectRatio = .5;
+        float DEG2RAD = 3.14159f / 180.0f;
+        float fov = 90 * DEG2RAD;
+        float h = cosf(0.5f*fov) / sinf(0.5f*fov);
+        float w = h * aspectRatio;
+        float a = -(near + far) / (near - far);
+        float b = -((2 * far*near) / (far - near));
+
+        float proj[16] = {
+            w, 0, 0, 0,
+            0, h, 0, 0,
+            0, 0, a, 1,
+            0, 0, b, 0
+        };
+*/
+
+    mat4 makeProjectionMatrix_ortho(f32 left, f32 right, f32 bottom, f32 top, f32 zNear = -1.f, f32 zFar = 1.f)
+    {
+        mat4 m(Unit::UNIT);
+        m.v[0][0] = 2.f / (right - left);
+        m.v[1][1] = 2.f / (top - bottom);
+        m.v[2][2] = -2.f / (zFar - zNear);        
+        m.v[3][0] = -(right + left) / (right - left);
+        m.v[3][1] = -(top + bottom) / (top - bottom);
+        m.v[3][2] = -(zFar + zNear) / (zFar - zNear);
+                        
+        return m;
+    }
+
+    mat4 makeProjectionMatrix_perspective( )
+    {        
+            mat4 m(Zero::ZERO);
+            //m[0][0]=
+            triggerBreakpoint();// todo: finish
+            return m;
+    }
+
+    
     void initialise()
     {
-		debugLog << L"RenderHi::initialise" << "\n";
-		GfxLowLevel::Shaders::initialise();
-		textRenderer = new TextRender();
-		textRenderer->text = L"h";
-		
+        debugLog << L"RenderHi::initialise" << "\n";
+        GfxLowLevel::Shaders::initialise();
+        textRenderer = new TextRender();   
+        
         Gapp.gfxInitialised = true;
     }
 
-	void drawAll()
-	{
-		//GfxLowLevel::drawBegin();
-		GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+    void drawAll()
+    {
+        //GfxLowLevel::drawBegin();
+        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
 
-		textRenderer->drawText();
+        //glm::
+        projectionMatrix = mat4(Unit::UNIT);
+        projectionMatrix = makeProjectionMatrix_ortho(
+            0.f, 1.f, 1.f, -0.f, 0.f, 1.f);
 
-		GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+        GfxLowLevel::setUniform_projectionMatrix(&projectionMatrix);
 
-		//GfxLowLevel::drawEnd();
-	}
+        std::wstring tex;
+        tex += L"0hellome!\n";
+        tex += L"1moofme!\n";
+        tex += L"2denboofme!\n";
 
-	void addQuad_pct(std::vector<Triangle_pct> &tris, const Vert_pct v[4])
-	{
-		tris.push_back({ v[0], v[1], v[2] });
-		tris.push_back({ v[1], v[3], v[2] });
-	}
+        textRenderer->drawText(tex);
 
-	// class Lines_pcSoftBuffer
+        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+
+        //GfxLowLevel::drawEnd();
+    }
+
+    void addQuad_pct(std::vector<Triangle_pct> &tris, const Vert_pct v[4])
+    {
+        tris.push_back({ v[0], v[1], v[2] });
+        tris.push_back({ v[1], v[3], v[2] });
+    }
+
+    // class Lines_pcSoftBuffer
 
     // Constructor
     //

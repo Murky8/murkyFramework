@@ -11,31 +11,31 @@
 #include <serialize.hpp>
 
 
-enum class Unit{ UNIT };
-enum class Zero{ ZERO };
+enum class Unit{ UNIT }; // arrrgghh!
+enum class Zero{ ZERO }; // see above
 
 //------------------------------------------------------------------------------
-class vec2
+class vec2 
 {
 public:
-    static const auto nDim = 2;
+    static const auto nDim = 2;	
     // Constructors                
-	vec2(){}
+    vec2(){}
     vec2(float x, float y);
     // Destructors
     // Methods
     friend std::wostream &operator<<(std::wostream &st, const vec2 &v);
     // Data
-	
-	union
-	{
-		struct 
-		{
-			float	x, y;
-		};
-	float	s[nDim];
-	};
-	
+    
+    union
+    {
+        struct 
+        {
+            float	x, y;
+        };
+        float	s[nDim];
+    };
+    
 private:
     //vec2() = delete;
 };
@@ -47,7 +47,7 @@ class vec3
 public:
     static const auto nDim = 3;
     // Constructors                
-	vec3(){}
+    vec3(){}
     vec3(float x, float y, float z);
     explicit	vec3(float a);
     explicit	vec3(vec2 v);
@@ -56,15 +56,15 @@ public:
     void serialize(SerializationStream s);
     friend std::wostream &operator<<(std::wostream &st, const vec3 &v);
     // Data
-	union
-	{
-		struct
-		{
-			float	x, y, z;
-		};
-		float	s[nDim];
-	};
-			
+    union
+    {
+        struct
+        {
+            float	x, y, z;
+        };
+        float	s[nDim];
+    };
+            
 private:
     //vec3() = delete;
 };
@@ -76,7 +76,7 @@ class vec4
 public:
     static const auto nDim = 4;
     // Constructors            
-	vec4(){}	//remove when c++11 compat
+    vec4(){}	//remove when c++11 compat
     vec4(float x, float y, float z, float w = 1.f);
     vec4(float a);
     vec4(vec2);
@@ -88,15 +88,15 @@ public:
     void        split(vec4 &dir, float &len) const;    
     friend std::wostream &operator<<(std::wostream &st, const vec4 &v);
     // Data
-	union
-	{
-		struct
-		{
-			float	x, y, z, w;
-		};
-		float	s[nDim];
-	};
-			
+    union
+    {
+        struct
+        {
+            float	x, y, z, w;
+        };
+        float	s[nDim];
+    };
+            
 private:
     //vec4() = delete;
 };
@@ -108,7 +108,7 @@ public:
     static const auto nDimI = 3;
     static const auto nDimJ = 3;
     // Constructors
-	mat3(){}
+    mat3(){}
     mat3(f32 m_[nDimJ][nDimI] );
     mat3(Unit);
     mat3(Zero);
@@ -140,7 +140,7 @@ public:
     static const auto nDimI = 4;
     static const auto nDimJ = 4;
     // Constructors
-	mat4(){}
+    mat4(){}
     mat4(f32 m[nDimJ][nDimI]);
     mat4(Unit);
     mat4(Zero);
@@ -162,7 +162,7 @@ public:
     union
     {
         f32 v[nDimJ][nDimI];
-        //vec4 r(0.f), u, f, t;
+        //f32 m[nDimJ*nDimI];
     };
 
 private:

@@ -13,7 +13,19 @@ auto max(T0 p0, T1 p1) -> decltype( p0+p1 )
         return p0;
 }
 
+/*
+class Component
+{
 
+}
+
+class Pseudoclass
+{
+    std::list<Component>    components;
+    void serialise();
+}
+
+*/
 /*
 namespace
 {

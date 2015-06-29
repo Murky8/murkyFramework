@@ -20,110 +20,110 @@ namespace GfxLowLevel
 {
     void onGfxDeviceErrorTriggerBreakpoint();
 
-	// constructor	
-	VertexBufferDynamic::VertexBufferDynamic(VertexType vertexType, PrimativeType primativeType, u32 shaderProgram, u32 texture ) :
-		vertexType(vertexType), primativeType(primativeType), shaderProgram(shaderProgram), texture(texture)
-	{				
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
-	
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);		
-		
-		glUseProgram(shaderProgram);
-	
-		// layout
-		int szVertex = sizeof(Vert_pct);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, szVertex, 0);
-		glEnableVertexAttribArray(0);
+    // constructor	
+    VertexBufferDynamic::VertexBufferDynamic(VertexType vertexType, PrimativeType primativeType, u32 shaderProgram, u32 texture ) :
+        vertexType(vertexType), primativeType(primativeType), shaderProgram(shaderProgram), texture(texture)
+    {				
+        glGenVertexArrays(1, &vao);
+        glBindVertexArray(vao);
+    
+        glGenBuffers(1, &vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);		
+        
+        glUseProgram(shaderProgram);
+    
+        // layout
+        int szVertex = sizeof(Vert_pct);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, szVertex, 0);
+        glEnableVertexAttribArray(0);
 
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3)));//col      
-		glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3)));//col      
+        glEnableVertexAttribArray(1);
 
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3) + sizeof(vec3)));//tex        
-		glEnableVertexAttribArray(2);
-							
-		//f32 dummy[10000];
-		//glBufferData(GL_ARRAY_BUFFER, sizeof(dummy), dummy, GL_DYNAMIC_DRAW); // unsure; test
-		glBufferData(GL_ARRAY_BUFFER, 0, NULL, GL_DYNAMIC_DRAW); // unsure; test
-		
-		// reset state		
-		glBindBuffer(GL_ARRAY_BUFFER, 0); 
-		glBindVertexArray( 0 );
-		
-		glUseProgram(0);// unsure; test
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3) + sizeof(vec3)));//tex        
+        glEnableVertexAttribArray(2);
+                            
+        //f32 dummy[10000];
+        //glBufferData(GL_ARRAY_BUFFER, sizeof(dummy), dummy, GL_DYNAMIC_DRAW); // unsure; test
+        glBufferData(GL_ARRAY_BUFFER, 0, NULL, GL_DYNAMIC_DRAW); // unsure; test
+        
+        // reset state		
+        glBindBuffer(GL_ARRAY_BUFFER, 0); 
+        glBindVertexArray( 0 );
+        
+        glUseProgram(0);// unsure; test
 
-		onGfxDeviceErrorTriggerBreakpoint();
-	}
+        onGfxDeviceErrorTriggerBreakpoint();
+    }
 
-	// methods
-	void	VertexBufferDynamic::draw( void *data, int nPrimatives )
-	{
-		static int c = 0;
-		c++;
+    // methods
+    void	VertexBufferDynamic::draw( void *data, int nPrimatives )
+    {
+        static int c = 0;
+        c++;
 
-		onGfxDeviceErrorTriggerBreakpoint();
-		u32 sizeVertex;	
-		switch( vertexType )
-		{
-		case VertexType::posCol:
-			sizeVertex = sizeof(Vert_pc);
-			triggerBreakpoint();
+        onGfxDeviceErrorTriggerBreakpoint();
+        u32 sizeVertex;	
+        switch( vertexType )
+        {
+        case VertexType::posCol:
+            sizeVertex = sizeof(Vert_pc);
+            triggerBreakpoint();
 
-			break;
-		case VertexType::posColTex:
-			sizeVertex = sizeof(Vert_pct);
-			break;
-		default:// Catch usage of unimplemented			
-			sizeVertex = 0;	// appease static analysis
-			triggerBreakpoint();
-		}
+            break;
+        case VertexType::posColTex:
+            sizeVertex = sizeof(Vert_pct);
+            break;
+        default:// Catch usage of unimplemented			
+            sizeVertex = 0;	// appease static analysis
+            triggerBreakpoint();
+        }
 
-		int nVerticiesPerPrimative;
-		GLuint glPrimativeType;
+        int nVerticiesPerPrimative;
+        GLuint glPrimativeType;
 
-		switch (primativeType)
-		{
-		case PrimativeType::triangle:
-			nVerticiesPerPrimative = 3;
-			glPrimativeType = GL_TRIANGLES;
-			break;
-		default:// Catch usage of unimplemented			
-			nVerticiesPerPrimative = 0; // appease static analysis
-			triggerBreakpoint();
-		}
+        switch (primativeType)
+        {
+        case PrimativeType::triangle:
+            nVerticiesPerPrimative = 3;
+            glPrimativeType = GL_TRIANGLES;
+            break;
+        default:// Catch usage of unimplemented			
+            nVerticiesPerPrimative = 0; // appease static analysis
+            triggerBreakpoint();
+        }
 
-		Vert_pct *d = static_cast<Vert_pct*>(data);
-		
-		glBindVertexArray(vao);		
+        Vert_pct *d = static_cast<Vert_pct*>(data);
+        
+        glBindVertexArray(vao);		
 
-		glUseProgram(shaderProgram);
-		glUniform1i(Shaders::uniforms_textureSamplerID, 0);
-		
-		glBindTexture( GL_TEXTURE_2D, texture );//is this already bound to vao???
-		onGfxDeviceErrorTriggerBreakpoint();
+        glUseProgram(shaderProgram);
+        glUniform1i(Shaders::uniforms_textureSamplerID, 0);
+        
+        glBindTexture( GL_TEXTURE_2D, texture );//is this already bound to vao???
+        onGfxDeviceErrorTriggerBreakpoint();
 
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		//glBufferSubData(GL_ARRAY_BUFFER, 0, nPrimatives*nVerticiesPerPrimative*sizeVertex, data);
-		glBufferData(GL_ARRAY_BUFFER, nPrimatives*nVerticiesPerPrimative*sizeVertex, data, GL_DYNAMIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        //glBufferSubData(GL_ARRAY_BUFFER, 0, nPrimatives*nVerticiesPerPrimative*sizeVertex, data);
+        glBufferData(GL_ARRAY_BUFFER, nPrimatives*nVerticiesPerPrimative*sizeVertex, data, GL_DYNAMIC_DRAW);
 
-		onGfxDeviceErrorTriggerBreakpoint();
-		// change data
-		
-		glDrawArrays(glPrimativeType, 0, nPrimatives*nVerticiesPerPrimative);		
-		onGfxDeviceErrorTriggerBreakpoint();
+        onGfxDeviceErrorTriggerBreakpoint();
+        // change data
+        
+        glDrawArrays(glPrimativeType, 0, nPrimatives*nVerticiesPerPrimative);		
+        onGfxDeviceErrorTriggerBreakpoint();
 
-		//reset state
-		glBindVertexArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+        //reset state
+        glBindVertexArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		//glBindTexture( GL_TEXTURE_2D, 0 );
-		//glUseProgram( 0 );
-		//glBindVertexArray( 0 );
-		onGfxDeviceErrorTriggerBreakpoint();
+        //glBindTexture( GL_TEXTURE_2D, 0 );
+        //glUseProgram( 0 );
+        //glBindVertexArray( 0 );
+        onGfxDeviceErrorTriggerBreakpoint();
 
-	}
-	/*
+    }
+    /*
     VertexBufferRef_Depreciate::VertexBufferRef_Depreciate(u32 in_capacity, VertexType vertexType, BufferAccessType bufferAccessType) :
         capacity(in_capacity), vertexType(vertexType), bufferAccessType(bufferAccessType)
     {
@@ -168,5 +168,5 @@ namespace GfxLowLevel
     {
         return bufferHandle;
     }
-	*/
+    */
 }

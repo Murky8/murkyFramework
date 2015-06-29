@@ -94,6 +94,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <BrowseInformation>true</BrowseInformation>
       <EnablePREfast>false</EnablePREfast>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -115,6 +116,7 @@
       <BrowseInformation>false</BrowseInformation>
       <EnablePREfast>false</EnablePREfast>
       <AdditionalIncludeDirectories>../../../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -135,6 +137,8 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <BrowseInformation>false</BrowseInformation>
       <EnablePREfast>false</EnablePREfast>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
+      <MinimalRebuild>true</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -155,6 +159,8 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>false</BrowseInformation>
       <EnablePREfast>false</EnablePREfast>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
+      <MinimalRebuild>true</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -173,6 +179,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\fileUtils.cpp" />
+    <ClCompile Include="..\..\src\fixedPointMaths.cpp" />
     <ClCompile Include="..\..\src\gfxHighLevel\camera.cpp" />
     <ClCompile Include="..\..\src\gfxHighLevel\projectionMat.cpp" />
     <ClCompile Include="..\..\src\gfxHighLevel\render.cpp" />
@@ -199,6 +206,7 @@
     <ClInclude Include="..\..\include\common.hpp" />
     <ClInclude Include="..\..\include\debugUtils.hpp" />
     <ClInclude Include="..\..\include\fileUtils.hpp" />
+    <ClInclude Include="..\..\include\fixedPointMaths.hpp" />
     <ClInclude Include="..\..\include\gfxHighLevel\camera.hpp" />
     <ClInclude Include="..\..\include\gfxHighLevel\projectionMat.hpp" />
     <ClInclude Include="..\..\include\gfxHighLevel\render.hpp" />

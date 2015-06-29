@@ -26,9 +26,11 @@ public:
     //void    serialise(std::vector<char> &out);
 
     // Data
-	 int     screenResY = 600;
-     int     screenResX = 800;
-    bool    multiThreaded = true;
+    bool    fullScreen = false;
+    int     screenResY;
+    int     screenResX ;
+
+    //bool    multiThreaded = true;
     u32     frameCounter = 0;
     bool    exitWholeApp = false;
     bool    gfxInitialised = false;    

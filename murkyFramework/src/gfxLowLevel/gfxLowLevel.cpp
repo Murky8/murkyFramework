@@ -26,7 +26,7 @@
 
 namespace GfxLowLevel
 {   
-	
+    
     // Forward declarations
 
     extern ShaderProgram *shaderProgram_line_pc;    //TODO change
@@ -43,17 +43,17 @@ namespace GfxLowLevel
         bool stop = false;
         while(( err = glGetError() ) != GL_NO_ERROR)
         {
-			std::wstring s;
-			switch (err)
-			{
-			case 0x0500 : s = L"GL_INVALID_ENUM"; break;
-			case 0x0501 : s = L"GL_INVALID_VALUE"; break;
-			case 0x0502 : s = L"GL_INVALID_OPERATION"; break;
-			case 0x0503 : s = L"GL_STACK_OVERFLOW"; break;
-			case 0x0504 : s = L"GL_STACK_UNDERFLOW"; break;
-			case 0x0505 : s = L"GL_OUT_OF_MEMORY"; break;
-			default : s = L"" +err;
-			}
+            std::wstring s;
+            switch (err)
+            {
+            case 0x0500 : s = L"GL_INVALID_ENUM"; break;
+            case 0x0501 : s = L"GL_INVALID_VALUE"; break;
+            case 0x0502 : s = L"GL_INVALID_OPERATION"; break;
+            case 0x0503 : s = L"GL_STACK_OVERFLOW"; break;
+            case 0x0504 : s = L"GL_STACK_UNDERFLOW"; break;
+            case 0x0505 : s = L"GL_OUT_OF_MEMORY"; break;
+            default : s = L"" +err;
+            }
             debugLog << L"GL error: " << s << L"\n";
             stop = true;
         }
@@ -70,7 +70,7 @@ namespace GfxLowLevel
         //glCullFace(GL_BACK);
     }
 
-		
+        
     void initialise()        
     {    
         setStateToAppDefault();
@@ -79,14 +79,14 @@ namespace GfxLowLevel
 
     }
 
-	void drawBegin()
-	{
-		glViewport(0, 0, Gapp.screenResX, Gapp.screenResY);
+    void drawBegin()
+    {
+        glViewport(0, 0, Gapp.screenResX, Gapp.screenResY);
 
-		glClearColor(0.4f, 0.6f, 0.9f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+        glClearColor(0.4f, 0.6f, 0.9f, 0.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-		onGfxDeviceErrorTriggerBreakpoint();	
+        onGfxDeviceErrorTriggerBreakpoint();	
     }
 
     /*void setShaderUniform_projMat(mat4 &projMat)
@@ -98,7 +98,8 @@ namespace GfxLowLevel
     {
         glFlush();
     }    
-	/*
+    
+    /*
     void drawLines_pc(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Line_pc> &lines)
     {
         onGfxDeviceErrorTriggerBreakpoint(); 
@@ -240,10 +241,10 @@ namespace GfxLowLevel
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, szVertex, 0);//pos
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3)));//col      
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3)+sizeof(vec3)));//tex        
-		onGfxDeviceErrorTriggerBreakpoint();
+        onGfxDeviceErrorTriggerBreakpoint();
 
-		glDrawArrays(GL_TRIANGLES, 0, triangles.size() * 3);// no of verts not triansgles        		
-		onGfxDeviceErrorTriggerBreakpoint();
+        glDrawArrays(GL_TRIANGLES, 0, triangles.size() * 3);// no of verts not triansgles        		
+        onGfxDeviceErrorTriggerBreakpoint();
 
 
         glDisableVertexAttribArray(2);
@@ -256,6 +257,6 @@ namespace GfxLowLevel
         glBindTexture(GL_TEXTURE_2D, 0);        
         onGfxDeviceErrorTriggerBreakpoint();
     }
-	*/
+    */
 }
 

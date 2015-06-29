@@ -12,7 +12,7 @@
 // vec4
 
 vec4::vec4(float in_x, float in_y, float in_z, float in_w)
-	: x(in_x), y(in_y), z(in_z), w(in_w)
+    : x(in_x), y(in_y), z(in_z), w(in_w)
 {}
 
 vec4::vec4(float a)
@@ -113,7 +113,7 @@ vec4 vec4::unitDir() const
 vec3::vec3(float x, float y, float z)
 : x(x), y(y), z(z) 
 {
-	//debugLog << L"vec3 " << x << y << z << "\n";
+    //debugLog << L"vec3 " << x << y << z << "\n";
 }
 
 vec3::vec3(float a)
@@ -124,6 +124,7 @@ vec3::vec3(vec2 v)
 :x(v.x), y(v.y), z(0.f)
 {}
 
+//------------------------------------------------------------------------------
 // mat4
 mat4::mat4(f32 m[nDimJ][nDimI])
 {       
@@ -178,7 +179,7 @@ vec3 operator -=(vec3 &a, const vec3 &b)
 
 vec2::vec2(float inx, float iny) : x(inx), y(iny)
 {
-	//debugLog << L"vec2 " << x << y << "\n";
+    //debugLog << L"vec2 " << x << y << "\n";
 }
 
 vec2 operator +(const vec2 &a, const vec2 &b)

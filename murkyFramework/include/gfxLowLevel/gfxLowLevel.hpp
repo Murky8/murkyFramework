@@ -20,12 +20,13 @@
 
 namespace GfxLowLevel //todo rename
 {     
-    //Data
-    extern mat4 projectionMatrix;
+    //Data    
     void onGfxDeviceErrorTriggerBreakpoint();
     void initialise();    
     void drawBegin();        
     void drawEnd();            
+	
+	
     //void drawLines_pc(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Line_pc> &lines);
     //void drawTriangles_pc(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Triangle_pc> &triangles);    
     //void drawTriangles_pct(VertexBufferRef_Depreciate vertexBufferRef, std::vector<Triangle_pct> &triangles, TextureRef &texture);

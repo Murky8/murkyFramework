@@ -22,10 +22,10 @@ namespace RenderHi
         // Destructors
         //~TextRender();
         // Methods
-		void drawText();
+		void drawText(const std::wstring &text);
         //void drawAllText();
         // Data
-		std::wstring						text;
+		
 		std::vector<Triangle_pct>			textTris;
 		GfxLowLevel::VertexBufferDynamic	*textTriangleBuffer;
 		GfxLowLevel::TextureRef				*fontTextureRef;		
@@ -35,8 +35,7 @@ namespace RenderHi
         // Destructors
         // Methods
         // Data                
-    };
-		
+    };		
 
-    void drawText(const std::wstring &text, const GfxLowLevel::TextureRef &texture);
+    //void drawText(const std::wstring &text, const GfxLowLevel::TextureRef &texture);
 }

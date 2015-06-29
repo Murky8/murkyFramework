@@ -35,8 +35,3 @@ namespace GfxLowLevel
         u32 handle;
     };
 }
-
-// Constructors
-// Destructors
-// Methods
-// Data
