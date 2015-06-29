@@ -1,6 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // OpenGL default state: http://www.glprogramming.com/red/appendixb.html
+#include <version.hpp>
 #include <gfxLowLevel/gfxLowLevel.hpp>
 
 #include <vector>

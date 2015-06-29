@@ -22,7 +22,7 @@ namespace GfxLowLevel
         u32		posColText;
     }
 
-	//void 
+    //void 
            
     const char* vertex_shader =
         "#version 400 core\n"
@@ -60,11 +60,11 @@ namespace GfxLowLevel
         if (a == GL_INVALID_OPERATION)triggerBreakpoint();
         return true;
     }
-	
-	void setUniform_projectionMatrix(const mat4 *pMat)
-	{
-		glUniformMatrix4fv(Shaders::uniformHandle_projectionMatrix, 1, false, (float*)pMat);		
-	}
+    
+    void setUniform_projectionMatrix(const mat4 *pMat)
+    {
+        glUniformMatrix4fv(Shaders::uniformHandle_projectionMatrix, 1, false, (float*)pMat);		
+    }
 
     void	Shaders::initialise()
     {

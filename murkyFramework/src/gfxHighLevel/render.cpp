@@ -3,8 +3,6 @@
 
 #include <vector>
 #include <codecvt>
-//#include <GL/glew.h> 
-//#nclude <GL/wglew.h>
 
 #include <types.hpp>
 #include <debugUtils.hpp>

@@ -1,4 +1,5 @@
 
+#include <version.hpp>
 #include <windows.h>
 #include <iostream>
 #include <vector>
