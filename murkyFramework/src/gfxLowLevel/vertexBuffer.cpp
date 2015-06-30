@@ -95,7 +95,7 @@ namespace GfxLowLevel
             triggerBreakpoint();
         }
 
-        Vert_pct *d = static_cast<Vert_pct*>(data);
+        //Vert_pct *d = static_cast<Vert_pct*>(data);
         
         glBindVertexArray(vao);		
 

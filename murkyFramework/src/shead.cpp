@@ -30,6 +30,11 @@ void mainLoop();
 void init();
 bool createWindow(LPCWSTR title, int width, int height);
 
+//--------------------------------------------------------------------------------------
+// Variables
+// todo: depreciate
+//--------------------------------------------------------------------------------------
+
 namespace
 {
     HDC			hDC;		// Private GDI Device Context
@@ -78,10 +83,45 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
     debugLog << L"Finished\n";
 }
 
+ void skool();
+
 void init()
 {
-    wchar_t wcstring[] = L"Murky8";
-    debugLog << L"Start\n";
+    //skool();
+    
+    wchar_t wcstring[] = L"Murky8\n";
+    
+#ifdef USE_OPENGL
+    debugLog << L"Using openGL\n";
+#endif
+
+#ifdef USE_DIRECT3D
+    debugLog << L"Using D3d\n";
+#endif
+
+#ifdef ENVIRONMENT32
+    debugLog << L"32 bit ";
+#endif
+    
+#ifdef ENVIRONMENT64
+    debugLog << L"64 bit ";
+#endif
+
+#ifdef WIN32
+    debugLog << L"Windows\n";
+#endif
+    
+/*
+#ifdef __INTEL_COMPILER
+    debugLog << L"Compiled with Intel " << (int)__INTEL_COMPILER << L"\n";
+    #else
+    #ifdef _MSC_VER
+        debugLog << L"Compiled with MS C++ " << (int)_MSC_VER<< L"\n";
+    #endif
+#endif
+    //__clang__
+    */
+
     qdev::setCurrentDirectoryToAppRoot();
 
     {

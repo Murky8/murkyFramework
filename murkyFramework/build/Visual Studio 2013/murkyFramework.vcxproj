@@ -204,6 +204,7 @@
     <ClCompile Include="..\..\src\misc.cpp" />
     <ClCompile Include="..\..\src\octree.cpp" />
     <ClCompile Include="..\..\src\randomNumbers.cpp" />
+    <ClCompile Include="..\..\src\school.cpp" />
     <ClCompile Include="..\..\src\serialize.cpp" />
     <ClCompile Include="..\..\src\shead.cpp" />
     <ClCompile Include="..\..\src\system.cpp" />

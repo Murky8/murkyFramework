@@ -121,6 +121,9 @@
     <ClCompile Include="..\..\src\gfxLowLevel\initDevice_d3d.cpp">
       <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\school.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\appFramework.hpp">

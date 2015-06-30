@@ -109,7 +109,8 @@ namespace RenderHi
         // draw stuff here
         std::wstring tex;
         tex += L"0hellome!\n";
-        tex += L"1moofme!\n";
+        tex += std::to_wstring(Gapp.frameCounter);
+        tex += L"\n";
         tex += L"2denboofme!\n";
         textRenderer->drawText(tex);
 
