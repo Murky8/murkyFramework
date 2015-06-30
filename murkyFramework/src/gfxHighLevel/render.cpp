@@ -21,13 +21,13 @@
 #include <gfxHighLevel/textRender.hpp>
 #include <external/glm/glm.hpp>
 
-
 namespace RenderHi
 {    
     // data
     TextRender *textRenderer;
     mat4	projectionMatrix;
-
+    std::vector<GfxLowLevel::TextureRef*> textures;
+    GfxLowLevel::VertexBufferDynamic *vertexBufferTemp;
     // functions
     /*
     void glFrustumf(float near, float far){
@@ -56,8 +56,32 @@ namespace RenderHi
         m.v[3][0] = -(right + left) / (right - left);
         m.v[3][1] = -(top + bottom) / (top - bottom);
         m.v[3][2] = -(zFar + zNear) / (zFar - zNear);
+
+
+        m.v[2][2] *= -1.f;  // left hand coord system fix (z=-z)
+        m.v[3][2] *= -1.f;  // left hand coord system fix (z=-z)
                         
         return m;
+    }
+    
+    void initialise()
+    {
+        debugLog << L"RenderHi::initialise" << "\n";
+        GfxLowLevel::initialise();
+        GfxLowLevel::Shaders::initialise();
+        textures.push_back(new GfxLowLevel::TextureRef(L"data/font.png"));
+        textures.push_back(new GfxLowLevel::TextureRef(L"data/t0.png"));
+        
+        textRenderer = new TextRender();   
+
+        vertexBufferTemp = new GfxLowLevel::VertexBufferDynamic(
+            GfxLowLevel::VertexType::posColTex,
+            GfxLowLevel::PrimativeType::triangle,
+            GfxLowLevel::Shaders::posColText,
+            *textures[1]
+            );
+
+        Gapp.gfxInitialised = true;
     }
 
     mat4 makeProjectionMatrix_perspective( )
@@ -68,38 +92,49 @@ namespace RenderHi
             return m;
     }
 
-    
-    void initialise()
-    {
-        debugLog << L"RenderHi::initialise" << "\n";
-        GfxLowLevel::Shaders::initialise();
-        textRenderer = new TextRender();   
-        
-        Gapp.gfxInitialised = true;
-    }
-
     void drawAll()
     {
-        //GfxLowLevel::drawBegin();
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+        
+        GfxLowLevel::drawBegin();
 
         //glm::
         projectionMatrix = mat4(Unit::UNIT);
         projectionMatrix = makeProjectionMatrix_ortho(
-            0.f, 1.f, 1.f, -0.f, 0.f, 1.f);
+            0.f, 1.f, 1.f, -0.f, -1.f, 1.f);
 
         GfxLowLevel::setUniform_projectionMatrix(&projectionMatrix);
+        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
 
+        // draw stuff here
         std::wstring tex;
         tex += L"0hellome!\n";
         tex += L"1moofme!\n";
         tex += L"2denboofme!\n";
-
         textRenderer->drawText(tex);
 
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
 
-        //GfxLowLevel::drawEnd();
+        
+        #define rn (((float)rand() / (float)RAND_MAX))
+        std::vector<Triangle_pct> tris;
+        srand(0);
+        
+        for (int i = 0; i < 10; i++)
+        {
+        Triangle_pct tri
+        {
+        Vert_pct( vec3(rn, rn, 0.5f), vec3(0.8f, 0.0f, 0.0f), vec2(0.0f, 0.7f) ) ,
+        Vert_pct( vec3(rn, rn, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f) ) ,
+        Vert_pct( vec3(rn, rn, 0.5f), vec3(0.33f, 0.34f, 0.35f), vec2( 0.36f, 0.37f) )
+        };
+        tris.push_back(tri);
+        }
+        vertexBufferTemp->draw(tris.data(), tris.size());
+        
+        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+
+        GfxLowLevel::drawEnd();
     }
 
     void addQuad_pct(std::vector<Triangle_pct> &tris, const Vert_pct v[4])

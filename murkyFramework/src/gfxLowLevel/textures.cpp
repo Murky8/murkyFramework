@@ -43,6 +43,7 @@ namespace GfxLowLevel
     // Destructors
     TextureRef::~TextureRef()
     {
+        triggerBreakpoint();
         glDeleteTextures(1, &handle);
     }
         

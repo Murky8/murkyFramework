@@ -30,8 +30,8 @@ namespace GfxLowLevel
     
     // Forward declarations
 
-    extern ShaderProgram *shaderProgram_line_pc;    //TODO change
-    extern ShaderProgram *shaderProgram_posColText; //TODO change
+    //extern ShaderProgram *shaderProgram_line_pc;    //TODO change
+    //extern ShaderProgram *shaderProgram_posColText; //TODO change
 
     // Data
     mat4 projectionMatrix(Unit::UNIT);    
@@ -65,7 +65,9 @@ namespace GfxLowLevel
 
     void setStateToAppDefault()
     {
-        //glEnable(GL_DEPTH_TEST);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+                
         //glEnable(GL_CULL_FACE);
         //glFrontFace(GL_CW);
         //glCullFace(GL_BACK);

@@ -11,12 +11,13 @@
 #include <gfxLowLevel/gfxLowLevel.hpp>
 #include <gfxHighLevel/render.hpp>
 #include <gfxHighLevel/textRender.hpp>
+// Forward declarations
 
 
 namespace RenderHi
 {
-	extern TextRender *textRenderer;
-
+    extern TextRender *textRenderer;
+    
     //class Lines_pcSoftBuffer
     //{
     //public:

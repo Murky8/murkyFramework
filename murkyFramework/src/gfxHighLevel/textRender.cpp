@@ -15,25 +15,31 @@
 
 #include <debugUtils.hpp>
 #include <gfxLowLevel/gfxLowLevel.hpp>
+#include <gfxLowLevel/gfxPrimativeTypes.hpp>
+
 #include <gfxHighLevel/render.hpp>
 #include <vectorMatrix.hpp>
 #include <murkyFramework/include/gfxHighLevel/projectionMat.hpp>
-#include "gfxLowLevel/gfxPrimativeTypes.hpp"
 
 
 namespace RenderHi
 {
+    // Forward declarations
+    //extern std::vector<GfxLowLevel::TextureRef> textures;  // From texures.cpp
+
     // data
     TextRender::TextRender()
     {											
+        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+
         fontTextureRef = new GfxLowLevel::TextureRef(L"data/font.png");		
 
         textTriangleBuffer = new GfxLowLevel::VertexBufferDynamic(
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::triangle,
             GfxLowLevel::Shaders::posColText,
-            1);
-        //fontTextureRef->getHandle() );
+            *fontTextureRef);    
+        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }
 
     // methods
@@ -101,11 +107,15 @@ namespace RenderHi
 
     void TextRender::drawText(const std::wstring &text)
     {
+        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+
         // cordinates: 0,0 = top left        
         vec2    cursorPos(0.f,0.f);
         auto    it = text.cbegin();
         const   vec2    charScreenDim(1.f / 20.f, 1.f / 20.f);
-                               
+               
+        textTris.clear();
+
         while (it < text.cend())
         {
             auto ch = (*it);
@@ -127,5 +137,7 @@ namespace RenderHi
         //setProjMatOrtho(1.f, 0.f, 0.f, 1.f, GfxLowLevel::projectionMatrix);
 
         this->textTriangleBuffer->draw(textTris.data(), textTris.size());            
+        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+
     }
 }

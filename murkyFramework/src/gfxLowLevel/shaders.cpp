@@ -63,23 +63,28 @@ namespace GfxLowLevel
     
     void setUniform_projectionMatrix(const mat4 *pMat)
     {
+        glUseProgram(Shaders::posColText);
         glUniformMatrix4fv(Shaders::uniformHandle_projectionMatrix, 1, false, (float*)pMat);		
+        glUseProgram(0);
+        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }
 
     void	Shaders::initialise()
     {
+        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";
 
         u32 vs = GfxLowLevel::createShader(vertex_shader, GL_VERTEX_SHADER);
         u32 fs = GfxLowLevel::createShader(fragment_shader, GL_FRAGMENT_SHADER);
-        posColText = GfxLowLevel::createProgram(vs, fs);
+        Shaders::posColText = GfxLowLevel::createProgram(vs, fs);
+        debugLog << L"pct " << (int)Shaders::posColText<<"\n";
 
         uniforms_textureSamplerID = glGetUniformLocation(posColText, "textureSamplerID");
         checkUniform(uniforms_textureSamplerID);
 
         uniformHandle_projectionMatrix = glGetUniformLocation(posColText, "projectionMatrix");
         checkUniform(uniformHandle_projectionMatrix);
-
+        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }
 
     u32 createShader(const char* sourceText, u32 type)
@@ -106,6 +111,7 @@ namespace GfxLowLevel
             delete[] strInfoLog;
         }
         // Check shader   
+        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         return shader;
     }
     u32	createProgram(u32 vertexShader, u32 fragmentShader)
@@ -132,6 +138,7 @@ namespace GfxLowLevel
             triggerBreakpoint();
         }
         // check program
+        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         return program;
     }
 
