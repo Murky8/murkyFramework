@@ -82,7 +82,7 @@ namespace GfxLowLevel
             triggerBreakpoint();
         }
 
-        int nVerticiesPerPrimative;
+        int nVerticiesPerPrimative=0;
         GLuint glPrimativeType = 0;
 
         switch (primativeType)

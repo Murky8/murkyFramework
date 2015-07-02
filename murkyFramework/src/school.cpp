@@ -4,7 +4,13 @@
 #include "debugUtils.hpp"
 #include <vector>
 
-struct thingy {
+using std::vector;
+
+#pragma region MyRegion
+
+
+struct thingy 
+{
     std::string s;
     thingy() : s("test") {}
     thingy(const thingy& o) : s(o.s) { std::cout << "move failed!\n"; }
@@ -23,7 +29,8 @@ struct thingy {
 
 thingy f(thingy a) { return a; }
 
-struct B : thingy {
+struct B : thingy 
+{
     std::string s2;
     int n;
     // implicit move assignment operator B& B::operator=(B&&)
@@ -32,226 +39,280 @@ struct B : thingy {
     // and makes a bitwise copy of n
 };
 
-struct C : B {
+struct C : B 
+{
     ~C() {} // destructor prevents implicit move assignment
 };
 
-struct D : B {
+struct D : B 
+{
     D() {}
     ~D() {} // destructor would prevent implicit move assignment
     //D& operator=(D&&) = default; // force a move assignment anyway 
 };
 
-class Cont
+void mainThingy()
+{
+thingy a1, a2;
+std::cout << "Trying to move-assign A from rvalue temporary\n";
+a1 = f(thingy()); // move-assignment from rvalue temporary
+std::cout << "Trying to move-assign A from xvalue\n";
+a2 = std::move(a1); // move-assignment from xvalue
+
+std::cout << "Trying to move-assign B\n";
+B b1, b2;
+std::cout << "Before move, b1.s = \"" << b1.s << "\"\n";
+b2 = std::move(b1); // calls implicit move assignment
+std::cout << "After move, b1.s = \"" << b1.s << "\"\n";
+
+std::cout << "Trying to move-assign C\n";
+C c1, c2;
+c2 = std::move(c1); // calls the copy assignment operator
+
+std::cout << "Trying to move-assign D\n";
+D d1, d2;
+d2 = std::move(d1);
+}
+#pragma endregion
+
+
+// reference:
+class Cl
 {
 public:
+    int *pints;
+    int s;
     static int idEntCtr;
     int idEnt;
 
-    //cont() = delete;
-
-    Cont()
+    Cl()    // =delete if not necessary to have uninitialised objects lying around.
     {
-        idEnt = idEntCtr;
-        debugLog << L"default constructeder " << idEnt << "\n";
-
-        ++idEntCtr;
+        pints = nullptr;
+        idEnt = idEntCtr++;
+        
+        debugLog << L"default constructor. id:" << idEnt << "\n";                
     }
 
-    // copy constructor
-    Cont(const Cont &other)
+    // paremeterised constructor
+    Cl(int v0, int v1, int s) : s(s)
     {
-        idEnt = idEntCtr;
-        debugLog << L"copy cons " << other.idEnt << L"to " << idEnt << "\n";
+        pints = new int[2];
+        pints[0] = v0; pints[1] = v1;
 
-        ++idEntCtr;
+        idEnt = idEntCtr++;
+
+        debugLog << L"constructed with parameters. id:" << idEnt << "\n";
+        debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
+        debugLog << L"s: " << s << L"\n";
+
+
+    }
+    
+    // copy constructor. duplicates resorces. =delete to prevent copying
+    Cl(const Cl &rhs)
+    {
+        pints = new int[2];
+        pints[0] = rhs.pints[0]; pints[1] = rhs.pints[1];// deep copy
+
+        idEnt = idEntCtr++;        
+        debugLog << L"copy constructor id:" << idEnt << L"=id:" << rhs.idEnt << "\n";
+        debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
+        debugLog << L"s: " << s << L"\n";        
     }
 
-    //  assingment operator
-    Cont& operator=(const Cont& rhs)
-    {
-        a = rhs.a;
-        debugLog << L"assignment " << idEnt << L" = " << rhs.idEnt << "\n";
+    //  assignment operator
+    Cl& operator=(const Cl& rhs)
+    {         
+        delete[] pints; // overwriting
+        pints = new int[2];
+        pints[0] = rhs.pints[0]; pints[1] = rhs.pints[1];// deep copy
+
+        debugLog << L"assignment operator id:" << idEnt << L"= id:" << rhs.idEnt << "\n";
+        debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
+        debugLog << L"s: " << s << L"\n";
 
         return *this;
     }
+    
+    // move assignment operator
+    Cl& Cl::operator=(Cl&& rhs)
+    {        
+        delete[] pints;
 
-    Cont(int j) : a(a)
-    {
-        idEnt = idEntCtr;
-        debugLog << L"constructed with parameter" << idEnt << "\n";
+        pints = rhs.pints;
+        s = rhs.s;
 
-        ++idEntCtr;
+        rhs.pints = nullptr;
+        rhs.s = -1;
+
+        debugLog << L"move assignment operator " << idEnt << L"=" << rhs.idEnt << "\n";
+        debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
+        debugLog << L"s: " << s << L"\n";
+
+        return *this;
     }
 
     // move constructor
-    Cont(Cont &&other)
+    Cl(Cl &&rhs) : pints(nullptr), s(0)
     {
-        idEnt = idEntCtr;
-        debugLog << L"move constructor" << idEnt << L"<-" << other.idEnt << "\n";
-
-        ++idEntCtr;
-
+        *this = std::move(rhs);
+                
+        idEnt = idEntCtr++;
+        
+        debugLog << L"move constructor " << idEnt << L"=" << rhs.idEnt << "\n";
+        debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
+        debugLog << L"s: " << s << L"\n";        
     }
-
-    // move assignment
-    Cont& Cont::operator=(Cont&& other)
+    
+    ~Cl()
     {
-        debugLog << L"move assignment" << idEnt << L"<-" << other.idEnt << "\n";
-        return *this;
-    }
+        if (pints!= nullptr)
+            debugLog << L"destructor " << idEnt << "\n";
+        else
+            debugLog << L"destructor on nullptr" << idEnt << "\n";
 
-    ~Cont()
-    {
-        debugLog << L"deconstructed " << idEnt << "\n";
+        delete[] pints;
     }
-    int a = 0;;
 };
 
-int Cont::idEntCtr = 0;
+int Cl::idEntCtr = 0;
+
+struct E
+{
+    E();
+    explicit E(int a) :a(a)
+    {
+    }
+
+    int a;
+};
 
 void skool()
 {
-    thingy a1, a2;
-    std::cout << "Trying to move-assign A from rvalue temporary\n";
-    a1 = f(thingy()); // move-assignment from rvalue temporary
-    std::cout << "Trying to move-assign A from xvalue\n";
-    a2 = std::move(a1); // move-assignment from xvalue
-
-    std::cout << "Trying to move-assign B\n";
-    B b1, b2;
-    std::cout << "Before move, b1.s = \"" << b1.s << "\"\n";
-    b2 = std::move(b1); // calls implicit move assignment
-    std::cout << "After move, b1.s = \"" << b1.s << "\"\n";
-
-    std::cout << "Trying to move-assign C\n";
-    C c1, c2;
-    c2 = std::move(c1); // calls the copy assignment operator
-
-    std::cout << "Trying to move-assign D\n";
-    D d1, d2;
-    d2 = std::move(d1);
+    #pragma region simple
+    /*
 
 
+    if (1) // construction of single instance
+    {
+    debugLog << "construction of single instance" << L"\n";
+    debugLog << "a: "; Cl  a;
+    debugLog << "\n";
+
+    //debugLog << "b: "; Cl  b();  //warning C4930 : 'Cl b(void)' : prototyped function not called(was a variable definition intended ? )
+    //debugLog << "\n";
+
+    debugLog << "c: "; Cl  c(123, 124, 444);
+    debugLog << "\n";
+
+    debugLog << "d: "; Cl  d = { 123, 124, 444 };
+    debugLog << "\n";
+
+    debugLog << "e: "; Cl  e = Cl( 123, 124, 444 ); //only one construction despite standard saying two
+    debugLog << "\n";
+
+    debugLog << "f: "; Cl  f = { 123, 124, 444 };
+    debugLog << "g: "; Cl  g = f;                   // copy constructor. potential problematic.
+
+    debugLog << "h: "; Cl  h = { 123, 124, 444 };
+    debugLog << "i: "; Cl  i = Cl(h);                   // copy constructor. potential problematic.
+
+    debugLog << "\n";
+
+    debugLog << L"ending scope \n";
+    }
+    debugLog << "\n\n";
+
+    if (1) // construction of array
+    {
+    debugLog << "construction of array" << L"\n";
+
+    debugLog << "a: "; Cl a[2];
+    debugLog << "\n";
+
+    debugLog << "b: "; Cl b[2] ={{1,2,3}, {4,5,6}};
+    debugLog << "\n";
+
+    debugLog << L"ending scope \n";
+    }
+    debugLog << "\n\n";
+
+    if (1) // construction of vector
+    {
+    debugLog << "construction of vector" << L"\n";
+
+    debugLog << "a: "; vector < Cl > a;
+    debugLog << "\n";
+
+    debugLog << "b: "; vector < Cl > b[5];
+    debugLog << "\n";
+
+    debugLog << "c: "; vector < Cl > c{ { 104, 105, 106 } };
+
+    debugLog << "c: "; vector < Cl > c{ Cl(104, 105, 106) };// warning C6011: Dereferencing NULL pointer '?/* Sorry I don't currently handle AST_POINTSTO nodes!  ? '. See line 0 for an earlier location where this can occur
+    debugLog << "\n";
+    debugLog << L"ending scope \n";
+    }
+    debugLog << "\n\n";
+
+    */
+
+    /*
+    if (1) // move constructor
+    {
+    {
+    debugLog << "Testing: move constructor \n";
+    debugLog << "a: "; Cl  a(100, 101, 102);
+
+    Cl b = std::move(a);
+    debugLog << L"ending scope \n";
+    }
+    debugLog << "Finished \n\n";
+    }
+
+    if (1) // move assignment
+    {
 
     {
-        std::vector<Cont> conts[5];
+    debugLog << "Testing: move assignment \n";
+    debugLog << "a: "; Cl  a;
+    debugLog << "b: "; Cl  b(100, 101, 102);
+    a = std::move(b);
+    debugLog << L"ending scope \n";
+    }
+    debugLog << "Finished \n\n";
+    }
+    */
+ #pragma endregion
+
+    if (1) // mniplutating vector    
+    {
+        {
+            debugLog << "Testing: vector ops\n";
+
+            debugLog << "a: "; vector < Cl > a;
+            debugLog << "\n";
+
+            debugLog << "b: "; Cl  b(123, 234, 345);
+            debugLog << "\n";
+
+            a.push_back(std::move(b));
+            debugLog << "\n";
+        }
+    }
+}
+
+    /*
+        {
+        std::vector<Cl> conts[5];
         //std::vector<Cont> conts = { 1, 2, 3 };
         //std::vector<Cont> conts = { Cont(100), Cont(100), Cont(100), Cont(100) };
         //Cont c, d;
         //d = std::move(c);
         //conts.push_back(std::move(d));
-        Cont a;
+        Cl a;
         //conts[0] = a;
-        debugLog << L"ending scope \n";
-    }
-    debugLog << L"\n\n";
-
-    {
-        std::vector<Cont> conts;
-        //std::vector<Cont> conts = { 1, 2, 3 };
-        //std::vector<Cont> conts = { Cont(100), Cont(100), Cont(100), Cont(100) };
-        Cont c, d;
+ 
+        Cl c, d;
         d = c;
-
-        //conts.push_back(std::move(d));
-
-        debugLog << L"ending scope \n";
-    }
-
-}
-/*
-class Cont
-{
-public:
-    static int idEntCtr;
-
-    //cont() = delete;
-
-    Cont()
-    {
-        a++;
-        idEnt = idEntCtr;
-        debugLog << L"default constructeder " << idEnt << "\n";
-
-        ++idEntCtr;
-    }
-
-    Cont(const Cont &other)
-    {
-        idEnt = idEntCtr;
-        debugLog << L"copy cons " << other.idEnt << L"to " << idEnt << "\n";
-        ++idEntCtr;
-    }
-
-    Cont(int j) : a(j)
-    {
-        a++;
-        idEnt = idEntCtr;
-        debugLog << L"constructed j" << idEnt << "\n";
-        ++idEntCtr;
-
-    }
-
-    ~Cont()
-    {
-        a--;
-        debugLog << L"deconstructed " << idEnt << "\n";
-    }
-    int a = 100;
-    int idEnt;
-};
-
-int Cont::idEntCtr = 0;
-*/
-/*
-{
-    std::vector<Cont> conts = { 1, 2, 3 };    
-    debugLog << L"ending scope \n";
-}
-
-    constructed j0
-    constructed j1
-    constructed j2
-    copy cons 0 to 3
-    copy cons 1 to 4
-    copy cons 2 to 5
-    deconstructed 2
-    deconstructed 1
-    deconstructed 0
-    ending scope
-    deconstructed 3
-    deconstructed 4
-    deconstructed 5
- */
-
-/*
-{
-std::vector<Cont> conts;
-
-Cont c = Cont();
-conts.push_back(c);
-}
-default constructeder 0
-copy cons 0 to 1
-ending scope
-deconstructed 0
-deconstructed 1
-
-*/
-/*
-   {
-       std::vector<Cont> conts;
-       conts.push_back(Cont());
-    }
-    default constructeder 0
-    copy cons 0 to 1
-    deconstructed 0
-    ending scope
-    deconstructed 1
-
-*/
-
-/*
-
-*/
+        */

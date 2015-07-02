@@ -149,7 +149,6 @@ void init()
 
     GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
 }
-
     
 void mainLoop()
 {
@@ -191,7 +190,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
-
 
 bool createWindow(LPCWSTR title, int width, int height)
 {

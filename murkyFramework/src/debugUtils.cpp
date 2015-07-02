@@ -36,6 +36,14 @@ DebObj operator << (DebObj obj, char *const str)
     return obj;
 }
 
+DebObj operator << (DebObj obj, wchar_t *const str)
+{    
+    std::wstring s = std::wstring(str);
+
+    outputDebugString(s.c_str());
+    return obj;
+}
+
 DebObj operator << (DebObj obj, int i)
 {                
     outputDebugString(std::to_wstring(i).c_str());
