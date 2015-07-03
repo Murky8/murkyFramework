@@ -15,6 +15,7 @@
 
 #include <debugUtils.hpp>
 #include <gfxLowLevel/gfxLowLevel.hpp>
+#include <gfxLowLevel/textures.hpp>
 #include <gfxLowLevel/gfxPrimativeTypes.hpp>
 
 #include <gfxHighLevel/render.hpp>
@@ -25,20 +26,20 @@
 namespace RenderHi
 {
     // Forward declarations
-    //extern std::vector<GfxLowLevel::TextureRef> textures;  // From texures.cpp
+    extern GfxLowLevel::TextureManager textureManager;
 
     // data
     TextRender::TextRender()
     {											
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
 
-        fontTextureRef = new GfxLowLevel::TextureRef(L"data/font.png");		
+        textureRef = textureManager.getTexture(L"font");
 
         textTriangleBuffer = new GfxLowLevel::VertexBufferDynamic(
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::triangle,
             GfxLowLevel::Shaders::posColText,
-            *fontTextureRef);    
+            textureRef);    
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }
 

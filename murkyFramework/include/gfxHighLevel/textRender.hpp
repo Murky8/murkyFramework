@@ -28,7 +28,7 @@ namespace RenderHi
         
         std::vector<Triangle_pct>			textTris;
         GfxLowLevel::VertexBufferDynamic	*textTriangleBuffer;
-        GfxLowLevel::TextureRef				*fontTextureRef;		
+        GfxLowLevel::TextureRef				textureRef;		
         //std::wstring text;
     private:
         // Constructors        

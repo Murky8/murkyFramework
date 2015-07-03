@@ -26,7 +26,6 @@ namespace RenderHi
     // data
     TextRender *textRenderer;
     mat4	projectionMatrix;
-    std::vector<GfxLowLevel::TextureRef*> textures;
     GfxLowLevel::VertexBufferDynamic *vertexBufferTemp;
     GfxLowLevel::TextureManager textureManager;
     // functions
@@ -70,11 +69,9 @@ namespace RenderHi
         debugLog << L"RenderHi::initialise" << "\n";
         GfxLowLevel::initialise();
         GfxLowLevel::Shaders::initialise();
-
-        textures.push_back(new GfxLowLevel::TextureRef(L"data/font.png"));
-        textures.push_back(new GfxLowLevel::TextureRef(L"data/t0.png"));
+                
         textureManager.loadNewTexture(L"data/", L"font.png");
-        textureManager.setGfxDeviceState_currentTexture(L"font");
+        textureManager.loadNewTexture(L"data/", L"t0.png");              
 
         textRenderer = new TextRender();   
 
@@ -82,7 +79,7 @@ namespace RenderHi
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::triangle,
             GfxLowLevel::Shaders::posColText,
-            *textures[1]
+            textureManager.getTexture(L"t0")
             );
 
         Gapp.gfxInitialised = true;
@@ -91,11 +88,11 @@ namespace RenderHi
     void deinitialise()
     {
         //textures.clear();
-        for each (auto &i in textures)
+        /*for each (auto &i in textures)
         {
             delete i;
         }
-
+*/
         GfxLowLevel::Shaders::deinitialise();
         GfxLowLevel::deinitialise();
 

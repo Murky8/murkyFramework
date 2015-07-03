@@ -43,7 +43,8 @@ namespace GfxLowLevel
 
         //TextureRef  &getNewTexture(const std::wstring &dirName, const std::wstring &fileName);
         //TextureRef  &getTextureByName(std::wstring &name);
-        void        setGfxDeviceState_currentTexture(const  std::wstring &name);        
+        TextureRef &TextureManager::getTexture(const std::wstring &name);           
+        void        setGfxDeviceState_currentTexture(const TextureRef &texture);
         void        loadNewTexture(const std::wstring &dirName, const std::wstring &fileName);
         void        deleteAllTextures();
 

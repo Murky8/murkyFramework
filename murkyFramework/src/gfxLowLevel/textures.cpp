@@ -44,7 +44,7 @@ namespace GfxLowLevel
     // Destructors
     TextureRef::~TextureRef()
     {
-        glDeleteTextures(1, &handle);
+        //glDeleteTextures(1, &handle);
     }
         
     // Methods
@@ -89,20 +89,24 @@ namespace GfxLowLevel
 
     }
 
-    void TextureManager::setGfxDeviceState_currentTexture(const std::wstring &name)
+    TextureRef &TextureManager::getTexture(const std::wstring &name)
     {
         TextureRef texture;
         auto it = textures.find(name);
         if (it != textures.end())
         {
-            glBindTexture( GL_TEXTURE_2D, it->second.getHandle() );
+            return it->second;
         }
         else
         {
             triggerBreakpoint();
         }
-        //this->textures[
+    }
 
+    void TextureManager::setGfxDeviceState_currentTexture( const TextureRef &texture )
+    {
+        
+        glBindTexture( GL_TEXTURE_2D, texture.getHandle() );        
     }
 
     void TextureManager::deleteAllTextures()
