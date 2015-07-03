@@ -7,49 +7,50 @@
 
 #include <murkyFramework/include/types.hpp>
 #include <map>
+#include <debugUtils.hpp>
 
 namespace GfxLowLevel
 {
-    class TextureRef    //todo rename ref part
+    //extern int idCt;
+
+    //template<typename T>
+    //class CachedRefByName()
+    //{
+    //}
+
+    class TextureId    //todo rename ref part
     {
     public:
-        // Constructors
-        TextureRef(){}
-        explicit TextureRef(const std::wstring &fileName);     
-        TextureRef(u8 *in_data, u32 width, u32 height);
-        
-        // Destructors
-        ~TextureRef();
-
+        // data
+        u32 handle; 
+       
+        // parameterised constructor
+        TextureId(const std::wstring &fileName);    
+                
         // Methods
         u32 getHandle() const;
+
         
-        // Data
-        u32 handle;
-        //const std::wstring name;
     private:
-        // Constructors
+        // constructors
+        TextureId(u8 *in_data, u32 width, u32 height);
         //TextureRef(const TextureRef &rhs) = delete;
 
-        // Methods
+        // methods
         void insertImageData( u8 *in_imageData, u32 width, u32 height);
-
-        // Data
+        
     };
-    
+
     class TextureManager
     {
     public:
-
-        //TextureRef  &getNewTexture(const std::wstring &dirName, const std::wstring &fileName);
-        //TextureRef  &getTextureByName(std::wstring &name);
-        TextureRef &TextureManager::getTexture(const std::wstring &name);           
-        void        setGfxDeviceState_currentTexture(const TextureRef &texture);
+        TextureId &TextureManager::getTextureByName(const std::wstring &name);           
+        void        setGfxDeviceState_currentTexture(const TextureId &texture);
         void        loadNewTexture(const std::wstring &dirName, const std::wstring &fileName);
         void        deleteAllTextures();
 
         //std::vector<TextureRef> textures;
-        std::map< std::wstring, GfxLowLevel::TextureRef> textures;
+        std::map< std::wstring, GfxLowLevel::TextureId> textures;
 
     private:
 

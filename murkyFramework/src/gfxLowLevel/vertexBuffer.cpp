@@ -22,7 +22,7 @@ namespace GfxLowLevel
 
     // constructor	
     VertexBufferDynamic::VertexBufferDynamic(
-        VertexType vertexType, PrimativeType primativeType, u32 shaderProgram, GfxLowLevel::TextureRef &texture ) :
+        VertexType vertexType, PrimativeType primativeType, ShaderId shaderProgram, GfxLowLevel::TextureId &texture ) :
         vertexType(vertexType), primativeType(primativeType), shaderProgram(shaderProgram), texture(texture)
     {				
         glGenVertexArrays(1, &vao);
@@ -31,7 +31,7 @@ namespace GfxLowLevel
         glGenBuffers(1, &vbo);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);		
         
-        glUseProgram(shaderProgram);
+        glUseProgram( shaderProgram.getHandle() );
     
         // layout
         int szVertex = sizeof(Vert_pct);
@@ -99,7 +99,7 @@ namespace GfxLowLevel
         
         glBindVertexArray(vao);		
 
-        glUseProgram(shaderProgram);
+        glUseProgram(shaderProgram.getHandle());
         glUniform1i(Shaders::uniforms_textureSamplerID, 0);
         
         glBindTexture( GL_TEXTURE_2D, texture.getHandle() );//is this already bound to vao???

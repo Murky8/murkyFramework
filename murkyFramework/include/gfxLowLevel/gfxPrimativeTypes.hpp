@@ -12,7 +12,7 @@
 class Vert_pc
 {    
 public:
-	Vert_pc(){}
+    Vert_pc(){}
     Vert_pc(vec3, vec3);
     // Data
     vec3 pos;
@@ -24,7 +24,7 @@ private:
 class Vert_pct
 {    
 public:
-	Vert_pct(){}
+    Vert_pct(){}
     Vert_pct(vec3, vec3, vec2);
     // Data
     vec3 pos; // 12 bytes	
@@ -39,7 +39,7 @@ private:
 class Line_pc
 {
 public:
-	Line_pc(){}
+    Line_pc(){}
     Line_pc(Vert_pc, Vert_pc);    
     // Data
     Vert_pc v[2];
@@ -53,7 +53,7 @@ class Triangle_pc
 {
 public:
     Vert_pc v[3];
-	Triangle_pc(){}
+    Triangle_pc(){}
     Triangle_pc(Vert_pc, Vert_pc, Vert_pc);    
     
 private:
@@ -64,7 +64,7 @@ class Triangle_pct
 {    
 public:
     Vert_pct v[3];
-	Triangle_pct(){}
+    Triangle_pct(){}
     Triangle_pct(Vert_pct, Vert_pct, Vert_pct);
 private:
     //Triangle_pct() = delete;

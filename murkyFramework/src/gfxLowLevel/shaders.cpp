@@ -18,8 +18,8 @@ namespace GfxLowLevel
     {
 
         u32		uniforms_textureSamplerID;
-        u32     uniformHandle_projectionMatrix;        
-        u32		posColText;
+        u32     uniformHandle_projectionMatrix;               
+        ShaderId posColText;        
     }
 
     //void 
@@ -63,7 +63,7 @@ namespace GfxLowLevel
     
     void setUniform_projectionMatrix(const mat4 *pMat)
     {
-        glUseProgram(Shaders::posColText);
+        glUseProgram(Shaders::posColText.getHandle());
         glUniformMatrix4fv(Shaders::uniformHandle_projectionMatrix, 1, false, (float*)pMat);		
         glUseProgram(0);
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
@@ -74,15 +74,17 @@ namespace GfxLowLevel
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";
 
+        
         u32 vs = GfxLowLevel::createShader(vertex_shader, GL_VERTEX_SHADER);
         u32 fs = GfxLowLevel::createShader(fragment_shader, GL_FRAGMENT_SHADER);
-        Shaders::posColText = GfxLowLevel::createProgram(vs, fs);
-        debugLog << L"pct " << (int)Shaders::posColText<<"\n";
+        GLuint handle = (u32)GfxLowLevel::createProgram(vs, fs);        
 
-        uniforms_textureSamplerID = glGetUniformLocation(posColText, "textureSamplerID");
+        Shaders::posColText.handle = handle;
+
+        uniforms_textureSamplerID = glGetUniformLocation(Shaders::posColText.getHandle(), "textureSamplerID");
         checkUniform(uniforms_textureSamplerID);
 
-        uniformHandle_projectionMatrix = glGetUniformLocation(posColText, "projectionMatrix");
+        uniformHandle_projectionMatrix = glGetUniformLocation(Shaders::posColText.getHandle(), "projectionMatrix");
         checkUniform(uniformHandle_projectionMatrix);
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }

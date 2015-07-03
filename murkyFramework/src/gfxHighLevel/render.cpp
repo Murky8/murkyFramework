@@ -27,7 +27,8 @@ namespace RenderHi
     TextRender *textRenderer;
     mat4	projectionMatrix;
     GfxLowLevel::VertexBufferDynamic *vertexBufferTemp;
-    GfxLowLevel::TextureManager textureManager;
+    GfxLowLevel::TextureManager *textureManager;
+    GfxLowLevel::ShaderManager *shaderManager;
     // functions
     /*
     void glFrustumf(float near, float far){
@@ -68,18 +69,23 @@ namespace RenderHi
     {
         debugLog << L"RenderHi::initialise" << "\n";
         GfxLowLevel::initialise();
+        
         GfxLowLevel::Shaders::initialise();
-                
-        textureManager.loadNewTexture(L"data/", L"font.png");
-        textureManager.loadNewTexture(L"data/", L"t0.png");              
+        shaderManager = new GfxLowLevel::ShaderManager();
+        //shaderManager->initialise();
 
-        textRenderer = new TextRender();   
+        textureManager = new GfxLowLevel::TextureManager();
+        textureManager->loadNewTexture(L"data/", L"font.png");
+
+        //textureManager.loadNewTexture(L"data/", L"t0.png");              
+
+        textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
 
         vertexBufferTemp = new GfxLowLevel::VertexBufferDynamic(
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::triangle,
             GfxLowLevel::Shaders::posColText,
-            textureManager.getTexture(L"t0")
+            textureManager->getTextureByName(L"font")
             );
 
         Gapp.gfxInitialised = true;
@@ -93,7 +99,10 @@ namespace RenderHi
             delete i;
         }
 */
+        debugLog << L"RenderHi::deinitialise" << "\n";
+
         GfxLowLevel::Shaders::deinitialise();
+        delete textureManager;
         GfxLowLevel::deinitialise();
 
     }

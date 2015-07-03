@@ -17,7 +17,8 @@ namespace RenderHi
     {
     public:
         // Constructors
-        TextRender();
+        TextRender() = delete;
+        TextRender( GfxLowLevel::TextureId textureRef);
 
         // Destructors
         //~TextRender();
@@ -27,8 +28,7 @@ namespace RenderHi
         // Data
         
         std::vector<Triangle_pct>			textTris;
-        GfxLowLevel::VertexBufferDynamic	*textTriangleBuffer;
-        GfxLowLevel::TextureRef				textureRef;		
+        GfxLowLevel::VertexBufferDynamic	*textTriangleBuffer;        
         //std::wstring text;
     private:
         // Constructors        

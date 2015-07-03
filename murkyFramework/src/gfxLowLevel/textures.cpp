@@ -14,16 +14,15 @@
 #include <common.hpp>
 #include <debugUtils.hpp>
 #include <stringHelpers.hpp>
-
 namespace GfxLowLevel
 {
-    // Forward Declarations
+    // forward declarations
     void onGfxDeviceErrorTriggerBreakpoint();
     
     // Constructors
     // Load texture from file
-    TextureRef::TextureRef(const std::wstring &fileName)
-    {
+    TextureId::TextureId(const std::wstring &fileName)
+    {     
         std::vector<u8> image; //the raw pixels
         image.reserve(256*256*4);
         u32 width, height;
@@ -33,28 +32,16 @@ namespace GfxLowLevel
             triggerBreakpoint();
 
         this->insertImageData(image.data(), width, height);        
-    }
-
-    //TextureRef::TextureRef(u8 *in_data, u32 width, u32 height)
-    //{
-    //    triggerBreakpoint();//test
-    //    this->insertImageData(in_data, width, height);
-    //}  
-
-    // Destructors
-    TextureRef::~TextureRef()
-    {
-        //glDeleteTextures(1, &handle);
-    }
+    }    
         
     // Methods
-    u32 TextureRef::getHandle() const
+    u32 TextureId::getHandle() const
     {
         return handle;
     }
     
     // Called by constructor only
-    void TextureRef::insertImageData(u8 * in_imageData, u32 width, u32 height)
+    void TextureId::insertImageData(u8 * in_imageData, u32 width, u32 height)
     {
         glGenTextures(1, &handle);
         glBindTexture(GL_TEXTURE_2D, handle);
@@ -70,14 +57,16 @@ namespace GfxLowLevel
         
         std::wstring fullPath = dirName + fileName;        
 
-        TextureRef newTexture(fullPath);
+        TextureId newTexture(fullPath);
 
         //std::string str2 = str.substr (12,12);
         std::wregex regexExpr(L"png");
         if (regex_search(fileName, regexExpr))
         {
             std::wstring name( fileName.substr(0, fileName.size() - 4) );
-            this->textures[name] = newTexture;
+
+            textures.insert(std::pair<std::wstring, TextureId>(name, newTexture));
+            //this->textures[name] = newTexture;
         }
         else
         {
@@ -89,9 +78,8 @@ namespace GfxLowLevel
 
     }
 
-    TextureRef &TextureManager::getTexture(const std::wstring &name)
-    {
-        TextureRef texture;
+    TextureId &TextureManager::getTextureByName(const std::wstring &name)
+    {       
         auto it = textures.find(name);
         if (it != textures.end())
         {
@@ -100,10 +88,11 @@ namespace GfxLowLevel
         else
         {
             triggerBreakpoint();
+            return it->second;
         }
     }
 
-    void TextureManager::setGfxDeviceState_currentTexture( const TextureRef &texture )
+    void TextureManager::setGfxDeviceState_currentTexture( const TextureId &texture )
     {
         
         glBindTexture( GL_TEXTURE_2D, texture.getHandle() );        
@@ -111,12 +100,13 @@ namespace GfxLowLevel
 
     void TextureManager::deleteAllTextures()
     {
-        /*for each (auto &it in this->textures)
+        
+        for each (auto &it in this->textures)
         {
-            glDeleteTextures(1, &(it.handle));
-            debugLog << L"gfxDevice: released texture";
+            debugLog << L"gfxDevice: released texture \n";
+            glDeleteTextures(1, &( it.second.handle ));
 
-        }*/
+        }
 
     }
 

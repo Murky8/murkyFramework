@@ -28,23 +28,22 @@ namespace RenderHi
     // Forward declarations
     extern GfxLowLevel::TextureManager textureManager;
 
-    // data
-    TextRender::TextRender()
+    // Constructors
+    TextRender::TextRender(GfxLowLevel::TextureId textureRef) 
     {											
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
-
-        textureRef = textureManager.getTexture(L"font");
-
+        
         textTriangleBuffer = new GfxLowLevel::VertexBufferDynamic(
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::triangle,
             GfxLowLevel::Shaders::posColText,
             textureRef);    
+
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }
 
+    // data
     // methods
-    // Constructors
     //TextRender::TextRender(std::wstring textureFileName) : texture(textureFileName), cursorPos(-1.0f, 1.0f)
     //{    
 
