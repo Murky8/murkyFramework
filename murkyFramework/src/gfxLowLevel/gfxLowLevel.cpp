@@ -79,6 +79,10 @@ namespace GfxLowLevel
         setStateToAppDefault();
         //glViewport(0, 0, app.screenResX, app.screenResY);
         //glViewport(0, 0, 800, 800);
+    }
+    
+    void deinitialise()
+    {
 
     }
 

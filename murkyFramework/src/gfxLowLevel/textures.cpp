@@ -6,12 +6,13 @@
 #include <gfxLowLevel/textures.hpp>
 
 #include <vector>
-
+#include <regex>
 #include <glew/include/GL/glew.h> 
 #include <glew/include/GL/wglew.h>
 
 #include <lodepng.h>
 #include <common.hpp>
+#include <debugUtils.hpp>
 #include <stringHelpers.hpp>
 
 namespace GfxLowLevel
@@ -34,16 +35,15 @@ namespace GfxLowLevel
         this->insertImageData(image.data(), width, height);        
     }
 
-    TextureRef::TextureRef(u8 *in_data, u32 width, u32 height)
-    {
-        triggerBreakpoint();//test
-        this->insertImageData(in_data, width, height);
-    }  
+    //TextureRef::TextureRef(u8 *in_data, u32 width, u32 height)
+    //{
+    //    triggerBreakpoint();//test
+    //    this->insertImageData(in_data, width, height);
+    //}  
 
     // Destructors
     TextureRef::~TextureRef()
     {
-        triggerBreakpoint();
         glDeleteTextures(1, &handle);
     }
         
@@ -64,4 +64,57 @@ namespace GfxLowLevel
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     }
+
+    void TextureManager::loadNewTexture(const std::wstring &dirName, const std::wstring &fileName)
+    {
+        
+        std::wstring fullPath = dirName + fileName;        
+
+        TextureRef newTexture(fullPath);
+
+        //std::string str2 = str.substr (12,12);
+        std::wregex regexExpr(L"png");
+        if (regex_search(fileName, regexExpr))
+        {
+            std::wstring name( fileName.substr(0, fileName.size() - 4) );
+            this->textures[name] = newTexture;
+        }
+        else
+        {
+            triggerBreakpoint();
+        }
+        
+        // strip extension of name
+        //std::wstring nameNaked = fileName
+
+    }
+
+    void TextureManager::setGfxDeviceState_currentTexture(const std::wstring &name)
+    {
+        TextureRef texture;
+        auto it = textures.find(name);
+        if (it != textures.end())
+        {
+            glBindTexture( GL_TEXTURE_2D, it->second.getHandle() );
+        }
+        else
+        {
+            triggerBreakpoint();
+        }
+        //this->textures[
+
+    }
+
+    void TextureManager::deleteAllTextures()
+    {
+        /*for each (auto &it in this->textures)
+        {
+            glDeleteTextures(1, &(it.handle));
+            debugLog << L"gfxDevice: released texture";
+
+        }*/
+
+    }
+
+
 }

@@ -17,6 +17,7 @@ namespace GfxLowLevel
 		extern	u32	uniformHandle_projectionMatrix;
 		extern	u32	posColText;				
 		void	initialise();
+        void	deinitialise();
 	}
 	void setUniform_projectionMatrix(const mat4 *pMat);
 

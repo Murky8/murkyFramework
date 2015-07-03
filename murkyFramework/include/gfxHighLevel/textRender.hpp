@@ -17,18 +17,18 @@ namespace RenderHi
     {
     public:
         // Constructors
-		TextRender();
+        TextRender();
 
         // Destructors
         //~TextRender();
         // Methods
-		void drawText(const std::wstring &text);
+        void drawText(const std::wstring &text);
         //void drawAllText();
         // Data
-		
-		std::vector<Triangle_pct>			textTris;
-		GfxLowLevel::VertexBufferDynamic	*textTriangleBuffer;
-		GfxLowLevel::TextureRef				*fontTextureRef;		
+        
+        std::vector<Triangle_pct>			textTris;
+        GfxLowLevel::VertexBufferDynamic	*textTriangleBuffer;
+        GfxLowLevel::TextureRef				*fontTextureRef;		
         //std::wstring text;
     private:
         // Constructors        

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include <murkyFramework/include/types.hpp>
+#include <map>
 
 namespace GfxLowLevel
 {
@@ -13,6 +14,7 @@ namespace GfxLowLevel
     {
     public:
         // Constructors
+        TextureRef(){}
         explicit TextureRef(const std::wstring &fileName);     
         TextureRef(u8 *in_data, u32 width, u32 height);
         
@@ -23,15 +25,32 @@ namespace GfxLowLevel
         u32 getHandle() const;
         
         // Data
+        u32 handle;
         //const std::wstring name;
     private:
         // Constructors
-        TextureRef() = delete;
+        //TextureRef(const TextureRef &rhs) = delete;
 
         // Methods
         void insertImageData( u8 *in_imageData, u32 width, u32 height);
 
         // Data
-        u32 handle;
+    };
+    
+    class TextureManager
+    {
+    public:
+
+        //TextureRef  &getNewTexture(const std::wstring &dirName, const std::wstring &fileName);
+        //TextureRef  &getTextureByName(std::wstring &name);
+        void        setGfxDeviceState_currentTexture(const  std::wstring &name);        
+        void        loadNewTexture(const std::wstring &dirName, const std::wstring &fileName);
+        void        deleteAllTextures();
+
+        //std::vector<TextureRef> textures;
+        std::map< std::wstring, GfxLowLevel::TextureRef> textures;
+
+    private:
+
     };
 }

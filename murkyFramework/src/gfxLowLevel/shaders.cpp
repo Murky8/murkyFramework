@@ -86,6 +86,11 @@ namespace GfxLowLevel
         checkUniform(uniformHandle_projectionMatrix);
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }
+            
+    void	Shaders::deinitialise()
+    {
+
+    }
 
     u32 createShader(const char* sourceText, u32 type)
     {

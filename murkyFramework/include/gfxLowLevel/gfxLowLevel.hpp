@@ -23,6 +23,7 @@ namespace GfxLowLevel //todo rename
     //Data    
     void onGfxDeviceErrorTriggerBreakpoint();
     void initialise();    
+    void deinitialise();
     void drawBegin();        
     void drawEnd();            
     

@@ -107,6 +107,7 @@ namespace RenderHi
 
     
     void initialise();
+    void deinitialise();
     void drawAll();
     void addQuad_pct();
 }

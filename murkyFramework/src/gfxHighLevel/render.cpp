@@ -28,6 +28,7 @@ namespace RenderHi
     mat4	projectionMatrix;
     std::vector<GfxLowLevel::TextureRef*> textures;
     GfxLowLevel::VertexBufferDynamic *vertexBufferTemp;
+    GfxLowLevel::TextureManager textureManager;
     // functions
     /*
     void glFrustumf(float near, float far){
@@ -69,9 +70,12 @@ namespace RenderHi
         debugLog << L"RenderHi::initialise" << "\n";
         GfxLowLevel::initialise();
         GfxLowLevel::Shaders::initialise();
+
         textures.push_back(new GfxLowLevel::TextureRef(L"data/font.png"));
         textures.push_back(new GfxLowLevel::TextureRef(L"data/t0.png"));
-        
+        textureManager.loadNewTexture(L"data/", L"font.png");
+        textureManager.setGfxDeviceState_currentTexture(L"font");
+
         textRenderer = new TextRender();   
 
         vertexBufferTemp = new GfxLowLevel::VertexBufferDynamic(
@@ -82,6 +86,19 @@ namespace RenderHi
             );
 
         Gapp.gfxInitialised = true;
+    }
+
+    void deinitialise()
+    {
+        //textures.clear();
+        for each (auto &i in textures)
+        {
+            delete i;
+        }
+
+        GfxLowLevel::Shaders::deinitialise();
+        GfxLowLevel::deinitialise();
+
     }
 
     mat4 makeProjectionMatrix_perspective( )
