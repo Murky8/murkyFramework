@@ -27,7 +27,7 @@ namespace GfxLowLevel
     IDXGISwapChain1*        g_pSwapChain1 = nullptr;
     ID3D11RenderTargetView* g_pRenderTargetView = nullptr;
     // Called from: shead.cpp/
-    bool moofinitialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd)
+    bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd)
     {
         //-------------------------------------------------------------------------------------- 
         // Create Direct3D device and swap chain 

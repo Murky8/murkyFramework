@@ -11,7 +11,7 @@
 
 namespace GfxLowLevel
 {
-    // forward declarations
+// forward declarations
     class ShaderId;
 
     namespace Shaders

@@ -3,12 +3,66 @@
 #include <utility>
 #include "debugUtils.hpp"
 #include <vector>
+#include <map>
+#include <murkyFramework/include/types.hpp>
+#include <murkyFramework/include/vectorMatrix.hpp>
+
+// http://www.cplusplus.com/doc/tutorial
 
 using std::vector;
 
-#pragma region MyRegion
+// template skool
 
 
+// basic template
+template<typename T>
+void clamp(T &v0, T min, T max)
+{
+}
+
+// specialization
+template<>
+void clamp<vec3>(vec3 &v, vec3 min, vec3 max)
+{
+    clamp(v.x, 0.f, 1.f);
+}
+
+// class template
+template<class T>
+class Contain
+{
+public:        
+private:
+    T a;
+};
+
+// template in class
+// nested template
+
+/*
+template< class T >
+using NamedMap = std::map< std::wstring, T >;
+
+template< class T >
+class FinderObject
+{
+public:
+    FinderObject() = delete;
+    FinderObject( NamedMap<T> &rmap) : cached(false), rmap(rmap)
+    {}
+
+    bool    cached;
+    const   NamedMap<T> &rmap;
+};
+*/
+void skool()
+{
+  
+}
+// template skool
+
+
+/*
 struct thingy 
 {
     std::string s;
@@ -73,10 +127,9 @@ std::cout << "Trying to move-assign D\n";
 D d1, d2;
 d2 = std::move(d1);
 }
-#pragma endregion
+*/
 
-
-// reference:
+/*
 class Cl
 {
 public:
@@ -176,22 +229,12 @@ public:
 };
 
 int Cl::idEntCtr = 0;
+*/
 
-struct E
-{
-    E();
-    explicit E(int a) :a(a)
-    {
-    }
 
-    int a;
-};
-
+/*
 void skool()
-{
-    #pragma region simple
-    /*
-
+{        
 
     if (1) // construction of single instance
     {
@@ -254,10 +297,7 @@ void skool()
     debugLog << L"ending scope \n";
     }
     debugLog << "\n\n";
-
-    */
-
-    /*
+    
     if (1) // move constructor
     {
     {
@@ -283,9 +323,9 @@ void skool()
     debugLog << "Finished \n\n";
     }
     */
- #pragma endregion
 
-    if (1) // mniplutating vector    
+/*
+    if (0) // mniplutating vector    
     {
         {
             debugLog << "Testing: vector ops\n";
@@ -300,7 +340,8 @@ void skool()
             debugLog << "\n";
         }
     }
-}
+    */
+
 
     /*
         {
