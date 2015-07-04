@@ -61,26 +61,14 @@
     <ClCompile Include="..\..\src\vectorMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\gfxLowLevel\gfxPrimativeTypes.cpp">
       <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\gfxHighLevel\textRender.cpp">
       <Filter>Source Files\gfxHighLevel</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\textures.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\gfxHighLevel\render.cpp">
       <Filter>Source Files\gfxHighLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\shaders.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\external\glew\src\glew.c">
       <Filter>Source Files\openGL</Filter>
@@ -118,11 +106,35 @@
     <ClCompile Include="..\..\src\gfxLowLevel\initDevice_openGL.cpp">
       <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\initDevice_d3d.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\school.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_openGL.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer_openGL.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\texture_openGL.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\shader_openGL.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\initDevice_direct3d.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_direct3d.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\shader_direct3d.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\texture_direct3d.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer_direct3d.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,8 @@
 // 2015 J. Coelho.
 //------------------------------------------------------------------------------
 // Platform: windows/opengl4
-#pragma once
+#include <murkyFramework/include/version.hpp>
+#ifdef USE_DIRECT3D
 
 #include <gfxLowLevel/textures.hpp>
 
@@ -112,3 +113,4 @@ namespace GfxLowLevel
 
 
 }
+#endif // USE_DIRECT3D

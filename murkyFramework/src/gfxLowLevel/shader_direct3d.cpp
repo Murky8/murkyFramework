@@ -2,6 +2,9 @@
 //------------------------------------------------------------------------------
 // 2014 J. Coelho
 // Platform: All
+#include <murkyFramework/include/version.hpp>
+#ifdef USE_DIRECT3D
+
 #include <vector>
 #include <gfxLowLevel/gfxLowLevel.hpp>
 #include <gfxLowLevel/shaders.hpp>
@@ -147,7 +150,8 @@ namespace GfxLowLevel
         // check program
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         return program;
-    }
+    }    
+#endif // USE_DIRECT3D
 
 
 
@@ -326,7 +330,7 @@ namespace GfxLowLevel
     //
     //    return true;
     //}
-}
+
 
 //const char *s2 = "#version 400 core \n "
 //"layout(location = 0) in vec3 position; \n "

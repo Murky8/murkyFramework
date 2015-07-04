@@ -2,6 +2,8 @@
 // 2015 J. Coelho.
 // OpenGL default state: http://www.glprogramming.com/red/appendixb.html
 #include <version.hpp>
+#ifdef USE_OPENGL
+
 #include <gfxLowLevel/gfxLowLevel.hpp>
 
 #include <vector>
@@ -267,3 +269,4 @@ namespace GfxLowLevel
     */
 }
 
+#endif // USE_OPENGL

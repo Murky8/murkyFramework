@@ -4,6 +4,8 @@
 // Wrapper is agnostic
 // Platform: OpenGL 4.x version
 // TODO remove buffer access type? static/dynamic buffers have completely different usage?
+#include <murkyFramework/include/version.hpp>
+#ifdef USE_DIRECT3D
 
 #include <vector>
 #include <glew/include/GL/glew.h> 
@@ -172,3 +174,4 @@ namespace GfxLowLevel
     }
     */
 }
+#endif // USE_DIRECT3D

@@ -1,5 +1,4 @@
-#include <version.hpp>
-
+#include <murkyFramework/include/version.hpp>
 #ifdef USE_DIRECT3D
 
 #include <windows.h>
@@ -205,4 +204,4 @@ namespace GfxLowLevel
         
     }
 }
-#endif
+#endif // USE_DIRECT3D
