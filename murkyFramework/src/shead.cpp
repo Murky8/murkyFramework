@@ -24,9 +24,10 @@
 namespace GfxLowLevel
 {    
     bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);   // From initDevice_???
+    //bool deinitialise_device();
 }
 void mainLoop();
-void initialise();
+void masterInitialise();
 void deinitialise();
 bool createWindow(LPCWSTR title, int width, int height);
 
@@ -51,7 +52,7 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
     int			nCmdShow)			// Window Show State
 {
     MSG		msg;
-    initialise();
+    masterInitialise();
 
     while (!Gapp.exitWholeApp)
     {
@@ -86,7 +87,7 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 
  void skool();
 
-void initialise()
+void masterInitialise()
 {
     //skool();
     
@@ -143,7 +144,7 @@ void initialise()
     }
 
     auto res = createWindow(wcstring, Gapp.screenResX, Gapp.screenResY);
-    
+        
     GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     
     RenderHi::initialise();

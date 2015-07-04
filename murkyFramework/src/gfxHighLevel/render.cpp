@@ -21,6 +21,8 @@
 #include <gfxHighLevel/textRender.hpp>
 #include <external/glm/glm.hpp>
 
+// forward declarations
+
 namespace RenderHi
 {    
     // data
@@ -68,11 +70,9 @@ namespace RenderHi
     void initialise()
     {
         debugLog << L"RenderHi::initialise" << "\n";
-        GfxLowLevel::initialise();
-        
+          
         GfxLowLevel::Shaders::initialise();
-        shaderManager = new GfxLowLevel::ShaderManager();
-        //shaderManager->initialise();
+        shaderManager = new GfxLowLevel::ShaderManager();  
 
         textureManager = new GfxLowLevel::TextureManager();
         textureManager->loadNewTexture(L"data/", L"font.png");
@@ -99,12 +99,11 @@ namespace RenderHi
             delete i;
         }
 */
+
         debugLog << L"RenderHi::deinitialise" << "\n";
 
         GfxLowLevel::Shaders::deinitialise();
         delete textureManager;
-        GfxLowLevel::deinitialise();
-
     }
 
     mat4 makeProjectionMatrix_perspective( )

@@ -7,7 +7,6 @@
 #include <gfxLowLevel/gfxLowLevel.hpp>
 // Forward declarations
 
-#pragma comment(lib,"OpenGL32.lib")
 
 namespace GfxLowLevel
 {
@@ -69,5 +68,11 @@ namespace GfxLowLevel
 
             return true; // We have successfully created a context, return true
         }
-}
+
+    bool deinitialise_device()
+    {
+        return false;
+
+    }
+} // namespace GfxLowLevel
 #endif
