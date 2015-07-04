@@ -11,146 +11,57 @@
 #include <debugUtils.hpp>
 #include <loadSaveFile.hpp>
 
-#include <glew/include/GL/glew.h> 
-#include <glew/include/GL/wglew.h>
 extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
 
 namespace GfxLowLevel
-{    	
+{
     namespace Shaders
     {
 
         u32		uniforms_textureSamplerID;
-        u32     uniformHandle_projectionMatrix;               
-        ShaderId posColText;        
+        u32     uniformHandle_projectionMatrix;
+        ShaderId posColText;
     }
-
-    //void 
-           
-    const char* vertex_shader =
-        "#version 400 core\n"
-        "layout(location = 0) in vec3 in_pos;"
-        "layout(location = 1) in vec3 in_col;"
-        "layout(location = 2) in vec2 in_textCoords;"
-        "uniform mat4 projectionMatrix;"
-        "out vec3 colour;"
-        "out vec2 textCoords;"
-        ""
-        "void main()"
-        "{"
-        "	colour = in_col;"
-        "	textCoords = in_textCoords;"
-        "	gl_Position = projectionMatrix*vec4(in_pos, 1.0);"
-        "};";
-
-    const char* fragment_shader =
-        "#version 400 core\n"
-        "in vec3 colour;"
-        "in vec2 textCoords;"
-        "uniform sampler2D textureSamplerID;"
-        "out vec4 frag_colour;"
-        ""
-        "void main ()"
-        "{"
-        "  frag_colour = vec4 (colour, 1.0)*texture( textureSamplerID, textCoords );"
-        "}";
 
     bool checkUniform(s32 a)
     {
-        if (a < 0)triggerBreakpoint();
-        if (a == GL_INVALID_VALUE)triggerBreakpoint();
-        if (a == GL_INVALID_OPERATION)triggerBreakpoint();
-        if (a == GL_INVALID_OPERATION)triggerBreakpoint();
+        triggerBreakpoint();
         return true;
     }
-    
+
     void setUniform_projectionMatrix(const mat4 *pMat)
-    {
-        glUseProgram(Shaders::posColText.getHandle());
-        glUniformMatrix4fv(Shaders::uniformHandle_projectionMatrix, 1, false, (float*)pMat);		
-        glUseProgram(0);
+    {   
+        triggerBreakpoint();
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }
 
     void	Shaders::initialise()
     {
+        triggerBreakpoint();
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";
 
-        
-        u32 vs = GfxLowLevel::createShader(vertex_shader, GL_VERTEX_SHADER);
-        u32 fs = GfxLowLevel::createShader(fragment_shader, GL_FRAGMENT_SHADER);
-        GLuint handle = (u32)GfxLowLevel::createProgram(vs, fs);        
-
-        Shaders::posColText.handle = handle;
-
-        uniforms_textureSamplerID = glGetUniformLocation(Shaders::posColText.getHandle(), "textureSamplerID");
-        checkUniform(uniforms_textureSamplerID);
-
-        uniformHandle_projectionMatrix = glGetUniformLocation(Shaders::posColText.getHandle(), "projectionMatrix");
-        checkUniform(uniformHandle_projectionMatrix);
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }
-            
+
     void	Shaders::deinitialise()
     {
+        triggerBreakpoint();
 
     }
 
     u32 createShader(const char* sourceText, u32 type)
     {
-        GLuint	shader = glCreateShader(type);
-        glShaderSource(shader, 1, &sourceText, NULL);
-        glCompileShader(shader);
-
-        // Check shader     
-        GLint status;
-        glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-        if (status == GL_FALSE)
-        {
-            GLint infoLogLength;
-            glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
-
-            GLchar *strInfoLog = new GLchar[infoLogLength + 1];
-            glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
-
-            debugLog << L"Compile failure\n";
-            debugLog << strInfoLog << L"\n";
-            triggerBreakpoint();
-
-            delete[] strInfoLog;
-        }
-        // Check shader   
-        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
-        return shader;
+        triggerBreakpoint();
+        return 0;
     }
     u32	createProgram(u32 vertexShader, u32 fragmentShader)
     {
-        u32 program = glCreateProgram();
-        glAttachShader(program, fragmentShader);
-        glAttachShader(program, vertexShader);
-        glLinkProgram(program);
-
-        // check program
-        GLint status;
-        glGetProgramiv(program, GL_LINK_STATUS, &status);
-        if (status == GL_FALSE)
-        {
-            GLint infoLogLength;
-            glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
-
-            GLchar *strInfoLog = new GLchar[infoLogLength + 1];
-            glGetProgramInfoLog(program, infoLogLength, NULL, strInfoLog);
-
-            debugLog << L"Compile failure\n";
-            debugLog << strInfoLog << L"\n";
-            delete[] strInfoLog;
-            triggerBreakpoint();
-        }
-        // check program
-        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
-        return program;
-    }    
+        triggerBreakpoint();
+        
+        return 0;
+    }
+}
 #endif // USE_DIRECT3D
 
 

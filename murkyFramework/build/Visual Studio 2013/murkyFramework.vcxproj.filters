@@ -25,12 +25,12 @@
     <Filter Include="Header Files\gfxHighLevel">
       <UniqueIdentifier>{93fbcb4a-a7a5-4820-89d6-38e7af132631}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\openGL">
-      <UniqueIdentifier>{8039f7fd-6ee3-4bde-8cb8-5cc767a29d92}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\gfxLowLevel\shaders">
       <UniqueIdentifier>{017dbdbc-4387-45a5-a544-33561e54cf3c}</UniqueIdentifier>
       <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files\openGL">
+      <UniqueIdentifier>{9a3e0ed6-ec18-4b87-b055-5924352046c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -69,9 +69,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\gfxHighLevel\render.cpp">
       <Filter>Source Files\gfxHighLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\external\glew\src\glew.c">
-      <Filter>Source Files\openGL</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\appFramework.cpp">
       <Filter>Source Files</Filter>
@@ -134,6 +131,9 @@
       <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer_direct3d.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\gfxAllDevices.cpp">
       <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
   </ItemGroup>

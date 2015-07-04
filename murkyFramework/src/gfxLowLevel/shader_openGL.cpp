@@ -151,6 +151,7 @@ namespace GfxLowLevel
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         return program;
     }
+}
 #endif // USE_OPENGL
 
 
@@ -330,7 +331,7 @@ namespace GfxLowLevel
     //
     //    return true;
     //}
-}
+
 
 //const char *s2 = "#version 400 core \n "
 //"layout(location = 0) in vec3 position; \n "

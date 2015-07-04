@@ -176,7 +176,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\external\glew\src\glew.c" />
     <ClCompile Include="..\..\src\appFramework.cpp" />
     <ClCompile Include="..\..\src\common.cpp" />
     <ClCompile Include="..\..\src\debugUtils.cpp" />
@@ -190,6 +189,7 @@
     <ClCompile Include="..\..\src\gfxHighLevel\projectionMat.cpp" />
     <ClCompile Include="..\..\src\gfxHighLevel\render.cpp" />
     <ClCompile Include="..\..\src\gfxHighLevel\textRender.cpp" />
+    <ClCompile Include="..\..\src\gfxLowLevel\gfxAllDevices.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_direct3d.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_openGL.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\gfxPrimativeTypes.cpp" />

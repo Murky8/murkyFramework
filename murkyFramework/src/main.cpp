@@ -1,3 +1,4 @@
+/*
 //------------------------------------------------------------------------------
 // 2014 J. Coelho.
 // Platform: Windows
@@ -18,7 +19,7 @@
 #include <murkyFramework/include/system.hpp>
 #include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/gfxHighLevel/render.hpp>
-
+*/
 /*
 namespace
 {
@@ -51,7 +52,7 @@ int WINAPI WinMain_old(HINSTANCE	hInstance,			// Instance
 
     //std::thread mainLoopThread(mainLoop);
     //appFramework.registerMainLoopThread(mainLoop());
-	debugLog << L"Gapp.screenResX " << Gapp.screenResX << "\n";
+    debugLog << L"Gapp.screenResX " << Gapp.screenResX << "\n";
     auto res = createWindow(wcstring, Gapp.screenResX, Gapp.screenResY);
 
     if (res == false)
@@ -63,9 +64,9 @@ int WINAPI WinMain_old(HINSTANCE	hInstance,			// Instance
     debugLog << L"Start\n";
     qdev::setCurrentDirectoryToAppRoot();
         
-	debugLog << L"Gapp.screenResX " << Gapp.screenResX << "\n";
+    debugLog << L"Gapp.screenResX " << Gapp.screenResX << "\n";
     RenderHi::initialise(); //Calls Initialise device gfx
-	debugLog << L"Gapp.screenResX " << Gapp.screenResX << "\n";
+    debugLog << L"Gapp.screenResX " << Gapp.screenResX << "\n";
 
     while (!Gapp.exitWholeApp)
     {
@@ -93,7 +94,7 @@ int WINAPI WinMain_old(HINSTANCE	hInstance,			// Instance
 
     ReleaseDC(hWnd, hDC); // Release the device context from our window
     debugLog << L"Finished\n";
-	return 0;
+    return 0;
 }
 
 
@@ -137,9 +138,9 @@ LRESULT CALLBACK WndProc_old(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
     switch (message)
     {
     case WM_SIZE: // If our window is resizing
-		debugLog << L" resize " << LOWORD(lParam) << " " << HIWORD(lParam) << L"\n";
+        debugLog << L" resize " << LOWORD(lParam) << " " << HIWORD(lParam) << L"\n";
     
-	 //openglContext.reshapeWindow(LOWORD(lParam), HIWORD(lParam)); // Send the new window size to our OpenGLContext
+     //openglContext.reshapeWindow(LOWORD(lParam), HIWORD(lParam)); // Send the new window size to our OpenGLContext
         if (Gapp.gfxInitialised)
         {
         

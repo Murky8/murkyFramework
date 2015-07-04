@@ -1,23 +1,22 @@
 
 #include <version.hpp>
-#include <windows.h>
+
 #include <iostream>
 #include <vector>
 #include <thread>
 
-#include <glew/include/GL/glew.h> 
-#include <glew/include/GL/wglew.h>
+#include <windows.h>
+#include <stdlib.h>
 
 #include <murkyFramework/include/debugUtils.hpp>
+#include <murkyFramework/include/appFramework.hpp>
 #include <murkyFramework/include/types.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/loadSaveFile.hpp>
 #include <murkyFramework/include/system.hpp>
 #include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
-#include <murkyFramework/include/appFramework.hpp>
-#include "gfxHighLevel/render.hpp"
-#include <stdlib.h>
+#include <murkyFramework/include/gfxHighLevel/render.hpp>
 
 //--------------------------------------------------------------------------------------
 // forward declarations
@@ -78,10 +77,10 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 
     deinitialise();
 
-    wglMakeCurrent(hDC, 0); // Remove the rendering context from our device context
-    wglDeleteContext(hRC); // Delete our rendering context
+    //wglMakeCurrent(hDC, 0); // Remove the rendering context from our device context
+    //wglDeleteContext(hRC); // Delete our rendering context
 
-    ReleaseDC(hWnd, hDC); // Release the device context from our window
+    //ReleaseDC(hWnd, hDC); // Release the device context from our window
     debugLog << L"Finished\n";
 }
 
@@ -229,19 +228,11 @@ bool createWindow(LPCWSTR title, int width, int height)
         );
     hDC = GetDC(hWnd); // Get the device context for our window
 
-
     bool res = GfxLowLevel::initialise_device(hDC, hRC, hWnd);
-
-    
+   
     if (!res)
         triggerBreakpoint(L"Init device failed");
-
-    //bool res = create40Context(); // Create our OpenGL context on the given window we just created
-    //if (!res)
-    //{
-    //    return false;
-    //}
-
+    
     ShowWindow(hWnd, SW_SHOW);
     UpdateWindow(hWnd);
 

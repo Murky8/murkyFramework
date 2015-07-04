@@ -29,12 +29,12 @@ namespace GfxLowLevel
     {				
         glGenVertexArrays(1, &vao);
         glBindVertexArray(vao);
-    
+
         glGenBuffers(1, &vbo);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);		
-        
+
         glUseProgram( shaderProgram.getHandle() );
-    
+
         // layout
         int szVertex = sizeof(Vert_pct);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, szVertex, 0);
@@ -45,15 +45,15 @@ namespace GfxLowLevel
 
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3) + sizeof(vec3)));//tex        
         glEnableVertexAttribArray(2);
-                            
+
         //f32 dummy[10000];
         //glBufferData(GL_ARRAY_BUFFER, sizeof(dummy), dummy, GL_DYNAMIC_DRAW); // unsure; test
         glBufferData(GL_ARRAY_BUFFER, 0, NULL, GL_DYNAMIC_DRAW); // unsure; test
-        
+
         // reset state		
         glBindBuffer(GL_ARRAY_BUFFER, 0); 
         glBindVertexArray( 0 );
-        
+
         glUseProgram(0);// unsure; test
 
         onGfxDeviceErrorTriggerBreakpoint();
@@ -98,12 +98,12 @@ namespace GfxLowLevel
         }
 
         //Vert_pct *d = static_cast<Vert_pct*>(data);
-        
+
         glBindVertexArray(vao);		
 
         glUseProgram(shaderProgram.getHandle());
         glUniform1i(Shaders::uniforms_textureSamplerID, 0);
-        
+
         glBindTexture( GL_TEXTURE_2D, texture.getHandle() );//is this already bound to vao???
         onGfxDeviceErrorTriggerBreakpoint();
 
@@ -113,7 +113,7 @@ namespace GfxLowLevel
 
         onGfxDeviceErrorTriggerBreakpoint();
         // change data
-        
+
         glDrawArrays(glPrimativeType, 0, nPrimatives*nVerticiesPerPrimative);		
         onGfxDeviceErrorTriggerBreakpoint();
 
@@ -127,6 +127,7 @@ namespace GfxLowLevel
         onGfxDeviceErrorTriggerBreakpoint();
 
     }
+} 
 #endif USE_OPENGL
 
     /*
@@ -175,4 +176,3 @@ namespace GfxLowLevel
         return bufferHandle;
     }
     */
-}
