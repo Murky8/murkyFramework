@@ -6,16 +6,14 @@
 #include "common.hpp"
 
 
-
-
 namespace GfxLowLevel
 {
     //--------------------------------------------------------------------------------------
     // Global Variables
     //--------------------------------------------------------------------------------------
-    HINSTANCE               g_hInst = nullptr;
-    HWND                    g_hWnd = nullptr;
-    D3D_DRIVER_TYPE         g_driverType = D3D_DRIVER_TYPE_NULL;
+    //HINSTANCE               g_hInst = nullptr;
+    //HWND                    g_hWnd = nullptr;
+    D3D_DRIVER_TYPE         g_driverType = D3D_DRIVER_TYPE_NULL;        // todo: move to gfxLowLevel_d3d...
     D3D_FEATURE_LEVEL       g_featureLevel = D3D_FEATURE_LEVEL_11_0;
     ID3D11Device*           g_pd3dDevice = nullptr;
     ID3D11Device1*          g_pd3dDevice1 = nullptr;
@@ -24,6 +22,12 @@ namespace GfxLowLevel
     IDXGISwapChain*         g_pSwapChain = nullptr;
     IDXGISwapChain1*        g_pSwapChain1 = nullptr;
     ID3D11RenderTargetView* g_pRenderTargetView = nullptr;
+    // shaders
+    ID3D11VertexShader*     g_pVertexShader = nullptr;
+    ID3D11PixelShader*      g_pPixelShader = nullptr;
+    ID3D11InputLayout*      g_pVertexLayout = nullptr;
+    ID3D11Buffer*           g_pVertexBuffer = nullptr;
+
     // Called from: shead.cpp/
     bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd)
     {
@@ -128,7 +132,7 @@ namespace GfxLowLevel
                 sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
                 sd.BufferCount = 1;
 
-                hr = dxgiFactory2->CreateSwapChainForHwnd(g_pd3dDevice, g_hWnd, &sd, nullptr, nullptr, &g_pSwapChain1);
+                hr = dxgiFactory2->CreateSwapChainForHwnd(g_pd3dDevice, hWnd, &sd, nullptr, nullptr, &g_pSwapChain1);
                 if (SUCCEEDED(hr))
                 {
                     hr = g_pSwapChain1->QueryInterface(__uuidof(IDXGISwapChain), reinterpret_cast<void**>(&g_pSwapChain));
@@ -148,7 +152,7 @@ namespace GfxLowLevel
                 sd.BufferDesc.RefreshRate.Numerator = 60;
                 sd.BufferDesc.RefreshRate.Denominator = 1;
                 sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-                sd.OutputWindow = g_hWnd;
+                sd.OutputWindow = hWnd;
                 sd.SampleDesc.Count = 1;
                 sd.SampleDesc.Quality = 0;
                 sd.Windowed = TRUE;
@@ -157,7 +161,7 @@ namespace GfxLowLevel
             }
 
             // Note this tutorial doesn't handle full-screen swapchains so we block the ALT+ENTER shortcut 
-            dxgiFactory->MakeWindowAssociation(g_hWnd, DXGI_MWA_NO_ALT_ENTER);
+            dxgiFactory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER);
 
             dxgiFactory->Release();
 
@@ -198,7 +202,7 @@ namespace GfxLowLevel
 
 
             if( hr == S_OK )
-                return S_OK;
+                return true;
                 
             triggerBreakpoint();
     }

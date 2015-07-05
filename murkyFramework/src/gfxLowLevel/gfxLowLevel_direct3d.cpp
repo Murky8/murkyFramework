@@ -8,6 +8,7 @@
 #include <gfxLowLevel/gfxLowLevel.hpp>
 #include <windows.h>
 #include <d3d11_1.h>
+#include <DirectXColors.h>
 #include "common.hpp"
 #include <vector>
 
@@ -32,6 +33,11 @@ namespace GfxLowLevel
     extern    IDXGISwapChain1*        g_pSwapChain1;
     extern    ID3D11RenderTargetView* g_pRenderTargetView;
 
+    extern      ID3D11VertexShader*     g_pVertexShader;
+    extern      ID3D11PixelShader*      g_pPixelShader;
+    extern      ID3D11InputLayout*      g_pVertexLayout;
+    extern      ID3D11Buffer*           g_pVertexBuffer;
+
     
     // Data
     mat4 projectionMatrix(Unit::UNIT);    
@@ -41,7 +47,7 @@ namespace GfxLowLevel
     void onGfxDeviceErrorTriggerBreakpoint()
     {
     
-            triggerBreakpoint();
+            //triggerBreakpoint();
     }    
 
     void setStateToAppDefault()
@@ -57,11 +63,15 @@ namespace GfxLowLevel
 
 
     void drawBegin()
-    {
+    {     
+        g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);
+        
+        g_pImmediateContext->VSSetShader(g_pVertexShader, nullptr, 0);
+        g_pImmediateContext->PSSetShader(g_pPixelShader, nullptr, 0);
+        g_pImmediateContext->Draw(3, 0);
+        g_pSwapChain->Present(0, 0);
 
-        /*glViewport(0, 0, Gapp.screenResX, Gapp.screenResY);
-        glClearColor(0.4f, 0.6f, 0.9f, 0.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);*/
+        
         onGfxDeviceErrorTriggerBreakpoint();	
     }
 

@@ -46,10 +46,7 @@ namespace
 }
 
 
-int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
-    HINSTANCE	hPrevInstance,		// Previous Instance
-    LPSTR		lpCmdLine,			// Command Line Parameters
-    int			nCmdShow)			// Window Show State
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE	hPrevInstance, LPSTR lpCmdLine,int nCmdShow)			// Window Show State
 {
     MSG		msg;
     masterInitialise();

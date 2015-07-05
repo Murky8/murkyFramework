@@ -70,8 +70,10 @@ namespace RenderHi
     void initialise()
     {
         debugLog << L"RenderHi::initialise" << "\n";
-          
         GfxLowLevel::Shaders::initialise();
+#ifdef USE_OPENGL
+
+
         shaderManager = new GfxLowLevel::ShaderManager();  
 
         textureManager = new GfxLowLevel::TextureManager();
@@ -88,6 +90,7 @@ namespace RenderHi
             textureManager->getTextureByName(L"font")
             );
 
+#endif 
         Gapp.gfxInitialised = true;
     }
 
@@ -119,7 +122,7 @@ namespace RenderHi
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         
         GfxLowLevel::drawBegin();
-
+#ifdef USE_OPENGL
         //glm::
         projectionMatrix = mat4(Unit::UNIT);
         projectionMatrix = makeProjectionMatrix_ortho(
@@ -156,7 +159,7 @@ namespace RenderHi
         vertexBufferTemp->draw(tris.data(), tris.size());
         
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
-
+#endif
         GfxLowLevel::drawEnd();
     }
 

@@ -5,16 +5,47 @@
 #include <murkyFramework/include/version.hpp>
 #ifdef USE_DIRECT3D
 
+#include <windows.h>
+
+#include <d3d11_1.h>
+#include <d3dcompiler.h>
+#include <directxmath.h>
+#include <directxcolors.h>
+
 #include <vector>
 #include <gfxLowLevel/gfxLowLevel.hpp>
 #include <gfxLowLevel/shaders.hpp>
 #include <debugUtils.hpp>
 #include <loadSaveFile.hpp>
 
-extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
 
 namespace GfxLowLevel
 {
+using namespace DirectX;
+// Forward declarations    
+extern    HINSTANCE               g_hInst;
+extern    HWND                    g_hWnd;
+extern    D3D_DRIVER_TYPE         g_driverType;
+extern    D3D_FEATURE_LEVEL       g_featureLevel;
+extern    ID3D11Device*           g_pd3dDevice;
+extern    ID3D11Device1*          g_pd3dDevice1;
+extern    ID3D11DeviceContext*    g_pImmediateContext;
+extern    ID3D11DeviceContext1*   g_pImmediateContext1;
+extern    IDXGISwapChain*         g_pSwapChain;
+extern    IDXGISwapChain1*        g_pSwapChain1;
+extern    ID3D11RenderTargetView* g_pRenderTargetView;
+
+extern      ID3D11VertexShader*     g_pVertexShader;
+extern      ID3D11PixelShader*      g_pPixelShader;
+extern      ID3D11InputLayout*      g_pVertexLayout;
+extern      ID3D11Buffer*           g_pVertexBuffer;
+
+struct SimpleVertex
+{
+    XMFLOAT3 Pos;
+};
+
+extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     namespace Shaders
     {
 
@@ -23,23 +54,131 @@ namespace GfxLowLevel
         ShaderId posColText;
     }
 
-    bool checkUniform(s32 a)
-    {
-        triggerBreakpoint();
-        return true;
-    }
-
     void setUniform_projectionMatrix(const mat4 *pMat)
     {   
         triggerBreakpoint();
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }
 
+    HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
+    {
+        HRESULT hr = S_OK;
+
+        DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
+#ifdef _DEBUG
+        // Set the D3DCOMPILE_DEBUG flag to embed debug information in the shaders.
+        // Setting this flag improves the shader debugging experience, but still allows 
+        // the shaders to be optimized and to run exactly the way they will run in 
+        // the release configuration of this program.
+        dwShaderFlags |= D3DCOMPILE_DEBUG;
+
+        // Disable optimizations to further improve shader debugging
+        dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
+#endif
+
+        ID3DBlob* pErrorBlob = nullptr;
+        hr = D3DCompileFromFile(szFileName, nullptr, nullptr, szEntryPoint, szShaderModel,
+            dwShaderFlags, 0, ppBlobOut, &pErrorBlob);
+        if (FAILED(hr))
+        {
+            if (pErrorBlob)
+            {
+                OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
+                pErrorBlob->Release();
+            }
+            return hr;
+        }
+        if (pErrorBlob) pErrorBlob->Release();
+
+        return S_OK;
+    }
+
     void	Shaders::initialise()
     {
-        triggerBreakpoint();
+        HRESULT hr = S_OK;
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";
+        // Compile the vertex shader
+        ID3DBlob* pVSBlob = nullptr;
+        hr = CompileShaderFromFile(L"src/shaders/Tutorial02.fx", "VS", "vs_4_0", &pVSBlob);
+        if (FAILED(hr))
+        {
+            MessageBox(nullptr,
+                L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
+            triggerBreakpoint();
+        }
+
+        // Create the vertex shader
+        hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &g_pVertexShader);
+        if (FAILED(hr))
+        {
+            pVSBlob->Release();
+            triggerBreakpoint();
+        }
+
+        // Define the input layout
+        D3D11_INPUT_ELEMENT_DESC layout[] =
+        {
+            { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        };
+        UINT numElements = ARRAYSIZE(layout);
+
+        // Create the input layout
+        hr = g_pd3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
+            pVSBlob->GetBufferSize(), &g_pVertexLayout);
+        pVSBlob->Release();
+        if (FAILED(hr))
+            triggerBreakpoint();
+
+        // Set the input layout
+        g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
+
+        // Compile the pixel shader
+        ID3DBlob* pPSBlob = nullptr;
+        hr = CompileShaderFromFile(L"src/shaders/Tutorial02.fx", "PS", "ps_4_0", &pPSBlob);
+        if (FAILED(hr))
+        {
+            MessageBox(nullptr,
+                L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
+            triggerBreakpoint();
+        }
+
+        // Create the pixel shader
+        hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &g_pPixelShader);
+        pPSBlob->Release();
+        if (FAILED(hr))
+            triggerBreakpoint();
+
+
+        // murky VB
+        SimpleVertex vertices[] =
+        {
+            XMFLOAT3(0.0f, 0.5f, 0.5f),
+            XMFLOAT3(0.5f, -0.5f, 0.5f),
+            XMFLOAT3(-0.5f, -0.5f, 0.5f),
+        };
+        D3D11_BUFFER_DESC bd;
+        ZeroMemory(&bd, sizeof(bd));
+        bd.Usage = D3D11_USAGE_DEFAULT;
+        bd.ByteWidth = sizeof(SimpleVertex) * 3;
+        bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+        bd.CPUAccessFlags = 0;
+        D3D11_SUBRESOURCE_DATA InitData;
+        ZeroMemory(&InitData, sizeof(InitData));
+        InitData.pSysMem = vertices;
+        hr = g_pd3dDevice->CreateBuffer(&bd, &InitData, &g_pVertexBuffer);
+        if (FAILED(hr))
+            triggerBreakpoint();
+
+        // Set vertex buffer
+        UINT stride = sizeof(SimpleVertex);
+        UINT offset = 0;
+        g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
+
+        // Set primitive topology
+        g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        // murky VB
+
 
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }
@@ -49,384 +188,6 @@ namespace GfxLowLevel
         triggerBreakpoint();
 
     }
-
-    u32 createShader(const char* sourceText, u32 type)
-    {
-        triggerBreakpoint();
-        return 0;
-    }
-    u32	createProgram(u32 vertexShader, u32 fragmentShader)
-    {
-        triggerBreakpoint();
-        
-        return 0;
-    }
 }
 #endif // USE_DIRECT3D
 
-
-
-    //void loadAndCreateShaderFromFile(const std::wstring fileName, const GLenum newShaderType, GLuint &out_shader)
- //   {
- //       std::wstring s(L"hello\n");
- //       debugLog << fileName << L"\n";
-
- //       onGfxDeviceErrorTriggerBreakpoint();
-
- //       // Load source code file
- //       qdev::BinaryFileLoader srcText(fileName);
-
- //       // Initialize new shader    
- //       GLuint  newShader = glCreateShader(newShaderType);
-
- //       // Compile shader        
- //       const char *pchar = srcText.data();
- //       int len[] { srcText.getDataLength() };
-
- //       glShaderSource(newShader, 1, &pchar, len);
- //       glCompileShader(newShader);
-
- //       // Check shader     
- //       GLint status;
- //       glGetShaderiv(newShader, GL_COMPILE_STATUS, &status);
- //       if (status == GL_FALSE)
- //       {
- //           GLint infoLogLength;
- //           glGetShaderiv(newShader, GL_INFO_LOG_LENGTH, &infoLogLength);
-
- //           GLchar *strInfoLog = new GLchar[infoLogLength + 1];
- //           glGetShaderInfoLog(newShader, infoLogLength, NULL, strInfoLog);
-
- //           debugLog << L"Compile failure\n";
- //           debugLog << strInfoLog << L"\n";
- //           triggerBreakpoint();
-
- //           delete[] strInfoLog;
- //       }
- //       // Check shader     
-
- //       onGfxDeviceErrorTriggerBreakpoint();
- //       out_shader = newShader;        
- //   }
-
-    //void createProgram(const std::vector<GLuint> &in_shaderList, GLuint &out_program)
- //   {
- //       out_program = glCreateProgram();
-
- //       for (size_t iLoop = 0; iLoop < in_shaderList.size(); iLoop++)
- //                   glAttachShader(out_program, in_shaderList[iLoop]);
-
- //       //for( GLuint shader: in_shaderList)
- //       //{
- //           //glAttachShader(out_program, shader);
- //       //}
- //     
- //       glLinkProgram(out_program);
- //       
- //       GLint status;
- //       glGetProgramiv(out_program, GL_LINK_STATUS, &status);
- //       if(status == GL_FALSE)
- //       {
- //           GLint infoLogLength;
- //           glGetProgramiv(out_program, GL_INFO_LOG_LENGTH, &infoLogLength);
- //       
- //           GLchar *strInfoLog = new GLchar[infoLogLength + 1];
- //           glGetProgramInfoLog(out_program, infoLogLength, NULL, strInfoLog);
- //       
- //           debugLog << L"Compile failure\n";
- //           debugLog << strInfoLog << L"\n";
- //           delete[] strInfoLog;
- //           triggerBreakpoint();
- //       }
- //       
- //       for(size_t iLoop = 0; iLoop < in_shaderList.size(); iLoop++)
- //           glDetachShader(out_program, in_shaderList[iLoop]);                
- //   }
-
-    
-  //  ShaderProgram::ShaderProgram(
-  //      const std::wstring &vertShaderFileName,
-  //      const std::wstring &fragShaderFileName )
-  //  {    
-  //      std::vector<GLuint> shaders;
-
-  //      //debugLog << vertShaderFileName << L" moof \n";
-
-  //      GLuint shader;
-
-  //      loadAndCreateShaderFromFile(vertShaderFileName, GL_VERTEX_SHADER, shader);
-  //      shaders.push_back(shader);
-
-  //      loadAndCreateShaderFromFile(fragShaderFileName, GL_FRAGMENT_SHADER, shader);
-  //      shaders.push_back(shader);
-
-  //      createProgram(shaders, this->handle);
-  //  }    
-
-  //  u32 ShaderProgram::getHandle() { return handle; }
-  //  
-  //  void loadAllShaders()
-  //  {
-  //      GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
-        //
-        //shaderProgram_line_pc       = new ShaderProgram(L"src/shaders/test.vsh", L"src/shaders/test.fsh");
-  //      shaderProgram_posColText    = new ShaderProgram(L"src/shaders/posColTex.vsh", L"src/shaders/posColTex.fsh");
-
-  //      // Note: 'Tex1' location etc is consistant between all programs
-  //      {
-  //          auto loc = glGetUniformLocation(shaderProgram_posColText->getHandle(), "Tex1");
-  //          checkUniform(loc);
-  //          onGfxDeviceErrorTriggerBreakpoint();
-  //          GfxLowLevel::uniforms_texture = loc;
-  //      }
-  //      {
-  //          auto loc = glGetUniformLocation(shaderProgram_posColText->getHandle(), "projMatrix");
-  //          checkUniform(loc);
-  //          onGfxDeviceErrorTriggerBreakpoint();
-  //          GfxLowLevel::uniforms_projMatrix = loc;
-  //      }
-  //  }
-    //GLuint Shaders::CreateProgram(const std::vector<GLuint> &shaderList)	
-    //{
-    //    Wopengl::getAndProcessGLError();
-    //    GLuint program = glCreateProgram();
-    //
-    //    for(size_t iLoop = 0; iLoop < shaderList.size(); iLoop++)
-    //        glAttachShader(program, shaderList[iLoop]);
-    //
-    //    glLinkProgram(program);
-    //
-    //    GLint status;
-    //    glGetProgramiv (program, GL_LINK_STATUS, &status);
-    //    if (status == GL_FALSE)
-    //    {
-    //        GLint infoLogLength;
-    //        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
-    //
-    //        GLchar *strInfoLog = new GLchar[infoLogLength + 1];
-    //        glGetProgramInfoLog(program, infoLogLength, NULL, strInfoLog);
-    //
-    //        OutputDebugString(L"Linker failure\n");												   
-    //        triggerBreakpoint()		
-    //        delete[] strInfoLog;
-    //    }
-    //
-    //    for(size_t iLoop = 0; iLoop < shaderList.size(); iLoop++)
-    //        glDetachShader(program, shaderList[iLoop]);
-    //
-    //    Wopengl::getAndProcessGLError();
-    //
-    //    return program;
-    //}
-
-    //bool Shaders::createProgramFromVertexAndFragmentShder(
-    //    const std::wstring vertexShdrName, 
-    //    const std::wstring fragmentShdrName )
-    //{
-    //    std::vector<GLuint> shaderList;
-    //    GLuint shader, program;      
-    //    const std::wstring baseDir(L"src//shaders//");
-    //                     
-    //    shader = loadShader(baseDir +vertexShdrName, GL_VERTEX_SHADER);
-    //
-    //    shaderList.push_back(shader);
-    //    shader = loadShader(baseDir +fragmentShdrName, GL_FRAGMENT_SHADER);
-    //    
-    //    shaderList.push_back(shader);
-    //
-    //    program = CreateProgram(shaderList);
-    //    this->programs.push_back(program);
-    //                     
-    //    std::for_each(shaderList.begin(), shaderList.end(), glDeleteShader);
-    //
-    //    return true;
-    //}
-
-
-//const char *s2 = "#version 400 core \n "
-//"layout(location = 0) in vec3 position; \n "
-//"layout(location = 1) in vec3 colour; \n "
-//"layout(location = 2) in vec2 textCoordsIn; \n "
-//"out vec3 colourx; \n "
-//"out vec2 textCoords;";
-
-
-
-//
-//
-//bool checkUniform(int a)
-//{
-//    if(a<0)triggerBreakpoint();
-//    if(a == GL_INVALID_VALUE)triggerBreakpoint();
-//    if(a == GL_INVALID_OPERATION)triggerBreakpoint();
-//    if(a == GL_INVALID_OPERATION)triggerBreakpoint();
-//    return true;
-//}
-//
-//void Shaders::loadShaders()
-//{
-//    createProgramFromVertexAndFragmentShder(L"test.vsh", L"test.fsh");
-//    uniforms.Tex1 = glGetUniformLocation(programs[namePrograms::TEST], "Tex1");
-//
-//    createProgramFromVertexAndFragmentShder(L"line.vsh", L"line.fsh");
-//    // Get uniform vars    
-//    if((uniforms.idProjMat = glGetUniformLocation(programs[namePrograms::LINE],"projectionMatrix")) <0)
-//            triggerBreakpoint();
-//    
-//    createProgramFromVertexAndFragmentShder(L"quad.vsh", L"quad.fsh");
-//
-//    createProgramFromVertexAndFragmentShder(L"projector.vsh", L"projector.fsh");
-//    // Get uniform vars    
-//    if((uniforms.id_projectorProjmat = glGetUniformLocation(programs[namePrograms::PROJECTIVE],"projectionMatrix2")) <0)    
-//        triggerBreakpoint();
-//
-//    if((uniforms.id_projectorLightTX = glGetUniformLocation(programs[namePrograms::PROJECTIVE],"lightProjMatrix")) <0)    
-//        triggerBreakpoint();
-//
-//    if((uniforms.id_projectorTex = glGetUniformLocation(programs[namePrograms::PROJECTIVE], "Tex")) <0) 
-//        triggerBreakpoint();
-//                          
-//    createProgramFromVertexAndFragmentShder(L"lightZWrite.vsh", L"lightZWrite.fsh");        
-//    // Get uniform vars    
-//    uniforms.lightZWriteProjMat = glGetUniformLocation(programs[namePrograms::lightZWrite],"projectionMatrix3");
-//    checkUniform(uniforms.lightZWriteProjMat);
-//        
-//    createProgramFromVertexAndFragmentShder(L"drawWithShadow.vsh", L"drawWithShadow.fsh");        
-//    // Get uniform vars    
-//    uniforms.drawWithShadowProjMat = glGetUniformLocation(programs[namePrograms::drawWithShadow],"projectionMat4");
-//    checkUniform(uniforms.drawWithShadowProjMat);
-//    uniforms.drawWithShadowLightProjMat = glGetUniformLocation(programs[namePrograms::drawWithShadow],"lightProjectionMat");
-//    checkUniform(uniforms.drawWithShadowLightProjMat);
-//
-//    checkUniform(
-//        uniforms.shadow_texture = glGetUniformLocation(programs[namePrograms::drawWithShadow], "text")
-//        );
-//
-//    checkUniform(
-//        uniforms.shadow_lightDepth = glGetUniformLocation(programs[namePrograms::drawWithShadow], "depth")
-//        );    
-//}
-//
-//bool Shaders::createProgramFromVertexAndFragmentShder(
-//    const std::wstring vertexShdrName, 
-//    const std::wstring fragmentShdrName )
-//{
-//    std::vector<GLuint> shaderList;
-//    GLuint shader, program;      
-//    const std::wstring baseDir(L"src//shaders//");
-//                     
-//    shader = loadShader(baseDir +vertexShdrName, GL_VERTEX_SHADER);
-//
-//    shaderList.push_back(shader);
-//    shader = loadShader(baseDir +fragmentShdrName, GL_FRAGMENT_SHADER);
-//    
-//    shaderList.push_back(shader);
-//
-//    program = CreateProgram(shaderList);
-//    this->programs.push_back(program);
-//                     
-//    std::for_each(shaderList.begin(), shaderList.end(), glDeleteShader);
-//
-//    return true;
-//}
-//
-//GLuint Shaders::loadShader(const std::wstring fileName, GLenum shaderType)
-//{
-//    char *shaderSource;
-//    int	shaderSourceLen;
-//
-//    Misc::loadFileBinary(fileName.c_str(), shaderSource, shaderSourceLen);
-//
-//    std::string shaderStr( shaderSource, shaderSourceLen );		
-//    delete [] shaderSource;
-//
-//    return CreateShader(shaderType, shaderStr);
-//}
-//
-////http://thisdir/info/createshader.html
-//GLuint Shaders::CreateShader(GLenum eShaderType, const std::string &strShaderFile2)
-//{
-//    Wopengl::getAndProcessGLError();
-//
-//    GLuint shader = glCreateShader(eShaderType);
-//    const char *strFileData = strShaderFile2.c_str();
-//    glShaderSource(shader, 1, &strFileData, NULL);
-//
-//    glCompileShader(shader);
-//
-//    GLint status;
-//    glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-//    if(status == GL_FALSE)
-//    {
-//        GLint infoLogLength;
-//        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
-//
-//        GLchar *strInfoLog = new GLchar[infoLogLength + 1];
-//        glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
-//
-//        const char *strShaderType = NULL;
-//        switch(eShaderType)
-//        {
-//        case GL_VERTEX_SHADER: strShaderType = "vertex"; break;
-//        case GL_GEOMETRY_SHADER: strShaderType = "geometry"; break;
-//        case GL_FRAGMENT_SHADER: strShaderType = "fragment"; break;
-//        }
-//
-//        OutputDebugString(L"Compile failure\n");
-//        debugLogc("%s", strInfoLog );
-//
-//        triggerBreakpoint();
-//
-//        delete[] strInfoLog;
-//    }
-//
-//    Wopengl::getAndProcessGLError();
-//
-//    return shader;
-//}
-//
-///*
-//GLuint Shaders::LoadAndCreateShader(GLenum eShaderType, const std::string &fileName)
-//{
-//    //Misc::loadFileBinary( )
-//    //GLuint CreateShader(GLenum eShaderType, const std::string &strShaderFile)
-//    return 0;
-//}
-//  */
-//GLuint Shaders::CreateProgram(const std::vector<GLuint> &shaderList)	
-//{
-//    Wopengl::getAndProcessGLError();
-//    GLuint program = glCreateProgram();
-//
-//    for(size_t iLoop = 0; iLoop < shaderList.size(); iLoop++)
-//        glAttachShader(program, shaderList[iLoop]);
-//
-//    glLinkProgram(program);
-//
-//    GLint status;
-//    glGetProgramiv (program, GL_LINK_STATUS, &status);
-//    if (status == GL_FALSE)
-//    {
-//        GLint infoLogLength;
-//        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
-//
-//        GLchar *strInfoLog = new GLchar[infoLogLength + 1];
-//        glGetProgramInfoLog(program, infoLogLength, NULL, strInfoLog);
-//
-//        OutputDebugString(L"Linker failure\n");												   
-//        triggerBreakpoint()		
-//        delete[] strInfoLog;
-//    }
-//
-//    for(size_t iLoop = 0; iLoop < shaderList.size(); iLoop++)
-//        glDetachShader(program, shaderList[iLoop]);
-//
-//    Wopengl::getAndProcessGLError();
-//
-//    return program;
-//}
-//
-//void Shaders::releaseAllResources()
-//{
-//    for_each(programs.begin(), programs.end(), glDeleteProgram);
-//}
