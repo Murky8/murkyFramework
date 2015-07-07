@@ -30,7 +30,7 @@ namespace RenderHi
     mat4	projectionMatrix;
     GfxLowLevel::VertexBufferDynamic *vertexBufferTemp;
     GfxLowLevel::TextureManager *textureManager;
-    GfxLowLevel::ShaderManager *shaderManager;
+    //GfxLowLevel::ShaderManager *shaderManager;
     // functions
     /*
     void glFrustumf(float near, float far){
@@ -71,15 +71,14 @@ namespace RenderHi
     {
         debugLog << L"RenderHi::initialise" << "\n";
         GfxLowLevel::Shaders::initialise();
+        textureManager = new GfxLowLevel::TextureManager();
+        //textureManager->loadNewTexture(L"data/", L"font.png");
+        textureManager->loadNewTexture(L"data/", L"t0.png");              
+
 #ifdef USE_OPENGL
 
 
-        shaderManager = new GfxLowLevel::ShaderManager();  
-
-        textureManager = new GfxLowLevel::TextureManager();
-        textureManager->loadNewTexture(L"data/", L"font.png");
-
-        //textureManager.loadNewTexture(L"data/", L"t0.png");              
+      //shaderManager = new GfxLowLevel::ShaderManager();  
 
         textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
 

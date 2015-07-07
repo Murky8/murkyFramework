@@ -20,7 +20,6 @@
 
 //--------------------------------------------------------------------------------------
 // forward declarations
-
 namespace GfxLowLevel
 {    
     bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);   // From initDevice_???

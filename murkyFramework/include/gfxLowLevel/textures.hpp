@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// Platform: windows/opengl4 at the moment.
+
 #pragma once
 
 #include <vector>

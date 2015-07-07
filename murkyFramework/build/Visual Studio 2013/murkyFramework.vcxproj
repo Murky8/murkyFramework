@@ -105,6 +105,9 @@
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
     </Bscmake>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -124,6 +127,9 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../../external/lib/win64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -150,6 +156,9 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../../external/lib/win32/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -174,6 +183,9 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../../external/lib/win64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\appFramework.cpp" />
@@ -189,6 +201,7 @@
     <ClCompile Include="..\..\src\gfxHighLevel\projectionMat.cpp" />
     <ClCompile Include="..\..\src\gfxHighLevel\render.cpp" />
     <ClCompile Include="..\..\src\gfxHighLevel\textRender.cpp" />
+    <ClCompile Include="..\..\src\gfxLowLevel\DDSTextureLoader.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\gfxAllDevices.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_direct3d.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_openGL.cpp" />
@@ -197,6 +210,7 @@
     <ClCompile Include="..\..\src\gfxLowLevel\initDevice_openGL.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\shader_direct3d.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\shader_openGL.cpp" />
+    <ClCompile Include="..\..\src\gfxLowLevel\texture.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\texture_direct3d.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\texture_openGL.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer_direct3d.cpp" />
@@ -246,6 +260,8 @@
     <None Include="..\..\src\shaders\basicPos.fsh" />
     <None Include="..\..\src\shaders\basicPos.vsh" />
     <None Include="..\..\src\shaders\posColTex.fsh" />
+    <None Include="..\..\src\shaders\posColTex.ps" />
+    <None Include="..\..\src\shaders\posColTex.vs" />
     <None Include="..\..\src\shaders\posColTex.vsh" />
     <None Include="..\..\src\shaders\test.fsh" />
     <None Include="..\..\src\shaders\test.vsh" />

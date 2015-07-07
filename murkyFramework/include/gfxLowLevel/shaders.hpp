@@ -28,13 +28,16 @@ namespace GfxLowLevel
     public:
         u32 getHandle() const { return handle; }
         u32 handle;
+        u32 handle2;
     };        
 
+    /*
     class ShaderManager
     {
+    public:
         //TextureId &TextureManager::getTextureByName(const std::wstring &name);
         //void        setGfxDeviceState_currentTexture(const TextureId &texture);
-        void       createShaderProgram(const std::wstring &dirName, const std::wstring &fileName);
+        //void    createShaderProgram(const std::wstring &dirName, const std::wstring &fileName);
         void    initialise();
         //void        deleteAllTextures();
 
@@ -44,34 +47,11 @@ namespace GfxLowLevel
     private:
 
     };
-
+    */
     void setUniform_projectionMatrix(const mat4 *pMat);
 
-    u32 createShader(const char* sourceText, u32 type);
-    u32	createProgram(u32 vertexShader, u32 fragmentShader);
-
-    class ShaderProgram
-    {        
-   public:
-        // Constructors
-        ShaderProgram::ShaderProgram(
-            const std::wstring &vertShaderFileNam,
-            const std::wstring &fragShaderFileNam);
-        // Destructors
-        // Methods
-        u32 getHandle();        
-        // Data
-   
-    private:
-        // Constructors
-        ShaderProgram() = delete;
-        // Destructors
-        // Methods
-        // Data
-    u32     handle;     
-    };        
-
-    
+    //u32 createShader(const char* sourceText, u32 type);
+    //u32	createProgram(u32 vertexShader, u32 fragmentShader);                
 }
 
 /*

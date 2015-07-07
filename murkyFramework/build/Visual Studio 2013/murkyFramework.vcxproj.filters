@@ -32,6 +32,9 @@
     <Filter Include="Source Files\openGL">
       <UniqueIdentifier>{9a3e0ed6-ec18-4b87-b055-5924352046c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\current">
+      <UniqueIdentifier>{85c21a99-5001-46c5-9ade-04aa189a5c5b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\common.cpp">
@@ -121,9 +124,6 @@
     <ClCompile Include="..\..\src\gfxLowLevel\initDevice_direct3d.cpp">
       <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_direct3d.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\gfxLowLevel\shader_direct3d.cpp">
       <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
@@ -134,6 +134,15 @@
       <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\gfxLowLevel\gfxAllDevices.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_direct3d.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\texture.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\DDSTextureLoader.cpp">
       <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
   </ItemGroup>
@@ -234,6 +243,12 @@
       <Filter>Source Files\gfxLowLevel\shaders</Filter>
     </None>
     <None Include="..\..\src\shaders\basicPos.vsh">
+      <Filter>Source Files\gfxLowLevel\shaders</Filter>
+    </None>
+    <None Include="..\..\src\shaders\posColTex.ps">
+      <Filter>Source Files\gfxLowLevel\shaders</Filter>
+    </None>
+    <None Include="..\..\src\shaders\posColTex.vs">
       <Filter>Source Files\gfxLowLevel\shaders</Filter>
     </None>
   </ItemGroup>

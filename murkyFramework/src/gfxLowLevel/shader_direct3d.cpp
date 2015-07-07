@@ -13,37 +13,38 @@
 #include <directxcolors.h>
 
 #include <vector>
+#include <debugUtils.hpp>
 #include <gfxLowLevel/gfxLowLevel.hpp>
 #include <gfxLowLevel/shaders.hpp>
-#include <debugUtils.hpp>
 #include <loadSaveFile.hpp>
 
 
 namespace GfxLowLevel
 {
-using namespace DirectX;
-// Forward declarations    
-extern    HINSTANCE               g_hInst;
-extern    HWND                    g_hWnd;
-extern    D3D_DRIVER_TYPE         g_driverType;
-extern    D3D_FEATURE_LEVEL       g_featureLevel;
-extern    ID3D11Device*           g_pd3dDevice;
-extern    ID3D11Device1*          g_pd3dDevice1;
-extern    ID3D11DeviceContext*    g_pImmediateContext;
-extern    ID3D11DeviceContext1*   g_pImmediateContext1;
-extern    IDXGISwapChain*         g_pSwapChain;
-extern    IDXGISwapChain1*        g_pSwapChain1;
-extern    ID3D11RenderTargetView* g_pRenderTargetView;
+    using namespace DirectX;
+    // Forward declarations    
+    extern    D3D_DRIVER_TYPE         g_driverType;
+    extern    D3D_FEATURE_LEVEL       g_featureLevel;
+    extern    HINSTANCE               g_hInst;
+    extern    HWND                    g_hWnd;
+    extern    ID3D11Device*           g_pd3dDevice;
+    extern    ID3D11Device1*          g_pd3dDevice1;
+    extern    ID3D11DeviceContext*    g_pImmediateContext;
+    extern    ID3D11DeviceContext1*   g_pImmediateContext1;
+    extern    ID3D11RenderTargetView* g_pRenderTargetView;
+    extern    IDXGISwapChain*         g_pSwapChain;
+    extern    IDXGISwapChain1*        g_pSwapChain1;
 
-extern      ID3D11VertexShader*     g_pVertexShader;
-extern      ID3D11PixelShader*      g_pPixelShader;
-extern      ID3D11InputLayout*      g_pVertexLayout;
-extern      ID3D11Buffer*           g_pVertexBuffer;
+    extern      ID3D11VertexShader*     g_pVertexShader;
+    extern      ID3D11PixelShader*      g_pPixelShader;
+    extern      ID3D11InputLayout*      g_pVertexLayout;
+    extern      ID3D11Buffer*           g_pVertexBuffer;
 
-struct SimpleVertex
-{
-    XMFLOAT3 Pos;
-};
+    struct SimpleVertex
+    {
+        XMFLOAT3 Pos;
+        XMFLOAT2 Tex; // 6/7
+    };
 
 extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     namespace Shaders
@@ -93,18 +94,20 @@ extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         return S_OK;
     }
 
-    void	Shaders::initialise()
+    void	Shaders::initialise()    
     {
         HRESULT hr = S_OK;
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";
+
+
         // Compile the vertex shader
         ID3DBlob* pVSBlob = nullptr;
-        hr = CompileShaderFromFile(L"src/shaders/Tutorial02.fx", "VS", "vs_4_0", &pVSBlob);
+        hr = CompileShaderFromFile(L"src/shaders/posColTex.vs", "mainvs", "vs_4_0", &pVSBlob);
         if (FAILED(hr))
         {
             MessageBox(nullptr,
-                L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
+                L"The FX file cannot be compiled.", L"Error", MB_OK);
             triggerBreakpoint();
         }
 
@@ -120,6 +123,7 @@ extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         D3D11_INPUT_ELEMENT_DESC layout[] =
         {
             { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+            { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
         };
         UINT numElements = ARRAYSIZE(layout);
 
@@ -131,15 +135,15 @@ extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
             triggerBreakpoint();
 
         // Set the input layout
-        g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
+        g_pImmediateContext->IASetInputLayout(g_pVertexLayout); // jc place in render?
 
         // Compile the pixel shader
         ID3DBlob* pPSBlob = nullptr;
-        hr = CompileShaderFromFile(L"src/shaders/Tutorial02.fx", "PS", "ps_4_0", &pPSBlob);
+        hr = CompileShaderFromFile(L"src/shaders/posColTex.ps", "mainps", "ps_4_0", &pPSBlob);
         if (FAILED(hr))
         {
             MessageBox(nullptr,
-                L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
+                L"The FX file cannot be compiled.", L"Error", MB_OK);
             triggerBreakpoint();
         }
 
@@ -153,9 +157,9 @@ extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         // murky VB
         SimpleVertex vertices[] =
         {
-            XMFLOAT3(0.0f, 0.5f, 0.5f),
-            XMFLOAT3(0.5f, -0.5f, 0.5f),
-            XMFLOAT3(-0.5f, -0.5f, 0.5f),
+            { XMFLOAT3(0.0f, 0.5f, 0.5f), XMFLOAT2(1.f, 0.f) },
+            { XMFLOAT3(0.5f, -0.5f, 0.5f), XMFLOAT2(0.f, 0.f) },
+            { XMFLOAT3(-0.5f, -0.5f, 0.5f), XMFLOAT2(0.f, 1.f) }
         };
         D3D11_BUFFER_DESC bd;
         ZeroMemory(&bd, sizeof(bd));
@@ -184,9 +188,7 @@ extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }
 
     void	Shaders::deinitialise()
-    {
-        triggerBreakpoint();
-
+    {        
     }
 }
 #endif // USE_DIRECT3D

@@ -38,6 +38,8 @@ namespace GfxLowLevel
     extern      ID3D11InputLayout*      g_pVertexLayout;
     extern      ID3D11Buffer*           g_pVertexBuffer;
 
+    extern      ID3D11ShaderResourceView*           g_pTextureRV;
+    extern      ID3D11SamplerState*                 g_pSamplerLinear;
     
     // Data
     mat4 projectionMatrix(Unit::UNIT);    
@@ -57,10 +59,7 @@ namespace GfxLowLevel
         //glEnable(GL_CULL_FACE);
         //glFrontFace(GL_CW);
         //glCullFace(GL_BACK);
-    }
-
-        
-
+    }        
 
     void drawBegin()
     {     
@@ -68,6 +67,9 @@ namespace GfxLowLevel
         
         g_pImmediateContext->VSSetShader(g_pVertexShader, nullptr, 0);
         g_pImmediateContext->PSSetShader(g_pPixelShader, nullptr, 0);
+        g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureRV);
+        g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
+
         g_pImmediateContext->Draw(3, 0);
         g_pSwapChain->Present(0, 0);
 

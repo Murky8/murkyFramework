@@ -13,10 +13,17 @@
 
 #include <glew/include/GL/glew.h> 
 #include <glew/include/GL/wglew.h>
-extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
 
 namespace GfxLowLevel
 {    	
+    
+    //--------------------------------------------------------------------------
+    // forward declarations
+
+    extern   void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+    u32     createShader(const char* sourceText, u32 type);
+    u32	    createProgram(u32 vertexShader, u32 fragmentShader);   
+
     namespace Shaders
     {
 
@@ -24,8 +31,6 @@ namespace GfxLowLevel
         u32     uniformHandle_projectionMatrix;               
         ShaderId posColText;        
     }
-
-    //void 
            
     const char* vertex_shader =
         "#version 400 core\n"
