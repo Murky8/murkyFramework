@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// 2014 J. Coelho.
+// 2015 J. Coelho.
 
 #include <vector>
 #include <codecvt>
@@ -14,17 +14,19 @@
 #include <murkyFramework/include/appFramework.hpp>
 #include <gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <gfxLowLevel/gfxLowLevel.hpp>
-#include <gfxLowLevel/textures.hpp>
+#include <gfxLowLevel/texture.hpp>
 #include <gfxLowLevel/shaders.hpp>
 #include <gfxLowLevel/vertexBuffer.hpp>
 #include <gfxHighLevel/render.hpp>
 #include <gfxHighLevel/textRender.hpp>
 #include <external/glm/glm.hpp>
 
-// forward declarations
 
 namespace RenderHi
 {    
+//------------------------------------------------------------------------------
+// forward declarations
+
     // data
     TextRender *textRenderer;
     mat4	projectionMatrix;
@@ -73,7 +75,8 @@ namespace RenderHi
         GfxLowLevel::Shaders::initialise();
         textureManager = new GfxLowLevel::TextureManager();
         //textureManager->loadNewTexture(L"data/", L"font.png");
-        textureManager->loadNewTexture(L"data/", L"t0.png");              
+        textureManager->loadNewTexture(L"data/", L"font.dds");
+        textureManager->loadNewTexture(L"data/", L"seafloor.dds");
 
 #ifdef USE_OPENGL
 

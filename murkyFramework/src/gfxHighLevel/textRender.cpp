@@ -15,7 +15,7 @@
 
 #include <debugUtils.hpp>
 #include <gfxLowLevel/gfxLowLevel.hpp>
-#include <gfxLowLevel/textures.hpp>
+#include <gfxLowLevel/texture.hpp>
 #include <gfxLowLevel/gfxPrimativeTypes.hpp>
 
 #include <gfxHighLevel/render.hpp>

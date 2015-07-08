@@ -7,7 +7,7 @@
 
 #pragma once
 #include <common.hpp>
-#include <gfxLowLevel/textures.hpp>
+#include <gfxLowLevel/texture.hpp>
 #include <gfxLowLevel/shaders.hpp>
 
 // Forward declarationss
@@ -20,28 +20,28 @@ namespace GfxLowLevel
     // Vertex buffer
     enum class VertexType{ posCol, posColTex };
     enum class PrimativeType{ triangle, line, point };
-	
-	class VertexBufferDynamic
-	{
-	public:
-		// Constructors		
-		// if not using a texture, pass '0'
+    
+    class VertexBufferDynamic
+    {
+    public:
+        // Constructors		
+        // if not using a texture, pass '0'
         VertexBufferDynamic(VertexType vertexType, PrimativeType primativeType, ShaderId shaderProgram, TextureId &texture);
 
-		// Methods		
-		void	draw(void *data, int nPrimatives);
+        // Methods		
+        void	draw(void *data, int nPrimatives);
 
-		// Data
-		//const u32			capacity?;
-		const VertexType	vertexType;		
-		const PrimativeType primativeType;
-		const ShaderId      shaderProgram;
-		const TextureId	    texture;
-	private:
+        // Data
+        //const u32			capacity?;
+        const VertexType	vertexType;		
+        const PrimativeType primativeType;
+        const ShaderId      shaderProgram;
+        const TextureId	    texture;
+    private:
         u32 vbo;
-		u32 vao;
-		VertexBufferDynamic() = delete;
-	};
+        u32 vao;
+        VertexBufferDynamic() = delete;
+    };
   
     //--------------------------------------------------------------------------
 }

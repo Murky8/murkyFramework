@@ -35,6 +35,12 @@
     <Filter Include="Source Files\current">
       <UniqueIdentifier>{85c21a99-5001-46c5-9ade-04aa189a5c5b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\gfxLowLevel\openGL">
+      <UniqueIdentifier>{3a5d3c3d-e59a-4979-b574-7a27c85817f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gfxLowLevel\direct3D">
+      <UniqueIdentifier>{bc319cde-97d9-4b8d-bbff-e244d4fff0a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\common.cpp">
@@ -103,47 +109,47 @@
     <ClCompile Include="..\..\src\fixedPointMaths.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\initDevice_openGL.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\school.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_openGL.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer_openGL.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\texture_openGL.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\shader_openGL.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\initDevice_direct3d.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\shader_direct3d.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\texture_direct3d.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer_direct3d.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\gfxLowLevel\gfxAllDevices.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_direct3d.cpp">
       <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\gfxLowLevel\texture.cpp">
       <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\gfxLowLevel\DDSTextureLoader.cpp">
-      <Filter>Source Files\gfxLowLevel</Filter>
+      <Filter>Source Files\gfxLowLevel\direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_direct3d.cpp">
+      <Filter>Source Files\gfxLowLevel\direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\initDevice_direct3d.cpp">
+      <Filter>Source Files\gfxLowLevel\direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\shader_direct3d.cpp">
+      <Filter>Source Files\gfxLowLevel\direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\texture_direct3d.cpp">
+      <Filter>Source Files\gfxLowLevel\direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer_direct3d.cpp">
+      <Filter>Source Files\gfxLowLevel\direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_openGL.cpp">
+      <Filter>Source Files\gfxLowLevel\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\initDevice_openGL.cpp">
+      <Filter>Source Files\gfxLowLevel\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\shader_openGL.cpp">
+      <Filter>Source Files\gfxLowLevel\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\texture_openGL.cpp">
+      <Filter>Source Files\gfxLowLevel\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer_openGL.cpp">
+      <Filter>Source Files\gfxLowLevel\openGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -186,9 +192,6 @@
     <ClInclude Include="..\..\include\gfxLowLevel\vertexBuffer.hpp">
       <Filter>Header Files\gfxLowLevel</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\gfxLowLevel\textures.hpp">
-      <Filter>Header Files\gfxLowLevel</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\gfxHighLevel\render.hpp">
       <Filter>Header Files\gfxHighLevel</Filter>
     </ClInclude>
@@ -197,9 +200,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\gfxHighLevel\textRender.hpp">
       <Filter>Header Files\gfxHighLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\version.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\misc.hpp">
       <Filter>Header Files</Filter>
@@ -224,6 +224,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\fixedPointMaths.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gfxLowLevel\texture.hpp">
+      <Filter>Header Files\gfxLowLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\version.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

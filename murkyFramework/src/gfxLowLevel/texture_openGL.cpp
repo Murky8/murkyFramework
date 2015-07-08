@@ -5,7 +5,7 @@
 #ifdef USE_OPENGL
 
 
-#include <gfxLowLevel/textures.hpp>
+#include <gfxLowLevel/texture.hpp>
 
 #include <vector>
 #include <regex>
@@ -65,7 +65,7 @@ namespace GfxLowLevel
         std::wregex regexExpr(L"png");
         if (regex_search(fileName, regexExpr))
         {
-            std::wstring name( fileName.substr(0, fileName.size() - 4) );
+            std::wstring name( fileName.substr(0, fileName.size() - 4) );// todo: do properly
 
             textures.insert(std::pair<std::wstring, TextureId>(name, newTexture));
             //this->textures[name] = newTexture;

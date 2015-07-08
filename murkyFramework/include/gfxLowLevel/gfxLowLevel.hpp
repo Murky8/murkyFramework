@@ -15,7 +15,7 @@
 #include <gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <gfxLowLevel/vertexBuffer.hpp>
 #include <gfxLowLevel/shaders.hpp>
-#include <gfxLowLevel/textures.hpp>
+#include <gfxLowLevel/texture.hpp>
 
 
 namespace GfxLowLevel //todo rename

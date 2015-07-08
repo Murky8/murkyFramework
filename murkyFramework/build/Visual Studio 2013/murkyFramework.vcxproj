@@ -241,7 +241,7 @@
     <ClInclude Include="..\..\include\gfxLowLevel\gfxLowLevel.hpp" />
     <ClInclude Include="..\..\include\gfxLowLevel\gfxPrimativeTypes.hpp" />
     <ClInclude Include="..\..\include\gfxLowLevel\shaders.hpp" />
-    <ClInclude Include="..\..\include\gfxLowLevel\textures.hpp" />
+    <ClInclude Include="..\..\include\gfxLowLevel\texture.hpp" />
     <ClInclude Include="..\..\include\gfxLowLevel\vertexBuffer.hpp" />
     <ClInclude Include="..\..\include\inputDevices.hpp" />
     <ClInclude Include="..\..\include\loadSaveFile.hpp" />

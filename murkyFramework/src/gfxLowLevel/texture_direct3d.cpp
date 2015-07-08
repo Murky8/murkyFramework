@@ -12,7 +12,7 @@
 #include <directxcolors.h>
 #include "DDSTextureLoader.h"
 
-#include <murkyFramework/include/gfxLowLevel/textures.hpp>
+#include <murkyFramework/include/gfxLowLevel/texture.hpp>
 
 #include <vector>
 #include <regex>
@@ -23,6 +23,8 @@
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/stringHelpers.hpp>
 
+        //// http://stackoverflow.com/questions/24958213/load-texture-in-directx-11-1
+        //// http://stackoverflow.com/questions/14802205/creating-texture-programmatically-directx
 
 namespace GfxLowLevel
 {
@@ -47,7 +49,7 @@ namespace GfxLowLevel
     extern      ID3D11InputLayout*      g_pVertexLayout;
     extern      ID3D11Buffer*           g_pVertexBuffer;
     
-    extern ID3D11ShaderResourceView    *g_pTextureRV;
+    //extern ID3D11ShaderResourceView    *g_pTextureRV;
     extern ID3D11SamplerState          *g_pSamplerLinear;
     // Constructors
     // Load texture from file
@@ -70,6 +72,19 @@ namespace GfxLowLevel
 
     void TextureManager::loadNewTexture(const std::wstring &dirName, const std::wstring &fileName)
     {
+        std::wstring fullPath = dirName + fileName;
+        
+        //std::string str2 = str.substr (12,12);
+        std::wregex regexExpr(L"dds");
+        std::wstring name;
+        if (regex_search(fileName, regexExpr))
+        {
+            name = fileName.substr(0, fileName.size() - 4); // todo: do properly
+        }
+        else
+        {
+            triggerBreakpoint();
+        }
         HRESULT res;
         //std::wstring fullPath = dirName + fileName;        
         //
@@ -83,10 +98,10 @@ namespace GfxLowLevel
         //    triggerBreakpoint();
 
         // d3d
-        g_pTextureRV = nullptr;
+        ID3D11ShaderResourceView    *pTextureRV = nullptr;
         g_pSamplerLinear = nullptr;
 
-        res = CreateDDSTextureFromFile(g_pd3dDevice, L"data/seafloor.dds", nullptr, &g_pTextureRV);
+        res = CreateDDSTextureFromFile(g_pd3dDevice, fullPath.c_str(), nullptr, &pTextureRV);
         if (FAILED(res))    
             triggerBreakpoint();
 
@@ -105,8 +120,11 @@ namespace GfxLowLevel
         if (FAILED(res))
             triggerBreakpoint();
 
-        //// http://stackoverflow.com/questions/24958213/load-texture-in-directx-11-1
-        //// http://stackoverflow.com/questions/14802205/creating-texture-programmatically-directx
+        TextureId textureId;
+        textureId.handle = (u32)pTextureRV;
+        
+        textures.insert(std::pair<std::wstring, TextureId>(name, textureId));
+        
         //D3D11_TEXTURE2D_DESC desc;
         //ZeroMemory(&desc, sizeof(desc));
         //desc.Width = width;
@@ -167,12 +185,6 @@ namespace GfxLowLevel
             triggerBreakpoint();
             return it->second;
         }
-    }
-
-    void TextureManager::setGfxDeviceState_currentTexture( const TextureId &texture )
-    {
-        
-       // triggerBreakpoint();
     }
 
     void TextureManager::deleteAllTextures()

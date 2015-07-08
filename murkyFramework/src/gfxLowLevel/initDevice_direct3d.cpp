@@ -28,7 +28,7 @@ namespace GfxLowLevel
     ID3D11InputLayout*      g_pVertexLayout = nullptr;
     ID3D11Buffer*           g_pVertexBuffer = nullptr;
 
-    ID3D11ShaderResourceView    *g_pTextureRV = nullptr;
+    //ID3D11ShaderResourceView    *g_pTextureRV = nullptr;
     ID3D11SamplerState          *g_pSamplerLinear = nullptr;
 
     // Called from: shead.cpp/

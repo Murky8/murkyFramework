@@ -2,10 +2,10 @@
 // 2014 J. Coelho.
 // Platform:
 #pragma once
-#include <gfxLowLevel/textures.hpp>
+
 #include <gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <gfxLowLevel/vertexBuffer.hpp>
-#include <gfxLowLevel/textures.hpp>
+#include <gfxLowLevel/texture.hpp>
 
 #include <string>
 #include <vector>

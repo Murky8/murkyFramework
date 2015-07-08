@@ -25,27 +25,28 @@ namespace GfxLowLevel
         u32 handle; 
        
         // parameterised constructor
-        TextureId(const std::wstring &fileName);    
+        TextureId(){}
+        TextureId(const std::wstring &fileName); // todo: depreciate
                 
         // Methods
         u32 getHandle() const;
-
         
     private:
         // constructors
-        TextureId(u8 *in_data, u32 width, u32 height);
+        TextureId(u8 *in_data, u32 width, u32 height);// todo: depreciate
         //TextureRef(const TextureRef &rhs) = delete;
 
         // methods
-        void insertImageData( u8 *in_imageData, u32 width, u32 height);
+        void insertImageData( u8 *in_imageData, u32 width, u32 height);// todo: depreciate
         
     };
+
+    
 
     class TextureManager
     {
     public:
-        TextureId &TextureManager::getTextureByName(const std::wstring &name);           
-        void        setGfxDeviceState_currentTexture(const TextureId &texture);
+        TextureId &TextureManager::getTextureByName(const std::wstring &name);               
         void        loadNewTexture(const std::wstring &dirName, const std::wstring &fileName);
         void        deleteAllTextures();
 
