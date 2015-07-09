@@ -66,18 +66,68 @@ namespace GfxLowLevel
         //glCullFace(GL_BACK);
     }        
 
+    //void D3DGraphics::RenderVerts(Vertex* verts, UINT count, D3D11_PRIMITIVE_TOPOLOGY type)
+    //{
+    //    D3D11_MAPPED_SUBRESOURCE ms;
+    //    // map the buffer   
+    //    m_pDeviceContext->Map(m_pVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
+    //    // copy the data to it
+    //    memcpy(ms.pData, verts, sizeof(verts));
+    //    // unmap it
+    //    m_pDeviceContext->Unmap(m_pVertexBuffer, NULL);
+
+    //    // select which vertex buffer to display
+    //    UINT stride = sizeof(Vertex);
+    //    UINT offset = 0;
+    //    m_pDeviceContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
+
+    //    // select which primtive type we are using
+    //    m_pDeviceContext->IASetPrimitiveTopology(type);
+
+    //    // draw the vertex buffer to the back buffer
+    //    m_pDeviceContext->Draw(count, 0);
+    //}
+
+
+    /*
+    context->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
+    memcpy(resource.pData, &totalVertices[0], sizeof(totalVertices));
+    context->Unmap(vertexBuffer, 0);*/
+
+#define rn (((float)rand() / (float)RAND_MAX))
     void drawBegin()
     {     
         g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);   
 
         // vb
+        // fill vb
+        std::vector<Triangle_pct> tris;
+        //srand(1);
+
+        for (int i = 0; i < 10; i++)
+        {
+            Triangle_pct tri
+            {
+                Vert_pct(vec3(rn, rn, 0.5f), vec3(0.8f, 0.0f, 0.0f), vec2(0.0f, 0.7f)),
+                Vert_pct(vec3(rn, rn, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)),
+                Vert_pct(vec3(rn, rn, 0.5f), vec3(0.33f, 0.34f, 0.35f), vec2(0.36f, 0.37f))
+            };
+            tris.push_back(tri);
+        }
+  
+        D3D11_MAPPED_SUBRESOURCE subResource;
+        g_pImmediateContext->Map(g_pVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &subResource);
+        //memcpy(ms.pData, verts, sizeof(verts));
+        memcpy(subResource.pData, tris.data(), tris.size()*sizeof(Triangle_pct));
+        g_pImmediateContext->Unmap(g_pVertexBuffer, NULL);
+
         UINT stride = sizeof(Vert_pct);
         UINT offset = 0;
-        g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
-
-        // Set primitive topology
+        g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);    
         g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        
+
+        // fill vb
+
         //g_pVertexBuffer
         // vb
         g_pImmediateContext->VSSetShader(g_pVertexShader, nullptr, 0);
@@ -88,7 +138,7 @@ namespace GfxLowLevel
             ( ID3D11ShaderResourceView * const *)&RenderHi::textureManager->getTextureByName(L"font").handle );
         g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
 
-        g_pImmediateContext->Draw(6, 0);
+        g_pImmediateContext->Draw(10*3, 0);
         g_pSwapChain->Present(0, 0);
 
         

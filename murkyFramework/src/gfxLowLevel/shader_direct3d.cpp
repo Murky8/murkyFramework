@@ -40,14 +40,6 @@ namespace GfxLowLevel
     extern      ID3D11InputLayout*      g_pVertexLayout;
     extern      ID3D11Buffer*           g_pVertexBuffer;
 
-
-    //struct SimpleVertex
-    //{
-    //    XMFLOAT3 Pos;
-    //    XMFLOAT3 Col;
-    //    XMFLOAT2 Tex; // 6/7
-    //};
-
 extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     namespace Shaders
     {
@@ -160,7 +152,7 @@ extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         Shaders::posColText.handle2 = (u32)g_pPixelShader;
         
         // murky VB
-        Vert_pct vertices[] =
+    /*    Vert_pct vertices[] =
         {
             { vec3(0.0f, 0.0f, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.f, 1.f) },
             { vec3(0.0f, 1.0f, 0.5f), vec3(0.0f, 1.0f, 0.0f), vec2(0.f, 0.f) },
@@ -168,17 +160,18 @@ extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
             { vec3(0.0f, 1.0f, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.f, 0.f) },
             { vec3(1.0f, 1.0f, 0.5f), vec3(0.0f, 1.0f, 0.0f), vec2(1.f, 0.f) },
             { vec3(1.0f, 0.0f, 0.5f), vec3(0.0f, 0.0f, 1.0f), vec2(1.f, 1.f) }
-        };
+        };*/
         D3D11_BUFFER_DESC bd;
         ZeroMemory(&bd, sizeof(bd));
-        bd.Usage = D3D11_USAGE_DYNAMIC; //9.7.2015
-        bd.ByteWidth = sizeof(Vert_pct) * 6;
+        bd.Usage = D3D11_USAGE_DYNAMIC; 
+        bd.ByteWidth = sizeof(Triangle_pct) * 10;
         bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
         bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-        D3D11_SUBRESOURCE_DATA InitData;
-        ZeroMemory(&InitData, sizeof(InitData));
-        InitData.pSysMem = vertices;
-        hr = g_pd3dDevice->CreateBuffer(&bd, &InitData, &g_pVertexBuffer);
+        bd.MiscFlags = 0;
+        //D3D11_SUBRESOURCE_DATA InitData;
+        //ZeroMemory(&InitData, sizeof(InitData));
+        //InitData.pSysMem = vertices;
+        hr = g_pd3dDevice->CreateBuffer(&bd, NULL, &g_pVertexBuffer);
         if (FAILED(hr))
             triggerBreakpoint();
 
