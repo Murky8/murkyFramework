@@ -7,26 +7,44 @@
 #include <murkyFramework/include/version.hpp>
 #ifdef USE_DIRECT3D
 
+#include <windows.h>
+#include <d3d11_1.h>
+#include <gfxLowLevel/gfxLowLevel.hpp>
+#include "common.hpp"
+#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <vector>
 
 #include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/gfxLowLevel/vertexBuffer.hpp>
 #include <murkyFramework/include/gfxLowLevel/shaders.hpp>
 
-//------------------------------------------------------------------------------
-// forward declarations
-
 namespace GfxLowLevel
 {
-    void onGfxDeviceErrorTriggerBreakpoint();
+    //------------------------------------------------------------------------------
+    // forward declarations
+    extern ID3D11Device *g_pd3dDevice;
+    extern ID3D11Buffer *g_pVertexBuffer;
+    void    onGfxDeviceErrorTriggerBreakpoint();
 
     // constructor	
     VertexBufferDynamic::VertexBufferDynamic(
         VertexType vertexType, PrimativeType primativeType, ShaderId shaderProgram, GfxLowLevel::TextureId &texture ) :
         vertexType(vertexType), primativeType(primativeType), shaderProgram(shaderProgram), texture(texture)
     {				
-        triggerBreakpoint();
-        onGfxDeviceErrorTriggerBreakpoint();
+        debugLog << L"w";
+
+   /*     D3D11_BUFFER_DESC bd;
+        ZeroMemory(&bd, sizeof(bd));
+        bd.Usage = D3D11_USAGE_DYNAMIC; 
+        bd.ByteWidth = sizeof(Triangle_pc) * 1000;
+        bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+        bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+        bd.MiscFlags = 0;
+        
+        HRESULT hr = g_pd3dDevice->CreateBuffer(&bd, NULL, &g_pVertexBuffer);
+        if (FAILED(hr))
+            triggerBreakpoint();*/
+
     }
 
     // methods

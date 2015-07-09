@@ -74,9 +74,22 @@ namespace RenderHi
         debugLog << L"RenderHi::initialise" << "\n";
         GfxLowLevel::Shaders::initialise();
         textureManager = new GfxLowLevel::TextureManager();
-        //textureManager->loadNewTexture(L"data/", L"font.png");
+#ifdef USE_OPENGL
+        textureManager->loadNewTexture(L"data/", L"font.png");
+        textureManager->loadNewTexture(L"data/", L"t0.png");
+#endif 
+
+#ifdef USE_DIRECT3D
         textureManager->loadNewTexture(L"data/", L"font.dds");
         textureManager->loadNewTexture(L"data/", L"seafloor.dds");
+
+        vertexBufferTemp = new GfxLowLevel::VertexBufferDynamic(
+            GfxLowLevel::VertexType::posColTex,
+            GfxLowLevel::PrimativeType::triangle,
+            GfxLowLevel::Shaders::posColText,
+            textureManager->getTextureByName(L"font")
+            );
+#endif // USE_DIRECT3D
 
 #ifdef USE_OPENGL
 

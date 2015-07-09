@@ -32,9 +32,6 @@
     <Filter Include="Source Files\openGL">
       <UniqueIdentifier>{9a3e0ed6-ec18-4b87-b055-5924352046c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\current">
-      <UniqueIdentifier>{85c21a99-5001-46c5-9ade-04aa189a5c5b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\gfxLowLevel\openGL">
       <UniqueIdentifier>{3a5d3c3d-e59a-4979-b574-7a27c85817f5}</UniqueIdentifier>
     </Filter>

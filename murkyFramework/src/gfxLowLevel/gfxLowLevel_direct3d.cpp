@@ -11,7 +11,7 @@
 #include <DirectXColors.h>
 #include "common.hpp"
 #include <vector>
-
+#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/system.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
@@ -68,8 +68,10 @@ namespace GfxLowLevel
 
     void drawBegin()
     {     
-        g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);
-        
+        g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);        
+        // vb
+        //g_pVertexBuffer
+        // vb
         g_pImmediateContext->VSSetShader(g_pVertexShader, nullptr, 0);
         g_pImmediateContext->PSSetShader(g_pPixelShader, nullptr, 0);
         g_pImmediateContext->PSSetShaderResources(
@@ -78,7 +80,7 @@ namespace GfxLowLevel
             ( ID3D11ShaderResourceView * const *)&RenderHi::textureManager->getTextureByName(L"font").handle );
         g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
 
-        g_pImmediateContext->Draw(3, 0);
+        g_pImmediateContext->Draw(6, 0);
         g_pSwapChain->Present(0, 0);
 
         

@@ -43,6 +43,7 @@ namespace GfxLowLevel
     struct SimpleVertex
     {
         XMFLOAT3 Pos;
+        XMFLOAT3 Col;
         XMFLOAT2 Tex; // 6/7
     };
 
@@ -123,7 +124,8 @@ extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         D3D11_INPUT_ELEMENT_DESC layout[] =
         {
             { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-            { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+            { "COLOR",    0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+            { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 }
         };
         UINT numElements = ARRAYSIZE(layout);
 
@@ -153,26 +155,34 @@ extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         if (FAILED(hr))
             triggerBreakpoint();
 
-
+        Shaders::posColText.handle = (u32)g_pVertexShader;
+        Shaders::posColText.handle2 = (u32)g_pPixelShader;
+        
         // murky VB
         SimpleVertex vertices[] =
         {
-            { XMFLOAT3(0.0f, 0.5f, 0.5f), XMFLOAT2(1.f, 0.f) },
-            { XMFLOAT3(0.5f, -0.5f, 0.5f), XMFLOAT2(0.f, 0.f) },
-            { XMFLOAT3(-0.5f, -0.5f, 0.5f), XMFLOAT2(0.f, 1.f) }
+            { XMFLOAT3(0.0f, 0.0f, 0.5f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(0.f, 1.f) },
+            { XMFLOAT3(0.0f, 1.0f, 0.5f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT2(0.f, 0.f) },
+            { XMFLOAT3(1.0f, 0.0f, 0.5f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(1.f, 1.f) },
+            { XMFLOAT3(0.0f, 1.0f, 0.5f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(0.f, 0.f) },
+            { XMFLOAT3(1.0f, 1.0f, 0.5f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT2(1.f, 0.f) },
+            { XMFLOAT3(1.0f, 0.0f, 0.5f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(1.f, 1.f) }
         };
         D3D11_BUFFER_DESC bd;
         ZeroMemory(&bd, sizeof(bd));
-        bd.Usage = D3D11_USAGE_DEFAULT;
-        bd.ByteWidth = sizeof(SimpleVertex) * 3;
+        bd.Usage = D3D11_USAGE_DYNAMIC; //9.7.2015
+        bd.ByteWidth = sizeof(SimpleVertex) * 6;
+        
         bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-        bd.CPUAccessFlags = 0;
+        bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
         D3D11_SUBRESOURCE_DATA InitData;
         ZeroMemory(&InitData, sizeof(InitData));
         InitData.pSysMem = vertices;
         hr = g_pd3dDevice->CreateBuffer(&bd, &InitData, &g_pVertexBuffer);
         if (FAILED(hr))
             triggerBreakpoint();
+
+
 
         // Set vertex buffer
         UINT stride = sizeof(SimpleVertex);

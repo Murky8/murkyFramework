@@ -93,13 +93,7 @@ namespace GfxLowLevel
             return it->second;
         }
     }
-
-    void TextureManager::setGfxDeviceState_currentTexture( const TextureId &texture )
-    {
-        
-        glBindTexture( GL_TEXTURE_2D, texture.getHandle() );        
-    }
-
+       
     void TextureManager::deleteAllTextures()
     {
         
