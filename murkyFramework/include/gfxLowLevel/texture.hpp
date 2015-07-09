@@ -48,9 +48,9 @@ namespace GfxLowLevel
     public:
         TextureId &TextureManager::getTextureByName(const std::wstring &name);               
         void        loadNewTexture(const std::wstring &dirName, const std::wstring &fileName);
-        void        deleteAllTextures();
-
+        //void        deleteAllTextures();
         //std::vector<TextureRef> textures;
+        ~TextureManager();
         std::map< std::wstring, GfxLowLevel::TextureId> textures;
 
     private:

@@ -47,9 +47,8 @@ namespace GfxLowLevel
     extern      ID3D11VertexShader*     g_pVertexShader;
     extern      ID3D11PixelShader*      g_pPixelShader;
     extern      ID3D11InputLayout*      g_pVertexLayout;
-    extern      ID3D11Buffer*           g_pVertexBuffer;
-    
-    //extern ID3D11ShaderResourceView    *g_pTextureRV;
+    extern      ID3D11Buffer*           g_pVertexBuffer;  
+
     extern ID3D11SamplerState          *g_pSamplerLinear;
     // Constructors
     // Load texture from file
@@ -187,16 +186,16 @@ namespace GfxLowLevel
         }
     }
 
-    void TextureManager::deleteAllTextures()
+    TextureManager::~TextureManager()
     {
-        
-        triggerBreakpoint();
-
-        /*for each (auto &it in this->textures)
+        for (auto &it : textures)
         {
-            debugLog << L"gfxDevice: released texture \n";            
+            if (it.second.handle)
+            {
+                ((ID3D11ShaderResourceView*)(it.second.handle))->Release();
+            }
         }
-        */
     }
+
 }
 #endif // USE_DIRECT3D

@@ -21,6 +21,10 @@
 #include <gfxHighLevel/textRender.hpp>
 #include <external/glm/glm.hpp>
 
+namespace GfxLowLevel
+{
+    bool deinitialise_device();
+}
 
 namespace RenderHi
 {    
@@ -121,7 +125,8 @@ namespace RenderHi
         debugLog << L"RenderHi::deinitialise" << "\n";
 
         GfxLowLevel::Shaders::deinitialise();
-        delete textureManager;
+        delete textureManager; // will delete all textures;
+        GfxLowLevel::deinitialise_device();
     }
 
     mat4 makeProjectionMatrix_perspective( )

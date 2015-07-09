@@ -94,14 +94,11 @@ namespace GfxLowLevel
         }
     }
        
-    void TextureManager::deleteAllTextures()
-    {
-        
+    TextureManager::~TextureManager()
+    {        
         for each (auto &it in this->textures)
-        {
-            debugLog << L"gfxDevice: released texture \n";
+        {     
             glDeleteTextures(1, &( it.second.handle ));
-
         }
 
     }

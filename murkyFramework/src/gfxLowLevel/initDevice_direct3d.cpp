@@ -24,9 +24,10 @@ namespace GfxLowLevel
     ID3D11RenderTargetView* g_pRenderTargetView = nullptr;
     // shaders
     ID3D11VertexShader*     g_pVertexShader = nullptr;
-    ID3D11PixelShader*      g_pPixelShader = nullptr;
-    ID3D11InputLayout*      g_pVertexLayout = nullptr;
-    ID3D11Buffer*           g_pVertexBuffer = nullptr;
+    ID3D11PixelShader       *g_pPixelShader = nullptr;
+    ID3D11InputLayout       *g_pVertexLayout = nullptr;
+    ID3D11Buffer            *g_pVertexBuffer = nullptr;
+    ID3D11Debug             *d3dDebug = nullptr;
 
     //ID3D11ShaderResourceView    *g_pTextureRV = nullptr;
     ID3D11SamplerState          *g_pSamplerLinear = nullptr;
@@ -36,11 +37,8 @@ namespace GfxLowLevel
     {
         //-------------------------------------------------------------------------------------- 
         // Create Direct3D device and swap chain 
-        //-------------------------------------------------------------------------------------- 
+        //--------------------------------------------------------------------------------------         
         
-        
-            HRESULT hr = S_OK;
-
             RECT rc;
             GetClientRect(hWnd, &rc);
             UINT width = rc.right - rc.left;
@@ -68,6 +66,7 @@ namespace GfxLowLevel
             };
             UINT numFeatureLevels = ARRAYSIZE(featureLevels);
 
+            HRESULT hr = S_FALSE;
             for (UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++)
             {
                 g_driverType = driverTypes[driverTypeIndex];
@@ -84,11 +83,39 @@ namespace GfxLowLevel
                 if (SUCCEEDED(hr))
                     break;
             }
+
             if (FAILED(hr))
             {
                 triggerBreakpoint();
                 return hr;
             }
+
+            // debug mode
+            if (SUCCEEDED(g_pd3dDevice->QueryInterface(__uuidof(ID3D11Debug), (void**)&d3dDebug)))
+            {
+                ID3D11InfoQueue *d3dInfoQueue = nullptr;
+                if (SUCCEEDED(d3dDebug->QueryInterface(__uuidof(ID3D11InfoQueue), (void**)&d3dInfoQueue)))
+                {
+#ifdef _DEBUG
+                    d3dInfoQueue->SetBreakOnSeverity(D3D11_MESSAGE_SEVERITY_CORRUPTION, true);
+                    d3dInfoQueue->SetBreakOnSeverity(D3D11_MESSAGE_SEVERITY_ERROR, true);
+#endif
+
+                    D3D11_MESSAGE_ID hide[] =
+                    {
+                        D3D11_MESSAGE_ID_SETPRIVATEDATA_CHANGINGPARAMS,
+                        // Add more message IDs here as needed
+                    };
+
+                    D3D11_INFO_QUEUE_FILTER filter;
+                    memset(&filter, 0, sizeof(filter));
+                    filter.DenyList.NumIDs = _countof(hide);
+                    filter.DenyList.pIDList = hide;
+                    d3dInfoQueue->AddStorageFilterEntries(&filter);
+                    d3dInfoQueue->Release();
+                }                
+            }
+            // debug mode
 
             // Obtain DXGI factory from device (since we used nullptr for pAdapter above) 
             IDXGIFactory1* dxgiFactory = nullptr;
@@ -212,7 +239,35 @@ namespace GfxLowLevel
 
     bool deinitialise_device()
     {
-        if (g_pImmediateContext) g_pImmediateContext->ClearState();
+        
+        /*
+        if (g_pSamplerLinear) g_pSamplerLinear->Release();
+        if (g_pCBNeverChanges) g_pCBNeverChanges->Release();
+        if (g_pCBChangeOnResize) g_pCBChangeOnResize->Release();
+        if (g_pCBChangesEveryFrame) g_pCBChangesEveryFrame->Release();
+        if (g_pVertexBuffer) g_pVertexBuffer->Release();
+        if (g_pIndexBuffer) g_pIndexBuffer->Release();
+        if (g_pVertexLayout) g_pVertexLayout->Release();
+        if (g_pVertexShader) g_pVertexShader->Release();
+        if (g_pPixelShader) g_pPixelShader->Release();
+        if (g_pDepthStencil) g_pDepthStencil->Release();
+        if (g_pDepthStencilView) g_pDepthStencilView->Release();
+        if (g_pRenderTargetView) g_pRenderTargetView->Release();
+        if (g_pSwapChain1) g_pSwapChain1->Release();
+        if (g_pSwapChain) g_pSwapChain->Release();
+        if (g_pImmediateContext1) g_pImmediateContext1->Release();
+        if (g_pImmediateContext) g_pImmediateContext->Release();
+        if (g_pd3dDevice1) g_pd3dDevice1->Release();
+        if (g_pd3dDevice) g_pd3dDevice->Release();
+        */
+        
+        if (g_pImmediateContext) g_pImmediateContext->ClearState();        
+
+
+      
+        if (g_pVertexLayout) g_pVertexLayout->Release();
+        if (g_pVertexBuffer) g_pVertexBuffer->Release();
+
 
         if (g_pRenderTargetView) g_pRenderTargetView->Release();
         if (g_pSwapChain1) g_pSwapChain1->Release();
@@ -221,7 +276,11 @@ namespace GfxLowLevel
         if (g_pImmediateContext) g_pImmediateContext->Release();
         if (g_pd3dDevice1) g_pd3dDevice1->Release();
         if (g_pd3dDevice) g_pd3dDevice->Release();
-        return false;
+        
+        d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY | D3D11_RLDO_DETAIL);
+        
+        d3dDebug->Release();
+        return true;
     }
 } // namespace GfxLowLevel
 #endif // USE_DIRECT3D

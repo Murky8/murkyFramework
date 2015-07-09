@@ -180,7 +180,9 @@ extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }
 
     void	Shaders::deinitialise()
-    {        
+    {    
+        if (g_pVertexShader) g_pVertexShader->Release();
+        if (g_pPixelShader) g_pPixelShader->Release();
     }
 }
 #endif // USE_DIRECT3D

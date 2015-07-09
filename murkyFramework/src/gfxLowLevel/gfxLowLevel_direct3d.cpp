@@ -43,7 +43,7 @@ namespace GfxLowLevel
     extern      ID3D11InputLayout*      g_pVertexLayout;
     extern      ID3D11Buffer*           g_pVertexBuffer;
 
-    extern      ID3D11SamplerState*                 g_pSamplerLinear;
+    extern      ID3D11SamplerState*     g_pSamplerLinear;
     
     // Data
     mat4 projectionMatrix(Unit::UNIT);    
