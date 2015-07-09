@@ -1,10 +1,9 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/appFramework.hpp>
+#include <murkyFramework/include/version.hpp>
 
-#include <thread>
-#include <vector>
+#include <murkyFramework/include/appFramework.hpp>
 
 AppFramework Gapp;
 

@@ -1,6 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// Platform: Windows 
+// Platform: C++11
+#include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/inputDevices.hpp>
 
 #include <version.hpp>

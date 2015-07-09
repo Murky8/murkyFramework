@@ -1,12 +1,11 @@
+#pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
+#include <murkyFramework/include/version.hpp>
 
-#pragma once
-
-#include <vector>
-
-#include <murkyFramework/include/types.hpp>
 #include <map>
+#include <vector>
+#include <murkyFramework/include/types.hpp>
 #include <debugUtils.hpp>
 
 namespace GfxLowLevel

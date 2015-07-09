@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// C++11. Windows. /*Android.*/
-// pragma once
+// Platform: C++11
+#include <murkyFramework/include/version.hpp>
 #include <gfxHighLevel/camera.hpp>
 
 #include <version.hpp>

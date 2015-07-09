@@ -1,8 +1,8 @@
+#pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// C++11
+#include <murkyFramework/include/version.hpp>
 
-#pragma once
 typedef unsigned char       u8;
 typedef signed char         s8;
 

@@ -1,19 +1,19 @@
-//------------------------------------------------------------------------------
-// 2014 J. Coelho.
-// Platform:
 #pragma once
+//------------------------------------------------------------------------------
+// 2015 J. Coelho.
+#include <murkyFramework/include/version.hpp>
 
-#include <types.hpp>
-#include <gfxLowLevel/gfxLowLevel.hpp>
 #include <vector>
 #include <string>
 
+#include <murkyFramework/include/types.hpp>
+#include <murkyFramework/include/vectorMatrix.hpp>
+#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 
 namespace GfxLowLevel
-{
-// forward declarations
+{    
     class ShaderId;
-
+    
     namespace Shaders
     {    
         extern	u32	uniforms_textureSamplerID;		
@@ -31,73 +31,5 @@ namespace GfxLowLevel
         u32 handle2;
     };        
 
-    /*
-    class ShaderManager
-    {
-    public:
-        //TextureId &TextureManager::getTextureByName(const std::wstring &name);
-        //void        setGfxDeviceState_currentTexture(const TextureId &texture);
-        //void    createShaderProgram(const std::wstring &dirName, const std::wstring &fileName);
-        void    initialise();
-        //void        deleteAllTextures();
-
-        //std::vector<TextureRef> textures;
-        std::map< std::wstring, GfxLowLevel::TextureId> shaderPrograms;
-
-    private:
-
-    };
-    */
     void setUniform_projectionMatrix(const mat4 *pMat);
-
-    //u32 createShader(const char* sourceText, u32 type);
-    //u32	createProgram(u32 vertexShader, u32 fragmentShader);                
 }
-
-/*
-class Shaders
-{
-public:    
-    //--------------------------------------------------------------------------
-    // Data
-    enum namePrograms
-    {
-        TEST, LINE, QUAD, PROJECTIVE, lightZWrite, drawWithShadow,
-    };
-
-    std::vector<GLuint> programs;
-    
-    //--------------------------------------------------------------------------
-    // Uniform Data
-    struct 
-    {
-        GLuint idProjMat;
-        GLuint Tex1;
-        GLuint id_projectorProjmat;
-        GLuint id_projectorLightTX;
-        GLuint id_projectorTex;
-
-        GLuint lightZWriteProjMat;
-        GLuint drawWithShadowProjMat;
-        GLuint drawWithShadowLightProjMat;
-        GLuint shadow_texture;
-        GLuint shadow_lightDepth;
-    }uniforms;
-
-    //--------------------------------------------------------------------------
-    // Functions
-    void   loadShaders();
-    void   releaseAllResources();
-
-private:
-    bool    Shaders::createProgramFromVertexAndFragmentShder(
-    const   std::wstring vertexShdrName, 
-    const   std::wstring fragmentShdrName );
-    GLuint  CreateShader(GLenum eShaderType, const std::string &strShaderFile2);
-    GLuint   loadShader(const std::wstring fileName,GLenum shaderType);
-    GLuint  CreateProgram(const std::vector<GLuint> &shaderList);
-
-};
-*/
-
-

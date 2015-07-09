@@ -1,12 +1,10 @@
+#pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// C++11. Windows. /*Android.*/
-// pragma once
+#include <murkyFramework/include/version.hpp>
 
-#include <vectorMatrix.hpp>
-#include <version.hpp>
-#include <types.hpp>
-#include <debugUtils.hpp>
+#include <murkyFramework/include/types.hpp>
+#include <murkyFramework/include/vectorMatrix.hpp>
 
 class Camera
 {

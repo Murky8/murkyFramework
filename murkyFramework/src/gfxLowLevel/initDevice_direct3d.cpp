@@ -1,10 +1,12 @@
+//------------------------------------------------------------------------------
+// 2015 J. Coelho.
+// Platform: C++11
 #include <murkyFramework/include/version.hpp>
 #ifdef USE_DIRECT3D
 
 #include <windows.h>
 #include <d3d11_1.h>
-#include "common.hpp"
-
+#include <murkyFramework/include/common.hpp>
 
 namespace GfxLowLevel
 {
@@ -13,24 +15,26 @@ namespace GfxLowLevel
     //--------------------------------------------------------------------------------------
     //HINSTANCE               g_hInst = nullptr;
     //HWND                    g_hWnd = nullptr;
-    D3D_DRIVER_TYPE         g_driverType = D3D_DRIVER_TYPE_NULL;        // todo: move to gfxLowLevel_d3d...
-    D3D_FEATURE_LEVEL       g_featureLevel = D3D_FEATURE_LEVEL_11_0;
-    ID3D11Device*           g_pd3dDevice = nullptr;
-    ID3D11Device1*          g_pd3dDevice1 = nullptr;
-    ID3D11DeviceContext*    g_pImmediateContext = nullptr;
-    ID3D11DeviceContext1*   g_pImmediateContext1 = nullptr;
-    IDXGISwapChain*         g_pSwapChain = nullptr;
-    IDXGISwapChain1*        g_pSwapChain1 = nullptr;
-    ID3D11RenderTargetView* g_pRenderTargetView = nullptr;
-    // shaders
-    ID3D11VertexShader*     g_pVertexShader = nullptr;
-    ID3D11PixelShader       *g_pPixelShader = nullptr;
-    ID3D11InputLayout       *g_pVertexLayout = nullptr;
-    ID3D11Buffer            *g_pVertexBuffer = nullptr;
-    ID3D11Debug             *d3dDebug = nullptr;
+    // Forward declarations    
+    extern    HINSTANCE               g_hInst;
+    extern    HWND                    g_hWnd;
+    extern    D3D_DRIVER_TYPE         g_driverType;
+    extern    D3D_FEATURE_LEVEL       g_featureLevel;
+    extern    ID3D11Device*           g_pd3dDevice;
+    extern    ID3D11Device1*          g_pd3dDevice1;
+    extern    ID3D11DeviceContext*    g_pImmediateContext;
+    extern    ID3D11DeviceContext1*   g_pImmediateContext1;
+    extern    IDXGISwapChain*         g_pSwapChain;
+    extern    IDXGISwapChain1*        g_pSwapChain1;
+    extern    ID3D11RenderTargetView* g_pRenderTargetView;
 
-    //ID3D11ShaderResourceView    *g_pTextureRV = nullptr;
-    ID3D11SamplerState          *g_pSamplerLinear = nullptr;
+    extern    ID3D11VertexShader*     g_pVertexShader;
+    extern    ID3D11PixelShader*      g_pPixelShader;
+    extern    ID3D11InputLayout*      g_pVertexLayout;
+    extern    ID3D11Buffer*           g_pVertexBuffer;
+
+    extern    ID3D11SamplerState       *g_pSamplerLinear;
+    extern    ID3D11Debug             *d3dDebug;
 
     // Called from: shead.cpp/
     bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd)

@@ -1,3 +1,6 @@
+//------------------------------------------------------------------------------
+// 2015 J. Coelho.
+// Platform: C++11
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/system.hpp>
 #include <windows.h>
@@ -22,7 +25,7 @@ namespace system2
         //return (readTimeStampTicks() - appStartTime) / 2.677e09;  //NOTE!!!!ATTN;
     //}
 
-	#include <stdint.h>
+    #include <stdint.h>
 
 //  Windows
 #ifdef _WIN32

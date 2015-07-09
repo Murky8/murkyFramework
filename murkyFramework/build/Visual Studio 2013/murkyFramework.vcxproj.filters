@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Source Files\gfxLowLevel">
       <UniqueIdentifier>{1b8b3380-37f1-4623-85ea-8f8df57c145b}</UniqueIdentifier>
     </Filter>
@@ -79,18 +75,6 @@
     <ClCompile Include="..\..\src\appFramework.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\fileTemplate don%27t build this.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\misc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\serialize.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\octree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\gfxHighLevel\camera.cpp">
       <Filter>Source Files\gfxHighLevel</Filter>
     </ClCompile>
@@ -101,12 +85,6 @@
       <Filter>Source Files\gfxHighLevel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\shead.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\fixedPointMaths.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\school.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\gfxLowLevel\gfxAllDevices.cpp">
@@ -198,15 +176,6 @@
     <ClInclude Include="..\..\include\gfxHighLevel\textRender.hpp">
       <Filter>Header Files\gfxHighLevel</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\misc.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\serialize.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\octree.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\gfxHighLevel\camera.hpp">
       <Filter>Header Files\gfxHighLevel</Filter>
     </ClInclude>
@@ -217,9 +186,6 @@
       <Filter>Header Files\gfxHighLevel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\types.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\fixedPointMaths.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\gfxLowLevel\texture.hpp">
@@ -234,18 +200,6 @@
       <Filter>Source Files\gfxLowLevel\shaders</Filter>
     </None>
     <None Include="..\..\src\shaders\posColTex.vsh">
-      <Filter>Source Files\gfxLowLevel\shaders</Filter>
-    </None>
-    <None Include="..\..\src\shaders\test.fsh">
-      <Filter>Source Files\gfxLowLevel\shaders</Filter>
-    </None>
-    <None Include="..\..\src\shaders\test.vsh">
-      <Filter>Source Files\gfxLowLevel\shaders</Filter>
-    </None>
-    <None Include="..\..\src\shaders\basicPos.fsh">
-      <Filter>Source Files\gfxLowLevel\shaders</Filter>
-    </None>
-    <None Include="..\..\src\shaders\basicPos.vsh">
       <Filter>Source Files\gfxLowLevel\shaders</Filter>
     </None>
     <None Include="..\..\src\shaders\posColTex.ps">

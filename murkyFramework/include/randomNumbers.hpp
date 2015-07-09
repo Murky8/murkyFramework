@@ -1,6 +1,7 @@
+#pragma once
 //------------------------------------------------------------------------------
-// 2014 J. Coelho.
-// Platform: 
+// 2015 J. Coelho.
+#include <murkyFramework/include/version.hpp>
 
 namespace qmaths
 {

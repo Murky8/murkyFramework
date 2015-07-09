@@ -1,13 +1,13 @@
-//------------------------------------------------------------------------------
-// 2014 J. Coelho.
-// Platform: Windows
 #pragma once
-#include "common.hpp"
+//------------------------------------------------------------------------------
+// 2015 J. Coelho.
+#include <murkyFramework/include/version.hpp>
+
+#include <murkyFramework/include/types.hpp>
 
 namespace system2
 {
     f64 readTimeSeconds();
     f64 readTimeSecondsSinceAppStart();
-	u64 ticksCPUSinceAppStart();
-	//u64 ticksCPUPerSecond;
+    u64 ticksCPUSinceAppStart();
 }

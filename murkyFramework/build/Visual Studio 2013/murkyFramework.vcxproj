@@ -191,12 +191,7 @@
     <ClCompile Include="..\..\src\appFramework.cpp" />
     <ClCompile Include="..\..\src\common.cpp" />
     <ClCompile Include="..\..\src\debugUtils.cpp" />
-    <ClCompile Include="..\..\src\fileTemplate don%27t build this.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\src\fileUtils.cpp" />
-    <ClCompile Include="..\..\src\fixedPointMaths.cpp" />
     <ClCompile Include="..\..\src\gfxHighLevel\camera.cpp" />
     <ClCompile Include="..\..\src\gfxHighLevel\projectionMat.cpp" />
     <ClCompile Include="..\..\src\gfxHighLevel\render.cpp" />
@@ -219,11 +214,7 @@
     <ClCompile Include="..\..\src\loadSaveFile.cpp" />
     <ClCompile Include="..\..\src\lodepng.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\misc.cpp" />
-    <ClCompile Include="..\..\src\octree.cpp" />
     <ClCompile Include="..\..\src\randomNumbers.cpp" />
-    <ClCompile Include="..\..\src\school.cpp" />
-    <ClCompile Include="..\..\src\serialize.cpp" />
     <ClCompile Include="..\..\src\shead.cpp" />
     <ClCompile Include="..\..\src\system.cpp" />
     <ClCompile Include="..\..\src\vectorMatrix.cpp" />
@@ -233,7 +224,6 @@
     <ClInclude Include="..\..\include\common.hpp" />
     <ClInclude Include="..\..\include\debugUtils.hpp" />
     <ClInclude Include="..\..\include\fileUtils.hpp" />
-    <ClInclude Include="..\..\include\fixedPointMaths.hpp" />
     <ClInclude Include="..\..\include\gfxHighLevel\camera.hpp" />
     <ClInclude Include="..\..\include\gfxHighLevel\projectionMat.hpp" />
     <ClInclude Include="..\..\include\gfxHighLevel\render.hpp" />
@@ -246,10 +236,7 @@
     <ClInclude Include="..\..\include\inputDevices.hpp" />
     <ClInclude Include="..\..\include\loadSaveFile.hpp" />
     <ClInclude Include="..\..\include\lodepng.h" />
-    <ClInclude Include="..\..\include\misc.hpp" />
-    <ClInclude Include="..\..\include\octree.hpp" />
     <ClInclude Include="..\..\include\randomNumbers.hpp" />
-    <ClInclude Include="..\..\include\serialize.hpp" />
     <ClInclude Include="..\..\include\stringHelpers.hpp" />
     <ClInclude Include="..\..\include\system.hpp" />
     <ClInclude Include="..\..\include\types.hpp" />
@@ -257,14 +244,10 @@
     <ClInclude Include="..\..\include\version.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\src\shaders\basicPos.fsh" />
-    <None Include="..\..\src\shaders\basicPos.vsh" />
     <None Include="..\..\src\shaders\posColTex.fsh" />
     <None Include="..\..\src\shaders\posColTex.ps" />
     <None Include="..\..\src\shaders\posColTex.vs" />
     <None Include="..\..\src\shaders\posColTex.vsh" />
-    <None Include="..\..\src\shaders\test.fsh" />
-    <None Include="..\..\src\shaders\test.vsh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

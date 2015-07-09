@@ -1,10 +1,9 @@
+#pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// C++11. Windows. /*Android.*/
-// pragma once
-#include <wtypes.h>
+#include <murkyFramework/include/version.hpp>
 
-#include <version.hpp>
+#include <wtypes.h>
 #include <common.hpp>
 #include <debugUtils.hpp>
 

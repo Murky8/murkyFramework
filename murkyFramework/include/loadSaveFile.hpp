@@ -1,8 +1,8 @@
-//------------------------------------------------------------------------------
-// 2014 J. Coelho
-// Platform: C++03. Thread safe. Windows. 32/64
-
 #pragma once
+//------------------------------------------------------------------------------
+// 2015 J. Coelho.
+#include <murkyFramework/include/version.hpp>
+
 #include <memory>
 #include <string>
 

@@ -1,10 +1,9 @@
-//------------------------------------------------------------------------------
-// 2015 J. Coelho
-// Platform: Windows 32/64
 #pragma once
+//------------------------------------------------------------------------------
+// 2015 J. Coelho.
+#include <murkyFramework/include/version.hpp>
 
 #include    <thread>
-
 #include    <murkyFramework/include/types.hpp>
 #include    <murkyFramework/include/inputDevices.hpp>
 

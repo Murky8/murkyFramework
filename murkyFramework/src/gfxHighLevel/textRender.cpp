@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// C++11
-
+// Platform: C++11
+#include <murkyFramework/include/version.hpp>
 #include <gfxHighLevel/textRender.hpp>
 
 //http://glm.g-truc.net/0.9.6/api/index.html

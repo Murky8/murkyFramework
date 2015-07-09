@@ -1,6 +1,11 @@
-#include <version.hpp>
+//------------------------------------------------------------------------------
+// 2015 J. Coelho.
+// Platform: C++11
+#include <murkyFramework/include/version.hpp>
 #ifdef USE_OPENGL
 
+#include <murkyFramework/include/common.hpp>
+#include <murkyFramework/include/debugUtils.hpp>
 #include <windows.h>
 #include <external/glew/include/GL/glew.h> 
 #include <external/glew/include/GL/wglew.h>

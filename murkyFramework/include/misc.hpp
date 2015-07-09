@@ -1,6 +1,7 @@
+#pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// Platform:
+#include <murkyFramework/include/version.hpp>
 
 #include <debugUtils.hpp>
 

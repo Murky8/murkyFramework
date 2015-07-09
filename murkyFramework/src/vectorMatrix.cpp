@@ -1,10 +1,8 @@
 //------------------------------------------------------------------------------
-// 2015 J. Coelho
-// Platforms: Intel C++11, MS C++11(2013), Win32
-
-#include <version.hpp>
+// 2015 J. Coelho.
+// Platform: C++11
+#include <murkyFramework/include/version.hpp>
 #include <vectorMatrix.hpp>
-
 #include <cmath>
 
 

@@ -1,10 +1,9 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// C++11. Windows. /*Android.*/
-// pragma once
+// Platform: C++11
+#include <murkyFramework/include/version.hpp>
 
 #include <murkyFramework/include/gfxHighLevel/projectionMat.hpp>
-
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/common.hpp>
 #include <murkyFramework/include/debugUtils.hpp>

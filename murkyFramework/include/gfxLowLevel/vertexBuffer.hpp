@@ -1,23 +1,14 @@
+#pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// Platform: any, c++11
-// reference: http://antongerdelan.net/opengl/vertexbuffers.html
-// notes:
-// low level device vertex buffer encapsulation
+#include <murkyFramework/include/version.hpp>
 
-#pragma once
 #include <common.hpp>
 #include <gfxLowLevel/texture.hpp>
 #include <gfxLowLevel/shaders.hpp>
 
-// Forward declarationss
-//GfxLowLevel::TextureRef;
-
 namespace GfxLowLevel
 { 
-
-    //--------------------------------------------------------------------------
-    // Vertex buffer
     enum class VertexType{ posCol, posColTex };
     enum class PrimativeType{ triangle, line, point };
     

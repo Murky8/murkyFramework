@@ -1,6 +1,8 @@
 //------------------------------------------------------------------------------
-// 2014 J. Coelho
-// Platform: Windows
+// 2015 J. Coelho.
+// Platform: C++11
+#include <murkyFramework/include/version.hpp>
+
 #include <murkyFramework/include/debugUtils.hpp>
 
 #include <windows.h>

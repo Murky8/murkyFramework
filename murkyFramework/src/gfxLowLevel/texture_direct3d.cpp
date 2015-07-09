@@ -1,10 +1,9 @@
-// 2015 J. Coelho.
 //------------------------------------------------------------------------------
-// Platform: windows/opengl4
-
-
+// 2015 J. Coelho.
+// Platform: C++11
 #include <murkyFramework/include/version.hpp>
 #ifdef USE_DIRECT3D
+
 #include <windows.h>
 #include <d3d11_1.h>
 #include <d3dcompiler.h>

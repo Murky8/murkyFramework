@@ -1,50 +1,53 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// OpenGL default state: http://www.glprogramming.com/red/appendixb.html
-
+// Platform: C++11
 #include <murkyFramework/include/version.hpp>
 #ifdef USE_DIRECT3D
 
-#include <gfxLowLevel/gfxLowLevel.hpp>
 #include <windows.h>
 #include <d3d11_1.h>
 #include <DirectXColors.h>
-#include "common.hpp"
+
 #include <vector>
-#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
+
+#include <murkyFramework/include/types.hpp>  
+#include "murkyFramework/include/common.hpp"
 #include <murkyFramework/include/debugUtils.hpp>
+#include <murkyFramework/include/appFramework.hpp>
 #include <murkyFramework/include/system.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
+#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
+#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
+#include <murkyFramework/include/gfxLowLevel/vertexBuffer.hpp>
+#include <murkyFramework/include/gfxLowLevel/shaders.hpp>
+#include <murkyFramework/include/gfxLowLevel/texture.hpp>
 
-#include <murkyFramework/include/appFramework.hpp>
-
-    namespace RenderHi
-    {        
-        extern GfxLowLevel::TextureManager *textureManager;
-    }
+////////////////////////////////////////////////////////////////////////////
+// forward declarations
+namespace RenderHi
+{        
+    extern GfxLowLevel::TextureManager *textureManager;
+}
 
 namespace GfxLowLevel
 {       
-    // Forward declarations    
-    extern    HINSTANCE               g_hInst;
-    extern    HWND                    g_hWnd;
-    extern    D3D_DRIVER_TYPE         g_driverType;
-    extern    D3D_FEATURE_LEVEL       g_featureLevel ;
-    extern    ID3D11Device*           g_pd3dDevice;
-    extern    ID3D11Device1*          g_pd3dDevice1;
-    extern    ID3D11DeviceContext*    g_pImmediateContext;
-    extern    ID3D11DeviceContext1*   g_pImmediateContext1;
-    extern    IDXGISwapChain*         g_pSwapChain;
-    extern    IDXGISwapChain1*        g_pSwapChain1;
-    extern    ID3D11RenderTargetView* g_pRenderTargetView;
+    D3D_DRIVER_TYPE         g_driverType = D3D_DRIVER_TYPE_NULL;        // todo: move to gfxLowLevel_d3d...
+    D3D_FEATURE_LEVEL       g_featureLevel = D3D_FEATURE_LEVEL_11_0;
+    ID3D11Device*           g_pd3dDevice = nullptr;
+    ID3D11Device1*          g_pd3dDevice1 = nullptr;
+    ID3D11DeviceContext*    g_pImmediateContext = nullptr;
+    ID3D11DeviceContext1*   g_pImmediateContext1 = nullptr;
+    IDXGISwapChain*         g_pSwapChain = nullptr;
+    IDXGISwapChain1*        g_pSwapChain1 = nullptr;
+    ID3D11RenderTargetView* g_pRenderTargetView = nullptr;
 
-    extern      ID3D11VertexShader*     g_pVertexShader;
-    extern      ID3D11PixelShader*      g_pPixelShader;
-    extern      ID3D11InputLayout*      g_pVertexLayout;
-    extern      ID3D11Buffer*           g_pVertexBuffer;
+    ID3D11VertexShader*     g_pVertexShader = nullptr;
+    ID3D11PixelShader       *g_pPixelShader = nullptr;
+    ID3D11InputLayout       *g_pVertexLayout = nullptr;
+    ID3D11Buffer            *g_pVertexBuffer = nullptr;
+    ID3D11Debug             *d3dDebug = nullptr;
+    ID3D11SamplerState          *g_pSamplerLinear = nullptr;
 
-    extern      ID3D11SamplerState*     g_pSamplerLinear;
-    
     // Data
     mat4 projectionMatrix(Unit::UNIT);    
         
@@ -153,8 +156,7 @@ namespace GfxLowLevel
     void drawEnd()
     {
         //glFlush();
-    }    
-    
+    }        
 }
 #endif // USE_DIRECT3D
     

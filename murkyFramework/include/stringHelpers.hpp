@@ -1,7 +1,8 @@
+#pragma once
 //------------------------------------------------------------------------------
-// 2014 J. Coelho
-// Platform: Windows
-// Convert wide strings to char strings
+// 2015 J. Coelho.
+#include <murkyFramework/include/version.hpp>
+
 #include <string>
 #include <codecvt>
 

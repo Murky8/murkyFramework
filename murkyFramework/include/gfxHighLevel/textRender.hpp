@@ -1,15 +1,16 @@
-//------------------------------------------------------------------------------
-// 2014 J. Coelho.
-// Platform:
 #pragma once
-
-#include <gfxLowLevel/gfxPrimativeTypes.hpp>
-#include <gfxLowLevel/vertexBuffer.hpp>
-#include <gfxLowLevel/texture.hpp>
+//------------------------------------------------------------------------------
+// 2015 J. Coelho.
+#include <murkyFramework/include/version.hpp>
 
 #include <string>
 #include <vector>
-#include <vectorMatrix.hpp>
+
+#include <murkyFramework/include/vectorMatrix.hpp>
+#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
+#include <murkyFramework/include/gfxLowLevel/vertexBuffer.hpp>
+#include <murkyFramework/include/gfxLowLevel/texture.hpp>
+
 
 namespace RenderHi
 {

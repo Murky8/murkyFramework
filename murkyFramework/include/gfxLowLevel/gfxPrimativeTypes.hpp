@@ -1,8 +1,7 @@
-//------------------------------------------------------------------------------
-// 2014 J. Coelho
-// Platform: All
-// Language: Intel C++11. 
 #pragma once
+//------------------------------------------------------------------------------
+// 2015 J. Coelho.
+#include <murkyFramework/include/version.hpp>
 
 #include <vectorMatrix.hpp>
 

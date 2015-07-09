@@ -1,7 +1,7 @@
-//------------------------------------------------------------------------------
-// 2014 J. Coelho.
-// Platform: Windows
 #pragma once
+//------------------------------------------------------------------------------
+// 2015 J. Coelho.
+#include <murkyFramework/include/version.hpp>
 
 class InputDevices
 {

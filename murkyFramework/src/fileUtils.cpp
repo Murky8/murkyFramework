@@ -1,9 +1,9 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// C++11. Windows. /*Android.*/
+// Platform: C++11
+#include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/fileUtils.hpp>
 
-#include <version.hpp>
 #include <common.hpp>
 #include <debugUtils.hpp>
 

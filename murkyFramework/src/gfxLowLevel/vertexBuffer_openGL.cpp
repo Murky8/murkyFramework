@@ -1,9 +1,6 @@
 //------------------------------------------------------------------------------
-// 2014 J. Coelho.
-//
-// Wrapper is agnostic
-// Platform: OpenGL 4.x version
-// TODO remove buffer access type? static/dynamic buffers have completely different usage?
+// 2015 J. Coelho.
+// Platform: C++11
 #include <murkyFramework/include/version.hpp>
 #ifdef USE_OPENGL
 

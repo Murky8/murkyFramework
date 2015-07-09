@@ -1,11 +1,19 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// OpenGL default state: http://www.glprogramming.com/red/appendixb.html
-#include <version.hpp>
+// Platform: C++11
+#include <murkyFramework/include/version.hpp>
 #ifdef USE_OPENGL
 
-#include <gfxLowLevel/gfxLowLevel.hpp>
+#include <vector>
 
+#include <appFramework.hpp>
+#include <types.hpp>  
+#include <gfxLowLevel/gfxPrimativeTypes.hpp>
+#include <gfxLowLevel/vertexBuffer.hpp>
+#include <gfxLowLevel/shaders.hpp>
+#include <gfxLowLevel/texture.hpp>
+
+#include <gfxLowLevel/gfxLowLevel.hpp>
 #include <vector>
 
 #include <external/glew/include/GL/glew.h> 
