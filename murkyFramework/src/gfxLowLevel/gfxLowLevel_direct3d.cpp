@@ -68,8 +68,16 @@ namespace GfxLowLevel
 
     void drawBegin()
     {     
-        g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);        
+        g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);   
+
         // vb
+        UINT stride = sizeof(Vert_pct);
+        UINT offset = 0;
+        g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
+
+        // Set primitive topology
+        g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        
         //g_pVertexBuffer
         // vb
         g_pImmediateContext->VSSetShader(g_pVertexShader, nullptr, 0);
