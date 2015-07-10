@@ -17,7 +17,7 @@
 #include <regex>
 
 
-#include <murkyFramework/include/lodepng.h>
+#include <external/lodepng.h>
 #include <murkyFramework/include/common.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/stringHelpers.hpp>

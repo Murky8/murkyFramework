@@ -1,10 +1,9 @@
 //------------------------------------------------------------------------------
-// 2014 J. Coelho
-// Platform: All
-// Language: Intel C++11. 
-// NOT MSVC: VS2013 doesn't support arrays in initializer lists: 
+// 2015 J. Coelho.
+// Platform: C++11
+#include <murkyFramework/include/version.hpp>
 
-#include <gfxLowLevel/gfxPrimativeTypes.hpp>
+#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 
 Vert_pc::Vert_pc(vec3 p, vec3 c) : pos(p), col(c) 
 {

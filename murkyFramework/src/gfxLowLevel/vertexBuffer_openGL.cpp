@@ -8,13 +8,9 @@
 #include <glew/include/GL/glew.h> 
 #include <glew/include/GL/wglew.h>
 
-#include <gfxLowLevel/gfxPrimativeTypes.hpp>
-#include <gfxLowLevel/vertexBuffer.hpp>
-#include <gfxLowLevel/shaders.hpp>
-
-// forward declarations
-
-
+#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
+#include <murkyFramework/include/gfxLowLevel/vertexBuffer.hpp>
+#include <murkyFramework/include/gfxLowLevel/shaders.hpp>
 
 namespace GfxLowLevel
 {

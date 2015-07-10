@@ -4,8 +4,8 @@
 #include <murkyFramework/include/version.hpp>
 
 #include <wtypes.h>
-#include <common.hpp>
-#include <debugUtils.hpp>
+#include <murkyFramework/include/common.hpp>
+#include <murkyFramework/include/debugUtils.hpp>
 
 class FileDirectoryWalker
 {

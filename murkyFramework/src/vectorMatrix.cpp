@@ -2,9 +2,9 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
-#include <vectorMatrix.hpp>
-#include <cmath>
 
+#include <cmath>
+#include <murkyFramework/include/vectorMatrix.hpp>
 
 //------------------------------------------------------------------------------
 // vec4

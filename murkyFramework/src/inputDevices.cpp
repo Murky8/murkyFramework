@@ -2,18 +2,14 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/inputDevices.hpp>
 
-#include <version.hpp>
 #include <windows.h>
-
-
+#include <murkyFramework/include/inputDevices.hpp>
    
 // Constructors
 InputDevices::InputDevices()
 {    
 }
-
  
 bool InputDevices::keyStatus(InputDevices::KeyCode iKey)
 {

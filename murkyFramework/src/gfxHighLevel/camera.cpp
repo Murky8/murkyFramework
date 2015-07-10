@@ -2,11 +2,10 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
-#include <gfxHighLevel/camera.hpp>
 
-#include <version.hpp>
-#include <common.hpp>
-#include <debugUtils.hpp>
+#include <murkyFramework/include/gfxHighLevel/camera.hpp>
+#include <murkyFramework/include/common.hpp>
+#include <murkyFramework/include/debugUtils.hpp>
 
 Camera::Camera(mat3 &ori, vec4 pos, f32 fov) : ori(ori), pos(pos), fov(fov)
 {    

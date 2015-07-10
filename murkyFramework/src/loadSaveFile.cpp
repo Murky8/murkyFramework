@@ -6,9 +6,9 @@
 #include <windows.h>
 #include <string>
 
-#include <common.hpp>
-#include <loadSaveFile.hpp>
-#include <debugUtils.hpp>   
+#include <murkyFramework/include/common.hpp>
+#include <murkyFramework/include/loadSaveFile.hpp>
+#include <murkyFramework/include/debugUtils.hpp>   
 
 namespace
 {

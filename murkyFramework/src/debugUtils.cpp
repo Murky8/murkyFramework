@@ -4,11 +4,10 @@
 #include <murkyFramework/include/version.hpp>
 
 #include <murkyFramework/include/debugUtils.hpp>
-
 #include <windows.h>
-#include <common.hpp>
 #include <codecvt>
-#include <stringHelpers.hpp>
+#include <murkyFramework/include/common.hpp>
+#include <murkyFramework/include/stringHelpers.hpp>
 #include <murkyFramework/include/inputDevices.hpp>
 
 //------------------------------------------------------------------------------

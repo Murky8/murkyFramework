@@ -6,21 +6,21 @@
 #include <vector>
 #include <codecvt>
 
-#include <types.hpp>
-#include <debugUtils.hpp>
-#include <loadSaveFile.hpp>
-#include <randomNumbers.hpp>
-#include <system.hpp>
-#include <fileUtils.hpp>
-#include <vectorMatrix.hpp>
+#include <murkyFramework/include/types.hpp>
+#include <murkyFramework/include/debugUtils.hpp>
+#include <murkyFramework/include/loadSaveFile.hpp>
+#include <murkyFramework/include/randomNumbers.hpp>
+#include <murkyFramework/include/system.hpp>
+#include <murkyFramework/include/fileUtils.hpp>
+#include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/appFramework.hpp>
-#include <gfxLowLevel/gfxPrimativeTypes.hpp>
-#include <gfxLowLevel/gfxLowLevel.hpp>
-#include <gfxLowLevel/texture.hpp>
-#include <gfxLowLevel/shaders.hpp>
-#include <gfxLowLevel/vertexBuffer.hpp>
-#include <gfxHighLevel/render.hpp>
-#include <gfxHighLevel/textRender.hpp>
+#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
+#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
+#include <murkyFramework/include/gfxLowLevel/texture.hpp>
+#include <murkyFramework/include/gfxLowLevel/shaders.hpp>
+#include <murkyFramework/include/gfxLowLevel/vertexBuffer.hpp>
+#include <murkyFramework/include/gfxHighLevel/render.hpp>
+#include <murkyFramework/include/gfxHighLevel/textRender.hpp>
 #include <external/glm/glm.hpp>
 
 namespace GfxLowLevel

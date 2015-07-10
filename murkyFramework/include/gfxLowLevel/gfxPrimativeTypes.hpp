@@ -3,7 +3,7 @@
 // 2015 J. Coelho.
 #include <murkyFramework/include/version.hpp>
 
-#include <vectorMatrix.hpp>
+#include <murkyFramework/include/vectorMatrix.hpp>
 
 //#pragma pack(push, 1)
 //------------------------------------------------------------------------------

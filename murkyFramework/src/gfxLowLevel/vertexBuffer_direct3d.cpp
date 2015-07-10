@@ -6,8 +6,8 @@
 
 #include <windows.h>
 #include <d3d11_1.h>
-#include <gfxLowLevel/gfxLowLevel.hpp>
-#include "common.hpp"
+#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
+#include "murkyFramework/include/common.hpp"
 #include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <vector>
 

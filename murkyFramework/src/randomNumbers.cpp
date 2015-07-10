@@ -3,8 +3,8 @@
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
 
-#include    <cstdlib>
-#include    <common.hpp>
+#include <cstdlib>
+#include <murkyFramework/include/common.hpp>
 
 namespace qmaths
 {

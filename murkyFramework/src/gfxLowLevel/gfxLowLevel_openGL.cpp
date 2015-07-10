@@ -6,14 +6,14 @@
 
 #include <vector>
 
-#include <appFramework.hpp>
-#include <types.hpp>  
-#include <gfxLowLevel/gfxPrimativeTypes.hpp>
-#include <gfxLowLevel/vertexBuffer.hpp>
-#include <gfxLowLevel/shaders.hpp>
-#include <gfxLowLevel/texture.hpp>
+#include <murkyFramework/include/appFramework.hpp>
+#include <murkyFramework/include/types.hpp>  
+#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
+#include <murkyFramework/include/gfxLowLevel/vertexBuffer.hpp>
+#include <murkyFramework/include/gfxLowLevel/shaders.hpp>
+#include <murkyFramework/include/gfxLowLevel/texture.hpp>
 
-#include <gfxLowLevel/gfxLowLevel.hpp>
+#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 #include <vector>
 
 #include <external/glew/include/GL/glew.h> 
@@ -29,10 +29,9 @@
 
 //#include <gli/gli.hpp>
 
-#include <debugUtils.hpp>
-#include <system.hpp>
-#include <vectorMatrix.hpp>
-
+#include <murkyFramework/include/debugUtils.hpp>
+#include <murkyFramework/include/system.hpp>
+#include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/appFramework.hpp>
 
 namespace GfxLowLevel

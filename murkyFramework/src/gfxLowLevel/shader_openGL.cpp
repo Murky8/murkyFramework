@@ -5,13 +5,13 @@
 #ifdef USE_OPENGL
 
 #include <vector>
-#include <gfxLowLevel/gfxLowLevel.hpp>
-#include <gfxLowLevel/shaders.hpp>
-#include <debugUtils.hpp>
-#include <loadSaveFile.hpp>
+#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
+#include <murkyFramework/include/gfxLowLevel/shaders.hpp>
+#include <murkyFramework/include/debugUtils.hpp>
+#include <murkyFramework/include/loadSaveFile.hpp>
 
-#include <glew/include/GL/glew.h> 
-#include <glew/include/GL/wglew.h>
+#include <external/glew/include/GL/glew.h> 
+#include <external/glew/include/GL/wglew.h>
 
 namespace GfxLowLevel
 {    	

@@ -4,18 +4,18 @@
 #include <murkyFramework/include/version.hpp>
 #ifdef USE_OPENGL
 
-
-#include <gfxLowLevel/texture.hpp>
+#include <murkyFramework/include/gfxLowLevel/texture.hpp>
 
 #include <vector>
 #include <regex>
 #include <glew/include/GL/glew.h> 
 #include <glew/include/GL/wglew.h>
 
-#include <lodepng.h>
-#include <common.hpp>
-#include <debugUtils.hpp>
-#include <stringHelpers.hpp>
+#include <external/lodepng.h>
+#include <murkyFramework/include/common.hpp>
+#include <murkyFramework/include/debugUtils.hpp>
+#include <murkyFramework/include/stringHelpers.hpp>
+
 namespace GfxLowLevel
 {
     // forward declarations

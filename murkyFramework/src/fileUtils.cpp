@@ -2,11 +2,10 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
+
 #include <murkyFramework/include/fileUtils.hpp>
-
-#include <common.hpp>
-#include <debugUtils.hpp>
-
+#include <murkyFramework/include/common.hpp>
+#include <murkyFramework/include/debugUtils.hpp>
     
 FileDirectoryWalker::FileDirectoryWalker(const std::wstring &dirName, const std::wstring &filterRegex)
 {

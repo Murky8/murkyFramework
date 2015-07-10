@@ -1,15 +1,12 @@
-//------------------------------------------------------------------------------
-// 2014 J. Coelho
-// Platforms: Intel C++11, MS C++11(2013), Win32
-
 #pragma once
+//------------------------------------------------------------------------------
+// 2015 J. Coelho.
+// Platform: C++11
 
-#include <version.hpp>
+#include <murkyFramework/include/version.hpp>
+
 #include <vector>
-
-#include <common.hpp>	
-#include <serialize.hpp>
-
+#include <murkyFramework/include/common.hpp>	
 
 enum class Unit{ UNIT }; // arrrgghh!
 enum class Zero{ ZERO }; // see above
@@ -53,7 +50,6 @@ public:
     explicit	vec3(vec2 v);
     // Destructors
     // Methods
-    void serialize(SerializationStream s);
     friend std::wostream &operator<<(std::wostream &st, const vec3 &v);
     // Data
     union

@@ -1,40 +1,61 @@
 #include <string>
 #include <iostream>
 #include <utility>
-#include "debugUtils.hpp"
 #include <vector>
 #include <map>
+#include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/types.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
 
-// http://www.cplusplus.com/doc/tutorial
 
-using std::vector;
-
-// template skool
-
-
-// basic template
-template<typename T>
-void clamp(T &v0, T min, T max)
+/*
+// inline namespace
+namespace God
 {
+    namespace v0
+    {
+        const int moof = 123;
+    }
+
+    inline namespace v1
+    {
+        const int moof = 321;
+    }
+
 }
+*/
 
-// specialization
-template<>
-void clamp<vec3>(vec3 &v, vec3 min, vec3 max)
-{
-    clamp(v.x, 0.f, 1.f);
-}
-
-// class template
-template<class T>
-class Contain
-{
-public:        
-private:
-    T a;
-};
+//
+//
+//
+//// http://www.cplusplus.com/doc/tutorial
+//
+//using std::vector;
+//
+//// template skool
+//
+//
+//// basic template
+//template<typename T>
+//void clamp(T &v0, T min, T max)
+//{
+//}
+//
+//// specialization
+//template<>
+//void clamp<vec3>(vec3 &v, vec3 min, vec3 max)
+//{
+//    clamp(v.x, 0.f, 1.f);
+//}
+//
+//// class template
+//template<class T>
+//class Contain
+//{
+//public:        
+//private:
+//    T a;
+//};
 
 // template in class
 // nested template

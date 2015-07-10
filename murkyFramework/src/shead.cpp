@@ -1,5 +1,7 @@
-
-#include <version.hpp>
+//------------------------------------------------------------------------------
+// 2015 J. Coelho.
+// Platform: C++11
+#include <murkyFramework/include/version.hpp>
 
 #include <iostream>
 #include <vector>

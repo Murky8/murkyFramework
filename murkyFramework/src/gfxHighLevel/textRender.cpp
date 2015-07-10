@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
-#include <gfxHighLevel/textRender.hpp>
+#include <murkyFramework/include/gfxHighLevel/textRender.hpp>
 
 //http://glm.g-truc.net/0.9.6/api/index.html
 #define GLM_FORCE_RADIANS
@@ -13,15 +13,14 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <debugUtils.hpp>
-#include <gfxLowLevel/gfxLowLevel.hpp>
-#include <gfxLowLevel/texture.hpp>
-#include <gfxLowLevel/gfxPrimativeTypes.hpp>
+#include <murkyFramework/include/debugUtils.hpp>
+#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
+#include <murkyFramework/include/gfxLowLevel/texture.hpp>
+#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 
-#include <gfxHighLevel/render.hpp>
-#include <vectorMatrix.hpp>
+#include <murkyFramework/include/gfxHighLevel/render.hpp>
+#include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/gfxHighLevel/projectionMat.hpp>
-
 
 namespace RenderHi
 {

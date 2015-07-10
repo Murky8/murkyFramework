@@ -9,7 +9,7 @@
 #include <windows.h>
 #include <external/glew/include/GL/glew.h> 
 #include <external/glew/include/GL/wglew.h>
-#include <gfxLowLevel/gfxLowLevel.hpp>
+#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 // Forward declarations
 
 

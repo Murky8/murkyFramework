@@ -34,6 +34,9 @@
     <Filter Include="Source Files\gfxLowLevel\direct3D">
       <UniqueIdentifier>{bc319cde-97d9-4b8d-bbff-e244d4fff0a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="external">
+      <UniqueIdentifier>{0a208fb9-7916-47ba-a993-d022fbd13a5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\common.cpp">
@@ -46,9 +49,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\loadSaveFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\lodepng.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\main.cpp">
@@ -126,6 +126,12 @@
     <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer_openGL.cpp">
       <Filter>Source Files\gfxLowLevel\openGL</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\external\lodepng.cpp">
+      <Filter>external</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\school.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\appFramework.hpp">
@@ -141,9 +147,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\loadSaveFile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\lodepng.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\randomNumbers.hpp">
@@ -191,8 +194,11 @@
     <ClInclude Include="..\..\include\gfxLowLevel\texture.hpp">
       <Filter>Header Files\gfxLowLevel</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\external\lodepng.h">
+      <Filter>external</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\version.hpp">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

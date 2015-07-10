@@ -4,7 +4,7 @@
 
 #include <murkyFramework/include/types.hpp>
 #include <map>
-#include <debugUtils.hpp>
+#include <murkyFramework/include/debugUtils.hpp>
 
 namespace GfxLowLevel
 {

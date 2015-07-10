@@ -3,9 +3,9 @@
 // 2015 J. Coelho.
 #include <murkyFramework/include/version.hpp>
 
-#include <common.hpp>
-#include <gfxLowLevel/texture.hpp>
-#include <gfxLowLevel/shaders.hpp>
+#include <murkyFramework/include/common.hpp>
+#include <murkyFramework/include/gfxLowLevel/texture.hpp>
+#include <murkyFramework/include/gfxLowLevel/shaders.hpp>
 
 namespace GfxLowLevel
 { 

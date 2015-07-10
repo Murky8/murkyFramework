@@ -2,9 +2,10 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/system.hpp>
+
 #include <windows.h>
-#include <common.hpp>
+#include <murkyFramework/include/common.hpp>
+#include <murkyFramework/include/system.hpp>
 
 namespace system2
 {
