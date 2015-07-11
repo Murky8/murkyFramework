@@ -265,9 +265,9 @@ namespace GfxLowLevel
         if (g_pd3dDevice) g_pd3dDevice->Release();
         */
         
-        if (g_pImmediateContext) g_pImmediateContext->ClearState();        
-
-
+        if (g_pImmediateContext) g_pImmediateContext->ClearState();
+        if (g_pImmediateContext) g_pImmediateContext->Flush();
+        
       
         if (g_pVertexLayout) g_pVertexLayout->Release();
         if (g_pVertexBuffer) g_pVertexBuffer->Release();

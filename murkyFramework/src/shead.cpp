@@ -142,6 +142,13 @@ void masterInitialise()
     }
 
     auto res = createWindow(wcstring, Gapp.screenResX, Gapp.screenResY);
+  
+    if (!res)
+        triggerBreakpoint(L"Init device failed");
+
+    res = GfxLowLevel::initialise_device(hDC, hRC, hWnd);
+    if (!res)
+        triggerBreakpoint(L"Init device failed");
         
     GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     
@@ -160,7 +167,10 @@ void mainLoop()
     GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
                 
     RenderHi::drawAll();
+
+#ifdef USE_OPENGL
     SwapBuffers(hDC);
+#endif
 
     Gapp.frameCounter++;
 
@@ -229,11 +239,7 @@ bool createWindow(LPCWSTR title, int width, int height)
         );
     hDC = GetDC(hWnd); // Get the device context for our window
 
-    bool res = GfxLowLevel::initialise_device(hDC, hRC, hWnd);
-   
-    if (!res)
-        triggerBreakpoint(L"Init device failed");
-    
+     
     ShowWindow(hWnd, SW_SHOW);
     UpdateWindow(hWnd);
 
