@@ -102,46 +102,52 @@ namespace GfxLowLevel
     {     
         g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);   
 
-        // vb
-        // fill vb
-        std::vector<Triangle_pct> tris;
-        //srand(1);
-
-        for (int i = 0; i < 10; i++)
+        if (0)
         {
-            Triangle_pct tri
+            // vb
+            // fill vb
+            std::vector<Triangle_pct> tris;
+            //srand(1);
+
+            // Set the input layout
+            g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
+
+            for (int i = 0; i < 10; i++)
             {
-                Vert_pct(vec3(rn, rn, 0.5f), vec3(0.8f, 0.0f, 0.0f), vec2(0.0f, 0.7f)),
-                Vert_pct(vec3(rn, rn, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)),
-                Vert_pct(vec3(rn, rn, 0.5f), vec3(0.33f, 0.34f, 0.35f), vec2(0.36f, 0.37f))
-            };
-            tris.push_back(tri);
+                Triangle_pct tri
+                {
+                    Vert_pct(vec3(rn, rn, 0.5f), vec3(0.8f, 0.0f, 0.0f), vec2(0.0f, 0.7f)),
+                    Vert_pct(vec3(rn, rn, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)),
+                    Vert_pct(vec3(rn, rn, 0.5f), vec3(0.33f, 0.34f, 0.35f), vec2(0.36f, 0.37f))
+                };
+                tris.push_back(tri);
+            }
+
+            D3D11_MAPPED_SUBRESOURCE subResource;
+            g_pImmediateContext->Map(g_pVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &subResource);
+            //memcpy(ms.pData, verts, sizeof(verts));
+            memcpy(subResource.pData, tris.data(), tris.size()*sizeof(Triangle_pct));
+            g_pImmediateContext->Unmap(g_pVertexBuffer, NULL);
+
+            UINT stride = sizeof(Vert_pct);
+            UINT offset = 0;
+            g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
+            g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+            // fill vb
+
+            //g_pVertexBuffer
+            // vb
+            g_pImmediateContext->VSSetShader(g_pVertexShader, nullptr, 0);
+            g_pImmediateContext->PSSetShader(g_pPixelShader, nullptr, 0);
+            g_pImmediateContext->PSSetShaderResources(
+                0,
+                1,
+                (ID3D11ShaderResourceView * const *)&RenderHi::textureManager->getTextureByName(L"font").handle);
+            g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
+
+            g_pImmediateContext->Draw(10 * 3, 0);
         }
-  
-        D3D11_MAPPED_SUBRESOURCE subResource;
-        g_pImmediateContext->Map(g_pVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &subResource);
-        //memcpy(ms.pData, verts, sizeof(verts));
-        memcpy(subResource.pData, tris.data(), tris.size()*sizeof(Triangle_pct));
-        g_pImmediateContext->Unmap(g_pVertexBuffer, NULL);
-
-        UINT stride = sizeof(Vert_pct);
-        UINT offset = 0;
-        g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);    
-        g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-        // fill vb
-
-        //g_pVertexBuffer
-        // vb
-        g_pImmediateContext->VSSetShader(g_pVertexShader, nullptr, 0);
-        g_pImmediateContext->PSSetShader(g_pPixelShader, nullptr, 0);
-        g_pImmediateContext->PSSetShaderResources(
-            0,
-            1,
-            ( ID3D11ShaderResourceView * const *)&RenderHi::textureManager->getTextureByName(L"font").handle );
-        g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
-
-        g_pImmediateContext->Draw(10*3, 0);
         g_pSwapChain->Present(0, 0);
 
         

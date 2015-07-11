@@ -6,11 +6,10 @@
 
 #include <windows.h>
 #include <d3d11_1.h>
-#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
-#include "murkyFramework/include/common.hpp"
-#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <vector>
 
+#include "murkyFramework/include/common.hpp"
+#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 #include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/gfxLowLevel/vertexBuffer.hpp>
 #include <murkyFramework/include/gfxLowLevel/shaders.hpp>

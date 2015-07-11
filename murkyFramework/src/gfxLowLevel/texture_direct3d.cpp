@@ -123,52 +123,6 @@ namespace GfxLowLevel
         
         textures.insert(std::pair<std::wstring, TextureId>(name, textureId));
         
-        //D3D11_TEXTURE2D_DESC desc;
-        //ZeroMemory(&desc, sizeof(desc));
-        //desc.Width = width;
-        //desc.Height = height;
-        //desc.MipLevels = desc.ArraySize = 1;
-        //desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-        //desc.SampleDesc.Count = 1;
-        //desc.Usage = D3D11_USAGE_DYNAMIC;
-        //desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-        //desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-        //desc.MiscFlags = 0;
-
-
-        //ID3D11Texture2D *pTexture = NULL;
-        //res = g_pd3dDevice->CreateTexture2D(&desc, NULL, &pTexture);
-        //if (res != S_OK)
-        //    triggerBreakpoint();
-
-        //D3D11_MAPPED_SUBRESOURCE mappedResource;
-        //g_pImmediateContext->Map(m_texture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource));
-        //memcpy(mappedResource.pData, buffer, rowspan*height);
-        //g_pImmediateContext->Unmap(m_texture, 0);
-
-
-        //res = g_pImmediateContext->Map(m_instanceBuffer.Get(), 0, D3D11_MAP_WRITE, 0, &inst)
-          //  if (res != S_OK)
-            //    triggerBreakpoint();
-        // d3d
-
-
-        // opengl TextureId newTexture(fullPath);
-
-
-        /*
-        std::wregex regexExpr(L"png");
-        if (regex_search(fileName, regexExpr))
-        {
-            std::wstring name( fileName.substr(0, fileName.size() - 4) );
-
-            textures.insert(std::pair<std::wstring, TextureId>(name, newTexture));   
-        }
-        else
-        {
-            triggerBreakpoint();
-        }  
-        */
     }
 
     TextureId &TextureManager::getTextureByName(const std::wstring &name)

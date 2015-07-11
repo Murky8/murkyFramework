@@ -77,6 +77,7 @@ extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
             dwShaderFlags, 0, ppBlobOut, &pErrorBlob);
         if (FAILED(hr))
         {
+            triggerBreakpoint();
             if (pErrorBlob)
             {
                 OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
@@ -124,14 +125,13 @@ extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
         UINT numElements = ARRAYSIZE(layout);
 
         // Create the input layout
+        g_pVertexLayout = NULL;
         hr = g_pd3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
             pVSBlob->GetBufferSize(), &g_pVertexLayout);
         pVSBlob->Release();
         if (FAILED(hr))
             triggerBreakpoint();
-
-        // Set the input layout
-        g_pImmediateContext->IASetInputLayout(g_pVertexLayout); // jc place in render?
+             
 
         // Compile the pixel shader
         ID3DBlob* pPSBlob = nullptr;

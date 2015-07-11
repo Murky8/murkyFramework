@@ -91,7 +91,7 @@ namespace GfxLowLevel
             if (FAILED(hr))
             {
                 triggerBreakpoint();
-                return hr;
+                return false;
             }
 
             // debug mode
@@ -141,7 +141,7 @@ namespace GfxLowLevel
             if (FAILED(hr))
             {
                 triggerBreakpoint();
-                return hr;
+                return false;
             }
 
             // Create swap chain 
@@ -201,8 +201,8 @@ namespace GfxLowLevel
 
             if (FAILED(hr))
             {
-                return hr;
                 triggerBreakpoint();
+                return false;
             }
 
             // Create a render target view 
@@ -211,7 +211,7 @@ namespace GfxLowLevel
             if (FAILED(hr))
             {
                 triggerBreakpoint();
-                return hr;
+                return false;
             }
 
             hr = g_pd3dDevice->CreateRenderTargetView(pBackBuffer, nullptr, &g_pRenderTargetView);
@@ -219,7 +219,7 @@ namespace GfxLowLevel
             if (FAILED(hr))
             {
                 triggerBreakpoint();
-                return hr;
+                return false;
             }
 
             g_pImmediateContext->OMSetRenderTargets(1, &g_pRenderTargetView, nullptr);

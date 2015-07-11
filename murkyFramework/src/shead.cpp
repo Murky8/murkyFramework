@@ -208,6 +208,8 @@ bool createWindow(LPCWSTR title, int width, int height)
 
     if (!RegisterClass(&windowClass))
     {
+        triggerBreakpoint(L"Init device failed");
+
         return false;
     }
 
