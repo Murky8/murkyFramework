@@ -18,8 +18,12 @@ namespace GfxLowLevel
 
     // constructor	
     VertexBufferDynamic::VertexBufferDynamic(
-        VertexType vertexType, PrimativeType primativeType, ShaderId shaderProgram, GfxLowLevel::TextureId &texture ) :
-        vertexType(vertexType), primativeType(primativeType), shaderProgram(shaderProgram), texture(texture)
+        VertexType vertexType, PrimativeType primativeType,
+        ShaderId shaderProgram, GfxLowLevel::TextureId &texture,
+        u32 nVerts) :
+        vertexType(vertexType), primativeType(primativeType),
+        shaderProgram(shaderProgram), texture(texture),
+        capacity(nVerts)
     {				
         glGenVertexArrays(1, &vao);
         glBindVertexArray(vao);

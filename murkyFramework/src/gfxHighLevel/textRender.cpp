@@ -36,7 +36,7 @@ namespace RenderHi
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::triangle,
             GfxLowLevel::Shaders::posColText,
-            textureRef);    
+            textureRef, 1024);    
 
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }

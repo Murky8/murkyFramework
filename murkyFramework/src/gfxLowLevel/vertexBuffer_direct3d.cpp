@@ -21,26 +21,27 @@ namespace GfxLowLevel
     extern ID3D11Device *g_pd3dDevice;
     extern ID3D11Buffer *g_pVertexBuffer;
     void    onGfxDeviceErrorTriggerBreakpoint();
-
+    
     // constructor	
     VertexBufferDynamic::VertexBufferDynamic(
-        VertexType vertexType, PrimativeType primativeType, ShaderId shaderProgram, GfxLowLevel::TextureId &texture ) :
-        vertexType(vertexType), primativeType(primativeType), shaderProgram(shaderProgram), texture(texture)
-    {				
-        debugLog << L"w";
-
-   /*     D3D11_BUFFER_DESC bd;
+        VertexType vertexType, PrimativeType primativeType, 
+        ShaderId shaderProgram, GfxLowLevel::TextureId &texture,
+        u32 nVerts) :
+        vertexType(vertexType), primativeType(primativeType), 
+        shaderProgram(shaderProgram), texture(texture),
+        capacity(nVerts)
+    {				        
+        D3D11_BUFFER_DESC bd;
         ZeroMemory(&bd, sizeof(bd));
-        bd.Usage = D3D11_USAGE_DYNAMIC; 
-        bd.ByteWidth = sizeof(Triangle_pc) * 1000;
+        bd.Usage = D3D11_USAGE_DYNAMIC;
+        bd.ByteWidth = sizeof(Vert_pct) * nVerts;
         bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
         bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
         bd.MiscFlags = 0;
         
         HRESULT hr = g_pd3dDevice->CreateBuffer(&bd, NULL, &g_pVertexBuffer);
         if (FAILED(hr))
-            triggerBreakpoint();*/
-
+            triggerBreakpoint();
     }
 
     // methods

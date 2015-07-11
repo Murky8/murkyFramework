@@ -93,8 +93,8 @@ namespace RenderHi
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::triangle,
             GfxLowLevel::Shaders::posColText,
-            textureManager->getTextureByName(L"font")
-            );
+            textureManager->getTextureByName(L"font"),
+            1024 );
 #endif // USE_DIRECT3D
 
 #ifdef USE_OPENGL
@@ -108,8 +108,7 @@ namespace RenderHi
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::triangle,
             GfxLowLevel::Shaders::posColText,
-            textureManager->getTextureByName(L"font")
-            );
+            textureManager->getTextureByName(L"font"), 1024  );
 
 #endif 
         Gapp.gfxInitialised = true;

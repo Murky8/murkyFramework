@@ -4,6 +4,7 @@
 #include <murkyFramework/include/version.hpp>
 
 #include <murkyFramework/include/common.hpp>
+#include "murkyFramework/include/types.hpp"
 #include <murkyFramework/include/gfxLowLevel/texture.hpp>
 #include <murkyFramework/include/gfxLowLevel/shaders.hpp>
 
@@ -17,7 +18,11 @@ namespace GfxLowLevel
     public:
         // Constructors		
         // if not using a texture, pass '0'
-        VertexBufferDynamic(VertexType vertexType, PrimativeType primativeType, ShaderId shaderProgram, TextureId &texture);
+        // capacity measures in 
+        VertexBufferDynamic(
+            VertexType vertexType, PrimativeType primativeType, 
+            ShaderId shaderProgram, TextureId &texture,
+            u32 nVerts );
 
         // Methods		
         void	draw(void *data, int nPrimatives);
@@ -29,8 +34,16 @@ namespace GfxLowLevel
         const ShaderId      shaderProgram;
         const TextureId	    texture;
     private:
-        u32 vbo;
-        u32 vao;
+        u32 capacity;
+      
+#ifdef USE_DIRECT3D
+           void *p;
+#endif // USE_DIRECT3D
+#ifdef USE_OPENGL
+           u32 vao;
+           u32 vbo;        
+#endif // USE_OPENGL
+        
         VertexBufferDynamic() = delete;
     };
   
