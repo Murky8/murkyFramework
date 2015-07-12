@@ -22,6 +22,10 @@ namespace GfxLowLevel
     extern ID3D11Buffer *g_pVertexBuffer;
     void    onGfxDeviceErrorTriggerBreakpoint();
     
+    struct handleDeviceVB
+    {
+        ID3D11Buffer *deviceBuffer;
+    };
     // constructor	
     VertexBufferDynamic::VertexBufferDynamic(
         VertexType vertexType, PrimativeType primativeType, 
@@ -30,7 +34,8 @@ namespace GfxLowLevel
         vertexType(vertexType), primativeType(primativeType), 
         shaderProgram(shaderProgram), texture(texture),
         capacity(nVerts)
-    {				        
+    {			
+        pHandle = new handleDeviceVB();
         D3D11_BUFFER_DESC bd;
         ZeroMemory(&bd, sizeof(bd));
         bd.Usage = D3D11_USAGE_DYNAMIC;
@@ -39,11 +44,15 @@ namespace GfxLowLevel
         bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
         bd.MiscFlags = 0;
         
-        HRESULT hr = g_pd3dDevice->CreateBuffer(&bd, NULL, &g_pVertexBuffer);
+        HRESULT hr = g_pd3dDevice->CreateBuffer(&bd, NULL, &pHandle->deviceBuffer);
         if (FAILED(hr))
             triggerBreakpoint();
     }
 
+    VertexBufferDynamic::~VertexBufferDynamic()
+    {
+        delete pHandle;
+    }
     // methods
     void	VertexBufferDynamic::draw( void *data, int nPrimatives )
     {

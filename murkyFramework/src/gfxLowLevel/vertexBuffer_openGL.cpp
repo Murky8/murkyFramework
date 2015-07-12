@@ -16,6 +16,12 @@ namespace GfxLowLevel
 {
     void onGfxDeviceErrorTriggerBreakpoint();
 
+    struct handleDeviceVB
+    {
+        u32 vao;
+        u32 vbo;
+    };
+
     // constructor	
     VertexBufferDynamic::VertexBufferDynamic(
         VertexType vertexType, PrimativeType primativeType,
@@ -25,11 +31,12 @@ namespace GfxLowLevel
         shaderProgram(shaderProgram), texture(texture),
         capacity(nVerts)
     {				
-        glGenVertexArrays(1, &vao);
-        glBindVertexArray(vao);
+        pHandle = new handleDeviceVB();
+        glGenVertexArrays(1, &pHandle->vao);
+        glBindVertexArray(pHandle->vao);
 
-        glGenBuffers(1, &vbo);
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);		
+        glGenBuffers(1, &pHandle->vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, pHandle->vbo);
 
         glUseProgram( shaderProgram.getHandle() );
 
@@ -55,6 +62,11 @@ namespace GfxLowLevel
         glUseProgram(0);// unsure; test
 
         onGfxDeviceErrorTriggerBreakpoint();
+    }
+
+    VertexBufferDynamic::~VertexBufferDynamic()
+    {
+        delete pHandle;
     }
 
     // methods
@@ -97,7 +109,7 @@ namespace GfxLowLevel
 
         //Vert_pct *d = static_cast<Vert_pct*>(data);
 
-        glBindVertexArray(vao);		
+        glBindVertexArray(pHandle->vao);		
 
         glUseProgram(shaderProgram.getHandle());
         glUniform1i(Shaders::uniforms_textureSamplerID, 0);
@@ -105,7 +117,7 @@ namespace GfxLowLevel
         glBindTexture( GL_TEXTURE_2D, texture.getHandle() );//is this already bound to vao???
         onGfxDeviceErrorTriggerBreakpoint();
 
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, pHandle->vbo);
         //glBufferSubData(GL_ARRAY_BUFFER, 0, nPrimatives*nVerticiesPerPrimative*sizeVertex, data);
         glBufferData(GL_ARRAY_BUFFER, nPrimatives*nVerticiesPerPrimative*sizeVertex, data, GL_DYNAMIC_DRAW);
 

@@ -102,7 +102,7 @@ namespace GfxLowLevel
     {     
         g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);   
 
-        if (0)
+        if (1)
         {
             // vb
             // fill vb
