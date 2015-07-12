@@ -40,7 +40,7 @@ namespace GfxLowLevel
       
 
 #ifdef USE_DIRECT3D
-           void *p;
+           
 #endif // USE_DIRECT3D
 #ifdef USE_OPENGL
            //u32 vao;

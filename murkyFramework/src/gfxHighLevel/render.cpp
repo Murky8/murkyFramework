@@ -148,7 +148,6 @@ namespace RenderHi
             0.f, 1.f, 1.f, -0.f, -1.f, 1.f);
 
         GfxLowLevel::setUniform_projectionMatrix(&projectionMatrix);
-        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
 
         // draw stuff here
         std::wstring tex;
@@ -157,15 +156,13 @@ namespace RenderHi
         tex += L"\n";
         tex += L"2denboofme!\n";
         textRenderer->drawText(tex);
-
-        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
-
-        
+              
+#endif
         #define rn (((float)rand() / (float)RAND_MAX))
         std::vector<Triangle_pct> tris;
         srand(0);
         
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 2; i++)
         {
         Triangle_pct tri
         {
@@ -177,8 +174,7 @@ namespace RenderHi
         }
         vertexBufferTemp->draw(tris.data(), tris.size());
         
-        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
-#endif
+     
         GfxLowLevel::drawEnd();
     }
 

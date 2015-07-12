@@ -47,6 +47,7 @@ namespace GfxLowLevel
     ID3D11Buffer            *g_pVertexBuffer = nullptr;
     ID3D11Debug             *d3dDebug = nullptr;
     ID3D11SamplerState          *g_pSamplerLinear = nullptr;
+    ID3D11RasterizerState *g_pRasterState = nullptr;
 
     // Data
     mat4 projectionMatrix(Unit::UNIT);    
@@ -102,7 +103,7 @@ namespace GfxLowLevel
     {     
         g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);   
 
-        if (1)
+        if (0)
         {
             // vb
             // fill vb
@@ -111,7 +112,7 @@ namespace GfxLowLevel
 
             // Set the input layout
             g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
-
+            
             for (int i = 0; i < 10; i++)
             {
                 Triangle_pct tri
@@ -148,7 +149,6 @@ namespace GfxLowLevel
 
             g_pImmediateContext->Draw(10 * 3, 0);
         }
-        g_pSwapChain->Present(0, 0);
 
         
         onGfxDeviceErrorTriggerBreakpoint();	
@@ -161,7 +161,8 @@ namespace GfxLowLevel
 */
     void drawEnd()
     {
-        //glFlush();
+
+        g_pSwapChain->Present(0, 0);        
     }        
 }
 #endif // USE_DIRECT3D

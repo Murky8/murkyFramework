@@ -74,19 +74,18 @@ namespace GfxLowLevel
     }
 
     void	VertexBufferDynamic::draw( void *vertexData, int nPrimatives )
-    {
-        debugLog << L"devving\n";     
+    {        
         g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
 
         D3D11_MAPPED_SUBRESOURCE subResource;
-        g_pImmediateContext->Map(g_pVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &subResource);
+        g_pImmediateContext->Map(pHandle->deviceBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &subResource);
         //memcpy(ms.pData, verts, sizeof(verts));
         memcpy(subResource.pData, vertexData, nPrimatives*sizeof(Triangle_pct));
-        g_pImmediateContext->Unmap(g_pVertexBuffer, NULL);
+        g_pImmediateContext->Unmap(pHandle->deviceBuffer, NULL);
 
         UINT stride = sizeof(Vert_pct);
         UINT offset = 0;
-        g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
+        g_pImmediateContext->IASetVertexBuffers(0, 1, &pHandle->deviceBuffer, &stride, &offset);
         g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
         // fill vb

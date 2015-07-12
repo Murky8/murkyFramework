@@ -36,6 +36,8 @@ namespace GfxLowLevel
     extern    ID3D11SamplerState       *g_pSamplerLinear;
     extern    ID3D11Debug             *d3dDebug;
 
+    extern ID3D11RasterizerState *g_pRasterState;
+
     // Called from: shead.cpp/
     bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd)
     {
@@ -234,6 +236,15 @@ namespace GfxLowLevel
             vp.TopLeftY = 0;
             g_pImmediateContext->RSSetViewports(1, &vp);
 
+
+            D3D11_RASTERIZER_DESC rastDesc
+            ;
+            
+            ZeroMemory(&rastDesc, sizeof(D3D11_RASTERIZER_DESC));
+            rastDesc.FillMode = D3D11_FILL_SOLID;
+            rastDesc.CullMode = D3D11_CULL_NONE;
+            hr = g_pd3dDevice->CreateRasterizerState(&rastDesc, &g_pRasterState);
+            g_pImmediateContext->RSSetState(g_pRasterState);
 
             if( hr == S_OK )
                 return true;
