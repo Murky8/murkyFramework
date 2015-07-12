@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////
 // forward declarations
-namespace RenderHi
+namespace RenderHi  // todo: delete
 {        
     extern GfxLowLevel::TextureManager *textureManager;
 }

@@ -27,6 +27,7 @@ namespace GfxLowLevel
         // Methods		
         void	draw(void *data, int nPrimatives);
 
+        s32 getCapacityBytes() const;
         // Data
         //const u32			capacity?;
         const VertexType	vertexType;		
@@ -47,7 +48,6 @@ namespace GfxLowLevel
 #endif // USE_OPENGL
         
         VertexBufferDynamic() = delete;
-    };
-  
+    };   
     //--------------------------------------------------------------------------
 }

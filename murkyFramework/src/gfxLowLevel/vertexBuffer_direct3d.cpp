@@ -15,17 +15,21 @@
 #include <murkyFramework/include/gfxLowLevel/shaders.hpp>
 
 namespace GfxLowLevel
-{
-    //------------------------------------------------------------------------------
+{    
     // forward declarations
     extern ID3D11Device *g_pd3dDevice;
     extern ID3D11Buffer *g_pVertexBuffer;
-    void    onGfxDeviceErrorTriggerBreakpoint();
+    extern ID3D11DeviceContext  *g_pImmediateContext;
+    extern ID3D11InputLayout    *g_pVertexLayout;
+    extern  ID3D11VertexShader  *g_pVertexShader;
+    extern  ID3D11PixelShader   *g_pPixelShader;
+    extern  ID3D11SamplerState  *g_pSamplerLinear;  
     
     struct handleDeviceVB
     {
         ID3D11Buffer *deviceBuffer;
     };
+
     // constructor	
     VertexBufferDynamic::VertexBufferDynamic(
         VertexType vertexType, PrimativeType primativeType, 
@@ -53,57 +57,52 @@ namespace GfxLowLevel
     {
         delete pHandle;
     }
+
     // methods
-    void	VertexBufferDynamic::draw( void *data, int nPrimatives )
+    s32 VertexBufferDynamic::getCapacityBytes() const
     {
-        triggerBreakpoint();
-
-    }
-    /*
-    VertexBufferRef_Depreciate::VertexBufferRef_Depreciate(u32 in_capacity, VertexType vertexType, BufferAccessType bufferAccessType) :
-        capacity(in_capacity), vertexType(vertexType), bufferAccessType(bufferAccessType)
-    {
-        glGenBuffers(1, (GLuint*)&bufferHandle);
-        onGfxDeviceErrorTriggerBreakpoint();
-
-        glBindBuffer(GL_ARRAY_BUFFER, bufferHandle);
-        onGfxDeviceErrorTriggerBreakpoint();
-        u32 sizeVertex;
-        switch (vertexType)
+        s32 s=-1;
+        switch (this->vertexType)
         {
-        case VertexType::posCol :
-            sizeVertex = sizeof(Vert_pc);
+        case  VertexType::posColTex :  s =capacity*sizeof(Triangle_pct);
             break;
-        case VertexType::posColTex:
-            sizeVertex = sizeof(Vert_pct);
-            break;
-        default:// Catch usage of unimplemented
-            sizeVertex = 0;
+        default:
             triggerBreakpoint();
         }
-
-        GLuint gl_bufferAccessType;
-        switch (bufferAccessType)
-        {
-        case BufferAccessType::dynamic:
-            gl_bufferAccessType = GL_DYNAMIC_DRAW;
-            break;
-        default:// Catch usage of unimplemented
-            gl_bufferAccessType = 0;
-            triggerBreakpoint();
-        }
-
-        glBufferData(GL_ARRAY_BUFFER, capacity * sizeVertex, NULL, gl_bufferAccessType);
-        onGfxDeviceErrorTriggerBreakpoint();
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        onGfxDeviceErrorTriggerBreakpoint();
+    
+        return s;
     }
 
-    u32 VertexBufferRef_Depreciate::getBufferHandle() const 
+    void	VertexBufferDynamic::draw( void *vertexData, int nPrimatives )
     {
-        return bufferHandle;
-    }
-    */
+        debugLog << L"devving\n";     
+        g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
+
+        D3D11_MAPPED_SUBRESOURCE subResource;
+        g_pImmediateContext->Map(g_pVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &subResource);
+        //memcpy(ms.pData, verts, sizeof(verts));
+        memcpy(subResource.pData, vertexData, nPrimatives*sizeof(Triangle_pct));
+        g_pImmediateContext->Unmap(g_pVertexBuffer, NULL);
+
+        UINT stride = sizeof(Vert_pct);
+        UINT offset = 0;
+        g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
+        g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+        // fill vb
+
+        //g_pVertexBuffer
+        // vb
+        g_pImmediateContext->VSSetShader(g_pVertexShader, nullptr, 0);
+        g_pImmediateContext->PSSetShader(g_pPixelShader, nullptr, 0);
+        g_pImmediateContext->PSSetShaderResources(
+            0,
+            1,
+            (ID3D11ShaderResourceView * const *)&texture.handle);
+        g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
+
+        g_pImmediateContext->Draw(nPrimatives * 3, 0);
+    } 
 }
 #endif // USE_DIRECT3D
+
