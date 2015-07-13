@@ -103,7 +103,7 @@ namespace GfxLowLevel
     {     
         g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);   
 
-        if (0)
+        if (1)
         {
             // vb
             // fill vb
@@ -117,9 +117,9 @@ namespace GfxLowLevel
             {
                 Triangle_pct tri
                 {
-                    Vert_pct(vec3(rn, rn, 0.5f), vec3(0.8f, 0.0f, 0.0f), vec2(0.0f, 0.7f)),
+                    Vert_pct(vec3(rn, rn, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.7f)),
                     Vert_pct(vec3(rn, rn, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)),
-                    Vert_pct(vec3(rn, rn, 0.5f), vec3(0.33f, 0.34f, 0.35f), vec2(0.36f, 0.37f))
+                    Vert_pct(vec3(rn, rn, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.36f, 0.37f))
                 };
                 tris.push_back(tri);
             }

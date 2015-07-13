@@ -97,20 +97,9 @@ namespace RenderHi
             1024 );
 #endif // USE_DIRECT3D
 
-#ifdef USE_OPENGL
-
-
-      //shaderManager = new GfxLowLevel::ShaderManager();  
-
-        textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
-
-        vertexBufferTemp = new GfxLowLevel::VertexBufferDynamic(
-            GfxLowLevel::VertexType::posColTex,
-            GfxLowLevel::PrimativeType::triangle,
-            GfxLowLevel::Shaders::posColText,
-            textureManager->getTextureByName(L"font"), 1024  );
-
-#endif 
+//#ifdef USE_OPENGL             
+        textRenderer = new TextRender(textureManager->getTextureByName(L"font"));  
+//#endif 
         Gapp.gfxInitialised = true;
     }
 
@@ -149,6 +138,7 @@ namespace RenderHi
 
         GfxLowLevel::setUniform_projectionMatrix(&projectionMatrix);
 
+#endif
         // draw stuff here
         std::wstring tex;
         tex += L"0hellome!\n";
@@ -157,18 +147,17 @@ namespace RenderHi
         tex += L"2denboofme!\n";
         textRenderer->drawText(tex);
               
-#endif
         #define rn (((float)rand() / (float)RAND_MAX))
         std::vector<Triangle_pct> tris;
         srand(0);
         
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 10; i++)
         {
         Triangle_pct tri
         {
-        Vert_pct( vec3(rn, rn, 0.5f), vec3(0.8f, 0.0f, 0.0f), vec2(0.0f, 0.7f) ) ,
-        Vert_pct( vec3(rn, rn, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f) ) ,
-        Vert_pct( vec3(rn, rn, 0.5f), vec3(0.33f, 0.34f, 0.35f), vec2( 0.36f, 0.37f) )
+        Vert_pct( vec3(rn, rn, 0.5f), vec3(0.0f, 1.0f, 0.0f), vec2(0.0f, 0.7f) ) ,
+        Vert_pct( vec3(rn, rn, 0.5f), vec3(0.0f, 1.0f, 0.0f), vec2(0.0f, 0.0f) ) ,
+        Vert_pct( vec3(rn, rn, 0.5f), vec3(0.0f, 1.0f, 0.0f), vec2( 0.36f, 0.37f) )
         };
         tris.push_back(tri);
         }
