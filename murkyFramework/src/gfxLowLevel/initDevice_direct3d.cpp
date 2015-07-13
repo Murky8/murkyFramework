@@ -28,6 +28,9 @@ namespace GfxLowLevel
     extern    IDXGISwapChain1*        g_pSwapChain1;
     extern    ID3D11RenderTargetView* g_pRenderTargetView;
 
+    extern ID3D11Texture2D          *g_pDepthStencil;
+    extern ID3D11DepthStencilView   *g_pDepthStencilView;
+
     extern    ID3D11VertexShader*     g_pVertexShader;
     extern    ID3D11PixelShader*      g_pPixelShader;
     extern    ID3D11InputLayout*      g_pVertexLayout;
@@ -223,8 +226,37 @@ namespace GfxLowLevel
                 triggerBreakpoint();
                 return false;
             }
-
             g_pImmediateContext->OMSetRenderTargets(1, &g_pRenderTargetView, nullptr);
+
+            // Create depth stencil texture
+            D3D11_TEXTURE2D_DESC descDepth;
+            ZeroMemory(&descDepth, sizeof(descDepth));
+            descDepth.Width = width;
+            descDepth.Height = height;
+            descDepth.MipLevels = 1;
+            descDepth.ArraySize = 1;
+            descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+            descDepth.SampleDesc.Count = 1;
+            descDepth.SampleDesc.Quality = 0;
+            descDepth.Usage = D3D11_USAGE_DEFAULT;
+            descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+            descDepth.CPUAccessFlags = 0;
+            descDepth.MiscFlags = 0;
+            hr = g_pd3dDevice->CreateTexture2D(&descDepth, nullptr, &g_pDepthStencil);
+            if (FAILED(hr))
+                triggerBreakpoint();
+
+            // Create the depth stencil view
+            D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+            ZeroMemory(&descDSV, sizeof(descDSV));
+            descDSV.Format = descDepth.Format;
+            descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+            descDSV.Texture2D.MipSlice = 0;
+            hr = g_pd3dDevice->CreateDepthStencilView(g_pDepthStencil, &descDSV, &g_pDepthStencilView);
+            if (FAILED(hr))
+                triggerBreakpoint();                
+
+            g_pImmediateContext->OMSetRenderTargets(1, &g_pRenderTargetView, g_pDepthStencilView);
 
             // Setup the viewport 
             D3D11_VIEWPORT vp;
@@ -237,12 +269,13 @@ namespace GfxLowLevel
             g_pImmediateContext->RSSetViewports(1, &vp);
 
 
-            D3D11_RASTERIZER_DESC rastDesc
-            ;
+            // rasteriser
+            D3D11_RASTERIZER_DESC rastDesc;
             
             ZeroMemory(&rastDesc, sizeof(D3D11_RASTERIZER_DESC));
             rastDesc.FillMode = D3D11_FILL_SOLID;
             rastDesc.CullMode = D3D11_CULL_NONE;
+            rastDesc.DepthClipEnable = true;
             hr = g_pd3dDevice->CreateRasterizerState(&rastDesc, &g_pRasterState);
             g_pImmediateContext->RSSetState(g_pRasterState);
 
@@ -282,7 +315,8 @@ namespace GfxLowLevel
       
         if (g_pVertexLayout) g_pVertexLayout->Release();
         if (g_pVertexBuffer) g_pVertexBuffer->Release();
-
+        if (g_pDepthStencil) g_pDepthStencil->Release();
+        if (g_pDepthStencilView) g_pDepthStencilView->Release();
 
         if (g_pRenderTargetView) g_pRenderTargetView->Release();
         if (g_pSwapChain1) g_pSwapChain1->Release();

@@ -78,7 +78,7 @@ namespace RenderHi
         const   auto    charloc = ( static_cast<int>(ch) ) -32;
         const   auto    charTexDim = 1.f / 16.f;
         const   auto    tix = charloc & 15, tiy = charloc >> 4;
-        const   vec3    pos3(pos);
+        const   vec3    pos3(pos.x, pos.y, 0.5f);
         const   vec2    texCoord { tix*charTexDim, tiy*charTexDim };
 
         // ---
@@ -127,7 +127,7 @@ namespace RenderHi
             }
             else
             {
-                drawChar( textTris, ch, cursorPos, vec3(1.f, 1.f, 0.5f), charScreenDim );
+                drawChar( textTris, ch, cursorPos, vec3(1.f, 1.f, 0.f), charScreenDim );
                 cursorPos += vec2(charScreenDim.x, 0.f);
             }
             ++it;

@@ -87,15 +87,15 @@ namespace RenderHi
 
 #ifdef USE_DIRECT3D
         textureManager->loadNewTexture(L"data/", L"font.dds");
-        textureManager->loadNewTexture(L"data/", L"seafloor.dds");
+        textureManager->loadNewTexture(L"data/", L"t0.dds");
+#endif // USE_DIRECT3D
 
         vertexBufferTemp = new GfxLowLevel::VertexBufferDynamic(
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::triangle,
             GfxLowLevel::Shaders::posColText,
-            textureManager->getTextureByName(L"font"),
+            textureManager->getTextureByName(L"t0"),
             1024 );
-#endif // USE_DIRECT3D
 
 //#ifdef USE_OPENGL             
         textRenderer = new TextRender(textureManager->getTextureByName(L"font"));  
@@ -155,9 +155,9 @@ namespace RenderHi
         {
         Triangle_pct tri
         {
-        Vert_pct( vec3(rn, rn, 0.5f), vec3(0.0f, 1.0f, 0.0f), vec2(0.0f, 0.7f) ) ,
-        Vert_pct( vec3(rn, rn, 0.5f), vec3(0.0f, 1.0f, 0.0f), vec2(0.0f, 0.0f) ) ,
-        Vert_pct( vec3(rn, rn, 0.5f), vec3(0.0f, 1.0f, 0.0f), vec2( 0.36f, 0.37f) )
+        Vert_pct( vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) ) ,
+        Vert_pct( vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) ) ,
+        Vert_pct( vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2( 1.0f, 0.0f) )
         };
         tris.push_back(tri);
         }

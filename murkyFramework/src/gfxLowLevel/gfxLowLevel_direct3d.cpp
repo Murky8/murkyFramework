@@ -41,6 +41,9 @@ namespace GfxLowLevel
     IDXGISwapChain1*        g_pSwapChain1 = nullptr;
     ID3D11RenderTargetView* g_pRenderTargetView = nullptr;
 
+    ID3D11Texture2D         *g_pDepthStencil = nullptr;
+    ID3D11DepthStencilView  *g_pDepthStencilView = nullptr;
+
     ID3D11VertexShader*     g_pVertexShader = nullptr;
     ID3D11PixelShader       *g_pPixelShader = nullptr;
     ID3D11InputLayout       *g_pVertexLayout = nullptr;
@@ -102,6 +105,8 @@ namespace GfxLowLevel
     void drawBegin()
     {     
         g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);   
+        g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
 
         if (1)
         {
@@ -147,7 +152,7 @@ namespace GfxLowLevel
                 (ID3D11ShaderResourceView * const *)&RenderHi::textureManager->getTextureByName(L"font").handle);
             g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
 
-            g_pImmediateContext->Draw(10 * 3, 0);
+            //g_pImmediateContext->Draw(10 * 3, 0);
         }
 
         
