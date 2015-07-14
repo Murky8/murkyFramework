@@ -71,6 +71,8 @@ namespace GfxLowLevel
             glGetIntegerv(GL_MINOR_VERSION, &glVersion[1]); // Get back the OpenGL MAJOR version we are using
             debugLog << L"Using OpenGL: " << glVersion[0] << "." << glVersion[1] << "\n"; // Output which version of OpenGL we are using
 
+
+            glEnable(GL_DEPTH_TEST);
             return true; // We have successfully created a context, return true
         }
 

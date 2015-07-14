@@ -149,8 +149,8 @@ public:
     void    set_r(vec4);
     void    set_u(vec4);
     void    set_f(vec4);
-    mat3    inverse() const;
-    mat3    transpose() const;
+    mat4    inverse() const;
+    mat4    transpose() const;
 
     void    serialize(std::vector<u8> &outData) const;
     friend  std::wostream &operator<<(std::wostream &st, const mat4 &v);

@@ -38,21 +38,16 @@ namespace GfxLowLevel
         // methods
         void insertImageData( u8 *in_imageData, u32 width, u32 height);// todo: depreciate
         
-    };
-
-    
+    };       
 
     class TextureManager
     {
     public:
-        TextureId &TextureManager::getTextureByName(const std::wstring &name);               
-        void        loadNewTexture(const std::wstring &dirName, const std::wstring &fileName);
-        //void        deleteAllTextures();
-        //std::vector<TextureRef> textures;
+        TextureManager();
         ~TextureManager();
+        TextureId &TextureManager::getTextureByName(const std::wstring &name);               
+        void        loadNewTexture(const std::wstring &dirName, const std::wstring &fileName);        
         std::map< std::wstring, GfxLowLevel::TextureId> textures;
-
     private:
-
     };
 }

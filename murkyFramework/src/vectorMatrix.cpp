@@ -145,6 +145,15 @@ mat4::mat4(Zero)
             v[j][i] = 0.f;    
 }
 
+mat4 mat4::transpose() const 
+{
+    mat4 r;
+    for (auto j = 0; j < nDimJ; ++j)
+        for (auto i = 0; i < nDimI; ++i)
+            r.v[j][i] = v[i][j];
+    return r;
+}
+
 vec3 operator +(const vec3 &a, const vec3 &b)
 {    
     return{

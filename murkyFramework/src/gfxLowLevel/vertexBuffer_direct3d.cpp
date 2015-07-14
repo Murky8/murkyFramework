@@ -17,13 +17,14 @@
 namespace GfxLowLevel
 {    
     // forward declarations
-    extern ID3D11Device *g_pd3dDevice;
-    extern ID3D11Buffer *g_pVertexBuffer;
+    extern ID3D11Device         *g_pd3dDevice;
+    extern ID3D11Buffer         *g_pVertexBuffer;
     extern ID3D11DeviceContext  *g_pImmediateContext;
     extern ID3D11InputLayout    *g_pVertexLayout;
     extern  ID3D11VertexShader  *g_pVertexShader;
     extern  ID3D11PixelShader   *g_pPixelShader;
     extern  ID3D11SamplerState  *g_pSamplerLinear;  
+    extern  ID3D11Buffer        *g_pCBChangesEveryFrame;
     
     struct handleDeviceVB
     {
@@ -55,6 +56,7 @@ namespace GfxLowLevel
 
     VertexBufferDynamic::~VertexBufferDynamic()
     {
+        pHandle->deviceBuffer->Release();
         delete pHandle;
     }
 
@@ -98,6 +100,7 @@ namespace GfxLowLevel
             0,
             1,
             (ID3D11ShaderResourceView * const *)&texture.handle);
+        g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBChangesEveryFrame);
         g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
 
         g_pImmediateContext->Draw(nPrimatives * 3, 0);

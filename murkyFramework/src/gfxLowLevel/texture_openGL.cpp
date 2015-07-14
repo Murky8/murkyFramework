@@ -93,7 +93,10 @@ namespace GfxLowLevel
             return it->second;
         }
     }
-       
+    TextureManager::TextureManager()  
+    {
+    }
+
     TextureManager::~TextureManager()
     {        
         for each (auto &it in this->textures)

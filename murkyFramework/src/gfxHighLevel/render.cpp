@@ -34,30 +34,11 @@ namespace RenderHi
 // forward declarations
 
     // data
-    TextRender *textRenderer;
-    mat4	projectionMatrix;
+    TextRender      *textRenderer;
+    mat4	        projectionMatrix;
     GfxLowLevel::VertexBufferDynamic *vertexBufferTemp;
     GfxLowLevel::TextureManager *textureManager;
-    //GfxLowLevel::ShaderManager *shaderManager;
-    // functions
-    /*
-    void glFrustumf(float near, float far){
-        float aspectRatio = .5;
-        float DEG2RAD = 3.14159f / 180.0f;
-        float fov = 90 * DEG2RAD;
-        float h = cosf(0.5f*fov) / sinf(0.5f*fov);
-        float w = h * aspectRatio;
-        float a = -(near + far) / (near - far);
-        float b = -((2 * far*near) / (far - near));
-
-        float proj[16] = {
-            w, 0, 0, 0,
-            0, h, 0, 0,
-            0, 0, a, 1,
-            0, 0, b, 0
-        };
-*/
-
+    
     mat4 makeProjectionMatrix_ortho(f32 left, f32 right, f32 bottom, f32 top, f32 zNear = -1.f, f32 zFar = 1.f)
     {
         mat4 m(Unit::UNIT);
@@ -104,18 +85,14 @@ namespace RenderHi
     }
 
     void deinitialise()
-    {
-        //textures.clear();
-        /*for each (auto &i in textures)
-        {
-            delete i;
-        }
-*/
-
+    {        
         debugLog << L"RenderHi::deinitialise" << "\n";
 
         GfxLowLevel::Shaders::deinitialise();
+        delete textRenderer;
         delete textureManager; // will delete all textures;
+        delete vertexBufferTemp;
+
         GfxLowLevel::deinitialise_device();
     }
 
@@ -130,7 +107,6 @@ namespace RenderHi
     void drawAll()
     {                
         GfxLowLevel::drawBegin();
-#ifdef USE_OPENGL
         //glm::
         projectionMatrix = mat4(Unit::UNIT);
         projectionMatrix = makeProjectionMatrix_ortho(
@@ -138,7 +114,6 @@ namespace RenderHi
 
         GfxLowLevel::setUniform_projectionMatrix(&projectionMatrix);
 
-#endif
         // draw stuff here
         std::wstring tex;
         tex += L"0hellome!\n";

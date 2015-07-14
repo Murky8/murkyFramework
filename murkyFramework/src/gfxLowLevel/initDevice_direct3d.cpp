@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <d3d11_1.h>
 #include <murkyFramework/include/common.hpp>
+#include <murkyFramework/include/debugUtils.hpp>
 
 namespace GfxLowLevel
 {
@@ -16,31 +17,31 @@ namespace GfxLowLevel
     //HINSTANCE               g_hInst = nullptr;
     //HWND                    g_hWnd = nullptr;
     // Forward declarations    
-    extern    HINSTANCE               g_hInst;
-    extern    HWND                    g_hWnd;
-    extern    D3D_DRIVER_TYPE         g_driverType;
-    extern    D3D_FEATURE_LEVEL       g_featureLevel;
-    extern    ID3D11Device*           g_pd3dDevice;
-    extern    ID3D11Device1*          g_pd3dDevice1;
-    extern    ID3D11DeviceContext*    g_pImmediateContext;
-    extern    ID3D11DeviceContext1*   g_pImmediateContext1;
-    extern    IDXGISwapChain*         g_pSwapChain;
-    extern    IDXGISwapChain1*        g_pSwapChain1;
-    extern    ID3D11RenderTargetView* g_pRenderTargetView;
+    extern  HINSTANCE               g_hInst;
+    extern  HWND                    g_hWnd;
+    extern  D3D_DRIVER_TYPE         g_driverType;
+    extern  D3D_FEATURE_LEVEL       g_featureLevel;
+    extern  ID3D11Device*           g_pd3dDevice;
+    extern  ID3D11Device1*          g_pd3dDevice1;
+    extern  ID3D11DeviceContext*    g_pImmediateContext;
+    extern  ID3D11DeviceContext1*   g_pImmediateContext1;
+    extern  IDXGISwapChain*         g_pSwapChain;
+    extern  IDXGISwapChain1*        g_pSwapChain1;
+    extern  ID3D11RenderTargetView* g_pRenderTargetView;
 
-    extern ID3D11Texture2D          *g_pDepthStencil;
-    extern ID3D11DepthStencilView   *g_pDepthStencilView;
+    extern  ID3D11Texture2D          *g_pDepthStencil;
+    extern  ID3D11DepthStencilView   *g_pDepthStencilView;
 
-    extern    ID3D11VertexShader*     g_pVertexShader;
-    extern    ID3D11PixelShader*      g_pPixelShader;
-    extern    ID3D11InputLayout*      g_pVertexLayout;
-    extern    ID3D11Buffer*           g_pVertexBuffer;
+    extern  ID3D11VertexShader*     g_pVertexShader;
+    extern  ID3D11PixelShader*      g_pPixelShader;
+    extern  ID3D11InputLayout*      g_pVertexLayout;
+    extern  ID3D11Buffer*           g_pVertexBuffer;
 
-    extern    ID3D11SamplerState       *g_pSamplerLinear;
-    extern    ID3D11Debug             *d3dDebug;
+    extern  ID3D11SamplerState       *g_pSamplerLinear;
+    extern  ID3D11Debug             *d3dDebug;
 
-    extern ID3D11RasterizerState *g_pRasterState;
-
+    extern  ID3D11RasterizerState *g_pRasterState;
+    extern  ID3D11Buffer*           g_pCBChangesEveryFrame;
     // Called from: shead.cpp/
     bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd)
     {
@@ -267,8 +268,7 @@ namespace GfxLowLevel
             vp.TopLeftX = 0;
             vp.TopLeftY = 0;
             g_pImmediateContext->RSSetViewports(1, &vp);
-
-
+            
             // rasteriser
             D3D11_RASTERIZER_DESC rastDesc;
             
@@ -278,57 +278,47 @@ namespace GfxLowLevel
             rastDesc.DepthClipEnable = true;
             hr = g_pd3dDevice->CreateRasterizerState(&rastDesc, &g_pRasterState);
             g_pImmediateContext->RSSetState(g_pRasterState);
+            if (FAILED(hr))
+                triggerBreakpoint();
 
-            if( hr == S_OK )
-                return true;
-                
-            triggerBreakpoint();
+       
+
+            return S_OK;
     }
 
-    bool deinitialise_device()
-    {
-        
-        /*
-        if (g_pSamplerLinear) g_pSamplerLinear->Release();
-        if (g_pCBNeverChanges) g_pCBNeverChanges->Release();
-        if (g_pCBChangeOnResize) g_pCBChangeOnResize->Release();
-        if (g_pCBChangesEveryFrame) g_pCBChangesEveryFrame->Release();
-        if (g_pVertexBuffer) g_pVertexBuffer->Release();
-        if (g_pIndexBuffer) g_pIndexBuffer->Release();
-        if (g_pVertexLayout) g_pVertexLayout->Release();
-        if (g_pVertexShader) g_pVertexShader->Release();
-        if (g_pPixelShader) g_pPixelShader->Release();
-        if (g_pDepthStencil) g_pDepthStencil->Release();
-        if (g_pDepthStencilView) g_pDepthStencilView->Release();
-        if (g_pRenderTargetView) g_pRenderTargetView->Release();
-        if (g_pSwapChain1) g_pSwapChain1->Release();
-        if (g_pSwapChain) g_pSwapChain->Release();
-        if (g_pImmediateContext1) g_pImmediateContext1->Release();
-        if (g_pImmediateContext) g_pImmediateContext->Release();
-        if (g_pd3dDevice1) g_pd3dDevice1->Release();
-        if (g_pd3dDevice) g_pd3dDevice->Release();
-        */
-        
-        if (g_pImmediateContext) g_pImmediateContext->ClearState();
-        if (g_pImmediateContext) g_pImmediateContext->Flush();
-        
-      
-        if (g_pVertexLayout) g_pVertexLayout->Release();
-        if (g_pVertexBuffer) g_pVertexBuffer->Release();
-        if (g_pDepthStencil) g_pDepthStencil->Release();
-        if (g_pDepthStencilView) g_pDepthStencilView->Release();
 
-        if (g_pRenderTargetView) g_pRenderTargetView->Release();
-        if (g_pSwapChain1) g_pSwapChain1->Release();
-        if (g_pSwapChain) g_pSwapChain->Release();
-        if (g_pImmediateContext1) g_pImmediateContext1->Release();
-        if (g_pImmediateContext) g_pImmediateContext->Release();
-        if (g_pd3dDevice1) g_pd3dDevice1->Release();
-        if (g_pd3dDevice) g_pd3dDevice->Release();
-        
-        d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY | D3D11_RLDO_DETAIL);
-        
+    bool deinitialise_device()
+    {                        
+        //g_pImmediateContext->ClearState();
+        //g_pImmediateContext->Flush();    
+        //g_pVertexShader
+        g_pSamplerLinear->Release();
+
+        g_pVertexLayout->Release();
+
+        // dev obs
+        g_pVertexBuffer->Release();            
+        // dev obs
+
+        g_pRasterState->Release();
+        g_pCBChangesEveryFrame->Release();
+        g_pDepthStencil->Release();
+        g_pDepthStencilView->Release();
+        g_pRenderTargetView->Release();     
+
+        g_pSwapChain1->Release();        
+        g_pSwapChain->Release();        
+
+        g_pImmediateContext1->Release();        
+        g_pImmediateContext->Release();        
+
+        g_pd3dDevice1->Release();        
+        g_pd3dDevice->Release();          
+
+#ifdef _DEBUG
+        d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY | D3D11_RLDO_DETAIL);        
         d3dDebug->Release();
+#endif
         return true;
     }
 } // namespace GfxLowLevel

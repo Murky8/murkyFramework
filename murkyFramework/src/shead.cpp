@@ -146,15 +146,9 @@ void masterInitialise()
     if (!res)
         triggerBreakpoint(L"Init device failed");
 
-    res = GfxLowLevel::initialise_device(hDC, hRC, hWnd);
-    if (!res)
-        triggerBreakpoint(L"Init device failed");
-        
-    GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
-    
-    RenderHi::initialise();
-
-    GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+    GfxLowLevel::initialise_device(hDC, hRC, hWnd);
+                
+    RenderHi::initialise();    
 }
 
 void deinitialise()

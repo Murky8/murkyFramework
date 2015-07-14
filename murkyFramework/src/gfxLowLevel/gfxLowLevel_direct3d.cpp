@@ -49,8 +49,9 @@ namespace GfxLowLevel
     ID3D11InputLayout       *g_pVertexLayout = nullptr;
     ID3D11Buffer            *g_pVertexBuffer = nullptr;
     ID3D11Debug             *d3dDebug = nullptr;
-    ID3D11SamplerState          *g_pSamplerLinear = nullptr;
+    ID3D11SamplerState      *g_pSamplerLinear = nullptr;
     ID3D11RasterizerState *g_pRasterState = nullptr;
+    ID3D11Buffer*            g_pCBChangesEveryFrame = nullptr;
 
     // Data
     mat4 projectionMatrix(Unit::UNIT);    

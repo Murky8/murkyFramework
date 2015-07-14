@@ -12,11 +12,16 @@ struct PixelInputType
     float2 tex : TEXCOORD0;
 };
 
+cbuffer constantProjMat : register( b0 )
+{
+    matrix projectionMatrix;
+};
+
 PixelInputType mainvs(VertexInputType input)
 {
    PixelInputType output;
         
-    output.position = float4(input.position, 1.f);	
+    output.position = mul( projectionMatrix, float4(input.position, 1.f) );	
     output.color	= float4(input.color, 0.f);
     output.tex		= input.tex;
     

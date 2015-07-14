@@ -16,21 +16,15 @@
 #include <vector>
 #include <regex>
 
-
 #include <external/lodepng.h>
 #include <murkyFramework/include/common.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/stringHelpers.hpp>
-
-        //// http://stackoverflow.com/questions/24958213/load-texture-in-directx-11-1
-        //// http://stackoverflow.com/questions/14802205/creating-texture-programmatically-directx
-
+  
 namespace GfxLowLevel
 {
     //--------------------------------------------------------------------------------------
     // forward declarations
-    using namespace DirectX;
-    void        onGfxDeviceErrorTriggerBreakpoint();
     extern    HINSTANCE               g_hInst;
     extern    HWND                    g_hWnd;
     extern    D3D_DRIVER_TYPE         g_driverType;
@@ -84,39 +78,30 @@ namespace GfxLowLevel
             triggerBreakpoint();
         }
         HRESULT res;
-        //std::wstring fullPath = dirName + fileName;        
-        //
-        //std::vector<u8> image; //the raw pixels
-
-        //image.reserve(256 * 256 * 4);
-        //u32 width, height;
-        //auto error = lodepng::decode(image, width, height, ws2s(fullPath).c_str());
-
-        //if (error != 0)
-        //    triggerBreakpoint();
-
+     
         // d3d
         ID3D11ShaderResourceView    *pTextureRV = nullptr;
-        g_pSamplerLinear = nullptr;
 
-        res = CreateDDSTextureFromFile(g_pd3dDevice, fullPath.c_str(), nullptr, &pTextureRV);
+        res = DirectX::CreateDDSTextureFromFile(g_pd3dDevice, fullPath.c_str(), nullptr, &pTextureRV);
         if (FAILED(res))    
-            triggerBreakpoint();
+            triggerBreakpoint();           
 
-        // Create the sample state
-        D3D11_SAMPLER_DESC sampDesc;
-        ZeroMemory(&sampDesc, sizeof(sampDesc));
-        sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-        sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-        sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-        sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-        sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-        sampDesc.MinLOD = 0;
-        sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+        //// Create the sample state
+        //g_pSamplerLinear = nullptr;
+        //D3D11_SAMPLER_DESC sampDesc;
+        //ZeroMemory(&sampDesc, sizeof(sampDesc));
+        //sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+        //sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+        //sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+        //sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+        //sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+        //sampDesc.MinLOD = 0;
+        //sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-        res = g_pd3dDevice->CreateSamplerState(&sampDesc, &g_pSamplerLinear);
-        if (FAILED(res))
-            triggerBreakpoint();
+        //res = g_pd3dDevice->CreateSamplerState(&sampDesc, &g_pSamplerLinear);
+        //if (FAILED(res))
+        //    triggerBreakpoint();
+        //// Create the sample state
 
         TextureId textureId;
         textureId.handle = (u32)pTextureRV;
@@ -137,6 +122,29 @@ namespace GfxLowLevel
             triggerBreakpoint();
             return it->second;
         }
+    }
+
+    TextureManager::TextureManager()
+    {
+        // Create the sample state
+        // this has to be done after pixel shader. check this is true
+        HRESULT res;
+        g_pSamplerLinear = nullptr;
+        D3D11_SAMPLER_DESC sampDesc;
+        ZeroMemory(&sampDesc, sizeof(sampDesc));
+        sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+        sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+        sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+        sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+        sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+        sampDesc.MinLOD = 0;
+        sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+        res = g_pd3dDevice->CreateSamplerState(&sampDesc, &g_pSamplerLinear);
+        if (FAILED(res))
+            triggerBreakpoint();
+        // Create the sample state
+
     }
 
     TextureManager::~TextureManager()
