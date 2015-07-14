@@ -26,35 +26,8 @@
 // forward declarations
 namespace GfxLowLevel
 {    
-    extern  HINSTANCE               g_hInst;
-    extern  HWND                    g_hWnd;
-    extern  D3D_DRIVER_TYPE         g_driverType;
-    extern  D3D_FEATURE_LEVEL       g_featureLevel;
-    extern  ID3D11Device*           g_pd3dDevice;
-    extern  ID3D11Device1*          g_pd3dDevice1;
-    extern  ID3D11DeviceContext*    g_pImmediateContext;
-    extern  ID3D11DeviceContext1*   g_pImmediateContext1;
-    extern  IDXGISwapChain*         g_pSwapChain;
-    extern  IDXGISwapChain1*        g_pSwapChain1;
-    extern  ID3D11RenderTargetView* g_pRenderTargetView;
-
-    extern  ID3D11Texture2D          *g_pDepthStencil;
-    extern  ID3D11DepthStencilView   *g_pDepthStencilView;
-
-    extern  ID3D11VertexShader*     g_pVertexShader;
-    extern  ID3D11PixelShader*      g_pPixelShader;
-    extern  ID3D11InputLayout*      g_pVertexLayout;
-    extern  ID3D11Buffer*           g_pVertexBuffer;
-
-    extern  ID3D11SamplerState       *g_pSamplerLinear;
-    extern  ID3D11Debug             *d3dDebug;
-
-    extern  ID3D11RasterizerState *g_pRasterState;
-    extern  ID3D11Buffer*           g_pCBChangesEveryFrame;
-extern  ID3D11Debug             *d3dDebug; // temp
     bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);  
 }
-using namespace GfxLowLevel;
 
 void mainLoop();
 void masterInitialise();
@@ -175,31 +148,6 @@ void masterInitialise()
         triggerBreakpoint(L"Init device failed");
 
     GfxLowLevel::initialise_device(hDC, hRC, hWnd);
-    if (0)
-    {// debgregee
-
-        //g_pImmediateContext->ClearState();
-        //g_pImmediateContext->Flush();
-
-        g_pRasterState->Release();
-        g_pDepthStencil->Release();
-        g_pDepthStencilView->Release();
- 
-        g_pRenderTargetView->Release();
-
-        if(g_pSwapChain1) g_pSwapChain1->Release();
-        g_pSwapChain->Release();
-
-        if (g_pImmediateContext1)g_pImmediateContext1->Release();
-        g_pImmediateContext->Release();
-
-        if(g_pd3dDevice1) g_pd3dDevice1->Release();
-        g_pd3dDevice->Release();
-        //Sleep(1000);
-        d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY | D3D11_RLDO_DETAIL);
-        exit(0);
-    }
-
     RenderHi::initialise();    
 }
 
@@ -247,7 +195,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 bool createWindow(LPCWSTR title, int width, int height)
 {
     WNDCLASS windowClass;
-    DWORD dwExStyle = WS_EX_APPWINDOW;// | WS_EX_WINDOWEDGE;
+    DWORD dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_BORDER | WS_MINIMIZEBOX | WS_VISIBLE;
+    DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
 
     hInstance = GetModuleHandle(NULL);
 
@@ -269,22 +218,28 @@ bool createWindow(LPCWSTR title, int width, int height)
         return false;
     }
 
+    RECT rect;
+    rect.left = 0;
+    rect.top = 0;
+    rect.right = width;
+    rect.bottom = height;
+    AdjustWindowRectEx(&rect, dwStyle, 0, dwExStyle);
+
     hWnd = CreateWindowEx(
         dwExStyle, 
         title, 
         title, 
-        WS_BORDER, //WS_OVERLAPPEDWINDOWWS_POPUPWINDOW,
+        dwStyle,
         CW_USEDEFAULT, 
-        0, 
-        width, 
-        height, 
+        CW_USEDEFAULT,
+        rect.right-rect.left,
+        rect.bottom -rect.top,
         NULL, 
         NULL, 
         hInstance, 
         NULL
         );
     hDC = GetDC(hWnd); // Get the device context for our window
-
      
     ShowWindow(hWnd, SW_SHOW);
     UpdateWindow(hWnd);
