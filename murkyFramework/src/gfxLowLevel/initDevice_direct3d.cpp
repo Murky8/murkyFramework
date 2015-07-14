@@ -76,6 +76,8 @@ namespace GfxLowLevel
             };
             UINT numFeatureLevels = ARRAYSIZE(featureLevels);
 
+       
+
             HRESULT hr = S_FALSE;
             for (UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++)
             {
@@ -123,7 +125,7 @@ namespace GfxLowLevel
                     filter.DenyList.pIDList = hide;
                     d3dInfoQueue->AddStorageFilterEntries(&filter);
                     d3dInfoQueue->Release();
-                }                
+                }
             }
             // debug mode
 
@@ -280,9 +282,7 @@ namespace GfxLowLevel
             g_pImmediateContext->RSSetState(g_pRasterState);
             if (FAILED(hr))
                 triggerBreakpoint();
-
        
-
             return S_OK;
     }
 
@@ -291,7 +291,8 @@ namespace GfxLowLevel
     {                        
         //g_pImmediateContext->ClearState();
         //g_pImmediateContext->Flush();    
-        //g_pVertexShader
+            
+        g_pCBChangesEveryFrame->Release();
         g_pSamplerLinear->Release();
 
         g_pVertexLayout->Release();
@@ -301,7 +302,6 @@ namespace GfxLowLevel
         // dev obs
 
         g_pRasterState->Release();
-        g_pCBChangesEveryFrame->Release();
         g_pDepthStencil->Release();
         g_pDepthStencilView->Release();
         g_pRenderTargetView->Release();     
@@ -314,9 +314,9 @@ namespace GfxLowLevel
 
         g_pd3dDevice1->Release();        
         g_pd3dDevice->Release();          
+        d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY | D3D11_RLDO_DETAIL);
 
 #ifdef _DEBUG
-        d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY | D3D11_RLDO_DETAIL);        
         d3dDebug->Release();
 #endif
         return true;

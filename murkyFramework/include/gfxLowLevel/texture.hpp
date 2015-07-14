@@ -19,8 +19,9 @@ namespace GfxLowLevel
 
     class TextureId    //todo rename ref part
     {
-    public:
+    public:       
         // data
+
         u32 handle; 
        
         // parameterised constructor

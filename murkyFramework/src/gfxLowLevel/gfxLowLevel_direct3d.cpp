@@ -55,9 +55,6 @@ namespace GfxLowLevel
 
     // Data
     mat4 projectionMatrix(Unit::UNIT);    
-        
-
-    //void serializeState();1
 
     void onGfxDeviceErrorTriggerBreakpoint()
     {
@@ -73,34 +70,6 @@ namespace GfxLowLevel
         //glFrontFace(GL_CW);
         //glCullFace(GL_BACK);
     }        
-
-    //void D3DGraphics::RenderVerts(Vertex* verts, UINT count, D3D11_PRIMITIVE_TOPOLOGY type)
-    //{
-    //    D3D11_MAPPED_SUBRESOURCE ms;
-    //    // map the buffer   
-    //    m_pDeviceContext->Map(m_pVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
-    //    // copy the data to it
-    //    memcpy(ms.pData, verts, sizeof(verts));
-    //    // unmap it
-    //    m_pDeviceContext->Unmap(m_pVertexBuffer, NULL);
-
-    //    // select which vertex buffer to display
-    //    UINT stride = sizeof(Vertex);
-    //    UINT offset = 0;
-    //    m_pDeviceContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
-
-    //    // select which primtive type we are using
-    //    m_pDeviceContext->IASetPrimitiveTopology(type);
-
-    //    // draw the vertex buffer to the back buffer
-    //    m_pDeviceContext->Draw(count, 0);
-    //}
-
-
-    /*
-    context->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
-    memcpy(resource.pData, &totalVertices[0], sizeof(totalVertices));
-    context->Unmap(vertexBuffer, 0);*/
 
 #define rn (((float)rand() / (float)RAND_MAX))
     void drawBegin()

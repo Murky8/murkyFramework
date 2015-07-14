@@ -20,16 +20,45 @@
 #include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 #include <murkyFramework/include/gfxHighLevel/render.hpp>
 
+#include <d3d11_1.h>// temp
+
 //--------------------------------------------------------------------------------------
 // forward declarations
 namespace GfxLowLevel
 {    
-    bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);   // From initDevice_???
-    //bool deinitialise_device();
+    extern  HINSTANCE               g_hInst;
+    extern  HWND                    g_hWnd;
+    extern  D3D_DRIVER_TYPE         g_driverType;
+    extern  D3D_FEATURE_LEVEL       g_featureLevel;
+    extern  ID3D11Device*           g_pd3dDevice;
+    extern  ID3D11Device1*          g_pd3dDevice1;
+    extern  ID3D11DeviceContext*    g_pImmediateContext;
+    extern  ID3D11DeviceContext1*   g_pImmediateContext1;
+    extern  IDXGISwapChain*         g_pSwapChain;
+    extern  IDXGISwapChain1*        g_pSwapChain1;
+    extern  ID3D11RenderTargetView* g_pRenderTargetView;
+
+    extern  ID3D11Texture2D          *g_pDepthStencil;
+    extern  ID3D11DepthStencilView   *g_pDepthStencilView;
+
+    extern  ID3D11VertexShader*     g_pVertexShader;
+    extern  ID3D11PixelShader*      g_pPixelShader;
+    extern  ID3D11InputLayout*      g_pVertexLayout;
+    extern  ID3D11Buffer*           g_pVertexBuffer;
+
+    extern  ID3D11SamplerState       *g_pSamplerLinear;
+    extern  ID3D11Debug             *d3dDebug;
+
+    extern  ID3D11RasterizerState *g_pRasterState;
+    extern  ID3D11Buffer*           g_pCBChangesEveryFrame;
+extern  ID3D11Debug             *d3dDebug; // temp
+    bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);  
 }
+using namespace GfxLowLevel;
+
 void mainLoop();
 void masterInitialise();
-void deinitialise();
+void deinitialise1();
 bool createWindow(LPCWSTR title, int width, int height);
 
 //--------------------------------------------------------------------------------------
@@ -45,7 +74,6 @@ namespace
     u64         frameStartTime = 0;
     bool        wndProcCalled = false;
 }
-
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE	hPrevInstance, LPSTR lpCmdLine,int nCmdShow)			// Window Show State
 {
@@ -74,7 +102,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE	hPrevInstance, LPSTR lpCmdLine
         }
     }
 
-    deinitialise();
+    deinitialise1();
 
     //wglMakeCurrent(hDC, 0); // Remove the rendering context from our device context
     //wglDeleteContext(hRC); // Delete our rendering context
@@ -147,11 +175,35 @@ void masterInitialise()
         triggerBreakpoint(L"Init device failed");
 
     GfxLowLevel::initialise_device(hDC, hRC, hWnd);
-                
+    if (0)
+    {// debgregee
+
+        //g_pImmediateContext->ClearState();
+        //g_pImmediateContext->Flush();
+
+        g_pRasterState->Release();
+        g_pDepthStencil->Release();
+        g_pDepthStencilView->Release();
+ 
+        g_pRenderTargetView->Release();
+
+        if(g_pSwapChain1) g_pSwapChain1->Release();
+        g_pSwapChain->Release();
+
+        if (g_pImmediateContext1)g_pImmediateContext1->Release();
+        g_pImmediateContext->Release();
+
+        if(g_pd3dDevice1) g_pd3dDevice1->Release();
+        g_pd3dDevice->Release();
+        //Sleep(1000);
+        d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY | D3D11_RLDO_DETAIL);
+        exit(0);
+    }
+
     RenderHi::initialise();    
 }
 
-void deinitialise()
+void deinitialise1()
 {
     RenderHi::deinitialise();
 }
