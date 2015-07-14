@@ -22,7 +22,6 @@ namespace GfxLowLevel
     public:       
         // data
 
-        //u32 handle; 
         struct HandleDeviceTexture *pHandle;
         // parameterised constructor
         TextureId(){}
