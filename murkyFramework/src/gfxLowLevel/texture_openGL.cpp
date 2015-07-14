@@ -21,10 +21,15 @@ namespace GfxLowLevel
     // forward declarations
     void onGfxDeviceErrorTriggerBreakpoint();
     
+    struct HandleDeviceTexture
+    {
+        u32 deviceTexture;
+    };
     // Constructors
     // Load texture from file
     TextureId::TextureId(const std::wstring &fileName)
     {     
+        pHandle = new HandleDeviceTexture();
         std::vector<u8> image; //the raw pixels
         image.reserve(256*256*4);
         u32 width, height;
@@ -34,19 +39,16 @@ namespace GfxLowLevel
             triggerBreakpoint();
 
         this->insertImageData(image.data(), width, height);        
-    }    
-        
+    }            
+
     // Methods
-    u32 TextureId::getHandle() const
-    {
-        return handle;
-    }
     
     // Called by constructor only
     void TextureId::insertImageData(u8 * in_imageData, u32 width, u32 height)
     {
-        glGenTextures(1, &handle);
-        glBindTexture(GL_TEXTURE_2D, handle);
+
+        glGenTextures(1, &pHandle->deviceTexture);
+        glBindTexture(GL_TEXTURE_2D, pHandle->deviceTexture);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, in_imageData);
         onGfxDeviceErrorTriggerBreakpoint();
 
@@ -101,7 +103,8 @@ namespace GfxLowLevel
     {        
         for each (auto &it in this->textures)
         {     
-            glDeleteTextures(1, &( it.second.handle ));
+            glDeleteTextures(1, &(it.second.pHandle->deviceTexture));
+            delete &(it.second.pHandle->deviceTexture);
         }
 
     }

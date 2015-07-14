@@ -21,6 +21,11 @@ namespace GfxLowLevel
         u32 vao;
         u32 vbo;
     };
+    
+    struct HandleDeviceTexture
+    {
+        u32 deviceTexture;
+    };
 
     // constructor	
     VertexBufferDynamic::VertexBufferDynamic(
@@ -114,7 +119,7 @@ namespace GfxLowLevel
         glUseProgram(shaderProgram.getHandle());
         glUniform1i(Shaders::uniforms_textureSamplerID, 0);
 
-        glBindTexture( GL_TEXTURE_2D, texture.getHandle() );//is this already bound to vao???
+        glBindTexture( GL_TEXTURE_2D, texture.pHandle->deviceTexture );//is this already bound to vao???
         onGfxDeviceErrorTriggerBreakpoint();
 
         glBindBuffer(GL_ARRAY_BUFFER, pHandle->vbo);

@@ -25,12 +25,16 @@ namespace GfxLowLevel
     extern  ID3D11PixelShader   *g_pPixelShader;
     extern  ID3D11SamplerState  *g_pSamplerLinear;  
     extern  ID3D11Buffer        *g_pCBChangesEveryFrame;
-    
+        
+    struct HandleDeviceTexture
+    {
+        ID3D11ShaderResourceView *deviceTexture;
+    };
+
     struct handleDeviceVB
     {
         ID3D11Buffer *deviceBuffer;
     };
-
     // constructor	
     VertexBufferDynamic::VertexBufferDynamic(
         VertexType vertexType, PrimativeType primativeType, 
@@ -99,7 +103,7 @@ namespace GfxLowLevel
         g_pImmediateContext->PSSetShaderResources(
             0,
             1,
-            (ID3D11ShaderResourceView * const *)&texture.handle);
+            (ID3D11ShaderResourceView * const *)&(texture.pHandle->deviceTexture));
         g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBChangesEveryFrame);
         g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
 

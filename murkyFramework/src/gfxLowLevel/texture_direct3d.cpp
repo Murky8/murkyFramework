@@ -50,12 +50,12 @@ namespace GfxLowLevel
         //triggerBreakpoint();
     }    
         
-    // Methods
-    u32 TextureId::getHandle() const
-    {
-        return handle;
-    }
+    // Methods    
     
+    struct HandleDeviceTexture
+    {
+        ID3D11ShaderResourceView *deviceTexture;
+    };
     //// Called by constructor only
     //void TextureId::insertImageData(u8 * in_imageData, u32 width, u32 height)
     //{
@@ -104,7 +104,8 @@ namespace GfxLowLevel
         //// Create the sample state
 
         TextureId textureId;
-        textureId.handle = (u32)pTextureRV;
+        textureId.pHandle = new HandleDeviceTexture();
+        textureId.pHandle->deviceTexture = pTextureRV;
         
         textures.insert(std::pair<std::wstring, TextureId>(name, textureId));
         
@@ -151,9 +152,10 @@ namespace GfxLowLevel
     {
         for (auto &it : textures)
         {
-            if (it.second.handle)
+            //if (it.second.handle)
             {
-                ((ID3D11ShaderResourceView*)(it.second.handle))->Release();
+                (it.second.pHandle->deviceTexture)->Release();
+                delete it.second.pHandle;
             }
         }
     }

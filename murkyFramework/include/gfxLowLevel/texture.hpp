@@ -22,15 +22,14 @@ namespace GfxLowLevel
     public:       
         // data
 
-        u32 handle; 
-       
+        //u32 handle; 
+        struct HandleDeviceTexture *pHandle;
         // parameterised constructor
         TextureId(){}
         TextureId(const std::wstring &fileName); // todo: depreciate
                 
         // Methods
-        u32 getHandle() const;
-        
+           
     private:
         // constructors
         TextureId(u8 *in_data, u32 width, u32 height);// todo: depreciate

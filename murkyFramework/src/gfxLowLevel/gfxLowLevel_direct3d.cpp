@@ -31,6 +31,10 @@ namespace RenderHi  // todo: delete
 
 namespace GfxLowLevel
 {       
+struct HandleDeviceTexture
+{
+    ID3D11ShaderResourceView *deviceTexture;
+};
     D3D_DRIVER_TYPE         g_driverType = D3D_DRIVER_TYPE_NULL;        // todo: move to gfxLowLevel_d3d...
     D3D_FEATURE_LEVEL       g_featureLevel = D3D_FEATURE_LEVEL_11_0;
     ID3D11Device*           g_pd3dDevice = nullptr;
@@ -119,7 +123,7 @@ namespace GfxLowLevel
             g_pImmediateContext->PSSetShaderResources(
                 0,
                 1,
-                (ID3D11ShaderResourceView * const *)&RenderHi::textureManager->getTextureByName(L"font").handle);
+                (ID3D11ShaderResourceView * const *)&RenderHi::textureManager->getTextureByName(L"font").pHandle->deviceTexture);
             g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
 
             //g_pImmediateContext->Draw(10 * 3, 0);

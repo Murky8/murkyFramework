@@ -10,12 +10,7 @@
 #include <murkyFramework/include/debugUtils.hpp>
 
 namespace GfxLowLevel
-{
-    //--------------------------------------------------------------------------------------
-    // Global Variables
-    //--------------------------------------------------------------------------------------
-    //HINSTANCE               g_hInst = nullptr;
-    //HWND                    g_hWnd = nullptr;
+{    
     // Forward declarations    
     extern  HINSTANCE               g_hInst;
     extern  HWND                    g_hWnd;
@@ -42,7 +37,7 @@ namespace GfxLowLevel
 
     extern  ID3D11RasterizerState *g_pRasterState;
     extern  ID3D11Buffer*           g_pCBChangesEveryFrame;
-    // Called from: shead.cpp/
+ 
     bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd)
     {
         //-------------------------------------------------------------------------------------- 
@@ -314,9 +309,8 @@ namespace GfxLowLevel
 
         g_pd3dDevice1->Release();        
         g_pd3dDevice->Release();          
-        d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY | D3D11_RLDO_DETAIL);
-
 #ifdef _DEBUG
+        d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY | D3D11_RLDO_DETAIL);
         d3dDebug->Release();
 #endif
         return true;

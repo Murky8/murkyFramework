@@ -34,7 +34,7 @@ namespace GfxLowLevel
         const PrimativeType primativeType;
         const ShaderId      shaderProgram;
         const TextureId	    texture;
-        struct handleDeviceVB      *pHandle;
+        struct handleDeviceVB *pHandle;
         u32   capacity;
     private:
       
