@@ -29,6 +29,7 @@ namespace GfxLowLevel
         u32 getHandle() const { return handle; }
         u32 handle;
         u32 handle2;
+        struct HandleDeviceShader *pHandle;
     };        
 
     void setUniform_projectionMatrix(const mat4 *pMat);

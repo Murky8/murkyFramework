@@ -48,9 +48,14 @@ namespace
     bool        wndProcCalled = false;
 }
 
+
+ void skool();
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE	hPrevInstance, LPSTR lpCmdLine,int nCmdShow)			// Window Show State
 {
     MSG		msg;
+
+    skool();
+
     masterInitialise();
 
     while (!Gapp.exitWholeApp)
@@ -84,7 +89,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE	hPrevInstance, LPSTR lpCmdLine
     debugLog << L"Finished\n";
 }
 
- void skool();
 
 void masterInitialise()
 {

@@ -50,18 +50,77 @@ namespace GfxLowLevel
         //triggerBreakpoint();
     }    
         
+    TextureId::~TextureId()
+    {
+        //pHandle->deviceTexture->Release(); //the way it should be done
+        //delete pHandle->deviceTexture;
+    }
     // Methods    
     
     struct HandleDeviceTexture
     {
         ID3D11ShaderResourceView *deviceTexture;
     };
+
     //// Called by constructor only
     //void TextureId::insertImageData(u8 * in_imageData, u32 width, u32 height)
     //{
     //    triggerBreakpoint();
     //}
+    //http://gamedev.stackexchange.com/questions/14507/loading-a-texture2d-array-in-directx11
+    //https://msdn.microsoft.com/en-us/library/windows/desktop/ff476904(v=vs.85).aspx
+    TextureId createTextureFromRaw(const void  *pData, u32 width, u32 height)
+    {
+        HRESULT hr;
+        D3D11_TEXTURE2D_DESC desc;
+        auto format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        auto bytesPerPixel = 4;
 
+        ZeroMemory(&desc, sizeof(desc));
+        desc.Width = width;
+        desc.Height = height;
+        desc.MipLevels = 1;
+        desc.ArraySize = 1;
+        desc.Format = format;
+        desc.SampleDesc.Count = 1;
+        desc.SampleDesc.Quality = 0;
+        desc.Usage = D3D11_USAGE_DEFAULT;
+        desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+        desc.CPUAccessFlags = 0;
+        desc.MiscFlags = 0;
+
+        D3D11_SUBRESOURCE_DATA subRes;
+        subRes.pSysMem = pData;
+        subRes.SysMemPitch = bytesPerPixel*width;
+        subRes.SysMemSlicePitch = subRes.SysMemPitch * height;
+
+        ID3D11Texture2D* texture = nullptr;
+        hr = g_pd3dDevice->CreateTexture2D(&desc, &subRes, &texture);
+
+        if (FAILED(hr))
+            triggerBreakpoint();
+
+        D3D11_SHADER_RESOURCE_VIEW_DESC resviewDesc;
+        memset(&resviewDesc, 0, sizeof(resviewDesc));
+        resviewDesc.Format = format;
+        resviewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+        resviewDesc.Texture2D.MipLevels = 1;
+
+        ID3D11ShaderResourceView *texRV;
+
+        hr = g_pd3dDevice->CreateShaderResourceView(texture,
+            &resviewDesc, &texRV );
+        
+        if (FAILED(hr))
+            triggerBreakpoint();
+
+        TextureId tid;
+        tid.pHandle = new HandleDeviceTexture;
+        tid.pHandle->deviceTexture = texRV;
+        return tid;
+    }
+
+    // separate from texture manager, manager just organises textures
     void TextureManager::loadNewTexture(const std::wstring &dirName, const std::wstring &fileName)
     {
         std::wstring fullPath = dirName + fileName;
@@ -111,6 +170,12 @@ namespace GfxLowLevel
         
     }
 
+    // todo: repeated in ogl version.
+    void TextureManager::insert(const std::wstring &name, const TextureId texID)
+    {
+        textures.insert(std::pair<std::wstring, TextureId>(name, texID));
+    }
+    
     TextureId &TextureManager::getTextureByName(const std::wstring &name)
     {       
         auto it = textures.find(name);
@@ -152,7 +217,7 @@ namespace GfxLowLevel
     {
         for (auto &it : textures)
         {
-            //if (it.second.handle)
+            if (it.second.pHandle)
             {
                 (it.second.pHandle->deviceTexture)->Release();
                 delete it.second.pHandle;

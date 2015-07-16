@@ -42,13 +42,18 @@ namespace GfxLowLevel
     extern  ID3D11Buffer*           g_pVertexBuffer;
     extern  ID3D11Buffer            *g_pCBChangesEveryFrame;
     extern  ID3D11SamplerState       *g_pSamplerLinear;
-
-
-extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+    extern     void GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
+    
     namespace Shaders
     {     
         ShaderId posColText;
     }
+
+    struct HandleDeviceShader
+    {
+        ID3D11VertexShader     *pVertexShader;
+        ID3D11PixelShader      *pPixelShader;
+    };
 
     void setUniform_projectionMatrix(const mat4 *pMat)
     {   

@@ -41,8 +41,30 @@ namespace GfxLowLevel
         this->insertImageData(image.data(), width, height);        
     }            
 
+    TextureId::~TextureId()
+    {
+        //pHandle->deviceTexture->Release(); //the way it should be done
+        //delete pHandle->deviceTexture;
+    }
+
     // Methods
-    
+    TextureId createTextureFromRaw(const void  *pData, u32 width, u32 height)
+    {
+        TextureId tid;
+        tid.pHandle = new HandleDeviceTexture;
+
+        glGenTextures(1, &tid.pHandle->deviceTexture);
+        glBindTexture(GL_TEXTURE_2D, tid.pHandle->deviceTexture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pData);
+        onGfxDeviceErrorTriggerBreakpoint();
+
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        
+        return tid;
+    }
+
+
     // Called by constructor only
     void TextureId::insertImageData(u8 * in_imageData, u32 width, u32 height)
     {
@@ -80,6 +102,12 @@ namespace GfxLowLevel
         // strip extension of name
         //std::wstring nameNaked = fileName
 
+    }
+
+    // todo: repeated in dx version.
+    void TextureManager::insert(const std::wstring &name, const TextureId texID)
+    {
+        textures.insert(std::pair<std::wstring, TextureId>(name, texID));
     }
 
     TextureId &TextureManager::getTextureByName(const std::wstring &name)

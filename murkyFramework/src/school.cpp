@@ -76,10 +76,7 @@ public:
     const   NamedMap<T> &rmap;
 };
 */
-void skool()
-{
-  
-}
+
 // template skool
 
 
@@ -150,25 +147,27 @@ d2 = std::move(d1);
 }
 */
 
-/*
+
 class Cl
 {
 public:
     int *pints;
-    int s;
+    
     static int idEntCtr;
     int idEnt;
 
     Cl()    // =delete if not necessary to have uninitialised objects lying around.
     {
-        pints = nullptr;
+        pints = new int[2];
+        pints[0] = 666; pints[1] = 667;
+        
         idEnt = idEntCtr++;
         
         debugLog << L"default constructor. id:" << idEnt << "\n";                
     }
 
     // paremeterised constructor
-    Cl(int v0, int v1, int s) : s(s)
+    Cl(int v0, int v1)
     {
         pints = new int[2];
         pints[0] = v0; pints[1] = v1;
@@ -176,84 +175,109 @@ public:
         idEnt = idEntCtr++;
 
         debugLog << L"constructed with parameters. id:" << idEnt << "\n";
-        debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
-        debugLog << L"s: " << s << L"\n";
-
-
+        debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";    
     }
     
     // copy constructor. duplicates resorces. =delete to prevent copying
-    Cl(const Cl &rhs)
-    {
-        pints = new int[2];
-        pints[0] = rhs.pints[0]; pints[1] = rhs.pints[1];// deep copy
+    Cl(const Cl &rhs) = delete;
+    //{
+    //    pints = new int[2];
+    //    pints[0] = rhs.pints[0]; pints[1] = rhs.pints[1];// deep copy
 
-        idEnt = idEntCtr++;        
-        debugLog << L"copy constructor id:" << idEnt << L"=id:" << rhs.idEnt << "\n";
-        debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
-        debugLog << L"s: " << s << L"\n";        
-    }
+    //    idEnt = idEntCtr++;        
+    //    debugLog << L"copy constructor id:" << idEnt << L"=id:" << rhs.idEnt << "\n";
+    //    debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
+    //
+    //}
 
     //  assignment operator
-    Cl& operator=(const Cl& rhs)
-    {         
-        delete[] pints; // overwriting
-        pints = new int[2];
-        pints[0] = rhs.pints[0]; pints[1] = rhs.pints[1];// deep copy
-
-        debugLog << L"assignment operator id:" << idEnt << L"= id:" << rhs.idEnt << "\n";
-        debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
-        debugLog << L"s: " << s << L"\n";
-
-        return *this;
-    }
-    
+    Cl& operator=(const Cl& rhs) = delete;
+    //{         
+    //    delete[] pints; // overwriting
+    //    pints = new int[2];
+    //    pints[0] = rhs.pints[0]; pints[1] = rhs.pints[1];// deep copy
+    //    idEnt = idEntCtr++;
+    //    debugLog << L"assignment operator id:" << idEnt << L"= id:" << rhs.idEnt << "\n";
+    //    debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
+    //
+    //    return *this;
+    //}
+    //
     // move assignment operator
     Cl& Cl::operator=(Cl&& rhs)
     {        
         delete[] pints;
 
         pints = rhs.pints;
-        s = rhs.s;
-
+    
         rhs.pints = nullptr;
-        rhs.s = -1;
+        idEnt = idEntCtr++;
 
         debugLog << L"move assignment operator " << idEnt << L"=" << rhs.idEnt << "\n";
         debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
-        debugLog << L"s: " << s << L"\n";
-
+    
         return *this;
     }
 
     // move constructor
-    Cl(Cl &&rhs) : pints(nullptr), s(0)
-    {
-        *this = std::move(rhs);
-                
-        idEnt = idEntCtr++;
-        
+    Cl(Cl &&rhs) : pints(nullptr)
+    {        
         debugLog << L"move constructor " << idEnt << L"=" << rhs.idEnt << "\n";
+
+        *this = std::move(rhs); //calls move ass op
+                
+        
         debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
-        debugLog << L"s: " << s << L"\n";        
-    }
+        }
     
     ~Cl()
     {
-        if (pints!= nullptr)
+        if (pints != nullptr)
+        {
             debugLog << L"destructor " << idEnt << "\n";
+        }
         else
+        {
             debugLog << L"destructor on nullptr" << idEnt << "\n";
+            delete[] pints;
+        }
 
-        delete[] pints;
     }
 };
 
-int Cl::idEntCtr = 0;
-*/
+int Cl::idEntCtr = 100;
 
 
+void skool()
+{
+    {
+        Cl cinst;
+
+        std::map<std::wstring, Cl> mapi;
+
+        debugLog << L"ins to map" << "\n";
+
+        mapi.insert(std::pair<std::wstring, Cl>(L"hello", std::move(cinst)));
+        //mapi.insert(std::pair<std::wstring, Cl>(L"hello", cinst));
+        debugLog << L"end of scope" << "\n";
+    }
+
+    exit(0);
+}
 /*
+default constructor.id:100
+ins to map
+copy constructor id : 101 = id : 100
+pints : 666  667
+move constructor - 842150451 = 101
+move assignment operator 102 = 101
+pints : 666  667
+pints : 666  667
+destructor on nullptr101
+end of scope
+destructor 102
+destructor 100
+
 void skool()
 {        
 

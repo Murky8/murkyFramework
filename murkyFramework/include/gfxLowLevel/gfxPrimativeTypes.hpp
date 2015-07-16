@@ -14,8 +14,8 @@ public:
     Vert_pc(){}
     Vert_pc(vec3, vec3);
     // Data
-    vec3 pos;
-    vec3 col;
+    vec3 pos; // 12 bytes	
+    vec3 col; // 12 bytes	
 private:
     //Vert_pc() = delete;   
 };

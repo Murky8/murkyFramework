@@ -26,7 +26,7 @@ namespace GfxLowLevel
         // parameterised constructor
         TextureId(){}
         TextureId(const std::wstring &fileName); // todo: depreciate
-                
+        ~TextureId();
         // Methods
            
     private:
@@ -44,6 +44,9 @@ namespace GfxLowLevel
     public:
         TextureManager();
         ~TextureManager();
+
+        void TextureManager::insert(const std::wstring &name, const TextureId texID);
+
         TextureId &TextureManager::getTextureByName(const std::wstring &name);               
         void        loadNewTexture(const std::wstring &dirName, const std::wstring &fileName);        
         std::map< std::wstring, GfxLowLevel::TextureId> textures;

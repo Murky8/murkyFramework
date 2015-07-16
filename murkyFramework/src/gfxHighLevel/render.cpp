@@ -26,6 +26,7 @@
 namespace GfxLowLevel
 {
     bool deinitialise_device();
+    extern   TextureId createTextureFromRaw(const void  *pData, u32 width, u32 height);
 }
 
 namespace RenderHi
@@ -37,6 +38,7 @@ namespace RenderHi
     TextRender      *textRenderer;
     mat4	        projectionMatrix;
     GfxLowLevel::VertexBufferDynamic *vertexBufferTemp;
+    GfxLowLevel::VertexBufferDynamic *lineVB;
     GfxLowLevel::TextureManager *textureManager;
     
     mat4 makeProjectionMatrix_ortho(f32 left, f32 right, f32 bottom, f32 top, f32 zNear = -1.f, f32 zFar = 1.f)
@@ -71,12 +73,37 @@ namespace RenderHi
         textureManager->loadNewTexture(L"data/", L"t0.dds");
 #endif // USE_DIRECT3D
 
+        // texcre
+        u8  t[256][256][4];
+        for (auto i = 0; i < 256; ++i)
+            for (auto j = 0; j < 256; ++j)
+            {
+                t[j][i][0] = i*i + j*j;
+                t[j][i][1] = t[j][i][0];
+                t[j][i][2] = t[j][i][3] = 0;
+            }
+        
+        GfxLowLevel::TextureId tex = GfxLowLevel::createTextureFromRaw(
+            (const void *)t, 256, 256);
+
+        //textureManager->textures.insert(std::pair<std::wstring, GfxLowLevel::TextureId>(L"gtex", tex));
+        textureManager->insert(L"gtex", tex);
+        // texcre
+
+
         vertexBufferTemp = new GfxLowLevel::VertexBufferDynamic(
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::triangle,
             GfxLowLevel::Shaders::posColText,
-            textureManager->getTextureByName(L"t0"),
+            textureManager->getTextureByName(L"gtex"),
             1024 );
+
+        /*lineVB = new GfxLowLevel::VertexBufferDynamic(
+            GfxLowLevel::VertexType::posColTex,
+            GfxLowLevel::PrimativeType::line,
+            GfxLowLevel::Shaders::posColText,
+            textureManager->getTextureByName(L"t0"),
+            1024);*/
 
 //#ifdef USE_OPENGL             
         textRenderer = new TextRender(textureManager->getTextureByName(L"font"));  
@@ -121,22 +148,26 @@ namespace RenderHi
         tex += L"\n";
         tex += L"2denboofme!\n";
         textRenderer->drawText(tex);
-              
-        #define rn (((float)rand() / (float)RAND_MAX))
-        std::vector<Triangle_pct> tris;
-        srand(0);
-        
-        for (int i = 0; i < 10; i++)
+
         {
-        Triangle_pct tri
-        {
-        Vert_pct( vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) ) ,
-        Vert_pct( vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) ) ,
-        Vert_pct( vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2( 1.0f, 0.0f) )
-        };
-        tris.push_back(tri);
+#define rn (((float)rand() / (float)RAND_MAX))
+            std::vector<Triangle_pct> tris;
+            srand(0);
+
+            for (int i = 0; i < 10; i++)
+            {
+                Triangle_pct tri
+                {
+                    Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
+                    Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+                    Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f))
+                };
+                tris.push_back(tri);
+            }
+            vertexBufferTemp->draw(tris.data(), tris.size());
         }
-        vertexBufferTemp->draw(tris.data(), tris.size());
+        
+        //    std::vector<Line_pct> lines;
         
      
         GfxLowLevel::drawEnd();
