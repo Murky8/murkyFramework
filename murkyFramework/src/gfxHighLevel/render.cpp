@@ -64,8 +64,10 @@ namespace RenderHi
         GfxLowLevel::Shaders::initialise();
         textureManager = new GfxLowLevel::TextureManager();
 #ifdef USE_OPENGL
-        textureManager->loadNewTexture(L"data/", L"font.png");
-        textureManager->loadNewTexture(L"data/", L"t0.png");
+        //textureManager->loadNewTexture(L"data/", L"font.png");
+        //textureManager->loadNewTexture(L"data/", L"t0.png");
+
+        GfxLowLevel::TextureId newt(L"data", L"font", L"png");
 #endif 
 
 #ifdef USE_DIRECT3D
@@ -74,29 +76,30 @@ namespace RenderHi
 #endif // USE_DIRECT3D
 
         // texcre
-        u8  t[256][256][4];
-        for (auto i = 0; i < 256; ++i)
-            for (auto j = 0; j < 256; ++j)
-            {
-                t[j][i][0] = i*i + j*j;
-                t[j][i][1] = t[j][i][0];
-                t[j][i][2] = t[j][i][3] = 0;
-            }
-        
-        GfxLowLevel::TextureId tex = GfxLowLevel::createTextureFromRaw(
-            (const void *)t, 256, 256);
+        //u8  t[256][256][4];
+        //for (auto i = 0; i < 256; ++i)
+        //    for (auto j = 0; j < 256; ++j)
+        //    {
+        //        t[j][i][0] = i*i + j*j;
+        //        t[j][i][1] = t[j][i][0];
+        //        t[j][i][2] = t[j][i][3] = 0;
+        //    }
+        //
+        //GfxLowLevel::TextureId tex = GfxLowLevel::createTextureFromRaw(
+        //    (const void *)t, 256, 256);
 
-        //textureManager->textures.insert(std::pair<std::wstring, GfxLowLevel::TextureId>(L"gtex", tex));
-        textureManager->insert(L"gtex", tex);
-        // texcre
+        ////textureManager->textures.insert(std::pair<std::wstring, GfxLowLevel::TextureId>(L"gtex", tex));
+        //textureManager->insert(L"gtex", tex);
+        //// texcre
 
 
-        vertexBufferTemp = new GfxLowLevel::VertexBufferDynamic(
-            GfxLowLevel::VertexType::posColTex,
-            GfxLowLevel::PrimativeType::triangle,
-            GfxLowLevel::Shaders::posColText,
-            textureManager->getTextureByName(L"gtex"),
-            1024 );
+        //vertexBufferTemp = new GfxLowLevel::VertexBufferDynamic(
+        //    GfxLowLevel::VertexType::posColTex,
+        //    GfxLowLevel::PrimativeType::triangle,
+        //    GfxLowLevel::Shaders::posColText,
+        //    //textureManager->getTextureByName(L"gtex"),
+        //    newt,
+        //    1024 );
 
         /*lineVB = new GfxLowLevel::VertexBufferDynamic(
             GfxLowLevel::VertexType::posColTex,
@@ -106,7 +109,8 @@ namespace RenderHi
             1024);*/
 
 //#ifdef USE_OPENGL             
-        textRenderer = new TextRender(textureManager->getTextureByName(L"font"));  
+        //textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
+        textRenderer = new TextRender(std::move(newt));
 //#endif 
         Gapp.gfxInitialised = true;
     }
@@ -148,7 +152,7 @@ namespace RenderHi
         tex += L"\n";
         tex += L"2denboofme!\n";
         textRenderer->drawText(tex);
-
+        if (0)
         {
 #define rn (((float)rand() / (float)RAND_MAX))
             std::vector<Triangle_pct> tris;

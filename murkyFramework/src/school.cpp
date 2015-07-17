@@ -148,138 +148,115 @@ d2 = std::move(d1);
 */
 
 
-class Cl
+struct HandleDeviceTexture2
+{
+// this is just a container, no constructorx destructors of rescources
+public:
+    //ogl
+    //int a;
+    //int b;
+
+    //d3d
+    void *p;
+    HandleDeviceTexture2() = delete;
+    HandleDeviceTexture2(void *p) : p(p)
+    {
+        debugLog << L"HandleDeviceTexture2:: constructor\n";
+    }
+
+    ~HandleDeviceTexture2()
+    {    
+         debugLog << L"HandleDeviceTexture2: destructor\n";          
+    }
+};
+
+class TextureRef2
 {
 public:
-    int *pints;
-    
-    static int idEntCtr;
-    int idEnt;
-
-    Cl()    // =delete if not necessary to have uninitialised objects lying around.
+    HandleDeviceTexture2 *pHandleDeviceTexture2;        
+        
+    // constructor
+    TextureRef2( int a) 
     {
-        pints = new int[2];
-        pints[0] = 666; pints[1] = 667;
-        
-        idEnt = idEntCtr++;
-        
-        debugLog << L"default constructor. id:" << idEnt << "\n";                
+        //would ususally call GlGentextures here and pass instead of nullptr
+        this->pHandleDeviceTexture2 = new HandleDeviceTexture2(nullptr);
+
+        debugLog << L"TextureRef2: constructed " << a <<"\n";        
     }
 
-    // paremeterised constructor
-    Cl(int v0, int v1)
+    TextureRef2(const TextureRef2 &v) = delete;
+    TextureRef2 &operator=(const TextureRef2 &rhs) = delete;
+    TextureRef2 &operator=(TextureRef2 &&rhs) = delete;
+    
+    TextureRef2(TextureRef2&& rhs)
     {
-        pints = new int[2];
-        pints[0] = v0; pints[1] = v1;
+        debugLog << L"TextureRef2: moved" << "\n";
 
-        idEnt = idEntCtr++;
-
-        debugLog << L"constructed with parameters. id:" << idEnt << "\n";
-        debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";    
-    }
-    
-    // copy constructor. duplicates resorces. =delete to prevent copying
-    Cl(const Cl &rhs) = delete;
-    //{
-    //    pints = new int[2];
-    //    pints[0] = rhs.pints[0]; pints[1] = rhs.pints[1];// deep copy
-
-    //    idEnt = idEntCtr++;        
-    //    debugLog << L"copy constructor id:" << idEnt << L"=id:" << rhs.idEnt << "\n";
-    //    debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
-    //
-    //}
-
-    //  assignment operator
-    Cl& operator=(const Cl& rhs) = delete;
-    //{         
-    //    delete[] pints; // overwriting
-    //    pints = new int[2];
-    //    pints[0] = rhs.pints[0]; pints[1] = rhs.pints[1];// deep copy
-    //    idEnt = idEntCtr++;
-    //    debugLog << L"assignment operator id:" << idEnt << L"= id:" << rhs.idEnt << "\n";
-    //    debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
-    //
-    //    return *this;
-    //}
-    //
-    // move assignment operator
-    Cl& Cl::operator=(Cl&& rhs)
-    {        
-        delete[] pints;
-
-        pints = rhs.pints;
-    
-        rhs.pints = nullptr;
-        idEnt = idEntCtr++;
-
-        debugLog << L"move assignment operator " << idEnt << L"=" << rhs.idEnt << "\n";
-        debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
-    
-        return *this;
+        this->pHandleDeviceTexture2 = rhs.pHandleDeviceTexture2;
+        rhs.pHandleDeviceTexture2 = nullptr;
     }
 
-    // move constructor
-    Cl(Cl &&rhs) : pints(nullptr)
-    {        
-        debugLog << L"move constructor " << idEnt << L"=" << rhs.idEnt << "\n";
-
-        *this = std::move(rhs); //calls move ass op
-                
-        
-        debugLog << L"pints:" << pints[0] << " " << pints[1] << "\n";
-        }
-    
-    ~Cl()
-    {
-        if (pints != nullptr)
+     ~TextureRef2()
+    {                
+        if (pHandleDeviceTexture2 != nullptr)
         {
-            debugLog << L"destructor " << idEnt << "\n";
+            debugLog << L"TextureRef2: destructor on obj" << "\n";
+            //would ususally call GlDeletetextures
+            delete pHandleDeviceTexture2;
+            pHandleDeviceTexture2 = nullptr;
         }
         else
         {
-            debugLog << L"destructor on nullptr" << idEnt << "\n";
-            delete[] pints;
+            debugLog << L"TextureRef2: destructor on nullptr" << "\n";
         }
 
     }
 };
 
-int Cl::idEntCtr = 100;
+class TexMAnager
+{
+public:
+    std::map<std::wstring, TextureRef2> mapi;
+    void add(std::wstring name, TextureRef2 textureRef2)
+    {
+        //mapi.emplace(std::piecewise_construct,
+            //std::make_tuple(L"hello"),
+            //std::make_tuple(textureRef2));
 
+        mapi.insert(std::pair<std::wstring, TextureRef2>( L"hello", std::move(textureRef2)));
+    }
+};
 
 void skool()
 {
-    {
-        Cl cinst;
-
-        std::map<std::wstring, Cl> mapi;
-
-        debugLog << L"ins to map" << "\n";
-
-        mapi.insert(std::pair<std::wstring, Cl>(L"hello", std::move(cinst)));
-        //mapi.insert(std::pair<std::wstring, Cl>(L"hello", cinst));
+    {        
+        TexMAnager textman;        
+        TextureRef2 textureRefa(1);// , textureRefb;
+        //TextureRef2 textureRefb(2);// , textureRefb;
+                        
+        textman.add(L"one", std::move(textureRefa));
+        //textman.add(L"two", std::move(textureRefb));
         debugLog << L"end of scope" << "\n";
     }
+
 
     exit(0);
 }
 /*
-default constructor.id:100
-ins to map
-copy constructor id : 101 = id : 100
-pints : 666  667
-move constructor - 842150451 = 101
-move assignment operator 102 = 101
-pints : 666  667
-pints : 666  667
-destructor on nullptr101
-end of scope
-destructor 102
-destructor 100
+
 
 void skool()
 {        
+ins to map
+constructed with parameters. id:100
+pints:123  1
+move constructor -842150451 =100
+move assignment operator
+pints:123  1
+pints:123  1
+destructor on nullptr100
+end of scope
+destructor 101
 
     if (1) // construction of single instance
     {

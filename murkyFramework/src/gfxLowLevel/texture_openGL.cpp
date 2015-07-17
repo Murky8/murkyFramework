@@ -23,9 +23,71 @@ namespace GfxLowLevel
     
     struct HandleDeviceTexture
     {
-        u32 deviceTexture;
+        u32 deviceTexture;        
     };
+
+    // NEW just loads the data
+    bool loadTexture(std::vector<u8> &textureRawOut, const std::wstring &dirName,
+        const std::wstring &fileName, const std::wstring &extensionName,
+        u32 &widthOut, u32 &heightOut)
+    {
+        std::wstring fullPath = dirName + L"/" + fileName + L"." + extensionName;
+
+        if (extensionName != L"png")
+            return false;
+
+        auto error = lodepng::decode(textureRawOut, widthOut, heightOut, ws2s(fullPath).c_str());
+        if (error != 0)
+            return false;
+
+        return true;
+    }
+
+
+    // NEW 
+    TextureId::TextureId(u8 *imageRawData, u32 width, u32 height)
+    {
+        //this->pHandle = new struct HandleDeviceTexture()
+    }
+
     // Constructors
+
+    //--------------------------------------------------------------------------
+    // NEW any texture(file or memory) creation calls this
+    TextureId::TextureId(const std::wstring &dirName, const std::wstring &fileName,
+        const std::wstring &extensionName)
+    {
+        std::vector<u8> textureRaw;
+        u32 width, height;
+
+        bool res = loadTexture(textureRaw, dirName, fileName, extensionName, width, height);
+        if (res == false)
+            triggerBreakpoint();
+
+        pHandle = new struct HandleDeviceTexture();
+        glGenTextures(1, &pHandle->deviceTexture);
+        glBindTexture(GL_TEXTURE_2D, pHandle->deviceTexture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureRaw.data());
+        onGfxDeviceErrorTriggerBreakpoint();
+
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+        //TextureId createTextureFromRaw(const void  *pData, u32 width, u32 height);;
+
+    }
+
+    TextureId::~TextureId()
+    {      
+        if (pHandle != nullptr)
+        {
+            glDeleteTextures(1, &pHandle->deviceTexture);
+            delete pHandle;
+            pHandle = nullptr;
+        }
+    }
+
+
     // Load texture from file
     TextureId::TextureId(const std::wstring &fileName)
     {     
@@ -41,14 +103,9 @@ namespace GfxLowLevel
         this->insertImageData(image.data(), width, height);        
     }            
 
-    TextureId::~TextureId()
-    {
-        //pHandle->deviceTexture->Release(); //the way it should be done
-        //delete pHandle->deviceTexture;
-    }
-
+    
     // Methods
-    TextureId createTextureFromRaw(const void  *pData, u32 width, u32 height)
+ /*   TextureId createTextureFromRaw(const void  *pData, u32 width, u32 height)
     {
         TextureId tid;
         tid.pHandle = new HandleDeviceTexture;
@@ -62,7 +119,7 @@ namespace GfxLowLevel
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         
         return tid;
-    }
+    }*/
 
 
     // Called by constructor only
@@ -91,25 +148,28 @@ namespace GfxLowLevel
         {
             std::wstring name( fileName.substr(0, fileName.size() - 4) );// todo: do properly
 
-            textures.insert(std::pair<std::wstring, TextureId>(name, newTexture));
+            textures.insert(std::pair<std::wstring, TextureId>(name, std::move(newTexture)));
             //this->textures[name] = newTexture;
         }
         else
         {
             triggerBreakpoint();
         }
+
+
         
         // strip extension of name
         //std::wstring nameNaked = fileName
 
     }
 
-    // todo: repeated in dx version.
-    void TextureManager::insert(const std::wstring &name, const TextureId texID)
+    // todo: repeated in dx version. move to common file
+    void TextureManager::insert(const std::wstring &name, TextureId texID)
     {
-        textures.insert(std::pair<std::wstring, TextureId>(name, texID));
+        textures.insert(std::pair<std::wstring, TextureId>(name, std::move(texID)));
     }
 
+    // todo: repeated in dx version. move to common file
     TextureId &TextureManager::getTextureByName(const std::wstring &name)
     {       
         auto it = textures.find(name);

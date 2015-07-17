@@ -33,7 +33,7 @@ namespace GfxLowLevel
         ShaderId shaderProgram, GfxLowLevel::TextureId &texture,
         u32 nVerts) :
         vertexType(vertexType), primativeType(primativeType),
-        shaderProgram(shaderProgram), texture(texture),
+        shaderProgram(shaderProgram), texture(std::move(texture)),
         capacity(nVerts)
     {				
         pHandle = new handleDeviceVB();

@@ -53,8 +53,7 @@ namespace
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE	hPrevInstance, LPSTR lpCmdLine,int nCmdShow)			// Window Show State
 {
     MSG		msg;
-
-    skool();
+    //skool();
 
     masterInitialise();
 
