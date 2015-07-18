@@ -82,7 +82,7 @@ struct HandleDeviceTexture
         g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 
-        if (1)
+        if (0)
         {
             // vb
             // fill vb

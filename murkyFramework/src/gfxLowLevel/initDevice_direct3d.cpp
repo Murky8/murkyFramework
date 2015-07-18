@@ -288,7 +288,7 @@ namespace GfxLowLevel
         //g_pImmediateContext->Flush();    
             
         g_pCBChangesEveryFrame->Release();
-        g_pSamplerLinear->Release();
+        //g_pSamplerLinear->Release();
 
         g_pVertexLayout->Release();
 

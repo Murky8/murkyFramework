@@ -22,8 +22,7 @@
 #include <murkyFramework/include/stringHelpers.hpp>
   
 namespace GfxLowLevel
-{
-    //--------------------------------------------------------------------------------------
+{    
     // forward declarations
     extern    HINSTANCE               g_hInst;
     extern    HWND                    g_hWnd;
@@ -36,41 +35,65 @@ namespace GfxLowLevel
     extern    IDXGISwapChain*         g_pSwapChain;
     extern    IDXGISwapChain1*        g_pSwapChain1;
     extern    ID3D11RenderTargetView* g_pRenderTargetView;
-
     extern      ID3D11VertexShader*     g_pVertexShader;
     extern      ID3D11PixelShader*      g_pPixelShader;
     extern      ID3D11InputLayout*      g_pVertexLayout;
     extern      ID3D11Buffer*           g_pVertexBuffer;  
+    extern      ID3D11SamplerState          *g_pSamplerLinear;    
 
-    extern ID3D11SamplerState          *g_pSamplerLinear;
-    // Constructors
-    // Load texture from file
-    TextureId::TextureId(const std::wstring &fileName)
-    {     
-        //triggerBreakpoint();
-    }    
-        
-    TextureId::~TextureId()
+
+    void initilise_textureSystem()
     {
-        //pHandle->deviceTexture->Release(); //the way it should be done
-        //delete pHandle->deviceTexture;
+        // Create the sample state
+        // this has to be done after pixel shader. todo: CHECK
+        HRESULT res;
+        g_pSamplerLinear = nullptr;
+        D3D11_SAMPLER_DESC sampDesc;
+        ZeroMemory(&sampDesc, sizeof(sampDesc));
+        sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+        sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+        sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+        sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+        sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+        sampDesc.MinLOD = 0;
+        sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+        res = g_pd3dDevice->CreateSamplerState(&sampDesc, &g_pSamplerLinear);
+
+        if (FAILED(res))
+            triggerBreakpoint();
+        // Create the sample state
     }
-    // Methods    
-    
+
+    void deinitilise_textureSystem()
+    {
+        g_pSamplerLinear->Release();
+    }
+
+    // device specific handle to texture
     struct HandleDeviceTexture
     {
         ID3D11ShaderResourceView *deviceTexture;
-    };
+    };    
+        
+    // deconstructor
+    TextureId::~TextureId()
+    {
+        if (pHandle != nullptr)
+        {            
+            pHandle->deviceTexture->Release();
+            delete pHandle;
+            pHandle = nullptr;
+        }
+    }
 
-    //// Called by constructor only
-    //void TextureId::insertImageData(u8 * in_imageData, u32 width, u32 height)
-    //{
-    //    triggerBreakpoint();
-    //}
     //http://gamedev.stackexchange.com/questions/14507/loading-a-texture2d-array-in-directx11
     //https://msdn.microsoft.com/en-us/library/windows/desktop/ff476904(v=vs.85).aspx
-    TextureId createTextureFromRaw(const void  *pData, u32 width, u32 height)
+    //// Called by constructor only
+    void TextureId::insertImageData(u8 * in_imageData, u32 width, u32 height)    
     {
+        pHandle = new HandleDeviceTexture;
+
         HRESULT hr;
         D3D11_TEXTURE2D_DESC desc;
         auto format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -90,7 +113,7 @@ namespace GfxLowLevel
         desc.MiscFlags = 0;
 
         D3D11_SUBRESOURCE_DATA subRes;
-        subRes.pSysMem = pData;
+        subRes.pSysMem = (void*)in_imageData;
         subRes.SysMemPitch = bytesPerPixel*width;
         subRes.SysMemSlicePitch = subRes.SysMemPitch * height;
 
@@ -104,76 +127,87 @@ namespace GfxLowLevel
         memset(&resviewDesc, 0, sizeof(resviewDesc));
         resviewDesc.Format = format;
         resviewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-        resviewDesc.Texture2D.MipLevels = 1;
-
-        ID3D11ShaderResourceView *texRV;
+        resviewDesc.Texture2D.MipLevels = 1;           
 
         hr = g_pd3dDevice->CreateShaderResourceView(texture,
-            &resviewDesc, &texRV );
+            &resviewDesc, &pHandle->deviceTexture );
         
         if (FAILED(hr))
             triggerBreakpoint();
-
-        TextureId tid;
-        tid.pHandle = new HandleDeviceTexture;
-        tid.pHandle->deviceTexture = texRV;
-        return tid;
     }
 
-    // separate from texture manager, manager just organises textures
-    void TextureManager::loadNewTexture(const std::wstring &dirName, const std::wstring &fileName)
+    // loads trexture from file
+    bool loadTexture(std::vector<u8> &textureRawOut, const std::wstring &dirName,
+        const std::wstring &fileName, const std::wstring &extensionName,
+        u32 &widthOut, u32 &heightOut)
     {
-        std::wstring fullPath = dirName + fileName;
-        
-        //std::string str2 = str.substr (12,12);
-        std::wregex regexExpr(L"dds");
-        std::wstring name;
-        if (regex_search(fileName, regexExpr))
-        {
-            name = fileName.substr(0, fileName.size() - 4); // todo: do properly
-        }
-        else
-        {
-            triggerBreakpoint();
-        }
-        HRESULT res;
-     
-        // d3d
-        ID3D11ShaderResourceView    *pTextureRV = nullptr;
+        std::wstring fullPath = dirName + L"/" + fileName + L"." + extensionName;
 
-        res = DirectX::CreateDDSTextureFromFile(g_pd3dDevice, fullPath.c_str(), nullptr, &pTextureRV);
-        if (FAILED(res))    
-            triggerBreakpoint();           
+        if (extensionName != L"png")
+            return false;
 
-        //// Create the sample state
-        //g_pSamplerLinear = nullptr;
-        //D3D11_SAMPLER_DESC sampDesc;
-        //ZeroMemory(&sampDesc, sizeof(sampDesc));
-        //sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-        //sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-        //sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-        //sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-        //sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-        //sampDesc.MinLOD = 0;
-        //sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+        auto error = lodepng::decode(textureRawOut, widthOut, heightOut, ws2s(fullPath).c_str());
+        if (error != 0)
+            return false;
 
-        //res = g_pd3dDevice->CreateSamplerState(&sampDesc, &g_pSamplerLinear);
-        //if (FAILED(res))
-        //    triggerBreakpoint();
-        //// Create the sample state
-
-        TextureId textureId;
-        textureId.pHandle = new HandleDeviceTexture();
-        textureId.pHandle->deviceTexture = pTextureRV;
-        
-        textures.insert(std::pair<std::wstring, TextureId>(name, textureId));
-        
+        return true;
     }
+
+    // constructor
+    TextureId::TextureId(const std::wstring &dirName, const std::wstring &fileName,
+        const std::wstring &extensionName)
+    {
+        std::vector<u8> textureRaw;
+        u32 width, height;
+
+        bool res = loadTexture(textureRaw, dirName, fileName, extensionName, width, height);
+        if (res == false)
+            triggerBreakpoint();
+
+        this->insertImageData((u8*)textureRaw.data(), width, height);
+    }
+
+    // constructor. create texture from raw
+    TextureId::TextureId(u8 *rawData, u32 width, u32 height)   
+    {
+        this->insertImageData(rawData, width, height);
+    }
+
+    //// separate from texture manager, manager just organises textures
+    //void TextureManager::loadNewTexture(const std::wstring &dirName, const std::wstring &fileName)
+    //{
+    //    std::wstring fullPath = dirName + fileName;
+    //    
+    //    //std::string str2 = str.substr (12,12);
+    //    std::wregex regexExpr(L"dds");
+    //    std::wstring name;
+    //    if (regex_search(fileName, regexExpr))
+    //    {
+    //        name = fileName.substr(0, fileName.size() - 4); // todo: do properly
+    //    }
+    //    else
+    //    {
+    //        triggerBreakpoint();
+    //    }
+    //    HRESULT res;
+    // 
+    //    // d3d
+    //    ID3D11ShaderResourceView    *pTextureRV = nullptr;
+
+    //    res = DirectX::CreateDDSTextureFromFile(g_pd3dDevice, fullPath.c_str(), nullptr, &pTextureRV);
+    //    if (FAILED(res))    
+    //        triggerBreakpoint();           
+    //
+    //    TextureId textureId;
+    //    textureId.pHandle = new HandleDeviceTexture();
+    //    textureId.pHandle->deviceTexture = pTextureRV;        
+    //    textures.insert(std::pair<std::wstring, TextureId>(name, textureId));        
+    //}
 
     // todo: repeated in ogl version.
-    void TextureManager::insert(const std::wstring &name, const TextureId texID)
+    void TextureManager::insert(const std::wstring &name, TextureId texID)
     {
-        textures.insert(std::pair<std::wstring, TextureId>(name, texID));
+        textures.insert(std::pair<std::wstring, TextureId>(name, std::move(texID)));
     }
     
     TextureId &TextureManager::getTextureByName(const std::wstring &name)
@@ -191,38 +225,11 @@ namespace GfxLowLevel
     }
 
     TextureManager::TextureManager()
-    {
-        // Create the sample state
-        // this has to be done after pixel shader. check this is true
-        HRESULT res;
-        g_pSamplerLinear = nullptr;
-        D3D11_SAMPLER_DESC sampDesc;
-        ZeroMemory(&sampDesc, sizeof(sampDesc));
-        sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-        sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-        sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-        sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-        sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-        sampDesc.MinLOD = 0;
-        sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-
-        res = g_pd3dDevice->CreateSamplerState(&sampDesc, &g_pSamplerLinear);
-        if (FAILED(res))
-            triggerBreakpoint();
-        // Create the sample state
-
+    {       
     }
 
     TextureManager::~TextureManager()
-    {
-        for (auto &it : textures)
-        {
-            if (it.second.pHandle)
-            {
-                (it.second.pHandle->deviceTexture)->Release();
-                delete it.second.pHandle;
-            }
-        }
+    { 
     }
 
 }

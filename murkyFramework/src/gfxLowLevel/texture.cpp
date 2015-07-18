@@ -8,6 +8,6 @@
 
 namespace GfxLowLevel
 {
-   
+    // forward declarations
 
 }

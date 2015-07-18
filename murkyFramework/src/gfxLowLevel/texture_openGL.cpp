@@ -21,12 +21,33 @@ namespace GfxLowLevel
     // forward declarations
     void onGfxDeviceErrorTriggerBreakpoint();
     
+    void initilise_textureSystem()
+    {
+    }
+    void deinitilise_textureSystem()
+    {
+    }
+
+    // device specific handle to texture
     struct HandleDeviceTexture
     {
         u32 deviceTexture;        
     };
 
-    // NEW just loads the data
+    // called by constructor only  
+    void TextureId::insertImageData(u8 * in_imageData, u32 width, u32 height)
+    {
+        pHandle = new struct HandleDeviceTexture();
+        glGenTextures(1, &pHandle->deviceTexture);
+        glBindTexture(GL_TEXTURE_2D, pHandle->deviceTexture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, in_imageData);
+        onGfxDeviceErrorTriggerBreakpoint();
+
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    }
+
+    // loads trexture from file
     bool loadTexture(std::vector<u8> &textureRawOut, const std::wstring &dirName,
         const std::wstring &fileName, const std::wstring &extensionName,
         u32 &widthOut, u32 &heightOut)
@@ -42,18 +63,8 @@ namespace GfxLowLevel
 
         return true;
     }
-
-
-    // NEW 
-    TextureId::TextureId(u8 *imageRawData, u32 width, u32 height)
-    {
-        //this->pHandle = new struct HandleDeviceTexture()
-    }
-
-    // Constructors
-
-    //--------------------------------------------------------------------------
-    // NEW any texture(file or memory) creation calls this
+        
+    // constructor
     TextureId::TextureId(const std::wstring &dirName, const std::wstring &fileName,
         const std::wstring &extensionName)
     {
@@ -64,19 +75,16 @@ namespace GfxLowLevel
         if (res == false)
             triggerBreakpoint();
 
-        pHandle = new struct HandleDeviceTexture();
-        glGenTextures(1, &pHandle->deviceTexture);
-        glBindTexture(GL_TEXTURE_2D, pHandle->deviceTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureRaw.data());
-        onGfxDeviceErrorTriggerBreakpoint();
-
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-        //TextureId createTextureFromRaw(const void  *pData, u32 width, u32 height);;
-
+        this->insertImageData((u8*)textureRaw.data(), width, height);
     }
 
+    // constructor. create texture from raw
+    TextureId::TextureId(u8 *rawData, u32 width, u32 height)   
+    {
+        this->insertImageData(rawData, width, height);
+    }
+
+    // deconstructor
     TextureId::~TextureId()
     {      
         if (pHandle != nullptr)
@@ -85,82 +93,6 @@ namespace GfxLowLevel
             delete pHandle;
             pHandle = nullptr;
         }
-    }
-
-
-    // Load texture from file
-    TextureId::TextureId(const std::wstring &fileName)
-    {     
-        pHandle = new HandleDeviceTexture();
-        std::vector<u8> image; //the raw pixels
-        image.reserve(256*256*4);
-        u32 width, height;
-
-        auto error = lodepng::decode(image, width, height, ws2s(fileName).c_str());
-        if (error != 0)            
-            triggerBreakpoint();
-
-        this->insertImageData(image.data(), width, height);        
-    }            
-
-    
-    // Methods
- /*   TextureId createTextureFromRaw(const void  *pData, u32 width, u32 height)
-    {
-        TextureId tid;
-        tid.pHandle = new HandleDeviceTexture;
-
-        glGenTextures(1, &tid.pHandle->deviceTexture);
-        glBindTexture(GL_TEXTURE_2D, tid.pHandle->deviceTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pData);
-        onGfxDeviceErrorTriggerBreakpoint();
-
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        
-        return tid;
-    }*/
-
-
-    // Called by constructor only
-    void TextureId::insertImageData(u8 * in_imageData, u32 width, u32 height)
-    {
-
-        glGenTextures(1, &pHandle->deviceTexture);
-        glBindTexture(GL_TEXTURE_2D, pHandle->deviceTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, in_imageData);
-        onGfxDeviceErrorTriggerBreakpoint();
-
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    }
-
-    void TextureManager::loadNewTexture(const std::wstring &dirName, const std::wstring &fileName)
-    {
-        
-        std::wstring fullPath = dirName + fileName;        
-
-        TextureId newTexture(fullPath);
-
-        //std::string str2 = str.substr (12,12);
-        std::wregex regexExpr(L"png");
-        if (regex_search(fileName, regexExpr))
-        {
-            std::wstring name( fileName.substr(0, fileName.size() - 4) );// todo: do properly
-
-            textures.insert(std::pair<std::wstring, TextureId>(name, std::move(newTexture)));
-            //this->textures[name] = newTexture;
-        }
-        else
-        {
-            triggerBreakpoint();
-        }
-
-
-        
-        // strip extension of name
-        //std::wstring nameNaked = fileName
-
     }
 
     // todo: repeated in dx version. move to common file
@@ -188,13 +120,14 @@ namespace GfxLowLevel
     }
 
     TextureManager::~TextureManager()
-    {        
-        for each (auto &it in this->textures)
+    {       
+
+        /*for each (auto &it in this->textures)
         {     
             glDeleteTextures(1, &(it.second.pHandle->deviceTexture));
             delete &(it.second.pHandle->deviceTexture);
         }
-
+*/
     }
 
 

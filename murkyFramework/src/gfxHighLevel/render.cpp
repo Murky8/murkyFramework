@@ -25,21 +25,22 @@
 
 namespace GfxLowLevel
 {
-    bool deinitialise_device();
-    extern   TextureId createTextureFromRaw(const void  *pData, u32 width, u32 height);
+    // forward declarations
+    bool        deinitialise_device();
+    extern      TextureId createTextureFromRaw(const void  *pData, u32 width, u32 height);
+    void        initilise_textureSystem();
+    void        deinitilise_textureSystem();
 }
 
 namespace RenderHi
-{    
-//------------------------------------------------------------------------------
-// forward declarations
-
+{        
     // data
     TextRender      *textRenderer;
     mat4	        projectionMatrix;
     GfxLowLevel::VertexBufferDynamic *vertexBufferTemp;
     GfxLowLevel::VertexBufferDynamic *lineVB;
     GfxLowLevel::TextureManager *textureManager;
+
     
     mat4 makeProjectionMatrix_ortho(f32 left, f32 right, f32 bottom, f32 top, f32 zNear = -1.f, f32 zFar = 1.f)
     {
@@ -62,18 +63,12 @@ namespace RenderHi
     {
         debugLog << L"RenderHi::initialise" << "\n";
         GfxLowLevel::Shaders::initialise();
+        GfxLowLevel::initilise_textureSystem();
         textureManager = new GfxLowLevel::TextureManager();
-#ifdef USE_OPENGL
+
         //textureManager->loadNewTexture(L"data/", L"font.png");
         //textureManager->loadNewTexture(L"data/", L"t0.png");
-
         GfxLowLevel::TextureId newt(L"data", L"font", L"png");
-#endif 
-
-#ifdef USE_DIRECT3D
-        textureManager->loadNewTexture(L"data/", L"font.dds");
-        textureManager->loadNewTexture(L"data/", L"t0.dds");
-#endif // USE_DIRECT3D
 
         // texcre
         //u8  t[256][256][4];
@@ -108,17 +103,16 @@ namespace RenderHi
             textureManager->getTextureByName(L"t0"),
             1024);*/
 
-//#ifdef USE_OPENGL             
         //textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
         textRenderer = new TextRender(std::move(newt));
-//#endif 
+
         Gapp.gfxInitialised = true;
     }
 
     void deinitialise()
     {        
         debugLog << L"RenderHi::deinitialise" << "\n";
-
+        GfxLowLevel::deinitilise_textureSystem();
         GfxLowLevel::Shaders::deinitialise();
         delete textRenderer;
         delete textureManager; // will delete all textures;

@@ -10,68 +10,41 @@
 #include <murkyFramework/include/common.hpp>
 
 namespace GfxLowLevel
-{
-    //extern int idCt;
-
-    //template<typename T>
-    //class CachedRefByName()
-    //{
-    //}
-
+{  
     class TextureId    //todo rename ref part
     {
     public:       
         // data
-
         struct HandleDeviceTexture *pHandle = nullptr;
-        
-        //default constructor
-        TextureId() = delete;
-        
-        // parameterised constructor
+                        
+        // constructor
         TextureId(
             const std::wstring &dirName,
             const std::wstring &fileName,
             const std::wstring &extensionName
             );
 
-        // copy constructor
-        TextureId(const TextureId &rhs) = delete;
-                
-        // copy assign
-        TextureId& operator=(const TextureId& rhs) = delete;
+        // constructor
+        TextureId::TextureId(u8 *rawData, u32 width, u32 height);
         
-        // c++11 move constructor
+        // destructor
+        ~TextureId();      
+        
+        TextureId() = delete;                                   // default constructor
+        TextureId(const TextureId &rhs) = delete;               // copy constructor                      
+        TextureId &operator=(const TextureId& rhs) = delete;    // copy assign
+        TextureId &operator=(TextureId&& rhs) = delete;         // c++11 move assigment operator
+        
+        // move constructor
         TextureId(TextureId&& rhs)
         {
             this->pHandle = rhs.pHandle;
             rhs.pHandle = nullptr;
         }
         
-        // c++11 move assigment operator
-        TextureId &operator=(TextureId&& rhs) = delete;
-        /*{
-            if (this->pHandle != nullptr)
-            {
-                this->pHandle = rhs.pHandle;                
-                rhs.pHandle = nullptr;
-            }
-        }
-        */
-        TextureId(const std::wstring &fileName); // todo: depr..
-
-        ~TextureId();      
-       
-        // Methods
-           
-    private:
-        // constructors
-        TextureId(u8 *in_data, u32 width, u32 height);// todo: depreciate
-        //TextureRef(const TextureRef &rhs) = delete;
-
-        // methods
-        void insertImageData( u8 *in_imageData, u32 width, u32 height);// todo: depreciate
-        
+    private:                
+        // called by a constructor only 
+        void insertImageData( u8 *in_imageData, u32 width, u32 height);        
     };       
 
     class TextureManager
