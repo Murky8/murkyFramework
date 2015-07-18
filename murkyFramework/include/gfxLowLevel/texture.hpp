@@ -49,15 +49,11 @@ namespace GfxLowLevel
 
     class TextureManager
     {
-    public:
-        TextureManager();
-        ~TextureManager();
-
+    public:  
         void TextureManager::insert(const std::wstring &name, TextureId texID);
-
         TextureId &TextureManager::getTextureByName(const std::wstring &name);               
-        void        loadNewTexture(const std::wstring &dirName, const std::wstring &fileName);        
-        std::map< std::wstring, GfxLowLevel::TextureId> textures;
+        
     private:
+        std::map< std::wstring, GfxLowLevel::TextureId> textures;
     };
 }

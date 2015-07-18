@@ -80,9 +80,7 @@ namespace GfxLowLevel
         //glEnable(GL_CULL_FACE);
         //glFrontFace(GL_CW);
         //glCullFace(GL_BACK);
-    }
-
-   
+    }   
 
     void drawBegin()
     {

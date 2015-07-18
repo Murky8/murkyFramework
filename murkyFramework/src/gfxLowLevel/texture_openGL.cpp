@@ -21,9 +21,11 @@ namespace GfxLowLevel
     // forward declarations
     void onGfxDeviceErrorTriggerBreakpoint();
     
+
     void initilise_textureSystem()
     {
     }
+
     void deinitilise_textureSystem()
     {
     }
@@ -95,40 +97,6 @@ namespace GfxLowLevel
         }
     }
 
-    // todo: repeated in dx version. move to common file
-    void TextureManager::insert(const std::wstring &name, TextureId texID)
-    {
-        textures.insert(std::pair<std::wstring, TextureId>(name, std::move(texID)));
-    }
-
-    // todo: repeated in dx version. move to common file
-    TextureId &TextureManager::getTextureByName(const std::wstring &name)
-    {       
-        auto it = textures.find(name);
-        if (it != textures.end())
-        {
-            return it->second;
-        }
-        else
-        {
-            triggerBreakpoint();
-            return it->second;
-        }
-    }
-    TextureManager::TextureManager()  
-    {
-    }
-
-    TextureManager::~TextureManager()
-    {       
-
-        /*for each (auto &it in this->textures)
-        {     
-            glDeleteTextures(1, &(it.second.pHandle->deviceTexture));
-            delete &(it.second.pHandle->deviceTexture);
-        }
-*/
-    }
 
 
 }

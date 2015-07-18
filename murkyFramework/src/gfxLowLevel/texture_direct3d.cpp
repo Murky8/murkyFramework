@@ -171,66 +171,6 @@ namespace GfxLowLevel
     TextureId::TextureId(u8 *rawData, u32 width, u32 height)   
     {
         this->insertImageData(rawData, width, height);
-    }
-
-    //// separate from texture manager, manager just organises textures
-    //void TextureManager::loadNewTexture(const std::wstring &dirName, const std::wstring &fileName)
-    //{
-    //    std::wstring fullPath = dirName + fileName;
-    //    
-    //    //std::string str2 = str.substr (12,12);
-    //    std::wregex regexExpr(L"dds");
-    //    std::wstring name;
-    //    if (regex_search(fileName, regexExpr))
-    //    {
-    //        name = fileName.substr(0, fileName.size() - 4); // todo: do properly
-    //    }
-    //    else
-    //    {
-    //        triggerBreakpoint();
-    //    }
-    //    HRESULT res;
-    // 
-    //    // d3d
-    //    ID3D11ShaderResourceView    *pTextureRV = nullptr;
-
-    //    res = DirectX::CreateDDSTextureFromFile(g_pd3dDevice, fullPath.c_str(), nullptr, &pTextureRV);
-    //    if (FAILED(res))    
-    //        triggerBreakpoint();           
-    //
-    //    TextureId textureId;
-    //    textureId.pHandle = new HandleDeviceTexture();
-    //    textureId.pHandle->deviceTexture = pTextureRV;        
-    //    textures.insert(std::pair<std::wstring, TextureId>(name, textureId));        
-    //}
-
-    // todo: repeated in ogl version.
-    void TextureManager::insert(const std::wstring &name, TextureId texID)
-    {
-        textures.insert(std::pair<std::wstring, TextureId>(name, std::move(texID)));
-    }
-    
-    TextureId &TextureManager::getTextureByName(const std::wstring &name)
-    {       
-        auto it = textures.find(name);
-        if (it != textures.end())
-        {
-            return it->second;
-        }
-        else
-        {
-            triggerBreakpoint();
-            return it->second;
-        }
-    }
-
-    TextureManager::TextureManager()
-    {       
-    }
-
-    TextureManager::~TextureManager()
-    { 
-    }
-
+    }       
 }
 #endif // USE_DIRECT3D
