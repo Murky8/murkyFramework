@@ -6,6 +6,7 @@
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/types.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
+#include <memory>
 
 
 /*
@@ -147,99 +148,93 @@ d2 = std::move(d1);
 }
 */
 
-
-struct HandleDeviceTexture2
-{
-// this is just a container, no constructorx destructors of rescources
-public:
-    //ogl
-    //int a;
-    //int b;
-
-    //d3d
-    void *p;
-    HandleDeviceTexture2() = delete;
-    HandleDeviceTexture2(void *p) : p(p)
-    {
-        debugLog << L"HandleDeviceTexture2:: constructor\n";
-    }
-
-    ~HandleDeviceTexture2()
-    {    
-         debugLog << L"HandleDeviceTexture2: destructor\n";          
-    }
-};
-
-class TextureRef2
-{
-public:
-    HandleDeviceTexture2 *pHandleDeviceTexture2;        
-        
-    // constructor
-    TextureRef2( int a) 
-    {
-        //would ususally call GlGentextures here and pass instead of nullptr
-        this->pHandleDeviceTexture2 = new HandleDeviceTexture2(nullptr);
-
-        debugLog << L"TextureRef2: constructed " << a <<"\n";        
-    }
-
-    TextureRef2(const TextureRef2 &v) = delete;
-    TextureRef2 &operator=(const TextureRef2 &rhs) = delete;
-    TextureRef2 &operator=(TextureRef2 &&rhs) = delete;
-    
-    TextureRef2(TextureRef2&& rhs)
-    {
-        debugLog << L"TextureRef2: moved" << "\n";
-
-        this->pHandleDeviceTexture2 = rhs.pHandleDeviceTexture2;
-        rhs.pHandleDeviceTexture2 = nullptr;
-    }
-
-     ~TextureRef2()
-    {                
-        if (pHandleDeviceTexture2 != nullptr)
-        {
-            debugLog << L"TextureRef2: destructor on obj" << "\n";
-            //would ususally call GlDeletetextures
-            delete pHandleDeviceTexture2;
-            pHandleDeviceTexture2 = nullptr;
-        }
-        else
-        {
-            debugLog << L"TextureRef2: destructor on nullptr" << "\n";
-        }
-
-    }
-};
-
-class TexMAnager
-{
-public:
-    std::map<std::wstring, TextureRef2> mapi;
-    void add(std::wstring name, TextureRef2 textureRef2)
-    {
-        //mapi.emplace(std::piecewise_construct,
-            //std::make_tuple(L"hello"),
-            //std::make_tuple(textureRef2));
-
-        mapi.insert(std::pair<std::wstring, TextureRef2>( L"hello", std::move(textureRef2)));
-    }
-};
+//
+//struct HandleDeviceTexture2
+//{
+//// this is just a container, no constructorx destructors of rescources
+//public:
+//    //ogl
+//    //int a;
+//    //int b;
+//
+//    //d3d
+//    void *p;
+//    HandleDeviceTexture2() = delete;
+//    HandleDeviceTexture2(void *p) : p(p)
+//    {
+//        debugLog << L"HandleDeviceTexture2:: constructor\n";
+//    }
+//
+//    ~HandleDeviceTexture2()
+//    {    
+//         debugLog << L"HandleDeviceTexture2: destructor\n";          
+//    }
+//};
+//
+//class TextureRef2
+//{
+//public:
+//    HandleDeviceTexture2 *pHandleDeviceTexture2;        
+//        
+//    // constructor
+//    TextureRef2( int a) 
+//    {
+//        //would ususally call GlGentextures here and pass instead of nullptr
+//        this->pHandleDeviceTexture2 = new HandleDeviceTexture2(nullptr);
+//
+//        debugLog << L"TextureRef2: constructed " << a <<"\n";        
+//    }
+//
+//    TextureRef2(const TextureRef2 &v) = delete;
+//    TextureRef2 &operator=(const TextureRef2 &rhs) = delete;
+//    TextureRef2 &operator=(TextureRef2 &&rhs) = delete;
+//    
+//    TextureRef2(TextureRef2&& rhs)
+//    {
+//        debugLog << L"TextureRef2: moved" << "\n";
+//
+//        this->pHandleDeviceTexture2 = rhs.pHandleDeviceTexture2;
+//        rhs.pHandleDeviceTexture2 = nullptr;
+//    }
+//
+//     ~TextureRef2()
+//    {                
+//        if (pHandleDeviceTexture2 != nullptr)
+//        {
+//            debugLog << L"TextureRef2: destructor on obj" << "\n";
+//            //would ususally call GlDeletetextures
+//            delete pHandleDeviceTexture2;
+//            pHandleDeviceTexture2 = nullptr;
+//        }
+//        else
+//        {
+//            debugLog << L"TextureRef2: destructor on nullptr" << "\n";
+//        }
+//
+//    }
+//};
+//
+//class TexMAnager
+//{
+//public:
+//    std::map<std::wstring, TextureRef2> mapi;
+//    void add(std::wstring name, TextureRef2 textureRef2)
+//    {
+//        //mapi.emplace(std::piecewise_construct,
+//            //std::make_tuple(L"hello"),
+//            //std::make_tuple(textureRef2));
+//
+//        mapi.insert(std::pair<std::wstring, TextureRef2>( L"hello", std::move(textureRef2)));
+//    }
+//};
 
 void skool()
 {
-    {        
-        TexMAnager textman;        
-        TextureRef2 textureRefa(1);// , textureRefb;
-        //TextureRef2 textureRefb(2);// , textureRefb;
-                        
-        textman.add(L"one", std::move(textureRefa));
-        //textman.add(L"two", std::move(textureRefb));
+    {
+        std::unique_ptr<int> pint(new int(5));
+
         debugLog << L"end of scope" << "\n";
     }
-
-
     exit(0);
 }
 /*

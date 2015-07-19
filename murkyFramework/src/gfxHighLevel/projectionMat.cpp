@@ -1,10 +1,10 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/version.hpp>
+#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 
 #include <murkyFramework/include/gfxHighLevel/projectionMat.hpp>
-#include <murkyFramework/include/version.hpp>
+#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 #include <murkyFramework/include/common.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
 

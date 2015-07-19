@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho
 // Platform: Windows 32/64
-#include <murkyFramework/include/version.hpp>
+#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 
 // todo: move libs to solution folder
 

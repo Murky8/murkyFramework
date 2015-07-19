@@ -3,11 +3,9 @@
 // 2015 J. Coelho
 // Platform: Windows 32/64
 
-//#define USE_OPENGL
-#define USE_DIRECT3D
-
 // Check windows
 #if WIN32 || _WIN64
+#define WIN32_LEAN_AND_MEAN
 #if _WIN64
 #define ENVIRONMENT64
 #else

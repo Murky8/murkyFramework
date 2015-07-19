@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-#include <murkyFramework/include/version.hpp>
+#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 
 #include <map>
 #include <vector>
@@ -15,18 +15,11 @@ namespace GfxLowLevel
     {
     public:       
         // data
-        struct HandleDeviceTexture *pHandle = nullptr;
+        struct HandleDeviceTexture *pHandle;
                         
         // constructor
-        TextureId(
-            const std::wstring &dirName,
-            const std::wstring &fileName,
-            const std::wstring &extensionName
-            );
-
-        // constructor
-        TextureId::TextureId(u8 *rawData, u32 width, u32 height);
-        
+        TextureId(HandleDeviceTexture*);
+              
         // destructor
         ~TextureId();      
         

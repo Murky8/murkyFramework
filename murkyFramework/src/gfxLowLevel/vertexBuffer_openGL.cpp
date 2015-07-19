@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/version.hpp>
+#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 #ifdef USE_OPENGL
 
 #include <vector>
@@ -78,8 +78,7 @@ namespace GfxLowLevel
     void	VertexBufferDynamic::draw( void *data, int nPrimatives )
     {
         onGfxDeviceErrorTriggerBreakpoint();
-        static int c = 0;
-        c++;
+   
         if (nPrimatives == 0)
             return;
 
@@ -89,7 +88,6 @@ namespace GfxLowLevel
         case VertexType::posCol:
             sizeVertex = sizeof(Vert_pc);
             triggerBreakpoint();
-
             break;
         case VertexType::posColTex:
             sizeVertex = sizeof(Vert_pct);
@@ -107,6 +105,11 @@ namespace GfxLowLevel
         case PrimativeType::triangle:
             nVerticiesPerPrimative = 3;
             glPrimativeType = GL_TRIANGLES;
+            break;
+
+        case PrimativeType::line:
+            nVerticiesPerPrimative = 2;
+            glPrimativeType = GL_LINES;
             break;
         default:// Catch usage of unimplemented			            
             triggerBreakpoint();

@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/version.hpp>
+#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 
 #include <iostream>
 #include <vector>
@@ -22,11 +22,10 @@
 
 #include <d3d11_1.h>// temp
 
-//--------------------------------------------------------------------------------------
 // forward declarations
-namespace GfxLowLevel
-{    
-    bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);  
+namespace RenderHi
+{        
+    void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd);
 }
 
 void mainLoop();
@@ -34,10 +33,7 @@ void masterInitialise();
 void deinitialise1();
 bool createWindow(LPCWSTR title, int width, int height);
 
-//--------------------------------------------------------------------------------------
-// Variables
-// todo: depreciate
-
+// vriables
 namespace
 {
     HDC			hDC;		// Private GDI Device Context
@@ -49,7 +45,7 @@ namespace
 }
 
 
- void skool();
+void skool();
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE	hPrevInstance, LPSTR lpCmdLine,int nCmdShow)			// Window Show State
 {
     MSG		msg;
@@ -150,8 +146,8 @@ void masterInitialise()
     if (!res)
         triggerBreakpoint(L"Init device failed");
 
-    GfxLowLevel::initialise_device(hDC, hRC, hWnd);
-    RenderHi::initialise();    
+
+    RenderHi::initialise(hDC, hRC, hWnd);
 }
 
 void deinitialise1()

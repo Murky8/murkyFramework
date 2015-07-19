@@ -201,7 +201,6 @@
     <ClCompile Include="..\..\src\gfxHighLevel\projectionMat.cpp" />
     <ClCompile Include="..\..\src\gfxHighLevel\render.cpp" />
     <ClCompile Include="..\..\src\gfxHighLevel\textRender.cpp" />
-    <ClCompile Include="..\..\src\gfxLowLevel\DDSTextureLoader.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\gfxAllDevices.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_direct3d.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_openGL.cpp" />
@@ -213,6 +212,7 @@
     <ClCompile Include="..\..\src\gfxLowLevel\texture.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\texture_direct3d.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\texture_openGL.cpp" />
+    <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer_direct3d.cpp" />
     <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer_openGL.cpp" />
     <ClCompile Include="..\..\src\inputDevices.cpp" />
@@ -238,6 +238,7 @@
     <ClInclude Include="..\..\include\gfxLowLevel\gfxPrimativeTypes.hpp" />
     <ClInclude Include="..\..\include\gfxLowLevel\shaders.hpp" />
     <ClInclude Include="..\..\include\gfxLowLevel\texture.hpp" />
+    <ClInclude Include="..\..\include\gfxLowLevel\version_gfxDevice.hpp" />
     <ClInclude Include="..\..\include\gfxLowLevel\vertexBuffer.hpp" />
     <ClInclude Include="..\..\include\inputDevices.hpp" />
     <ClInclude Include="..\..\include\loadSaveFile.hpp" />

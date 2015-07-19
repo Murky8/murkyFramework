@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/version.hpp>
+#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 #ifdef USE_DIRECT3D
 
 #include <windows.h>
@@ -44,11 +44,26 @@ namespace GfxLowLevel
         shaderProgram(shaderProgram), texture(std::move(texture)),
         capacity(nVerts)
     {			
+        u32 sizeVertex = 0;
+        switch (vertexType)
+        {
+        case VertexType::posCol:
+            sizeVertex = sizeof(Vert_pc);
+            triggerBreakpoint();
+            break;
+        case VertexType::posColTex:
+            sizeVertex = sizeof(Vert_pct);
+            break;
+        default:// Catch usage of unimplemented			
+            sizeVertex = 0;
+            triggerBreakpoint();
+        }
+
         pHandle = new handleDeviceVB();
         D3D11_BUFFER_DESC bd;
         ZeroMemory(&bd, sizeof(bd));
         bd.Usage = D3D11_USAGE_DYNAMIC;
-        bd.ByteWidth = sizeof(Vert_pct) * nVerts;
+        bd.ByteWidth = sizeVertex * nVerts;
         bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
         bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
         bd.MiscFlags = 0;
@@ -81,18 +96,50 @@ namespace GfxLowLevel
 
     void	VertexBufferDynamic::draw( void *vertexData, int nPrimatives )
     {        
+        u32 sizeVertex = 0;
+        switch (vertexType)
+        {
+        case VertexType::posCol:
+            sizeVertex = sizeof(Vert_pc);
+            triggerBreakpoint();
+            break;
+        case VertexType::posColTex:
+            sizeVertex = sizeof(Vert_pct);
+            break;
+        default:// Catch usage of unimplemented			
+            sizeVertex = 0;
+            triggerBreakpoint();
+        }
+
+        int nVerticiesPerPrimative = 0;        
+        D3D_PRIMITIVE_TOPOLOGY primTop;
+        switch (primativeType)
+        {
+        case PrimativeType::triangle:
+            nVerticiesPerPrimative = 3;         
+            primTop = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+            break;
+
+        case PrimativeType::line:
+            nVerticiesPerPrimative = 2;            
+            primTop = D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
+            break;
+        default:// Catch usage of unimplemented			            
+            triggerBreakpoint();
+        }
+
         g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
 
         D3D11_MAPPED_SUBRESOURCE subResource;
         g_pImmediateContext->Map(pHandle->deviceBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &subResource);
         //memcpy(ms.pData, verts, sizeof(verts));
-        memcpy(subResource.pData, vertexData, nPrimatives*sizeof(Triangle_pct));
+        memcpy(subResource.pData, vertexData, nPrimatives*nVerticiesPerPrimative*sizeVertex);
         g_pImmediateContext->Unmap(pHandle->deviceBuffer, NULL);
 
         UINT stride = sizeof(Vert_pct);
         UINT offset = 0;
         g_pImmediateContext->IASetVertexBuffers(0, 1, &pHandle->deviceBuffer, &stride, &offset);
-        g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        g_pImmediateContext->IASetPrimitiveTopology(primTop);
 
         // fill vb
 
@@ -107,7 +154,7 @@ namespace GfxLowLevel
         g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBChangesEveryFrame);
         g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
 
-        g_pImmediateContext->Draw(nPrimatives * 3, 0);
+        g_pImmediateContext->Draw(nPrimatives * nVerticiesPerPrimative, 0);
     } 
 }
 #endif // USE_DIRECT3D

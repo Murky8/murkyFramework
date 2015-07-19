@@ -1,13 +1,18 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-#include <murkyFramework/include/version.hpp>
-
+#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
+
+namespace GfxLowLevel
+{
+    enum class VertexType{ posCol, posColTex };
+    enum class PrimativeType{ triangle, line, point };
+}
 
 //#pragma pack(push, 1)
 //------------------------------------------------------------------------------
-// Vertexes
+// vertexes
 class Vert_pc
 {    
 public:
@@ -34,7 +39,7 @@ private:
 };
 
 //------------------------------------------------------------------------------
-// Lines
+// lines
 class Line_pc
 {
 public:
@@ -46,8 +51,19 @@ private:
 //    Line_pc() = delete;
 };
 
+class Line_pct
+{
+public:
+    Line_pct(){}
+    Line_pct(Vert_pct, Vert_pct);
+    // Data
+    Vert_pct v[2];
+private:
+    //    Line_pct() = delete;
+};
+
 //------------------------------------------------------------------------------
-// Triangles
+// triangles
 class Triangle_pc
 {
 public:
@@ -68,4 +84,5 @@ public:
 private:
     //Triangle_pct() = delete;
 };
+
 //#pragma pack(pop)

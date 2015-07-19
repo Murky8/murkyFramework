@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-#include <murkyFramework/include/version.hpp>
+
 
 class InputDevices
 {
@@ -11,7 +11,7 @@ public:
     // Destructors
     // Methods
     enum class KeyCode;//Forward declaration
-    bool keyStatus(InputDevices::KeyCode iKey);
+    static bool keyStatus(InputDevices::KeyCode iKey);
     // Data
 
     enum class KeyCode
@@ -71,10 +71,5 @@ public:
     };
 
 private:
-    // Constructors
-    // Destructors
-    // Methods
-    // Data
-
-
+   
 };

@@ -90,9 +90,6 @@
     <ClCompile Include="..\..\src\gfxLowLevel\texture.cpp">
       <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\gfxLowLevel\DDSTextureLoader.cpp">
-      <Filter>Source Files\gfxLowLevel\direct3D</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\gfxLowLevel\gfxLowLevel_direct3d.cpp">
       <Filter>Source Files\gfxLowLevel\direct3D</Filter>
     </ClCompile>
@@ -128,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\school.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer.cpp">
+      <Filter>Source Files\gfxLowLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\version.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gfxLowLevel\version_gfxDevice.hpp">
+      <Filter>Header Files\gfxLowLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

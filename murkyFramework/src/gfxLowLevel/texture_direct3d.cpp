@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/version.hpp>
+#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 #ifdef USE_DIRECT3D
 
 #include <windows.h>
@@ -9,18 +9,15 @@
 #include <d3dcompiler.h>
 #include <directxmath.h>
 #include <directxcolors.h>
-#include "DDSTextureLoader.h"
-
 #include <murkyFramework/include/gfxLowLevel/texture.hpp>
-
 #include <vector>
 #include <regex>
-
-#include <external/lodepng.h>
 #include <murkyFramework/include/common.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/stringHelpers.hpp>
   
+//http://gamedev.stackexchange.com/questions/14507/loading-a-texture2d-array-in-directx11
+//https://msdn.microsoft.com/en-us/library/windows/desktop/ff476904(v=vs.85).aspx
+
 namespace GfxLowLevel
 {    
     // forward declarations
@@ -41,7 +38,7 @@ namespace GfxLowLevel
     extern      ID3D11Buffer*           g_pVertexBuffer;  
     extern      ID3D11SamplerState          *g_pSamplerLinear;    
 
-
+    // functions
     void initilise_textureSystem()
     {
         // Create the sample state
@@ -75,24 +72,27 @@ namespace GfxLowLevel
     {
         ID3D11ShaderResourceView *deviceTexture;
     };    
-        
-    // deconstructor
+
+    // TextureId constructor
+    TextureId::TextureId(HandleDeviceTexture* pHandleDeviceTexture) :
+        pHandle(pHandleDeviceTexture)
+    {
+    }
+
+    // TextureId deconstructor
     TextureId::~TextureId()
     {
         if (pHandle != nullptr)
-        {            
+        {
             pHandle->deviceTexture->Release();
             delete pHandle;
             pHandle = nullptr;
         }
     }
-
-    //http://gamedev.stackexchange.com/questions/14507/loading-a-texture2d-array-in-directx11
-    //https://msdn.microsoft.com/en-us/library/windows/desktop/ff476904(v=vs.85).aspx
-    //// Called by constructor only
-    void TextureId::insertImageData(u8 * in_imageData, u32 width, u32 height)    
+      
+    TextureId   createTextureObject(u8 * in_imageData, u32 width, u32 height)    
     {
-        pHandle = new HandleDeviceTexture;
+        TextureId   textureId( new HandleDeviceTexture );                
 
         HRESULT hr;
         D3D11_TEXTURE2D_DESC desc;
@@ -130,47 +130,51 @@ namespace GfxLowLevel
         resviewDesc.Texture2D.MipLevels = 1;           
 
         hr = g_pd3dDevice->CreateShaderResourceView(texture,
-            &resviewDesc, &pHandle->deviceTexture );
+            &resviewDesc, &textureId.pHandle->deviceTexture);
         
         if (FAILED(hr))
             triggerBreakpoint();
+
+        return textureId;
     }
 
-    // loads trexture from file
-    bool loadTexture(std::vector<u8> &textureRawOut, const std::wstring &dirName,
-        const std::wstring &fileName, const std::wstring &extensionName,
-        u32 &widthOut, u32 &heightOut)
-    {
-        std::wstring fullPath = dirName + L"/" + fileName + L"." + extensionName;
+   
 
-        if (extensionName != L"png")
-            return false;
+    //// constructor
+    //TextureId::TextureId(const std::wstring &dirName, const std::wstring &fileName,
+    //    const std::wstring &extensionName)
+    //{
+    //    std::vector<u8> textureRaw;
+    //    u32 width, height;
 
-        auto error = lodepng::decode(textureRawOut, widthOut, heightOut, ws2s(fullPath).c_str());
-        if (error != 0)
-            return false;
+    //    bool res = loadTexture(textureRaw, dirName, fileName, extensionName, width, height);
+    //    if (res == false)
+    //        triggerBreakpoint();
 
-        return true;
-    }
+    //    this->insertImageData((u8*)textureRaw.data(), width, height);
+    //}
 
-    // constructor
-    TextureId::TextureId(const std::wstring &dirName, const std::wstring &fileName,
-        const std::wstring &extensionName)
-    {
-        std::vector<u8> textureRaw;
-        u32 width, height;
+    //TextureId   loadAndCreateTexture(const std::wstring &dirName, const std::wstring &fileName,
+    //    const std::wstring &extensionName)
+    //{
+    //    std::vector<u8> textureRaw;
+    //    u32 width, height;
 
-        bool res = loadTexture(textureRaw, dirName, fileName, extensionName, width, height);
-        if (res == false)
-            triggerBreakpoint();
+    //    bool res = loadTexture(textureRaw, dirName, fileName, extensionName, width, height);
+    //    if (res == false)
+    //        triggerBreakpoint();
 
-        this->insertImageData((u8*)textureRaw.data(), width, height);
-    }
+    //    triggerBreakpoint();
 
-    // constructor. create texture from raw
-    TextureId::TextureId(u8 *rawData, u32 width, u32 height)   
-    {
-        this->insertImageData(rawData, width, height);
-    }       
+    //    //this->insertImageData((u8*)textureRaw.data(), width, height);
+    //}
+
+    //// constructor. create texture from raw
+    //TextureId::TextureId(u8 *rawData, u32 width, u32 height)   
+    //{
+    //    this->insertImageData(rawData, width, height);
+    //}
+
+    
 }
 #endif // USE_DIRECT3D

@@ -1,8 +1,9 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/version.hpp>
+#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 
+#include <windows.h>
 #include <vector>
 #include <codecvt>
 
@@ -26,8 +27,11 @@
 namespace GfxLowLevel
 {
     // forward declarations
-    bool        deinitialise_device();
-    extern      TextureId createTextureFromRaw(const void  *pData, u32 width, u32 height);
+    TextureId   createTextureObjectFromFile(const std::wstring &dirName,
+        const std::wstring &fileName, const std::wstring &extensionName);
+    TextureId   createTestTextureObject();
+    bool        initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);    
+    bool        deinitialise_device();    
     void        initilise_textureSystem();
     void        deinitilise_textureSystem();
 }
@@ -35,11 +39,13 @@ namespace GfxLowLevel
 namespace RenderHi
 {        
     // data
+    
+    GfxLowLevel::VertexBufferDynamic    *vertexBufferTemp;  // for testing
+    GfxLowLevel::VertexBufferDynamic    *lineVB;            // for testing
+
     TextRender      *textRenderer;
     mat4	        projectionMatrix;
-    GfxLowLevel::VertexBufferDynamic *vertexBufferTemp;
-    GfxLowLevel::VertexBufferDynamic *lineVB;
-    GfxLowLevel::TextureManager *textureManager;
+    GfxLowLevel::TextureManager         *textureManager;
 
     
     mat4 makeProjectionMatrix_ortho(f32 left, f32 right, f32 bottom, f32 top, f32 zNear = -1.f, f32 zFar = 1.f)
@@ -59,49 +65,36 @@ namespace RenderHi
         return m;
     }
     
-    void initialise()
+    void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd)
     {
         debugLog << L"RenderHi::initialise" << "\n";
+        GfxLowLevel::initialise_device(hDC, hRC, hWnd);
         GfxLowLevel::Shaders::initialise();
         GfxLowLevel::initilise_textureSystem();
         textureManager = new GfxLowLevel::TextureManager();
+        
+        GfxLowLevel::TextureId newt = GfxLowLevel::createTextureObjectFromFile(
+            L"data", L"font", L"png");
 
-        //textureManager->loadNewTexture(L"data/", L"font.png");
-        //textureManager->loadNewTexture(L"data/", L"t0.png");
-        GfxLowLevel::TextureId newt(L"data", L"font", L"png");
+        GfxLowLevel::TextureId newt2 = GfxLowLevel::createTestTextureObject();
 
-        // texcre
-        //u8  t[256][256][4];
-        //for (auto i = 0; i < 256; ++i)
-        //    for (auto j = 0; j < 256; ++j)
-        //    {
-        //        t[j][i][0] = i*i + j*j;
-        //        t[j][i][1] = t[j][i][0];
-        //        t[j][i][2] = t[j][i][3] = 0;
-        //    }
-        //
-        //GfxLowLevel::TextureId tex = GfxLowLevel::createTextureFromRaw(
-        //    (const void *)t, 256, 256);
+        GfxLowLevel::TextureId newt3 = GfxLowLevel::createTextureObjectFromFile(
+            L"data", L"t0", L"png");
 
-        ////textureManager->textures.insert(std::pair<std::wstring, GfxLowLevel::TextureId>(L"gtex", tex));
-        //textureManager->insert(L"gtex", tex);
-        //// texcre
+        vertexBufferTemp = new GfxLowLevel::VertexBufferDynamic(
+            GfxLowLevel::VertexType::posColTex,
+            GfxLowLevel::PrimativeType::triangle,
+            GfxLowLevel::Shaders::posColText,
+            //textureManager->getTextureByName(L"gtex"),
+            std::move(newt2),
+            1024 );
 
-
-        //vertexBufferTemp = new GfxLowLevel::VertexBufferDynamic(
-        //    GfxLowLevel::VertexType::posColTex,
-        //    GfxLowLevel::PrimativeType::triangle,
-        //    GfxLowLevel::Shaders::posColText,
-        //    //textureManager->getTextureByName(L"gtex"),
-        //    newt,
-        //    1024 );
-
-        /*lineVB = new GfxLowLevel::VertexBufferDynamic(
+        lineVB = new GfxLowLevel::VertexBufferDynamic(
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::line,
             GfxLowLevel::Shaders::posColText,
-            textureManager->getTextureByName(L"t0"),
-            1024);*/
+            std::move(newt3),            
+            1024);
 
         //textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
         textRenderer = new TextRender(std::move(newt));
@@ -115,7 +108,7 @@ namespace RenderHi
         GfxLowLevel::deinitilise_textureSystem();
         GfxLowLevel::Shaders::deinitialise();
         delete textRenderer;
-        delete textureManager; // will delete all textures;
+        delete textureManager; // will delete all textures?;
         delete vertexBufferTemp;
 
         GfxLowLevel::deinitialise_device();
@@ -146,7 +139,7 @@ namespace RenderHi
         tex += L"\n";
         tex += L"2denboofme!\n";
         textRenderer->drawText(tex);
-        if (0)
+        if (1)
         {
 #define rn (((float)rand() / (float)RAND_MAX))
             std::vector<Triangle_pct> tris;
@@ -164,9 +157,20 @@ namespace RenderHi
             }
             vertexBufferTemp->draw(tris.data(), tris.size());
         }
-        
-        //    std::vector<Line_pct> lines;
-        
+        if (1)
+        {
+            std::vector<Line_pct> lines;
+            for (int i = 0; i < 10; i++)
+            {
+                Line_pct line
+                {
+                    Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
+                    Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
+                };
+                lines.push_back(line);
+            }
+            lineVB->draw(lines.data(), lines.size());
+        }        
      
         GfxLowLevel::drawEnd();
     }
