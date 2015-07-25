@@ -1,6 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
+#include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 
 #include <windows.h>
@@ -24,9 +25,9 @@
 #include <murkyFramework/include/gfxHighLevel/textRender.hpp>
 #include <external/glm/glm.hpp>
 
+// forward declarations
 namespace GfxLowLevel
 {
-    // forward declarations
     TextureId   createTextureObjectFromFile(const std::wstring &dirName,
         const std::wstring &fileName, const std::wstring &extensionName);
     TextureId   createTestTextureObject();
@@ -38,10 +39,9 @@ namespace GfxLowLevel
 
 namespace RenderHi
 {        
-    // data
-    
+    // data    
     GfxLowLevel::VertexBufferDynamic    *vertexBufferTemp;  // for testing
-    GfxLowLevel::VertexBufferDynamic    *lineVB;            // for testing
+    GfxLowLevel::VertexBufferDynamic    *g_lineVB;          
 
     TextRender      *textRenderer;
     mat4	        projectionMatrix;
@@ -89,7 +89,7 @@ namespace RenderHi
             std::move(newt2),
             1024 );
 
-        lineVB = new GfxLowLevel::VertexBufferDynamic(
+        g_lineVB = new GfxLowLevel::VertexBufferDynamic(
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::line,
             GfxLowLevel::Shaders::posColText,
@@ -133,12 +133,8 @@ namespace RenderHi
         GfxLowLevel::setUniform_projectionMatrix(&projectionMatrix);
 
         // draw stuff here
-        std::wstring tex;
-        tex += L"0hellome!\n";
-        tex += std::to_wstring(Gapp.frameCounter);
-        tex += L"\n";
-        tex += L"2denboofme!\n";
-        textRenderer->drawText(tex);
+        
+        textRenderer->drawText(debugLogScreen);
         if (1)
         {
 #define rn (((float)rand() / (float)RAND_MAX))
@@ -169,7 +165,7 @@ namespace RenderHi
                 };
                 lines.push_back(line);
             }
-            lineVB->draw(lines.data(), lines.size());
+            g_lineVB->draw(lines.data(), lines.size());
         }        
      
         GfxLowLevel::drawEnd();

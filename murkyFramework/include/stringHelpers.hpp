@@ -6,7 +6,6 @@
 #include <string>
 #include <codecvt>
 
-
 inline  std::wstring s2ws(const std::string& str)
 {
     typedef std::codecvt_utf8<wchar_t> convert_typeX;
@@ -21,4 +20,9 @@ inline  std::string ws2s(const std::wstring& wstr)
     std::wstring_convert<convert_typeX, wchar_t> converterX;
 
     return converterX.to_bytes(wstr);
+}
+
+inline std::wstring& operator << (std::wstring &lhs, const std::wstring &rhs)
+{
+    return lhs.append(rhs);
 }

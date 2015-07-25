@@ -17,7 +17,7 @@ public:
     // Destructors
     // Methods
     void    initOnce();
-    InputDevices inputDevices;
+    
     //void    resume();
     //void    saveState();
     //void    loadState();
@@ -32,7 +32,8 @@ public:
     //bool    multiThreaded = true;
     u32     frameCounter = 0;
     bool    exitWholeApp = false;
-    bool    gfxInitialised = false;    
+    bool    gfxInitialised = false;
+    bool    initialised = false;
     //std::thread gfxLoopThread; // Currently using main.cpp instead of dedicated thread
     //std::thread thread_control;
 private:

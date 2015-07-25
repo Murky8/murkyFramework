@@ -3,9 +3,10 @@
 // 2015 J. Coelho
 // Platform: Windows 32/64
 
-// Check windows
+// windows
 #if WIN32 || _WIN64
 #define WIN32_LEAN_AND_MEAN
+#define VC_EXTRALEAN
 #if _WIN64
 #define ENVIRONMENT64
 #else
@@ -21,6 +22,21 @@
 //#define ENVIRONMENT32
 //#endif
 //#endif
-
-
-
+//#ifdef _MSC_VER
+//#pragma warning( push )
+//#pragma warning( disable: 4172 ) //returning address of local variable or temporary
+//#endif
+//
+//#ifdef __INTEL_COMPILER
+//#pragma warning( push )
+//#pragma warning( disable: 1251 ) //returning address of local variable or temporary
+//#endif
+//
+//
+//#ifdef __INTEL_COMPILER
+//#pragma warning( pop )
+//#endif
+//
+//#ifdef _MSC_VER
+//#pragma warning( pop )
+//#endif

@@ -1,6 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
+#include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 #ifdef USE_DIRECT3D
 

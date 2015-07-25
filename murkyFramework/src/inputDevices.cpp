@@ -6,20 +6,28 @@
 #include <windows.h>
 #include <murkyFramework/include/inputDevices.hpp>
    
-// Constructors
-InputDevices::InputDevices()
-{    
-}
- 
+InputDevices *pInputDevices;
+
+#ifdef _WINDOWS
 bool InputDevices::keyStatus(InputDevices::KeyCode iKey)
 {
-#ifdef _WINDOWS
     if (GetAsyncKeyState(static_cast<int>(iKey)) != 0)
         return true;
     else
         return false;
-#endif
 
-    //#ifdef ANDROID
-    //#endif
 };
+
+void InputDevices::processWindowsMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    int newMouseX = (short)LOWORD(lParam);
+    int newMouseY = (short)HIWORD(lParam);
+    
+    mouseDx = mouseX - newMouseX;
+    mouseX  = newMouseX;
+
+    mouseDy = mouseY - newMouseY;
+    mouseY = newMouseY;
+
+}
+#endif

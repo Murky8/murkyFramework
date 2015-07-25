@@ -1,6 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
+#include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 
 #include <murkyFramework/include/debugUtils.hpp>
@@ -10,10 +11,10 @@
 #include <murkyFramework/include/stringHelpers.hpp>
 #include <murkyFramework/include/inputDevices.hpp>
 
-//------------------------------------------------------------------------------
-// Output to IDE Output
+std::wstring debugScreenText;
 
 // Data
+#pragma region old code
 DebObj debugLog;
 
 void    outputDebugString(const std::wstring str)
@@ -83,6 +84,7 @@ bool debugIsKeyPressed(InputDevices::KeyCode keyCode)
 breakcompilation
 #endif
 }
+#pragma endregion 
 // Keyboard
 //------------------------------------------------------------------------------
 

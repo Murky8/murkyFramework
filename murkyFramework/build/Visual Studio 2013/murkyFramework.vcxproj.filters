@@ -48,9 +48,6 @@
     <ClCompile Include="..\..\src\loadSaveFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\randomNumbers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -80,9 +77,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\gfxHighLevel\projectionMat.cpp">
       <Filter>Source Files\gfxHighLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\shead.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\gfxLowLevel\gfxAllDevices.cpp">
       <Filter>Source Files\gfxLowLevel</Filter>
@@ -128,6 +122,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\gfxLowLevel\vertexBuffer.cpp">
       <Filter>Source Files\gfxLowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gfxHighLevel\linesShapes.cpp">
+      <Filter>Source Files\gfxHighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\mainLoop.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

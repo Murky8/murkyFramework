@@ -1,5 +1,6 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
+#include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 #include <murkyFramework/include/gfxLowLevel/texture.hpp>
 
@@ -9,6 +10,9 @@
 #include <murkyFramework/include/stringHelpers.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
 #include <external/lodepng.h>
+#include <external/boost/multi_array.hpp>
+#include <memory>
+#include <array>
 
 namespace GfxLowLevel
 {
@@ -54,17 +58,31 @@ namespace GfxLowLevel
     }
 
     TextureId   createTestTextureObject()
-    {
-        u8  t[256][256][4];
-        for (auto i = 0; i < 256; ++i)
-            for (auto j = 0; j < 256; ++j)
-            {
+    {        
+        const auto subDiv = 256;
+
+        //typedef boost::multi_array<u8, 3> array_type;
+        //typedef array_type::index index;
+        //array_type t(boost::extents[dim][dim][4]);
+
+        boost::multi_array<u8, 3> t(boost::extents[subDiv][subDiv][4]);
+
+
+        for (auto i = 0; i < subDiv; ++i)
+            for (auto j = 0; j < subDiv; ++j)
+            {                                     
+                //f32 fi = (f32)i*256.f /subDiv;
+                //f32 fj = (f32)j*256.f /subDiv;
+                //double nulll;
+                //t[j][i][0] = 255.f * modf(modf(fi*fi, &nulll) + modf(fj*fj, &nulll), &nulll);
+                //t[j][i][1] =  i*i*2 + j*j*2;
+                //t[j][i][2] = 0;// i*i + j*j * 2;
                 t[j][i][0] = i*i + j*j;
-                t[j][i][1] = t[j][i][0];
-                t[j][i][2] = t[j][i][3] = 0;
+                t[j][i][1] =  i*i*2 + j*j*2;
+                t[j][i][2] =  30;
             }
 
-        return createTextureObject((u8*)t, 256, 256);
+        return createTextureObject((u8*)t.data(), subDiv, subDiv);
     }
 
     // loads trexture from file

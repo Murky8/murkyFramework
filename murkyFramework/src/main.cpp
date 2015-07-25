@@ -1,72 +1,141 @@
-/*
 //------------------------------------------------------------------------------
-// 2014 J. Coelho.
-// Platform: Windows
-// Intel C++ 15.0. Requires C++0x14
+// 2015 J. Coelho.
+// Platform: C++11
+#include <murkyFramework/include/version.hpp>
+#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 
-#include <windows.h>
 #include <iostream>
 #include <vector>
 #include <thread>
 
-#include <glew/include/GL/glew.h> 
-#include <glew/include/GL/wglew.h>
+#include <windows.h>
+#include <stdlib.h>
 
+#include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/appFramework.hpp>
 #include <murkyFramework/include/types.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/loadSaveFile.hpp>
+#include <murkyFramework/include/inputDevices.hpp>
 #include <murkyFramework/include/system.hpp>
 #include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
+#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 #include <murkyFramework/include/gfxHighLevel/render.hpp>
-*/
-/*
+
+#include <d3d11_1.h>// temp
+
+// forward declarations
+namespace RenderHi
+{        
+    void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd);
+}
+void mainLoop();
+bool createWindow(LPCWSTR title, int width, int height);
+
+// vriables
 namespace
 {
     HDC			hDC;		// Private GDI Device Context
     HGLRC		hRC;		// Permanent Rendering Context
     HWND		hWnd;	    // Holds Our Window Handle
     HINSTANCE	hInstance;	// Holds The Instance Of The Application
-    u64         frameStartTime  = 0;
+
+    u64         frameStartTime = 0;
     bool        wndProcCalled = false;
 }
 
-// Forward declarations
-void    mainLoop_thread_gfx();
-bool    createWindow(LPCWSTR title, int width, int height);
+void skool();
+//int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE	hPrevInstance, LPSTR lpCmdLine,int nCmdShow)			// Window Show State
 
 
-//--------------------------------------------------------------------------
-// App start point
-// Note vis to this file only
-
-int WINAPI WinMain_old(HINSTANCE	hInstance,			// Instance
-    HINSTANCE	hPrevInstance,		// Previous Instance
-    LPSTR		lpCmdLine,			// Command Line Parameters
-    int			nCmdShow)			// Window Show State
+void initialise_main()
 {
-    MSG		msg;
-    wchar_t wcstring[] = L"Murky8";  
+    //skool();
+    std::wstring title{ L"Murky " };
 
-    //appFramework.mainLoopThread = std::thread(mainLoop);
+    wchar_t wcstring[] = L"Murky8\n";
 
-    //std::thread mainLoopThread(mainLoop);
-    //appFramework.registerMainLoopThread(mainLoop());
-    debugLog << L"Gapp.screenResX " << Gapp.screenResX << "\n";
-    auto res = createWindow(wcstring, Gapp.screenResX, Gapp.screenResY);
+#ifdef USE_OPENGL
+    debugLog << L"Using openGL\n";
+    title += L"OpenGL 4  ";
+#endif
 
-    if (res == false)
+#ifdef USE_DIRECT3D
+    debugLog << L"Using D3d \n";
+    title += L"D3d11  ";
+
+#endif
+
+#ifdef ENVIRONMENT32
+    debugLog << L"32 bit ";
+    title += L"32 bit  ";
+#endif
+
+#ifdef ENVIRONMENT64
+    debugLog << L"64 bit ";
+    title += L"64 bit  ";
+#endif
+
+#ifdef WIN32
+    debugLog << L"Windows\n";
+#endif
+
+    /*
+    #ifdef __INTEL_COMPILER
+    debugLog << L"Compiled with Intel " << (int)__INTEL_COMPILER << L"\n";
+    #else
+    #ifdef _MSC_VER
+    debugLog << L"Compiled with MS C++ " << (int)_MSC_VER<< L"\n";
+    #endif
+    #endif
+    //__clang__
+    */
+
+    qdev::setCurrentDirectoryToAppRoot();
+
     {
-        debugLog << L"Error creating window\n";
-        triggerBreakpoint();
+        HWND    desktop = GetDesktopWindow();
+        RECT    screenDims;
+        GetWindowRect(desktop, &screenDims);
+
+        if (Gapp.fullScreen)
+        {
+            Gapp.screenResX = screenDims.right;
+            Gapp.screenResY = screenDims.bottom;
+        }
+        else
+        {
+            Gapp.screenResX = 800;
+            Gapp.screenResY = 800;
+        }
     }
 
-    debugLog << L"Start\n";
-    qdev::setCurrentDirectoryToAppRoot();
+    auto res = createWindow(title.c_str(), Gapp.screenResX, Gapp.screenResY);
         
-    debugLog << L"Gapp.screenResX " << Gapp.screenResX << "\n";
-    RenderHi::initialise(); //Calls Initialise device gfx
-    debugLog << L"Gapp.screenResX " << Gapp.screenResX << "\n";
+
+    if (!res)
+        triggerBreakpoint(L"Init device failed");
+
+
+    RenderHi::initialise(hDC, hRC, hWnd);
+    Gapp.initialised = true;
+}
+
+void deinitialise_main()
+{
+    RenderHi::deinitialise();
+}
+
+int main()
+{
+    MSG		msg;
+    //skool();
+
+    initialise_main();
+
+    pInputDevices = new InputDevices();
+    ::SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pInputDevices);
+    
 
     while (!Gapp.exitWholeApp)
     {
@@ -84,153 +153,121 @@ int WINAPI WinMain_old(HINSTANCE	hInstance,			// Instance
         }
         else
         {										// If There Are No Messages        
-            
-            mainLoop_thread_gfx();
+            if (Gapp.gfxInitialised == false)
+                triggerBreakpoint();
+
+            mainLoop();
+#ifdef USE_OPENGL
+            SwapBuffers(hDC);
+#endif
         }
     }
 
-    wglMakeCurrent(hDC, 0); // Remove the rendering context from our device context
-    wglDeleteContext(hRC); // Delete our rendering context
+    deinitialise_main();
 
-    ReleaseDC(hWnd, hDC); // Release the device context from our window
+    //wglMakeCurrent(hDC, 0); // Remove the rendering context from our device context
+    //wglDeleteContext(hRC); // Delete our rendering context
+
+    //ReleaseDC(hWnd, hDC); // Release the device context from our window
     debugLog << L"Finished\n";
-    return 0;
 }
 
-
-//DebObj operator << (DebObj obj, int i)
-//{
-//    outputDebugString(std::to_wstring(i).c_str());
-//    return obj;
-//}
-
-void mainLoop_thread_gfx()
+//http://www.cplusplus.com/forum/windows/39141/
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    debugLogScreen.clear();
-    debugLogScreen += L"Hello\n";
-    //debugLogScreen += std::to_wstring(Gapp.frameCounter);
-    //debugLogScreen += L"\n";
-  */  
-   /* u64 time = system2::readTimeStampTicks();
-    u64 lastFrameDuration = time - frameStartTime;
-    frameStartTime = time;
-    f32 frameTime = lastFrameDuration / (2.677e09);
-    
-    debugLogScreen += std::to_wstring(frameTime);
-    debugLogScreen += L"\n";
-*/
-/*
-    RenderHi::drawAll();
-    SwapBuffers(hDC);
-    Gapp.frameCounter++;
 
-    ::Sleep(1000 / 60);
-}
-
-void thread_control()
-{
-   
-}
-
-LRESULT CALLBACK WndProc_old(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
     wndProcCalled = true;
     switch (message)
     {
-    case WM_SIZE: // If our window is resizing
-        debugLog << L" resize " << LOWORD(lParam) << " " << HIWORD(lParam) << L"\n";
-    
-     //openglContext.reshapeWindow(LOWORD(lParam), HIWORD(lParam)); // Send the new window size to our OpenGLContext
-        if (Gapp.gfxInitialised)
-        {
-        
-        Gapp.screenResX = LOWORD(lParam);
-        Gapp.screenResY = HIWORD(lParam);
-        if (Gapp.screenResX < 10 || Gapp.screenResX>1900)
-            triggerBreakpoint();
 
-        if (Gapp.screenResY < 10 || Gapp.screenResY>1000)
-            triggerBreakpoint();
-
-        GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
-        }
-        break;        
-
-        case WM_DESTROY:
+    case WM_DESTROY:
         PostQuitMessage(0);
-        break;        
+        break;
 
-        case WM_KEYDOWN:
+    case WM_KEYDOWN:
         switch (wParam)
         {
-            case VK_ESCAPE:
-                Gapp.exitWholeApp = true;
+        case VK_ESCAPE:
+            Gapp.exitWholeApp = true;
         }
+    }
+
+    // note: WndProc can recieve messages while initialising
+    if (Gapp.initialised)
+    {    
+        InputDevices *pInputDevices = (InputDevices*)::GetWindowLongPtr(hWnd, GWLP_USERDATA);
+        pInputDevices->processWindowsMessages(hWnd, message, wParam, lParam);
     }
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
+/*
+LRESULT MandelbrotMgr::HandleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
+{
+// Current mouse position
+int nMouseX = ( short )LOWORD( lParam );
+int nMouseY = ( short )HIWORD( lParam );
+D3DXVECTOR2 vPosNow = D3DXVECTOR2( static_cast< float >( nMouseX ), static_cast< float >( nMouseY ) );
 
-bool create40Context()
-{        
-    hDC = GetDC(hWnd); // Get the device context for our window
+static D3DXVECTOR2 vPosPrevL;
+static D3DXVECTOR2 vPosPrevR;
 
-    PIXELFORMATDESCRIPTOR pfd; // Create a new PIXELFORMATDESCRIPTOR (PFD)
-    memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR)); // Clear our  PFD
-    pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR); // Set the size of the PFD to the size of the class
-    pfd.dwFlags = PFD_DOUBLEBUFFER | PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW; // Enable double buffering, opengl support and drawing to a window
-    pfd.iPixelType = PFD_TYPE_RGBA; // Set our application to use RGBA pixels
-    pfd.cColorBits = 32; // Give us 32 bits of color information (the higher, the more colors)
-    pfd.cDepthBits = 32; // Give us 32 bits of depth information (the higher, the more depth levels)
-    pfd.iLayerType = PFD_MAIN_PLANE; // Set the layer of the PFD
+//float fFPS = DXUTGetFPS();
+//if( fFPS < 1.0f ) { fFPS = 60.0f; }
+float fFPS = 60.0f;
 
-    int nPixelFormat = ChoosePixelFormat(hDC, &pfd); // Check if our PFD is valid and get a pixel format back
-    if (nPixelFormat == 0) // If it fails
-        return false;
+//if( vPosNow.x > 500 ) { return FALSE; }
 
-    bool bResult = (bool)SetPixelFormat(hDC, nPixelFormat, &pfd); // Try and set the pixel format based on our PFD
-    if (!bResult) // If it fails
-        return false;
+switch( uMsg )
+{
+case WM_LBUTTONDOWN:
+case WM_LBUTTONDBLCLK:
+vPosPrevL = vPosNow;
+return TRUE;
 
-    HGLRC tempOpenGLContext = wglCreateContext(hDC); // Create an OpenGL 2.1 context for our device context
-    wglMakeCurrent(hDC, tempOpenGLContext); // Make the OpenGL 2.1 context current and active
+case WM_LBUTTONUP:
+return TRUE;
 
-    glewExperimental = GL_TRUE;
-    GLenum error = glewInit(); // Enable GLEW
-    if (error != GLEW_OK) // If GLEW fails
-        return false;
+case WM_RBUTTONDOWN:
+case WM_RBUTTONDBLCLK:
+vPosPrevR = vPosNow;
+return TRUE;
 
-    int attributes[] = 
-    {
-        WGL_CONTEXT_MAJOR_VERSION_ARB, 4, // Set the MAJOR version of OpenGL to 4
-        WGL_CONTEXT_MINOR_VERSION_ARB, 0, // Set the MINOR version of OpenGL to 0
-        WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB, // Set our OpenGL context to be forward compatible
-        0
-    };
+case WM_RBUTTONUP:
+case WM_MBUTTONUP:
+return TRUE;
 
-    if (wglewIsSupported("WGL_ARB_create_context") == 1)
-    { // If the OpenGL 3.x context creation extension is available
-        hRC = wglCreateContextAttribsARB(hDC, NULL, attributes); // Create and OpenGL 3.x context based on the given attributes
-        wglMakeCurrent(NULL, NULL); // Remove the temporary context from being active
-        wglDeleteContext(tempOpenGLContext); // Delete the temporary OpenGL 2.1 context
-        wglMakeCurrent(hDC, hRC); // Make our OpenGL 3.0 context current
-    }
-    else
-    {
-        hRC = tempOpenGLContext; // If we didn't have support for OpenGL 3.x and up, use the OpenGL 2.1 context
-        triggerBreakpoint();
-    }
-
-    int glVersion[2] = { -1, -1 }; // Set some default values for the version
-    glGetIntegerv(GL_MAJOR_VERSION, &glVersion[0]); // Get back the OpenGL MAJOR version we are using
-    glGetIntegerv(GL_MINOR_VERSION, &glVersion[1]); // Get back the OpenGL MAJOR version we are using
-
-    std::cout << "Using OpenGL: " << glVersion[0] << "." << glVersion[1] << std::endl; // Output which version of OpenGL we are using
-
-    return true; // We have successfully created a context, return true
+case WM_MOUSEMOVE:
+if( ( MK_LBUTTON & wParam ) )
+{
+const float POS_DELTA = 0.005f;
+D3DXVECTOR2 vPosDiff = vPosNow - vPosPrevL;
+D3DXVECTOR2 vPosDiffScaled = vPosDiff * POS_DELTA * ( 60.0f / fFPS );
+vPosDiffScaled.x = -vPosDiffScaled.x;
+TranslateCenter( vPosDiffScaled );
+vPosPrevL = vPosNow;
 }
+if( ( MK_RBUTTON & wParam ) )
+{
+const float ZOOM_DELTA = 0.01f;
+float fPosDiff = ( vPosNow.x - vPosPrevR.x ) * ZOOM_DELTA;
+float fPosDiffScaled = 1.0f - fPosDiff * ( 60.0f / fFPS );
+if( fPosDiffScaled < 0.0f ) {
+fPosDiffScaled  = 1.0f / abs( fPosDiffScaled );
+}
+ZoomScale( fPosDiffScaled );
+vPosPrevR = vPosNow;
+}
+return TRUE;
+}
+
+return FALSE;
+}
+*/
+
 bool createWindow(LPCWSTR title, int width, int height)
 {
-    WNDCLASS windowClass;    
+    WNDCLASS windowClass;
+    DWORD dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_BORDER | WS_MINIMIZEBOX | WS_VISIBLE;
     DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
 
     hInstance = GetModuleHandle(NULL);
@@ -246,24 +283,38 @@ bool createWindow(LPCWSTR title, int width, int height)
     windowClass.lpszMenuName = NULL;
     windowClass.lpszClassName = title;
 
-    if (!RegisterClass(&windowClass)) 
+    if (!RegisterClass(&windowClass))
     {
+        triggerBreakpoint(L"Init device failed");
+
         return false;
     }
 
-    hWnd = CreateWindowEx(dwExStyle, title, title, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, width, height, NULL, NULL, hInstance, NULL);
+    RECT rect;
+    rect.left = 0;
+    rect.top = 0;
+    rect.right = width;
+    rect.bottom = height;
+    AdjustWindowRectEx(&rect, dwStyle, 0, dwExStyle);
 
-    bool res = create40Context(); // Create our OpenGL context on the given window we just created
-    if (!res)
-    {        
-        return false;
-    }
-
+    hWnd = CreateWindowEx(
+        dwExStyle, 
+        title, 
+        title, 
+        dwStyle,
+        CW_USEDEFAULT, 
+        CW_USEDEFAULT,
+        rect.right-rect.left,
+        rect.bottom -rect.top,
+        NULL, 
+        NULL, 
+        hInstance, 
+        NULL
+        );
+    hDC = GetDC(hWnd); // Get the device context for our window
+     
     ShowWindow(hWnd, SW_SHOW);
     UpdateWindow(hWnd);
 
     return true;
 }
-
-*/

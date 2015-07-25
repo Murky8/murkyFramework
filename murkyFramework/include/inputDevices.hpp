@@ -2,17 +2,27 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 
+#include <murkyFramework/include/types.hpp>
+#include <windows.h>
 
 class InputDevices
 {
 public:
-    // Constructors
-    InputDevices();
-    // Destructors
-    // Methods
-    enum class KeyCode;//Forward declaration
+    // forward declaration
+    enum class KeyCode;
+    
+    // methods
     static bool keyStatus(InputDevices::KeyCode iKey);
-    // Data
+    
+    void processWindowsMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    // data
+    s32 mouseX = 0;
+    s32 mouseY = 0;
+    s32 mouseDx = 0;
+    s32 mouseDy = 0;
+    u32 mouseB0 = 0;
+    u32 mouseB1 = 0;
+    u32 mouseB2 = 0;
 
     enum class KeyCode
     {
@@ -73,3 +83,5 @@ public:
 private:
    
 };
+
+extern InputDevices *pInputDevices;

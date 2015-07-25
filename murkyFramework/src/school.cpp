@@ -228,12 +228,33 @@ d2 = std::move(d1);
 //    }
 //};
 
+//class DebObj2Base
+//{
+//};
+//
+//class DebObj2Screen : public DebObj2Base
+//{
+//};
+//
+//class DebObjFile : public DebObj2Base
+//{
+//
+//};
+//
+//DebObj2Base& operator << (DebObj2Base &debObj, const std::wstring &rhs)
+//{
+//    if (typeid(debObj) == typeid(DebObj2Screen))
+//    {
+//
+//    }
+//
+//    return debObj;
+//}
+
 void skool()
 {
     {
-        std::unique_ptr<int> pint(new int(5));
-
-        debugLog << L"end of scope" << "\n";
+    
     }
     exit(0);
 }
