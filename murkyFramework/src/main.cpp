@@ -21,15 +21,17 @@
 #include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 #include <murkyFramework/include/gfxHighLevel/render.hpp>
+#include <murkyFramework/include/state.hpp>
 
 #include <d3d11_1.h>// temp
+#include <memory>
 
 // forward declarations
 namespace RenderHi
 {        
     void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd);
 }
-void mainLoop();
+void mainLoop(InputDevices &inputDevices, State &state);
 bool createWindow(LPCWSTR title, int width, int height);
 
 // vriables
@@ -49,8 +51,7 @@ void skool();
 
 
 void initialise_main()
-{
-    //skool();
+{ 
     std::wstring title{ L"Murky " };
 
     wchar_t wcstring[] = L"Murky8\n";
@@ -133,7 +134,11 @@ int main()
 
     initialise_main();
 
-    pInputDevices = new InputDevices();
+    
+    //    unique_ptr<int> uptr(new int);
+    InputDevices *pInputDevices(new InputDevices());
+    State state;
+    
     ::SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pInputDevices);
     
 
@@ -156,10 +161,8 @@ int main()
             if (Gapp.gfxInitialised == false)
                 triggerBreakpoint();
 
-            mainLoop();
-#ifdef USE_OPENGL
-            SwapBuffers(hDC);
-#endif
+            mainLoop(*pInputDevices, state);
+
         }
     }
 
@@ -167,8 +170,9 @@ int main()
 
     //wglMakeCurrent(hDC, 0); // Remove the rendering context from our device context
     //wglDeleteContext(hRC); // Delete our rendering context
-
     //ReleaseDC(hWnd, hDC); // Release the device context from our window
+
+    delete pInputDevices;
     debugLog << L"Finished\n";
 }
 
@@ -195,7 +199,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     // note: WndProc can recieve messages while initialising
     if (Gapp.initialised)
     {    
-        InputDevices *pInputDevices = (InputDevices*)::GetWindowLongPtr(hWnd, GWLP_USERDATA);
+        static InputDevices *pInputDevices = (InputDevices*)::GetWindowLongPtr(hWnd, GWLP_USERDATA);
         pInputDevices->processWindowsMessages(hWnd, message, wParam, lParam);
     }
     return DefWindowProc(hWnd, message, wParam, lParam);

@@ -16,6 +16,7 @@
 #include <murkyFramework/include/fileUtils.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/appFramework.hpp>
+#include <murkyFramework/include/state.hpp>
 #include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 #include <murkyFramework/include/gfxLowLevel/texture.hpp>
@@ -29,7 +30,7 @@
 namespace GfxLowLevel
 {
     TextureId   createTextureObjectFromFile(const std::wstring &dirName,
-        const std::wstring &fileName, const std::wstring &extensionName);
+            const std::wstring &fileName, const std::wstring &extensionName);
     TextureId   createTestTextureObject();
     bool        initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);    
     bool        deinitialise_device();    
@@ -41,10 +42,10 @@ namespace RenderHi
 {        
     // data    
     GfxLowLevel::VertexBufferDynamic    *vertexBufferTemp;  // for testing
-    GfxLowLevel::VertexBufferDynamic    *g_lineVB;          
+    GfxLowLevel::VertexBufferDynamic    *lineVB;          
 
-    TextRender      *textRenderer;
-    mat4	        projectionMatrix;
+    TextRender                          *textRenderer;
+    mat4	                            projectionMatrix;
     GfxLowLevel::TextureManager         *textureManager;
 
     
@@ -89,7 +90,7 @@ namespace RenderHi
             std::move(newt2),
             1024 );
 
-        g_lineVB = new GfxLowLevel::VertexBufferDynamic(
+        lineVB = new GfxLowLevel::VertexBufferDynamic(
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::line,
             GfxLowLevel::Shaders::posColText,
@@ -122,7 +123,7 @@ namespace RenderHi
             return m;
     }
 
-    void drawAll()
+    void drawAll(State &state)
     {                
         GfxLowLevel::drawBegin();
         //glm::
@@ -165,7 +166,7 @@ namespace RenderHi
                 };
                 lines.push_back(line);
             }
-            g_lineVB->draw(lines.data(), lines.size());
+            lineVB->draw(lines.data(), lines.size());
         }        
      
         GfxLowLevel::drawEnd();

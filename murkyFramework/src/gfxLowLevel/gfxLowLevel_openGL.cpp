@@ -5,17 +5,20 @@
 #include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 #ifdef USE_OPENGL
 
+#include <windows.h>
 #include <vector>
 
 #include <murkyFramework/include/appFramework.hpp>
 #include <murkyFramework/include/types.hpp>  
+#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 #include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/gfxLowLevel/vertexBuffer.hpp>
 #include <murkyFramework/include/gfxLowLevel/shaders.hpp>
 #include <murkyFramework/include/gfxLowLevel/texture.hpp>
-
-#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
-#include <vector>
+#include <murkyFramework/include/debugUtils.hpp>
+#include <murkyFramework/include/system.hpp>
+#include <murkyFramework/include/vectorMatrix.hpp>
+#include <murkyFramework/include/appFramework.hpp>
 
 #include <external/glew/include/GL/glew.h> 
 #include <external/glew/include/GL/wglew.h>
@@ -28,25 +31,13 @@
 #include <external/glm/mat4x4.hpp>
 #include <external/glm/gtc/matrix_transform.hpp>
 
-//#include <gli/gli.hpp>
-
-#include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/system.hpp>
-#include <murkyFramework/include/vectorMatrix.hpp>
-#include <murkyFramework/include/appFramework.hpp>
-
 namespace GfxLowLevel
 {   
-    
-    // Forward declarations
-
-    //extern ShaderProgram *shaderProgram_line_pc;    //TODO change
-    //extern ShaderProgram *shaderProgram_posColText; //TODO change
-
-    // Data
-    mat4 projectionMatrix(Unit::UNIT);    
-        
-    //void serializeState();1
+    // data
+    mat4    projectionMatrix(Unit::UNIT);    
+    HDC     hDC;
+    HGLRC   hRC;
+    HWND    hWnd;
 
     void onGfxDeviceErrorTriggerBreakpoint()
     {
@@ -101,6 +92,7 @@ namespace GfxLowLevel
     void drawEnd()
     {
         glFlush();
+        SwapBuffers(GfxLowLevel::hDC);
     }    
     
     /*

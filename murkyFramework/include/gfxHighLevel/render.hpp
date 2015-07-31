@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <murkyFramework/include/types.hpp>
+#include <murkyFramework/include/state.hpp>
 #include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 #include <murkyFramework/include/gfxHighLevel/render.hpp>
 #include <murkyFramework/include/gfxHighLevel/textRender.hpp>
@@ -15,7 +16,7 @@ namespace RenderHi
        
     void initialise();
     void deinitialise();
-    void drawAll();
+    void drawAll(State &state);
     void addQuad_pct();
 }
 

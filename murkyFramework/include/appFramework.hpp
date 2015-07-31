@@ -27,10 +27,13 @@ public:
     // Data
     bool    fullScreen = false;
     int     screenResY;
-    int     screenResX ;
+    int     screenResX;
+
 
     //bool    multiThreaded = true;
-    u32     frameCounter = 0;
+    u32     frameCounter = 0;    
+    float   frameRateLimit = 60; // 0= inf 
+    float   frameRate;
     bool    exitWholeApp = false;
     bool    gfxInitialised = false;
     bool    initialised = false;

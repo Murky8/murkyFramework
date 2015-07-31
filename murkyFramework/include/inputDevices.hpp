@@ -4,6 +4,7 @@
 
 #include <murkyFramework/include/types.hpp>
 #include <windows.h>
+#include <external/boost/circular_buffer.hpp>
 
 class InputDevices
 {
@@ -15,10 +16,13 @@ public:
     static bool keyStatus(InputDevices::KeyCode iKey);
     
     void processWindowsMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    
     // data
+    boost::circular_buffer<int> mouseDx{ 100 };
+    int consume_mouseDx();
+
     s32 mouseX = 0;
-    s32 mouseY = 0;
-    s32 mouseDx = 0;
+    s32 mouseY = 0;    
     s32 mouseDy = 0;
     u32 mouseB0 = 0;
     u32 mouseB1 = 0;
@@ -83,5 +87,3 @@ public:
 private:
    
 };
-
-extern InputDevices *pInputDevices;

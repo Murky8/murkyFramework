@@ -12,9 +12,14 @@
 
 namespace GfxLowLevel
 {    
-    // Forward declarations    
+    // Forward declarations   
+    // forward declarations    
+    extern  HDC     hDC;
+    extern  HGLRC   hRC;
+    extern  HWND    hWnd;
+
     extern  HINSTANCE               g_hInst;
-    extern  HWND                    g_hWnd;
+    //extern  HWND                    g_hWnd;
     extern  D3D_DRIVER_TYPE         g_driverType;
     extern  D3D_FEATURE_LEVEL       g_featureLevel;
     extern  ID3D11Device*           g_pd3dDevice;
@@ -44,7 +49,10 @@ namespace GfxLowLevel
         //-------------------------------------------------------------------------------------- 
         // Create Direct3D device and swap chain 
         //--------------------------------------------------------------------------------------         
-        
+            GfxLowLevel::hDC = hDC;//hDC = GetDC(hWnd); // Get the device context for our window
+            GfxLowLevel::hRC = hRC;
+            GfxLowLevel::hWnd = hWnd;
+
             RECT rc;
             GetClientRect(hWnd, &rc);
             UINT width = rc.right - rc.left;

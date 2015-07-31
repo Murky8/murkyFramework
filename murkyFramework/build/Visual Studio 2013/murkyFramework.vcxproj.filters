@@ -132,6 +132,12 @@
     <ClCompile Include="..\..\src\mainLoop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\stringHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\maths.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\appFramework.hpp">
@@ -202,6 +208,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\gfxLowLevel\version_gfxDevice.hpp">
       <Filter>Header Files\gfxLowLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\state.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\maths.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

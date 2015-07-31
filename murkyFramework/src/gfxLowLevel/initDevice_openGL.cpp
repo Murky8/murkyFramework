@@ -11,15 +11,20 @@
 #include <external/glew/include/GL/glew.h> 
 #include <external/glew/include/GL/wglew.h>
 #include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
-// Forward declarations
 
 
 namespace GfxLowLevel
 {
-    // Called from: shead.cpp/
-    bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd)
+    // forward declarations    
+    extern  HDC     hDC;
+    extern  HGLRC   hRC;
+    extern  HWND    hWnd;
+    
+    bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd)         
     {
-            //hDC = GetDC(hWnd); // Get the device context for our window
+            GfxLowLevel::hDC = hDC;//hDC = GetDC(hWnd); // Get the device context for our window
+            GfxLowLevel::hRC = hRC;
+            GfxLowLevel::hWnd = hWnd;
 
             PIXELFORMATDESCRIPTOR pfd; // Create a new PIXELFORMATDESCRIPTOR (PFD)
             memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR)); // Clear our  PFD

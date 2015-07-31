@@ -219,9 +219,11 @@
     <ClCompile Include="..\..\src\inputDevices.cpp" />
     <ClCompile Include="..\..\src\loadSaveFile.cpp" />
     <ClCompile Include="..\..\src\mainLoop.cpp" />
+    <ClCompile Include="..\..\src\maths.cpp" />
     <ClCompile Include="..\..\src\randomNumbers.cpp" />
     <ClCompile Include="..\..\src\school.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\stringHelpers.cpp" />
     <ClCompile Include="..\..\src\system.cpp" />
     <ClCompile Include="..\..\src\vectorMatrix.cpp" />
   </ItemGroup>
@@ -243,7 +245,9 @@
     <ClInclude Include="..\..\include\gfxLowLevel\vertexBuffer.hpp" />
     <ClInclude Include="..\..\include\inputDevices.hpp" />
     <ClInclude Include="..\..\include\loadSaveFile.hpp" />
+    <ClInclude Include="..\..\include\maths.hpp" />
     <ClInclude Include="..\..\include\randomNumbers.hpp" />
+    <ClInclude Include="..\..\include\state.hpp" />
     <ClInclude Include="..\..\include\stringHelpers.hpp" />
     <ClInclude Include="..\..\include\system.hpp" />
     <ClInclude Include="..\..\include\types.hpp" />

@@ -253,12 +253,22 @@ d2 = std::move(d1);
 
 void skool()
 {
+    std::unique_ptr<int> pint(new int{ 123 });
+    std::shared_ptr<int> pintsh(new int{ 123 });
     {
     
     }
     exit(0);
 }
+
+
 /*
+template<typename... T>
+void print_all_values(int value, T... values)
+{
+    printf("%i ", value);
+    print_all_values(values...);
+}
 
 
 void skool()

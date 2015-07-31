@@ -5,8 +5,6 @@
 
 #include <windows.h>
 #include <murkyFramework/include/inputDevices.hpp>
-   
-InputDevices *pInputDevices;
 
 #ifdef _WINDOWS
 bool InputDevices::keyStatus(InputDevices::KeyCode iKey)
@@ -15,19 +13,36 @@ bool InputDevices::keyStatus(InputDevices::KeyCode iKey)
         return true;
     else
         return false;
-
 };
 
 void InputDevices::processWindowsMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    int newMouseX = (short)LOWORD(lParam);
-    int newMouseY = (short)HIWORD(lParam);
-    
-    mouseDx = mouseX - newMouseX;
-    mouseX  = newMouseX;
+    switch (uMsg)
+    {    
+    case WM_MOUSEMOVE:
+        int newMouseX = (short)LOWORD(lParam);
+        int newMouseY = (short)HIWORD(lParam);
 
-    mouseDy = mouseY - newMouseY;
-    mouseY = newMouseY;
+        int dx = newMouseX - mouseX;
+        mouseDx.push_back(dx);
 
+        mouseX = newMouseX;
+
+        mouseDy = newMouseY - mouseY;
+        mouseY = newMouseY;
+        break;
+    }
 }
+
+int InputDevices::consume_mouseDx()
+{
+    int acc = 0;
+    while (mouseDx.size() != 0)
+    {
+        acc+= mouseDx[0];
+        mouseDx.pop_front();        
+    }
+    return acc;
+}
+
 #endif

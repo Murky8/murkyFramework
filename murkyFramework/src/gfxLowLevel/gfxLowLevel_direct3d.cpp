@@ -32,10 +32,15 @@ namespace RenderHi  // todo: delete
 
 namespace GfxLowLevel
 {       
-struct HandleDeviceTexture
-{
-    ID3D11ShaderResourceView *deviceTexture;
-};
+    struct HandleDeviceTexture
+    {
+        ID3D11ShaderResourceView *deviceTexture;
+    };
+
+    HDC     hDC;   // a copy from main.cpp
+    HGLRC   hRC;
+    HWND    hWnd;
+
     D3D_DRIVER_TYPE         g_driverType = D3D_DRIVER_TYPE_NULL;        // todo: move to gfxLowLevel_d3d...
     D3D_FEATURE_LEVEL       g_featureLevel = D3D_FEATURE_LEVEL_11_0;
     ID3D11Device*           g_pd3dDevice = nullptr;
@@ -55,16 +60,14 @@ struct HandleDeviceTexture
     ID3D11Buffer            *g_pVertexBuffer = nullptr;
     ID3D11Debug             *d3dDebug = nullptr;
     ID3D11SamplerState      *g_pSamplerLinear = nullptr;
-    ID3D11RasterizerState *g_pRasterState = nullptr;
+    ID3D11RasterizerState   *g_pRasterState = nullptr;
     ID3D11Buffer*            g_pCBChangesEveryFrame = nullptr;
 
     // Data
     mat4 projectionMatrix(Unit::UNIT);    
 
     void onGfxDeviceErrorTriggerBreakpoint()
-    {
-    
-            //triggerBreakpoint();
+    {            
     }    
 
     void setStateToAppDefault()
@@ -81,7 +84,6 @@ struct HandleDeviceTexture
     {     
         g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);   
         g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-
 
         if (0)
         {
