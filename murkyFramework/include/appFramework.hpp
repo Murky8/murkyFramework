@@ -10,20 +10,10 @@
 
 class AppFramework
 {
-    //AppFramework();
-    //AppFramework(std::thread &pmainLoopThread) : mainLoopThread(pmainLoopThread);
 public:
-    // Constructors
-    // Destructors
-    // Methods
+ 
     void    initOnce();
-    
-    //void    resume();
-    //void    saveState();
-    //void    loadState();
-    //void    registerMainLoopThread();
-    //void    serialise(std::vector<char> &out);
-
+ 
     // Data
     bool    fullScreen = false;
     int     screenResY;
@@ -37,14 +27,9 @@ public:
     bool    exitWholeApp = false;
     bool    gfxInitialised = false;
     bool    initialised = false;
-    //std::thread gfxLoopThread; // Currently using main.cpp instead of dedicated thread
-    //std::thread thread_control;
+
 private:
-    // Constructors
-    // Destructors
-    // Methods
-    // Data
-    //bool    mainLoopThreadAttached = false;
+    
 };
 
 

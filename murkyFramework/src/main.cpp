@@ -22,6 +22,7 @@
 #include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 #include <murkyFramework/include/gfxHighLevel/render.hpp>
 #include <murkyFramework/include/state.hpp>
+#include <murkyFramework/include/readFBX.hpp>
 
 #include <d3d11_1.h>// temp
 #include <memory>
@@ -31,10 +32,10 @@ namespace RenderHi
 {        
     void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd);
 }
-void mainLoop(InputDevices &inputDevices, State &state);
+void mainLoop_threadMain(InputDevices &inputDevices, State &state);
 bool createWindow(LPCWSTR title, int width, int height);
 
-// vriables
+// variables
 namespace
 {
     HDC			hDC;		// Private GDI Device Context
@@ -44,6 +45,8 @@ namespace
 
     u64         frameStartTime = 0;
     bool        wndProcCalled = false;
+
+
 }
 
 void skool();
@@ -119,6 +122,8 @@ void initialise_main()
 
 
     RenderHi::initialise(hDC, hRC, hWnd);
+    bool res2 = loadFBX(L"data", L"tea", L"FBX");
+
     Gapp.initialised = true;
 }
 
@@ -131,13 +136,14 @@ int main()
 {
     MSG		msg;
     //skool();
-
+    
     initialise_main();
 
     
     //    unique_ptr<int> uptr(new int);
     InputDevices *pInputDevices(new InputDevices());
     State state;
+
     
     ::SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pInputDevices);
     
@@ -161,7 +167,7 @@ int main()
             if (Gapp.gfxInitialised == false)
                 triggerBreakpoint();
 
-            mainLoop(*pInputDevices, state);
+            mainLoop_threadMain(*pInputDevices, state);
 
         }
     }

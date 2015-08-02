@@ -8,6 +8,8 @@
 
 std::wstring s2ws(const std::string& str);
 
+std::wstring pChar2wstring(char const * const pChar);
+
 std::string ws2s(const std::wstring& wstr);
 
 std::wstring &operator << (std::wstring &lhs, const std::wstring &rhs);

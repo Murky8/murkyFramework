@@ -60,6 +60,13 @@ DebObj operator << (DebObj obj, float f)
     return obj;
 }
 
+DebObj operator << (DebObj obj, double f)
+{
+    outputDebugString(std::to_wstring(f).c_str());
+    outputDebugString(L" ");
+    return obj;
+}
+
 // Output to IDE Output
 //------------------------------------------------------------------------------
 

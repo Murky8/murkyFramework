@@ -221,6 +221,7 @@
     <ClCompile Include="..\..\src\mainLoop.cpp" />
     <ClCompile Include="..\..\src\maths.cpp" />
     <ClCompile Include="..\..\src\randomNumbers.cpp" />
+    <ClCompile Include="..\..\src\readFBX.cpp" />
     <ClCompile Include="..\..\src\school.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\stringHelpers.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="..\..\include\loadSaveFile.hpp" />
     <ClInclude Include="..\..\include\maths.hpp" />
     <ClInclude Include="..\..\include\randomNumbers.hpp" />
+    <ClInclude Include="..\..\include\readFBX.hpp" />
     <ClInclude Include="..\..\include\state.hpp" />
     <ClInclude Include="..\..\include\stringHelpers.hpp" />
     <ClInclude Include="..\..\include\system.hpp" />

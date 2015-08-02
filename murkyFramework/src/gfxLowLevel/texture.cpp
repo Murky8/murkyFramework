@@ -13,6 +13,7 @@
 #include <external/boost/multi_array.hpp>
 #include <memory>
 #include <array>
+#include <regex>
 
 namespace GfxLowLevel
 {
@@ -101,4 +102,18 @@ namespace GfxLowLevel
 
         return true;
     }
+
+    // loads textures in directory
+    struct loadTexturesInDirectoryToMemory_item
+    {
+        std::vector<u8> data;
+        int dimX;
+        int dimY;
+    };
+
+    void loadTexturesInDirectoryToMemory(const std::wstring &dirName, const std::wregex &regx)
+    {
+
+    }
+
 }

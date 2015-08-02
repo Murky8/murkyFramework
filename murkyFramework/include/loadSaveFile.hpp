@@ -14,7 +14,9 @@ namespace qdev
     {
     public:                
         // Constructors 
-        BinaryFileLoader( const std::wstring &fileName );
+        BinaryFileLoader(const std::wstring &dirName, const std::wstring &fileName,
+            const std::wstring &extensionName);
+        BinaryFileLoader(const std::wstring &fileName);
         BinaryFileLoader( const wchar_t *const fileName );
 
         // Destructors
@@ -23,13 +25,13 @@ namespace qdev
         // Methods
         char    *data();
         int     getDataLength()const;        
+        char        *pdata;        
         
     private:
         // Constructors 
         BinaryFileLoader() = delete;
 
         // Data
-        char        *pdata;        
         int         dataLength;
     };    
 }

@@ -7,12 +7,21 @@
 #include <string>
 
 
+
+
 std::wstring s2ws(const std::string& str)
 {
     typedef std::codecvt_utf8<wchar_t> convert_typeX;
     std::wstring_convert<convert_typeX, wchar_t> converterX;
 
     return converterX.from_bytes(str);
+}
+
+std::wstring pChar2wstring(char const * const pChar)
+{
+    std::string temp(pChar, strlen(pChar));
+    std::wstring wstr = s2ws(temp);
+    return wstr;
 }
 
 std::string ws2s(const std::wstring& wstr)

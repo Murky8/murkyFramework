@@ -22,6 +22,7 @@ namespace
 // Trying out simpl pimpl implementation
 
 
+// returns -1 if unsuccessful
 int getFileSize(const wchar_t *const fileName)
 {
     HANDLE	find;
@@ -30,10 +31,10 @@ int getFileSize(const wchar_t *const fileName)
     find = FindFirstFile(fileName, &findData);
     
     if (find == INVALID_HANDLE_VALUE)
-        triggerBreakpoint();
+        return -1;
 
     if (findData.nFileSizeHigh != 0)
-        triggerBreakpoint();
+        return -1;
 
     return findData.nFileSizeLow;    
 }
@@ -55,19 +56,42 @@ namespace qdev
             triggerBreakpoint(L"Directory problem");        
     }   
 
+    BinaryFileLoader::BinaryFileLoader(const std::wstring &dirName, const std::wstring &fileName,
+        const std::wstring &extensionName) : BinaryFileLoader
+        (
+        dirName + L"/" + fileName + L"." + extensionName
+        )
+    {
+    }
+
     BinaryFileLoader::BinaryFileLoader( const wchar_t *const fileName )
     {
-        dataLength = getFileSize( fileName );                        
-        pdata      = new char[dataLength];
+        int fileSize = getFileSize( fileName );                        
+        if (fileSize == -1)
+        {
+            pdata = 0;
+            debugLog << L"couldn't load file";
+            return;
+        }
+
+        dataLength = fileSize;
 
         FILE	*fileHandle;
         fileHandle = NULL;
         errno_t rese = _wfopen_s(&fileHandle, fileName, L"rb");
         if (fileHandle == NULL)
-            triggerBreakpoint(L"File problem");
+        {
+            pdata = 0;
+            debugLog << L"couldn't load file";
+            return;
+        }
 
+        pdata = new char[dataLength];
         fread( pdata, 1, dataLength, fileHandle );
         fclose( fileHandle );
+
+        debugLog << L"loaded file" << fileName;
+        // todo: more checks please
     }
 
     BinaryFileLoader::BinaryFileLoader( const std::wstring &fileName ) :
