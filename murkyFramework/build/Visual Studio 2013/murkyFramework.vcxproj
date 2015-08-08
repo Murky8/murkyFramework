@@ -235,6 +235,7 @@
     <ClInclude Include="..\..\include\debugUtils.hpp" />
     <ClInclude Include="..\..\include\fileUtils.hpp" />
     <ClInclude Include="..\..\include\gfxHighLevel\camera.hpp" />
+    <ClInclude Include="..\..\include\gfxHighLevel\linesShapes.hpp" />
     <ClInclude Include="..\..\include\gfxHighLevel\projectionMat.hpp" />
     <ClInclude Include="..\..\include\gfxHighLevel\render.hpp" />
     <ClInclude Include="..\..\include\gfxHighLevel\textRender.hpp" />

@@ -97,6 +97,9 @@ namespace GfxLowLevel
 
     void	VertexBufferDynamic::draw( void *vertexData, int nPrimatives )
     {        
+        if (nPrimatives >= capacity)
+            triggerBreakpoint();
+
         u32 sizeVertex = 0;
         switch (vertexType)
         {

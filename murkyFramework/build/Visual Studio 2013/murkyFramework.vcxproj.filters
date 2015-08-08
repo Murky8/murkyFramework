@@ -221,6 +221,9 @@
     <ClInclude Include="..\..\include\readFBX.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\gfxHighLevel\linesShapes.hpp">
+      <Filter>Header Files\gfxHighLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\shaders\posColTex.fsh">

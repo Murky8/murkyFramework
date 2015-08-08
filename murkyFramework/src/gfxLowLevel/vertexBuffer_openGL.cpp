@@ -78,6 +78,9 @@ namespace GfxLowLevel
     // methods
     void	VertexBufferDynamic::draw( void *data, int nPrimatives )
     {
+        if (nPrimatives >= capacity)
+            triggerBreakpoint();
+
         onGfxDeviceErrorTriggerBreakpoint();
    
         if (nPrimatives == 0)

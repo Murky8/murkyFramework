@@ -24,7 +24,7 @@ namespace RenderHi
         auto    zFar    = 1.0f;
         auto    zNear   = -1.0f;
         
-        matOut = mat4(Unit::UNIT);
+        matOut = mat4(unit);
 
         matOut.v[0][0] = 2.f / (right - left);
         matOut.v[1][1] = 2.f / (top - bottom);

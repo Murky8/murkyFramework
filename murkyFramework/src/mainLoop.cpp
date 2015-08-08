@@ -59,54 +59,6 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
         }
     }
         
-
-    //clamp(lastFrameDuration, 0.0000001, 1.0);
-
-    //// unlimited frame rate
-    //if (Gapp.frameRateLimit == 0) 
-    //{
-    //}
-    //else
-    //{
-    //    static f64 timer = 0.0f;
-
-    //    timer -= lastFrameDuration;
-
-    //    if (timer > 0)
-    //        return;
-    //
-    //    timer += 1.0f/Gapp.frameRateLimit;
-    //    Gapp.frameRate = Gapp.frameRateLimit;
-    //    
-    //}
-
-    //static f64 lastFrameClock = system2::readTimeSecondsSinceAppStart();
-
-    //f64 currentFrameClock = system2::readTimeSecondsSinceAppStart();
-    //f64 lastFrameDuration = currentFrameClock - lastFrameClock;
-
-    //lastFrameClock = currentFrameClock;
-    //clamp(lastFrameDuration, 0.0000001, 1.0);
-
-    //// unlimited frame rate
-    //if (Gapp.frameRateLimit == 0)
-    //{
-    //    Gapp.frameRate = 1.0 / lastFrameDuration;
-    //}
-    //else
-    //{
-    //    static f64 timer = 0.0f;
-
-    //    timer -= lastFrameDuration;
-
-    //    if (timer > 0)
-    //        return;
-
-    //    timer += 1.0f / Gapp.frameRateLimit;
-    //    Gapp.frameRate = Gapp.frameRateLimit;
-
-    //}
-    
     debugLogScreen.clear();    
     
     debugLogScreen <<(f32)system2::readTimeSecondsSinceAppStart() << L"\n";
@@ -114,7 +66,7 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
     //debugLog << L"framerate: " << Gapp.frameRate << L"\n";
     debugLogScreen << L"frame: " << (int)Gapp.frameCounter << L"\n";
 
-    RenderHi::drawAll(state);    
+    RenderHi::drawAll(state);  
     
     // unlimited frame rate
     if (Gapp.frameRateLimit == 0)

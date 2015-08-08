@@ -8,8 +8,145 @@
 #include <murkyFramework/include/vectorMatrix.hpp>
 
 //------------------------------------------------------------------------------
+#pragma region vec2
+// constructors
+vec2::vec2(float inx, float iny) : x(inx), y(iny)
+{   
+}
+
+vec2::vec2(TypeZero dummy) : x(0.f), y(0.f)
+{    
+}
+
+vec2::vec2(TypeUnit dummy) : x(1.f), y(1.f)
+{    
+}
+// constructors ^
+
+vec2 operator +(const vec2 &a, const vec2 &b)
+{
+    return{ a.x + b.x, a.y + b.y };
+}
+
+vec2 operator +=(vec2 &a, const vec2 &b)
+{
+    return(a = a + b);
+}
+
+vec2 operator -(const vec2 &a, const vec2 &b)
+{
+    return{ a.x - b.x, a.y - b.y };
+}
+
+vec2 operator -=(vec2 &a, const vec2 &b)
+{
+    return(a = a - b);
+}
+
+vec2 operator *(const vec2 &a, const float &s)
+{
+    return{ vec2(a.x * s, a.y * s) };
+}
+
+vec2 operator*=(vec2 &a, const float &m)
+{
+    return (a = a*m);
+}
+
+vec2 operator/(const vec2 &a, const float &d)
+{
+    return{ vec2(a.x / d, a.y / d) };
+}
+
+vec2 operator/=(vec2 &a, const float &d)
+{
+    return (a = a / d);
+}
+#pragma endregion vec2
+
+//------------------------------------------------------------------------------
+#pragma region vec3
+
+// constructors
+vec3::vec3(float x, float y, float z)
+    : x(x), y(y), z(z)
+{
+}
+
+vec3::vec3(float a)
+    : x(a), y(a), z(a)
+{}
+
+vec3::vec3(vec2 v)
+    : x(v.x), y(v.y), z(0.f)
+{}
+
+vec3::vec3(TypeZero dummy) : x(0.f), y(0.f), z(0.f)
+{}
+
+vec3::vec3(TypeUnit dummy) : x(1.f), y(1.f), z(1.f)
+{}
+// constructors ^
+
+vec3 operator +(const vec3 &a, const vec3 &b)
+{
+    return{
+        a.x + b.x,
+        a.y + b.y,
+        a.z + b.z };
+}
+
+vec3 operator +=(vec3 &a, const vec3 &b)
+{
+    return(a = a + b);
+}
+
+vec3 operator -(const vec3 &a, const vec3 &b)
+{
+    return{
+        a.x - b.x,
+        a.y - b.y,
+        a.z - b.z };
+}
+
+vec3 operator -=(vec3 &a, const vec3 &b)
+{
+    return(a = a - b);
+}
+
+vec3 operator *(const vec3 &a, const float &s)
+{
+    return{
+        a.x * s,
+        a.y * s,
+        a.z * s };
+}
+
+vec3 operator*=(vec3 &a, const float &m)
+{
+    return (a = a*m);
+}
+
+vec3 operator/(const vec3 &a, const float &d)
+{
+    return{
+        a.x / d,
+        a.y / d,
+        a.z / d };
+}
+
+vec3 operator/=(vec3 &a, const float &d)
+{
+    return (a = a / d);
+}
+
+#pragma endregion vec3
+
+//------------------------------------------------------------------------------
+#pragma region vec4
 // vec4
 
+// constructors
 vec4::vec4(float in_x, float in_y, float in_z, float in_w)
     : x(in_x), y(in_y), z(in_z), w(in_w)
 {}
@@ -17,6 +154,13 @@ vec4::vec4(float in_x, float in_y, float in_z, float in_w)
 vec4::vec4(float a)
 : x(a), y(a), z(a), w(a)
 {}
+
+vec4::vec4(TypeZero dummy) : x(0.f), y(0.f), z(0.f), w(0.f)
+{}
+
+vec4::vec4(TypeUnit dummy) : x(1.f), y(1.f), z(1.f), w(1.f)
+{}
+// constructors ^
 
 vec4 operator +(const vec4 &a, const vec4 &b)
 {
@@ -106,24 +250,20 @@ vec4 vec4::unitDir() const
 
     return v;
 }
+#pragma endregion vec4
 
 //------------------------------------------------------------------------------
-// vec3
-vec3::vec3(float x, float y, float z)
-: x(x), y(y), z(z) 
+#pragma region mat3
+mat3::mat3(f32 m[nDimJ][nDimI])
 {
-    //debugLog << L"vec3 " << x << y << z << "\n";
+    for (auto j = 0; j < nDimJ; ++j)
+        for (auto i = 0; i < nDimI; ++i)
+            v[j][i] = m[j][i];
 }
-
-vec3::vec3(float a)
-: x(a), y(a), z(a) 
-{}
-
-vec3::vec3(vec2 v) 
-:x(v.x), y(v.y), z(0.f)
-{}
+#pragma endregion mat3
 
 //------------------------------------------------------------------------------
+#pragma region mat4
 // mat4
 mat4::mat4(f32 m[nDimJ][nDimI])
 {       
@@ -132,14 +272,14 @@ mat4::mat4(f32 m[nDimJ][nDimI])
             v[j][i] = m[j][i];
 }
 
-mat4::mat4(Unit)
+mat4::mat4(TypeUnit dummy)
 {   
     for (auto j = 0; j < nDimJ; ++j)
         for (auto i = 0; i < nDimI; ++i)
             v[j][i] = (i == j) ? 1.f : 0.f;                
 }
 
-mat4::mat4(Zero)
+mat4::mat4(TypeZero dummy)
 {   
     for (auto j = 0; j < nDimJ; ++j)
         for (auto i = 0; i < nDimI; ++i)
@@ -154,65 +294,8 @@ mat4 mat4::transpose() const
             r.v[j][i] = v[i][j];
     return r;
 }
+#pragma endregion mat4
 
-vec3 operator +(const vec3 &a, const vec3 &b)
-{    
-    return{
-        a.x + b.x,
-        a.y + b.y,
-        a.z + b.z };
-}
-
-vec3 operator -(const vec3 &a, const vec3 &b)
-{
-    return{
-        a.x - b.x,
-        a.y - b.y,
-        a.z - b.z };    
-}
-
-vec3 operator +=(vec3 &a, const vec3 &b)
-{
-    return(a = a + b);
-}
-
-vec3 operator -=(vec3 &a, const vec3 &b)
-{
-    return(a = a - b);
-}
-
-
-//------------------------------------------------------------------------------
-// vec2
-
-vec2::vec2(float inx, float iny) : x(inx), y(iny)
-{
-    //debugLog << L"vec2 " << x << y << "\n";
-}
-
-vec2 operator +(const vec2 &a, const vec2 &b)
-{
-    return{
-        a.x + b.x,
-        a.y + b.y };
-}
-
-vec2 operator +=(vec2 &a, const vec2 &b)
-{
-    return(a = a + b);
-}
-
-vec2 operator -(const vec2 &a, const vec2 &b)
-{
-    return{
-        a.x - b.x,
-        a.y - b.y };
-}
-
-vec2 operator -=(vec2 &a, const vec2 &b)
-{
-    return(a = a - b);
-}
 
 
 

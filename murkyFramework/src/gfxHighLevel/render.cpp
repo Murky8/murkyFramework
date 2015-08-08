@@ -25,12 +25,13 @@
 #include <murkyFramework/include/gfxHighLevel/render.hpp>
 #include <murkyFramework/include/gfxHighLevel/textRender.hpp>
 #include <external/glm/glm.hpp>
+#include "../../include/gfxHighLevel/linesShapes.hpp"
 
-// forward declarations
 namespace GfxLowLevel
 {
+    // forward declarations
     TextureId   createTextureObjectFromFile(const std::wstring &dirName,
-            const std::wstring &fileName, const std::wstring &extensionName);
+    const       std::wstring &fileName, const std::wstring &extensionName);
     TextureId   createTestTextureObject();
     bool        initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);    
     bool        deinitialise_device();    
@@ -38,16 +39,19 @@ namespace GfxLowLevel
     void        deinitilise_textureSystem();
 }
 
+extern std::vector<Vert_pct> gdeb_verts;
+extern std::vector<Triangle_pct> gdeb_tris;
+
 namespace RenderHi
 {        
     // data    
     GfxLowLevel::VertexBufferDynamic    *vertexBufferTemp;  // for testing
-    GfxLowLevel::VertexBufferDynamic    *lineVB;          
-
+    GfxLowLevel::VertexBufferDynamic    *defaultLineVB;          
     TextRender                          *textRenderer;
     mat4	                            projectionMatrix;
     GfxLowLevel::TextureManager         *textureManager;
-
+    // forward declarations
+    std::vector<Line_pct>               defaultLines;
     
     mat4 makeProjectionMatrix_ortho(f32 left, f32 right, f32 bottom, f32 top, f32 zNear = -1.f, f32 zFar = 1.f)
     {
@@ -65,7 +69,13 @@ namespace RenderHi
                         
         return m;
     }
-    
+   
+    mat4 makeLookAtMatrix(mat3 ori, vec3 trans)
+    {
+        mat4 m(Unit::UNIT);
+        return m;
+    }
+
     void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd)
     {
         debugLog << L"RenderHi::initialise" << "\n";
@@ -90,12 +100,12 @@ namespace RenderHi
             std::move(newt2),
             1024 );
 
-        lineVB = new GfxLowLevel::VertexBufferDynamic(
+        defaultLineVB = new GfxLowLevel::VertexBufferDynamic(
             GfxLowLevel::VertexType::posColTex,
             GfxLowLevel::PrimativeType::line,
             GfxLowLevel::Shaders::posColText,
             std::move(newt3),            
-            1024);
+            16*1024);
 
         //textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
         textRenderer = new TextRender(std::move(newt));
@@ -127,16 +137,17 @@ namespace RenderHi
     {                
         GfxLowLevel::drawBegin();
         //glm::
-        projectionMatrix = mat4(Unit::UNIT);
+        defaultLines.clear();
+        //projectionMatrix = mat4(Unit::UNIT);
         projectionMatrix = makeProjectionMatrix_ortho(
-            0.f, 1.f, 1.f, -0.f, -1.f, 1.f);
+            -100.f, 100.f, 100.f, -100.f, -1.f, 1.f);
 
         GfxLowLevel::setUniform_projectionMatrix(&projectionMatrix);
 
         // draw stuff here
         
         textRenderer->drawText(debugLogScreen);
-        if (1)
+        if (0)
         {
 #define rn (((float)rand() / (float)RAND_MAX))
             std::vector<Triangle_pct> tris;
@@ -154,7 +165,7 @@ namespace RenderHi
             }
             vertexBufferTemp->draw(tris.data(), tris.size());
         }
-        if (1)
+        if (0)
         {
             std::vector<Line_pct> lines;
             for (int i = 0; i < 10; i++)
@@ -166,9 +177,20 @@ namespace RenderHi
                 };
                 lines.push_back(line);
             }
-            lineVB->draw(lines.data(), lines.size());
+            defaultLineVB->draw(lines.data(), lines.size());
         }        
      
+        if (0)
+        {
+            for (Vert_pct &v : gdeb_verts)
+            {
+                drawCrosshair(v.pos*1.f / 400.f + vec3(0.5, 0.5, 0.5), vec3(1, 1, 1), 0.01);
+            }
+            defaultLineVB->draw(defaultLines.data(), defaultLines.size());
+        }
+
+        defaultLineVB->draw(gdeb_tris.data(), gdeb_tris.size());
+
         GfxLowLevel::drawEnd();
     }
 

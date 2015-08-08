@@ -7,6 +7,20 @@
 #include <windows.h>
 #include <murkyFramework/include/common.hpp>
 #include <murkyFramework/include/system.hpp>
+#include <cmath>
+#include <iostream>
+#include <string>
+#include <thread>
+#include <mutex>
+#include <cstdio>
+#include <chrono>
+#include <ctime>
+#include <ratio>
+#include <limits>
+
+//using namespace std::literals;
+using namespace std::chrono;
+
 
 namespace system2
 {
@@ -19,7 +33,26 @@ namespace system2
 
     static f64 performanceCounterFrequency;
     static const f64 appStartTime = readTimeSeconds();
+    /*
+    double getCurrentTime()
+    {
+        using Clock = std::chrono::high_resolution_clock;
+        static auto startTime = Clock::now().time_since_epoch().count();
 
+        constexpr auto num = Clock::period::num;
+        constexpr auto den = Clock::period::den;
+
+        auto t = Clock::now().time_since_epoch().count() - startTime;
+        auto s = (double)t*num / den;
+        return s;
+    }
+
+    void logCurrentTime()
+    {
+        auto s = getCurrentTime();
+        std::cout << "Time" << " " << std::fixed << s << "\n";
+    }
+*/
     f64 readTimeSeconds()
     {
         static bool firstTime {true};
