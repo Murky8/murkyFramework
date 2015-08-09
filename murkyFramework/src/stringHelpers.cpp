@@ -6,9 +6,6 @@
 #include <murkyFramework/include/stringHelpers.hpp>
 #include <string>
 
-
-
-
 std::wstring s2ws(const std::string& str)
 {
     typedef std::codecvt_utf8<wchar_t> convert_typeX;
@@ -50,5 +47,49 @@ std::wstring &operator << (std::wstring &st, float f)
     st.append(std::to_wstring(f).c_str());
     st.append(L" ");
 
-    return st;;
+    return st;
+}
+
+std::wstring &operator << (std::wstring &lhs, vec2 v)
+{
+    for (int i = 0; i < vec4::nDim; ++i)
+    {
+        lhs.append(std::to_wstring(v.s[i]).c_str());
+        lhs.append(L" ");
+    }
+    return lhs;
+}
+
+std::wstring &operator << (std::wstring &lhs, vec3 v)
+{
+    for (int i = 0; i < vec4::nDim; ++i)
+    {
+        lhs.append(std::to_wstring(v.s[i]).c_str());
+        lhs.append(L" ");        
+    }
+    return lhs;
+}
+
+std::wstring &operator << (std::wstring &lhs, vec4 v)
+{
+    for (int i = 0; i < vec4::nDim; ++i)
+    {
+        lhs.append(std::to_wstring(v.s[i]).c_str());
+        lhs.append(L" ");        
+    }
+    return lhs;
+}
+
+std::wstring &operator << (std::wstring &lhs, mat4 m)
+{
+    for (int j = 0; j < 4; ++j)
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+            lhs.append(std::to_wstring(m.v[j][i]).c_str());
+            lhs.append(L" ");            
+        }
+        lhs.append(L"\n");        
+    }
+    return lhs;
 }

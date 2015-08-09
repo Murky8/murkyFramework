@@ -109,13 +109,13 @@ bool loadFBX(const std::wstring &dirName, const std::wstring &fileName, const st
         for (int i = 0; i < nVerts; i++)
         {
             float x = getNextFloat_incIt(it, text.end());
-            float y = getNextFloat_incIt(it, text.end());
             float z = getNextFloat_incIt(it, text.end());
+            float y = getNextFloat_incIt(it, text.end());
             gdeb_verts.push_back
                 (
                 Vert_pct{ vec3(x, y, z), vec3(1, 1, 1), vec2(1, 1) }
                 );
-            debugLog << i << x << y << z << L"\n";
+            //debugLog << i << x << y << z << L"\n";
         }
         // get num faces
         if (findNextText_incIt(text, L"PolygonVertexIndex:", it) == false)

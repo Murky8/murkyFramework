@@ -24,8 +24,11 @@
 #include <murkyFramework/include/gfxLowLevel/vertexBuffer.hpp>
 #include <murkyFramework/include/gfxHighLevel/render.hpp>
 #include <murkyFramework/include/gfxHighLevel/textRender.hpp>
+#define GLM_FORCE_RADIANS
 #include <external/glm/glm.hpp>
+#include "glm/gtc/matrix_transform.inl"
 #include "../../include/gfxHighLevel/linesShapes.hpp"
+#include "../../include/gfxHighLevel/projectionMat.hpp"
 
 namespace GfxLowLevel
 {
@@ -53,29 +56,7 @@ namespace RenderHi
     // forward declarations
     std::vector<Line_pct>               defaultLines;
     
-    mat4 makeProjectionMatrix_ortho(f32 left, f32 right, f32 bottom, f32 top, f32 zNear = -1.f, f32 zFar = 1.f)
-    {
-        mat4 m(Unit::UNIT);
-        m.v[0][0] = 2.f / (right - left);
-        m.v[1][1] = 2.f / (top - bottom);
-        m.v[2][2] = -2.f / (zFar - zNear);        
-        m.v[3][0] = -(right + left) / (right - left);
-        m.v[3][1] = -(top + bottom) / (top - bottom);
-        m.v[3][2] = -(zFar + zNear) / (zFar - zNear);
-
-
-        m.v[2][2] *= -1.f;  // left hand coord system fix (z=-z)
-        m.v[3][2] *= -1.f;  // left hand coord system fix (z=-z)
-                        
-        return m;
-    }
-   
-    mat4 makeLookAtMatrix(mat3 ori, vec3 trans)
-    {
-        mat4 m(Unit::UNIT);
-        return m;
-    }
-
+    
     void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd)
     {
         debugLog << L"RenderHi::initialise" << "\n";
@@ -127,7 +108,7 @@ namespace RenderHi
 
     mat4 makeProjectionMatrix_perspective( )
     {        
-            mat4 m(Zero::ZERO);
+            mat4 m(zero);
             //m[0][0]=
             triggerBreakpoint();// todo: finish
             return m;
@@ -138,15 +119,52 @@ namespace RenderHi
         GfxLowLevel::drawBegin();
         //glm::
         defaultLines.clear();
-        //projectionMatrix = mat4(Unit::UNIT);
+        debugLogScreen << state.cursor << L"\n";
+        //projectionMatrix = mat4(unit);
+        
         projectionMatrix = makeProjectionMatrix_ortho(
-            -100.f, 100.f, 100.f, -100.f, -1.f, 1.f);
+            0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
+        GfxLowLevel::setUniform_projectionMatrix(&projectionMatrix);
+        textRenderer->drawText(debugLogScreen);        
+
+        //projectionMatrix = makeProjectionMatrix_ortho(
+          //  -200.f, 200.f, -200.f, 200.f, -200.f, 200.f);
+        
+        projectionMatrix = makeProjectionMatrix(1.8f, 5.f, 500.f, 1.f);
+
+        if (0)
+        if (1)
+        {
+            projectionMatrix.v[3][0] = state.cursor.x;
+            projectionMatrix.v[3][1] = state.cursor.y;
+            projectionMatrix.v[3][2] = state.cursor.z;
+        }
+        else
+        {
+            projectionMatrix.v[0][3] = state.cursor.x;
+            projectionMatrix.v[1][3] = state.cursor.y;
+            projectionMatrix.v[2][3] = state.cursor.z;
+        }
+
+        if (0)
+        {
+            glm::mat4 Perspective = glm::perspective(1.8f, 1.f, 5.f, 500.f);
+            glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(
+                state.cursor.x, state.cursor.y, state.cursor.z));
+
+            glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, -1.0f));
+            glm::mat4 proj = Perspective*scale*trans;
+
+            for (int j = 0; j < 4; j++)
+                for (int i = 0; i < 4; i++)
+                    projectionMatrix.v[j][i] = proj[j][i];
+        }
 
         GfxLowLevel::setUniform_projectionMatrix(&projectionMatrix);
 
+
         // draw stuff here
         
-        textRenderer->drawText(debugLogScreen);
         if (0)
         {
 #define rn (((float)rand() / (float)RAND_MAX))
@@ -180,16 +198,16 @@ namespace RenderHi
             defaultLineVB->draw(lines.data(), lines.size());
         }        
      
-        if (0)
+        if (1)
         {
             for (Vert_pct &v : gdeb_verts)
             {
-                drawCrosshair(v.pos*1.f / 400.f + vec3(0.5, 0.5, 0.5), vec3(1, 1, 1), 0.01);
+                drawCrosshair(vec3(v.pos.x, v.pos.y, -v.pos.z), vec3(1, 1, 1), 1.f);
             }
             defaultLineVB->draw(defaultLines.data(), defaultLines.size());
         }
 
-        defaultLineVB->draw(gdeb_tris.data(), gdeb_tris.size());
+        //defaultLineVB->draw(gdeb_tris.data(), gdeb_tris.size());
 
         GfxLowLevel::drawEnd();
     }

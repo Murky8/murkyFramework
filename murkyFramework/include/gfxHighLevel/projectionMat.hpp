@@ -7,6 +7,7 @@
 #include <murkyFramework/include/vectorMatrix.hpp>
 
 namespace RenderHi
-{
-    extern void setProjMatOrtho(f32 right, f32 left, f32 top, f32 bottom, mat4 &matOut);
+{    
+    mat4 makeProjectionMatrix_ortho(f32 left, f32 right, f32 bottom, f32 top, f32 zNear = -1.f, f32 zFar = 1.f);
+    mat4 makeProjectionMatrix(f32 fovRads, f32 zNear, f32 zFar, f32 aspectRatio);
 }

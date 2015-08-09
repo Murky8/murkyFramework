@@ -5,14 +5,14 @@
 #include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 #include <murkyFramework/include/gfxHighLevel/textRender.hpp>
 
-//http://glm.g-truc.net/0.9.6/api/index.html
-#define GLM_FORCE_RADIANS
-#include <glm/glm.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+////http://glm.g-truc.net/0.9.6/api/index.html
+//#define GLM_FORCE_RADIANS
+//#include <glm/glm.hpp>
+//#include <glm/vec2.hpp>
+//#include <glm/vec3.hpp>
+//#include <glm/vec4.hpp>
+//#include <glm/mat4x4.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
 
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
@@ -41,36 +41,6 @@ namespace RenderHi
 
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }
-
-    // data
-    // methods
-    //TextRender::TextRender(std::wstring textureFileName) : texture(textureFileName), cursorPos(-1.0f, 1.0f)
-    //{    
-
-    //}
-
-    //// Destructors
-    //TextRender::~TextRender()
-    //{
-    //    //this->texture
-    //}
-
-    //// Methods     
-    //void TextRender::drawAllText()
-    //{
-    //    text.clear();
-    //}
-    /*
-    Result[0][0] = valType(2) / (right - left);
-    Result[1][1] = valType(2) / (top - bottom);
-    Result[2][2] = -valType(2) / (zFar - zNear);
-    Result[3][0] = -(right + left) / (right - left);
-    Result[3][1] = -(top + bottom) / (top - bottom);
-    Result[3][2] = -(zFar + zNear) / (zFar - zNear);
-    */
-
-//    extern GfxLowLevel::TextureRef             *font_texture;    // todo temp        
- //   extern RenderHi::Triangles_pctSoftBuffer   *font_softBuf;    // todo temp    
 
     void drawChar( std::vector<Triangle_pct> &triangles, 
         wchar_t ch, vec2 pos, vec3 col, vec2 charScreenDim)
@@ -112,7 +82,7 @@ namespace RenderHi
         // cordinates: 0,0 = top left        
         vec2    cursorPos(0.f,0.f);
         auto    it = text.cbegin();
-        const   vec2    charScreenDim(1.f / 20.f, 1.f / 20.f);
+        const   vec2    charScreenDim(1.f / 40.f, 1.f / 40.f);
                
         textTris.clear();
 

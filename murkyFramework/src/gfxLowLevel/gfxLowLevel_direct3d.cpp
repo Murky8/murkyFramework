@@ -64,7 +64,7 @@ namespace GfxLowLevel
     ID3D11Buffer*            g_pCBChangesEveryFrame = nullptr;
 
     // Data
-    mat4 projectionMatrix(Unit::UNIT);    
+    mat4 projectionMatrix(unit);    
 
     void onGfxDeviceErrorTriggerBreakpoint()
     {            

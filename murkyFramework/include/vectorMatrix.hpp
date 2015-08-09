@@ -11,13 +11,16 @@
 class TypeUnit
 {
     const u8 dummyVal= 0;
-}unit; 
+};
+extern TypeUnit unit;
 
 class TypeZero
 {
 public:
     const u8 dummyVal= 0;
-}zero; 
+};
+extern TypeZero zero;
+
 
 //------------------------------------------------------------------------------
 class vec2 
@@ -77,9 +80,9 @@ class vec4
 {
 public:
     static const auto nDim = 4;
-    // Constructors            
+    // constructors            
     vec4(){}	//remove when c++11 compat
-    vec4(float x, float y, float z, float w = 1.f);
+    vec4(float x, float y, float z, float w =0.f);
     vec4(float a);    
     vec4(vec3);    
     vec4(TypeZero dummy);
@@ -92,6 +95,9 @@ public:
     friend std::wostream &operator<<(std::wostream &st, const vec4 &v);
 
     // data
+    static const vec4 right;
+    static const vec4 up;
+    static const vec4 forward;
     union
     {
         struct
@@ -109,8 +115,8 @@ class mat3
 {
 public:
     static const auto nDimI = 3;
-    static const auto nDimJ = 3;
-    // Constructors
+    static const auto nDimJ = 3;    
+    // constructors
     mat3(){}
     mat3(f32 m_[nDimJ][nDimI] );
     mat3(TypeUnit);
@@ -141,7 +147,7 @@ public:
     static const auto nDimJ = 4;
     // constructors
     mat4(){}
-    mat4(mat3 &rhs);
+    explicit mat4(const mat3 &rhs);
     mat4(f32 m[nDimJ][nDimI]);
     mat4(TypeUnit);
     mat4(TypeZero);

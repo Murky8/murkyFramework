@@ -10,6 +10,7 @@
 #include <murkyFramework/include/common.hpp>
 #include <murkyFramework/include/stringHelpers.hpp>
 #include <murkyFramework/include/inputDevices.hpp>
+#include <murkyFramework/include/vectorMatrix.hpp>
 
 std::wstring debugScreenText;
 
@@ -64,6 +65,53 @@ DebObj operator << (DebObj obj, double f)
 {
     outputDebugString(std::to_wstring(f).c_str());
     outputDebugString(L" ");
+    return obj;
+}
+
+DebObj operator << (DebObj obj, vec2 v)
+{
+    for (int i = 0; i < vec4::nDim; ++i)
+    {
+        outputDebugString(std::to_wstring(v.s[i]).c_str());
+        outputDebugString(L" ");
+    }
+
+    return obj;
+}
+
+DebObj operator << (DebObj obj, vec3 v)
+{
+    for (int i = 0; i < vec4::nDim; ++i)
+    {
+        outputDebugString(std::to_wstring(v.s[i]).c_str());
+        outputDebugString(L" ");
+    }
+
+    return obj;
+}
+
+DebObj operator << (DebObj obj, vec4 v)
+{
+    for (int i = 0; i < vec4::nDim; ++i)
+    {
+        outputDebugString(std::to_wstring(v.s[i]).c_str());
+        outputDebugString(L" ");
+    }
+
+    return obj;
+}
+
+DebObj operator << (DebObj obj, mat4 m)
+{
+    for (int j = 0; j < 4; ++j)
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+            outputDebugString(std::to_wstring(m.v[j][i]).c_str());
+            outputDebugString(L" ");
+        }
+        outputDebugString(L"\n");
+    }    
     return obj;
 }
 

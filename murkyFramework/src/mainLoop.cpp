@@ -30,6 +30,7 @@
 void mainLoop_threadMain(InputDevices &inputDevices, State &state)
 {    
     
+    debugLogScreen.clear();    
     static f64 lastFrameClock = 0;
     f64 currentFrameClock = system2::readTimeSecondsSinceAppStart();
 
@@ -59,13 +60,30 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
         }
     }
         
-    debugLogScreen.clear();    
+    debugLogScreen << L"Framerate: " << aveFR << L"\n";    
     
-    debugLogScreen <<(f32)system2::readTimeSecondsSinceAppStart() << L"\n";
-    debugLogScreen << L"framerate: " << aveFR << L"\n";
-    //debugLog << L"framerate: " << Gapp.frameRate << L"\n";
-    debugLogScreen << L"frame: " << (int)Gapp.frameCounter << L"\n";
+    f32 speed = lastFrameDuration*10.f;
+    if (inputDevices.keyStatus(InputDevices::KeyCode::shift))
+        speed *= 10.f;
 
+    if (inputDevices.keyStatus(InputDevices::KeyCode::d))
+        state.cursor += vec::right * speed;
+    
+    if (inputDevices.keyStatus(InputDevices::KeyCode::a))
+        state.cursor -= vec::right * speed;
+
+    if (inputDevices.keyStatus(InputDevices::KeyCode::w))
+        state.cursor += vec::forward * speed;
+
+    if (inputDevices.keyStatus(InputDevices::KeyCode::s))
+        state.cursor -= vec::forward * speed;
+
+    if (inputDevices.keyStatus(InputDevices::KeyCode::e))
+        state.cursor += vec::up * speed;
+
+    if (inputDevices.keyStatus(InputDevices::KeyCode::q))
+        state.cursor -= vec::up * speed;
+    
     RenderHi::drawAll(state);  
     
     // unlimited frame rate

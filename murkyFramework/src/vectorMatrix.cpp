@@ -7,6 +7,12 @@
 #include <cmath>
 #include <murkyFramework/include/vectorMatrix.hpp>
 
+TypeUnit unit;
+TypeZero zero;
+const vec4 vec4::right(1.f, 0.f, 0.f);
+const vec4 vec4::up(0.f, 1.f, 0.f);
+const vec4 vec4::forward(0.f, 0.f, 1.f);
+
 //------------------------------------------------------------------------------
 #pragma region vec2
 // constructors
@@ -254,6 +260,21 @@ vec4 vec4::unitDir() const
 
 //------------------------------------------------------------------------------
 #pragma region mat3
+
+mat3::mat3(TypeUnit dummy)
+{
+    for (auto j = 0; j < nDimJ; ++j)
+        for (auto i = 0; i < nDimI; ++i)
+            v[j][i] = (i == j) ? 1.f : 0.f;
+}
+
+mat3::mat3(TypeZero dummy)
+{
+    for (auto j = 0; j < nDimJ; ++j)
+        for (auto i = 0; i < nDimI; ++i)
+            v[j][i] = 0.f;
+}
+
 mat3::mat3(f32 m[nDimJ][nDimI])
 {
     for (auto j = 0; j < nDimJ; ++j)
@@ -264,7 +285,13 @@ mat3::mat3(f32 m[nDimJ][nDimI])
 
 //------------------------------------------------------------------------------
 #pragma region mat4
-// mat4
+mat4::mat4(const mat3 &rhs)
+{
+    for (auto j = 0; j < rhs.nDimJ; ++j)
+        for (auto i = 0; i < rhs.nDimI; ++i)
+            v[j][i] = rhs.v[j][i];
+}
+
 mat4::mat4(f32 m[nDimJ][nDimI])
 {       
     for (auto j = 0; j < nDimJ; ++j)

@@ -10,5 +10,5 @@
 
 struct State
 {
-    vec3 cursor{ 0, 0, 0 };
+    vec4 cursor{ 0, 0, 0 };
 };

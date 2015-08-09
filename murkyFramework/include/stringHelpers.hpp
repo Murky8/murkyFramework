@@ -2,6 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 #include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
+#include <murkyFramework/include/vectorMatrix.hpp>
 
 #include <string>
 #include <codecvt>
@@ -18,5 +19,11 @@ std::wstring &operator << (std::wstring &st, int i);
 
 std::wstring &operator << (std::wstring &st, float f);
 
+std::wstring &operator << (std::wstring &lhs, vec2 v);
 
+std::wstring &operator << (std::wstring &lhs, vec3 v);
+
+std::wstring &operator << (std::wstring &lhs, vec4 v);
+
+std::wstring &operator << (std::wstring &lhs, mat4 m);
 

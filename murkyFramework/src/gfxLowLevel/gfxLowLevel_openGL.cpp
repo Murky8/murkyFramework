@@ -34,7 +34,7 @@
 namespace GfxLowLevel
 {   
     // data
-    mat4    projectionMatrix(Unit::UNIT);    
+    mat4    projectionMatrix(unit);    
     HDC     hDC;
     HGLRC   hRC;
     HWND    hWnd;
