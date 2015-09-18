@@ -3,6 +3,7 @@
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/inputDevices.hpp>
+#include <murkyFramework/include/stringHelpers.hpp>
 #include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 
 #include <iostream>
@@ -25,11 +26,11 @@
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/state.hpp>
 #include <murkyFramework/include/maths.hpp>
+#include "../include/vectorMatrix_rotation.hpp"
 
 // called from windows loop in main.cpp
 void mainLoop_threadMain(InputDevices &inputDevices, State &state)
-{    
-    
+{        
     debugLogScreen.clear();    
     static f64 lastFrameClock = 0;
     f64 currentFrameClock = system2::readTimeSecondsSinceAppStart();
@@ -39,7 +40,6 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
     lastFrameClock = currentFrameClock;
     
     Gapp.frameRate = 1.0 / lastFrameDuration;
-
 
     static f32 aveFR = 0.f;
     { // ave frame rate
@@ -62,28 +62,42 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
         
     debugLogScreen << L"Framerate: " << aveFR << L"\n";    
     
+	//------------------------------------------------------------------------------
     f32 speed = lastFrameDuration*10.f;
     if (inputDevices.keyStatus(InputDevices::KeyCode::shift))
         speed *= 10.f;
 
     if (inputDevices.keyStatus(InputDevices::KeyCode::d))
-        state.cursor += vec::right * speed;
+        state.cursorPos += vec::right * speed;	
     
     if (inputDevices.keyStatus(InputDevices::KeyCode::a))
-        state.cursor -= vec::right * speed;
+        state.cursorPos -= vec::right * speed;
 
     if (inputDevices.keyStatus(InputDevices::KeyCode::w))
-        state.cursor += vec::forward * speed;
+        state.cursorPos += vec::forward * speed;
 
     if (inputDevices.keyStatus(InputDevices::KeyCode::s))
-        state.cursor -= vec::forward * speed;
+        state.cursorPos -= vec::forward * speed;
 
     if (inputDevices.keyStatus(InputDevices::KeyCode::e))
-        state.cursor += vec::up * speed;
+        state.cursorPos += vec::up * speed;
 
     if (inputDevices.keyStatus(InputDevices::KeyCode::q))
-        state.cursor -= vec::up * speed;
-    
+        state.cursorPos -= vec::up * speed;
+	
+	//state.cursorPos += vec::right * 0.1f*(float)inputDevices.consumeAllMouseDx();
+	vec rv(zero);
+	
+	rv.y = 0.01f;
+	//rv.y	+= 0.01f*(float)inputDevices.consumeAllMouseDx();
+	mat3 rmat = makeRotationMatrix3c(rv);
+	state.cursorOri = state.cursorOri*rmat;
+
+	debugLogScreen << rmat << L"\n";
+	//debugLogScreen << state.cursorOri << L"\n";
+    //state.cursorOri 
+
+	//------------------------------------------------------------------------------
     RenderHi::drawAll(state);  
     
     // unlimited frame rate

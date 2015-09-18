@@ -10,5 +10,7 @@
 
 struct State
 {
-    vec4 cursor{ 0, 0, 0 };
+	vec4 cursorPos {0, 0, 0};
+	mat3 cursorOri {unit};
+
 };

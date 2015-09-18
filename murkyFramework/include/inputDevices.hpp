@@ -13,17 +13,17 @@ public:
     enum class KeyCode;
     
     // methods
+	InputDevices(HWND hWnd);
     static bool keyStatus(InputDevices::KeyCode iKey);
-    
+    bool consumeSinglemouseDx(int &out);
+	int consumeAllMouseDx();    
     void processWindowsMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
     
     // data
-    boost::circular_buffer<int> mouseDx{ 100 };
-    int consume_mouseDx();
-
-    s32 mouseX = 0;
-    s32 mouseY = 0;    
-    s32 mouseDy = 0;
+	boost::circular_buffer<int> mouseDx{ 10 };
+	boost::circular_buffer<int> mouseDy{ 10 };
+	bool firstRun = true;
+	
     u32 mouseB0 = 0;
     u32 mouseB1 = 0;
     u32 mouseB2 = 0;

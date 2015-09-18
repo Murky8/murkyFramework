@@ -56,7 +56,7 @@ namespace GfxLowLevel
         ID3D11PixelShader      *pPixelShader;
     };
 
-    void setUniform_projectionMatrix(const mat4 *pMat)
+    void setUniform_projectionMatrix(const float *pMat)
     {   
         g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame, 0, nullptr, pMat, 0, 0);
     }

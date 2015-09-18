@@ -5,6 +5,7 @@
 #include <murkyFramework/include/stringHelpers.hpp>
 
 #include <iostream>
+#include "murkyFramework/include/vectorMatrix.hpp"
 
 class DebObj
 {//dummy object to allow << operator to work on something
@@ -21,5 +22,8 @@ DebObj operator << (DebObj obj, char *const str);
 DebObj operator << (DebObj obj, int i);
 DebObj operator << (DebObj obj, float f);
 DebObj operator << (DebObj obj, double f);
+
+
+
 
 

@@ -92,6 +92,7 @@ public:
     vec4   unitDir() const;
     float  length() const;
     void   split(vec4 &dir, float &len) const;    
+	bool split(vec4 &, f32 &);	
     friend std::wostream &operator<<(std::wostream &st, const vec4 &v);
 
     // data
@@ -108,6 +109,7 @@ public:
     };            
 private:    
 };
+
 typedef vec4 vec;
 
 //------------------------------------------------------------------------------
@@ -120,7 +122,8 @@ public:
     mat3(){}
     mat3(f32 m_[nDimJ][nDimI] );
     mat3(TypeUnit);
-    mat3(TypeZero);
+    mat3(TypeZero);	
+
     mat3(const std::vector<u8> &inData);    
     // methods
         vec3    get_r() const;

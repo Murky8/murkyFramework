@@ -69,10 +69,10 @@ namespace GfxLowLevel
         return true;
     }
     
-    void setUniform_projectionMatrix(const mat4 *pMat)
+    void setUniform_projectionMatrix(const float *pMat)
     {
         glUseProgram(Shaders::posColText.getHandle());
-        glUniformMatrix4fv(Shaders::uniformHandle_projectionMatrix, 1, false, (float*)pMat);		
+        glUniformMatrix4fv(Shaders::uniformHandle_projectionMatrix, 1, false, pMat);		
         glUseProgram(0);
         GfxLowLevel::onGfxDeviceErrorTriggerBreakpoint();
     }

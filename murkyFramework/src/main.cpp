@@ -138,10 +138,8 @@ int main()
     //skool();
     
     initialise_main();
-
-    
-    //    unique_ptr<int> uptr(new int);
-    InputDevices *pInputDevices(new InputDevices());
+        
+    InputDevices *pInputDevices(new InputDevices(hWnd));
     State state;
 
     
@@ -185,7 +183,6 @@ int main()
 //http://www.cplusplus.com/forum/windows/39141/
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-
     wndProcCalled = true;
     switch (message)
     {

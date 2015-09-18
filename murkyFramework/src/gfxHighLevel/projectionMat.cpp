@@ -34,23 +34,7 @@ namespace RenderHi
 //        matOut.v[3][1] = -(top + bottom) / (top - bottom);
 //        matOut.v[3][2] = -(zFar + zNear) / (zFar - zNear);
 //    }
-
-    std::pair<vec4, f32> splitVec(vec4 v)
-    {
-        f32 len = sqrtf(v.x*v.x + v.y*v.y + v.z*v.z);
-        vec4 dir(zero);
-        
-        if (len == 0.f) // todo: check this statement
-        {   
-            
-        }
-        else
-        {
-            dir = v / len;
-            dir.w = 0;
-        }
-        return std::make_pair(dir, len);        
-    }
+	
 
 
     // coord origin is lower -left
@@ -110,79 +94,7 @@ namespace RenderHi
         return m;
     }
 
-
-    // given unit dir (x, y, z) and rotation angle (w); create matrix achieving this rotation
-    mat3 rodriguez(const vec4 &rv)
-    {
-        float x = rv.x;
-        float y = rv.y;
-        float z = rv.z;
-        float w = rv.w;
-
-        float cwxy, cwxz, cwyz;
-        float swx, swy, swz;
-        float cwxx, cwyy, cwzz;
-
-        f32 xx = x*x;
-        f32 yy = y*y;
-        f32 zz = z*z;
-
-        f32 xy = x*y;
-        f32 yz = y*z;
-        f32 xz = z*x;
-
-        f32 sw = sinf(w);
-        swx = sw*x;
-        swy = sw*y;
-        swz = sw*z;
-
-        f32 cw = cosf(w);
-        cwxy = cw*xy;
-        cwxz = cw*xz;
-        cwyz = cw*yz;
-
-        cwxx = cw*xx;
-        cwyy = cw*yy;
-        cwzz = cw*zz;
-
-        mat3 m;
-        m.v[0][0] = xx + cw - cwxx;
-        m.v[0][1] = xy + -cwxy - swz;
-        m.v[0][2] = xz + -cwxz + swy;
-
-        m.v[1][0] = xy + -cwxy + swz;
-        m.v[1][1] = yy + cw - cwyy;
-        m.v[1][2] = yz + -cwyz - swx;
-
-        m.v[2][0] = xz + -cwxz - swy;
-        m.v[2][1] = yz + -cwyz + swx;
-        m.v[2][2] = zz + cw - cwzz;
-
-        return m;
-    }
-
- mat3 makeRotationMatrix(vec4 v)
- {
-     float len;
-    vec4  unitDir;
-    mat3  m;
-    len = sqrtf(v.x*v.x + v.y*v.y + v.z*v.z);
-
-    if (len == 0)
-    {   // unit matrix, no rotation
-        m = mat3(unit);
-    }
-    else
-    {
-        unitDir.x = v.x / len;
-        unitDir.y = v.y / len;
-        unitDir.z = v.z / len;
-        m = rodriguez(vec4(unitDir.x, unitDir.y, unitDir.z, len));
-    }
-    return m;
- }
-
-    /*static void my_PerspectiveFOV(double fov, double aspect, double near, double far, double* mret) {
+	   /*static void my_PerspectiveFOV(double fov, double aspect, double near, double far, double* mret) {
         double D2R = M_PI / 180.0;
         double yScale = 1.0 / tan(D2R * fov / 2);
         double xScale = yScale / aspect;

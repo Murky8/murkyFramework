@@ -116,56 +116,44 @@ namespace RenderHi
 
     void drawAll(State &state)
     {                
-        GfxLowLevel::drawBegin();
-        //glm::
+        GfxLowLevel::drawBegin();        
         defaultLines.clear();
-        debugLogScreen << state.cursor << L"\n";
-        //projectionMatrix = mat4(unit);
-        
+        debugLogScreen << state.cursorPos << L"\n";
+
+		// draw onscreen stuff
         projectionMatrix = makeProjectionMatrix_ortho(
             0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
-        GfxLowLevel::setUniform_projectionMatrix(&projectionMatrix);
+        GfxLowLevel::setUniform_projectionMatrix(&projectionMatrix.v[0][0]);
         textRenderer->drawText(debugLogScreen);        
+		// draw onscreen stuff
+		
+		// teapot
+		if (1)
+		{
+			glm::vec3 curs = glm::vec3(-state.cursorPos.x, -state.cursorPos.y, -state.cursorPos.z);
+			glm::mat4 Perspective = glm::perspective(1.8f, 1.f, 5.f, 500.f);
+			glm::mat4 trans = glm::translate(glm::mat4(1.0f), curs);
+			glm::mat4 rot;
+			for (int i = 0;i < 3;++i)
+				for (int j = 0;j < 3;++j)
+					rot[j][i] = state.cursorOri.v[j][i];
 
-        //projectionMatrix = makeProjectionMatrix_ortho(
-          //  -200.f, 200.f, -200.f, 200.f, -200.f, 200.f);
-        
-        projectionMatrix = makeProjectionMatrix(1.8f, 5.f, 500.f, 1.f);
+			/*	glm::mat4 rot = glm::lookAt(
+				curs,
+				curs + glm::vec3(0.f, 0.f, 1.0f),
+				glm::vec3(0.f, 1.0f, 0.f)
+				);*/
 
-        if (0)
-        if (1)
-        {
-            projectionMatrix.v[3][0] = state.cursor.x;
-            projectionMatrix.v[3][1] = state.cursor.y;
-            projectionMatrix.v[3][2] = state.cursor.z;
-        }
-        else
-        {
-            projectionMatrix.v[0][3] = state.cursor.x;
-            projectionMatrix.v[1][3] = state.cursor.y;
-            projectionMatrix.v[2][3] = state.cursor.z;
-        }
+			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+			glm::mat4 proj = Perspective*scale*trans*rot;
 
-        if (0)
-        {
-            glm::mat4 Perspective = glm::perspective(1.8f, 1.f, 5.f, 500.f);
-            glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(
-                state.cursor.x, state.cursor.y, state.cursor.z));
+			GfxLowLevel::setUniform_projectionMatrix(&proj[0][0]);
+		}
+		// teapot
 
-            glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, -1.0f));
-            glm::mat4 proj = Perspective*scale*trans;
-
-            for (int j = 0; j < 4; j++)
-                for (int i = 0; i < 4; i++)
-                    projectionMatrix.v[j][i] = proj[j][i];
-        }
-
-        GfxLowLevel::setUniform_projectionMatrix(&projectionMatrix);
-
-
-        // draw stuff here
-        
-        if (0)
+			
+        // draw stuff here        
+/*        if (0)
         {
 #define rn (((float)rand() / (float)RAND_MAX))
             std::vector<Triangle_pct> tris;
@@ -196,7 +184,7 @@ namespace RenderHi
                 lines.push_back(line);
             }
             defaultLineVB->draw(lines.data(), lines.size());
-        }        
+        }  */      
      
         if (1)
         {

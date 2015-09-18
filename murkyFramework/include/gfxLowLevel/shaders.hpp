@@ -32,5 +32,5 @@ namespace GfxLowLevel
         struct HandleDeviceShader *pHandle;
     };        
 
-    void setUniform_projectionMatrix(const mat4 *pMat);
+    void setUniform_projectionMatrix(const float *pMat);
 }

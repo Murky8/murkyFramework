@@ -4,6 +4,8 @@
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/stringHelpers.hpp>
+#include <murkyFramework/include/vectorMatrix.hpp>
+
 #include <string>
 
 std::wstring s2ws(const std::string& str)
@@ -80,16 +82,30 @@ std::wstring &operator << (std::wstring &lhs, vec4 v)
     return lhs;
 }
 
+std::wstring &operator << (std::wstring &lhs, mat3 m)
+{
+	for (int j = 0; j < mat3::nDimJ; ++j)
+	{
+		for (int i = 0; i < mat3::nDimI; ++i)
+		{
+			lhs.append(std::to_wstring(m.v[j][i]).c_str());
+			lhs.append(L" ");
+		}
+		lhs.append(L"\n");
+	}
+	return lhs;
+}
+
 std::wstring &operator << (std::wstring &lhs, mat4 m)
 {
-    for (int j = 0; j < 4; ++j)
-    {
-        for (int i = 0; i < 4; ++i)
-        {
-            lhs.append(std::to_wstring(m.v[j][i]).c_str());
-            lhs.append(L" ");            
-        }
-        lhs.append(L"\n");        
-    }
-    return lhs;
+	for (int j = 0; j < mat4::nDimJ; ++j)
+	{
+		for (int i = 0; i < mat4::nDimI; ++i)
+		{
+			lhs.append(std::to_wstring(m.v[j][i]).c_str());
+			lhs.append(L" ");
+		}
+		lhs.append(L"\n");
+	}
+	return lhs;
 }

@@ -7,6 +7,19 @@
 #include <cmath>
 #include <murkyFramework/include/vectorMatrix.hpp>
 
+// convention:
+// http://www.mindcontrol.org/~hplus/graphics/matrix-layout.html
+// using row-major matrix
+// object's orientation matrix is:
+
+// Rx Ry Rz  
+// Ux Uy Uz
+// Fx Fy Fz
+
+// [0][0] [0][1] ...
+// [1][0] [j][i] as memory increase left to right then downwards.
+
+
 TypeUnit unit;
 TypeZero zero;
 const vec4 vec4::right(1.f, 0.f, 0.f);
@@ -256,6 +269,24 @@ vec4 vec4::unitDir() const
 
     return v;
 }
+
+bool vec4::split(vec4 &dir, f32 &len)
+{
+	len = sqrtf(dot(*this, *this));	
+
+	if (len == 0.000000f) // todo: fix
+	{
+		dir = vec4(zero);		
+		return false;
+	}
+	else
+	{
+		dir = *this / len;
+		dir.w = 0;
+		return true;
+	}	
+}
+
 #pragma endregion vec4
 
 //------------------------------------------------------------------------------
@@ -281,7 +312,19 @@ mat3::mat3(f32 m[nDimJ][nDimI])
         for (auto i = 0; i < nDimI; ++i)
             v[j][i] = m[j][i];
 }
+
+mat3 operator *(const mat3 &m0, const mat3 &m1)
+{
+	mat3 res;
+	for(int y=0;y<mat3::nDimJ;y++)
+		for(int x=0;x<mat3::nDimI;x++)
+		{
+			res.v[y][x]  =	m0.v[y][0]*m1.v[0][x] +m0.v[y][1]*m1.v[1][x] +m0.v[y][2]*m1.v[2][x];
+		}
+	return res;
+}
 #pragma endregion mat3
+
 
 //------------------------------------------------------------------------------
 #pragma region mat4
