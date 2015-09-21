@@ -92,12 +92,23 @@ vec3::vec3(float x, float y, float z)
 {
 }
 
+vec3::vec3(float const* const pFloat)
+{
+	x = pFloat[0];
+	y = pFloat[1];
+	z = pFloat[2];	
+}
+
 vec3::vec3(float a)
     : x(a), y(a), z(a)
 {}
 
 vec3::vec3(vec2 v)
     : x(v.x), y(v.y), z(0.f)
+{}
+
+vec3::vec3(vec4 v)
+	: x(v.x), y(v.y), z(v.z)
 {}
 
 vec3::vec3(TypeZero dummy) : x(0.f), y(0.f), z(0.f)
@@ -171,7 +182,14 @@ vec4::vec4(float in_x, float in_y, float in_z, float in_w)
 {}
 
 vec4::vec4(float a)
-: x(a), y(a), z(a), w(a)
+	: x(a), y(a), z(a), w(a)
+{}
+
+vec4::vec4(float const* const pFloat) 
+	:	x(pFloat[0]), y(pFloat[1]), z(pFloat[2]), w(pFloat[3])
+{}
+
+vec4::vec4(vec3 in) : x(in.x), y(in.y), z(in.z), w(0.f)
 {}
 
 vec4::vec4(TypeZero dummy) : x(0.f), y(0.f), z(0.f), w(0.f)
@@ -306,6 +324,43 @@ mat3::mat3(TypeZero dummy)
             v[j][i] = 0.f;
 }
 
+vec3 mat3::get_r() const
+{
+	return vec4(v[0]);
+}
+
+vec3 mat3::get_u() const
+{
+	return vec4(v[1]);
+}
+
+vec3 mat3::get_f() const
+{
+	return vec4(v[2]);
+}
+
+void mat3::set_v(vec3 in, int rowIndex)
+{
+	v[rowIndex][0] = in.x;
+	v[rowIndex][1] = in.y;
+	v[rowIndex][3] = in.z;	
+}
+
+void mat3::set_r(vec4 in)
+{
+	set_v(in, 0);
+}
+
+void mat3::set_u(vec4 in)
+{
+	set_v(in, 1);
+}
+
+void mat3::set_f(vec4 in)
+{
+	set_v(in, 2);
+}
+
 mat3::mat3(f32 m[nDimJ][nDimI])
 {
     for (auto j = 0; j < nDimJ; ++j)
@@ -328,6 +383,15 @@ mat3 operator *(const mat3 &m0, const mat3 &m1)
 
 //------------------------------------------------------------------------------
 #pragma region mat4
+mat3 mat3::transpose() const
+{	
+	mat3 r;
+	for (auto j = 0; j < nDimJ; ++j)
+		for (auto i = 0; i < nDimI; ++i)
+			r.v[j][i] = v[i][j];
+	return r;
+}
+
 mat4::mat4(const mat3 &rhs)
 {
     for (auto j = 0; j < rhs.nDimJ; ++j)
@@ -355,6 +419,46 @@ mat4::mat4(TypeZero dummy)
         for (auto i = 0; i < nDimI; ++i)
             v[j][i] = 0.f;    
 }
+
+mat4::mat4(float const* inData)
+{
+	set_r(vec4(inData + 0));
+	set_u(vec4(inData + 4));
+	set_f(vec4(inData + 8));
+	set_t(vec4(inData + 12));	
+}
+
+vec4 mat4::get_r() const
+{	return vec4(v[0]);}
+
+vec4 mat4::get_u() const
+{	return vec4(v[1]);}
+
+vec4 mat4::get_f() const
+{	return vec4(v[2]);}
+
+vec4 mat4::get_t() const
+{	return vec4(v[3]);}
+
+void mat4::set_v(vec4 in, int rowIndex)
+{
+	v[rowIndex][0] = in.x;
+	v[rowIndex][1] = in.y;
+	v[rowIndex][3] = in.z;
+	v[rowIndex][4] = in.w;
+}
+
+void mat4::set_r(vec4 in)
+{	set_v(in, 0);}
+
+void mat4::set_u(vec4 in)
+{	set_v(in, 1);}
+
+void mat4::set_f(vec4 in)
+{	set_v(in, 2);}
+
+void mat4::set_t(vec4 in)
+{	set_v(in, 3);}
 
 mat4 mat4::transpose() const 
 {

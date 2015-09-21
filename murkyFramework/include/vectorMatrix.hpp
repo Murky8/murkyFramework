@@ -55,7 +55,8 @@ public:
     // constructors                
     vec3(){}
     vec3(float x, float y, float z);
-    vec3(float a);
+	vec3(float const* const pFloat);
+	vec3(float a);
     vec3(vec2 v);
     vec3(class vec4 v);
     vec3(TypeZero dummy);
@@ -84,6 +85,7 @@ public:
     vec4(){}	//remove when c++11 compat
     vec4(float x, float y, float z, float w =0.f);
     vec4(float a);    
+	vec4(float const * const pFloat);
     vec4(vec3);    
     vec4(TypeZero dummy);
     vec4(TypeUnit dummy);
@@ -129,7 +131,8 @@ public:
         vec3    get_r() const;
         vec3    get_u() const;
         vec3    get_f() const;
-        void    set_r(vec4);
+		void	set_v(vec3 in, int rowIndex);
+		void    set_r(vec4);
         void    set_u(vec4);
         void    set_f(vec4);     
         mat3    inverse() const;
@@ -154,15 +157,18 @@ public:
     mat4(f32 m[nDimJ][nDimI]);
     mat4(TypeUnit);
     mat4(TypeZero);
-    mat4(u8 const * const inData);
+    mat4(float const * const inData);
     // methods
     vec4    get_r() const;
     vec4    get_u() const;
     vec4    get_f() const;
-    void    set_r(vec4);
+	vec4    get_t() const;
+	void set_v(vec4 in, int index);
+	void    set_r(vec4);
     void    set_u(vec4);
-    void    set_f(vec4);
-    mat4    inverse() const;
+	void    set_f(vec4);
+	void    set_t(vec4);
+    //mat4    inverse() const;
     mat4    transpose() const;
 
     void    serialize(std::vector<u8> &outData) const;
