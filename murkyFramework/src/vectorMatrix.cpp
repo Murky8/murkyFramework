@@ -172,6 +172,8 @@ vec3 operator/=(vec3 &a, const float &d)
 
 #pragma endregion vec3
 
+#pragma region vec3p
+#pragma endregion vec3p
 //------------------------------------------------------------------------------
 #pragma region vec4
 // vec4
@@ -227,13 +229,22 @@ vec4 operator -=(vec4 &a, const vec4 &b)
     return(a = a - b);
 }
 
-vec4 operator *(const vec4 &a, const float &s)
+vec4 operator *(const vec4 &v, const float &s)
 {
     return{
-        a.x * s,
-        a.y * s,
-        a.z * s,
-        a.w * s };
+        v.x * s,
+        v.y * s,
+        v.z * s,
+        v.w * s };
+}
+
+vec4 operator*(const float& s, const vec4& v)
+{
+	return{
+		v.x * s,
+		v.y * s,
+		v.z * s,
+		v.w * s };
 }
 
 vec4 operator*=(vec4 &a, const float &m)
@@ -343,7 +354,7 @@ void mat3::set_v(vec3 in, int rowIndex)
 {
 	v[rowIndex][0] = in.x;
 	v[rowIndex][1] = in.y;
-	v[rowIndex][3] = in.z;	
+	v[rowIndex][2] = in.z;	
 }
 
 void mat3::set_r(vec4 in)
@@ -444,8 +455,8 @@ void mat4::set_v(vec4 in, int rowIndex)
 {
 	v[rowIndex][0] = in.x;
 	v[rowIndex][1] = in.y;
-	v[rowIndex][3] = in.z;
-	v[rowIndex][4] = in.w;
+	v[rowIndex][2] = in.z;
+	v[rowIndex][3] = in.w;
 }
 
 void mat4::set_r(vec4 in)
@@ -460,6 +471,15 @@ void mat4::set_f(vec4 in)
 void mat4::set_t(vec4 in)
 {	set_v(in, 3);}
 
+void mat4::set_ori(const mat3& rhs)
+{
+	for (auto j = 0; j < mat3::nDimJ; ++j)
+		for (auto i = 0; i < mat3::nDimI; ++i)
+		{
+			v[j][i] = rhs.v[j][i];
+		}
+}
+
 mat4 mat4::transpose() const 
 {
     mat4 r;
@@ -468,6 +488,60 @@ mat4 mat4::transpose() const
             r.v[j][i] = v[i][j];
     return r;
 }
+
+mat4 operator *(const mat4 &m0, const mat4 &m1)
+{
+	mat4 res;
+	for (int y = 0 ; y < mat4::nDimJ ; y++)
+		for (int x = 0 ; x < mat4::nDimI ; x++)
+		{
+			res.v[y][x] = m0.v[y][0]*m1.v[0][x] + m0.v[y][1]*m1.v[1][x] 
+				+ m0.v[y][2]*m1.v[2][x] + m0.v[y][3] * m1.v[3][x];
+		}
+	return res;
+}
+
+vec4 operator*(const vec4& v, const mat4& m)
+{
+	vec	t;
+	t.x = v.x*m.v[0][0] + v.y*m.v[1][0] + v.z*m.v[2][0] + v.z*m.v[3][0];
+	t.y = v.x*m.v[0][1] + v.y*m.v[1][1] + v.z*m.v[2][1] + v.z*m.v[3][1];
+	t.z = v.x*m.v[0][2] + v.y*m.v[1][2] + v.z*m.v[2][2] + v.z*m.v[3][2];
+	t.w = v.x*m.v[0][3] + v.y*m.v[1][3] + v.z*m.v[2][3] + v.z*m.v[3][3];
+	return t;
+}
+
+// v interpreted as column vector
+vec4 operator*(const mat4& m, const vec4& v)
+{
+	vec	t;
+	t.x = v.x*m.v[0][0] + v.y*m.v[0][1] + v.z*m.v[0][2] + v.z*m.v[0][3];
+	t.y = v.x*m.v[1][0] + v.y*m.v[1][1] + v.z*m.v[1][2] + v.z*m.v[1][3];
+	t.z = v.x*m.v[2][0] + v.y*m.v[2][1] + v.z*m.v[2][2] + v.z*m.v[2][3];
+	t.w = v.x*m.v[3][0] + v.y*m.v[3][1] + v.z*m.v[3][2] + v.z*m.v[3][3];
+	return t;
+}
+
+
+/*
+inline vec	operator *(const mat &m, const vec &v)
+{
+	vec	t;
+	t.x = v.x *m.m[0][0] + v.y *m.m[0][1] + v.z *m.m[0][2];
+	t.y = v.x *m.m[1][0] + v.y *m.m[1][1] + v.z *m.m[1][2];
+	t.z = v.x *m.m[2][0] + v.y *m.m[2][1] + v.z * m.m[2][2];
+	return t;
+}
+
+inline vec	operator *(const vec &v, const mat &m)
+{
+	vec	t;
+	t.x = v.x * m.m[0][0] + v.y * m.m[1][0] + v.z * m.m[2][0];
+	t.y = v.x * m.m[0][1] + v.y * m.m[1][1] + v.z * m.m[2][1];
+	t.z = v.x * m.m[0][2] + v.y * m.m[1][2] + v.z * m.m[2][2];
+	return t;
+}
+*/
 #pragma endregion mat4
 
 

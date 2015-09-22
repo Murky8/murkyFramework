@@ -128,7 +128,7 @@ namespace RenderHi
 		// draw onscreen stuff
 		
 		// teapot
-		if (1)
+		if (0)
 		{
 			glm::vec3 curs = glm::vec3(-state.cursorPos.x, -state.cursorPos.y, -state.cursorPos.z);
 			glm::mat4 Perspective = glm::perspective(1.8f, 1.f, 5.f, 500.f);
@@ -149,6 +149,14 @@ namespace RenderHi
 
 			GfxLowLevel::setUniform_projectionMatrix(&proj[0][0]);
 		}
+		else
+		{
+			mat4 cam = makeCameraMatrix(state.cursorPos, state.cursorOri);
+			mat4 persp = makeProjectionMatrix_perspective1(1.74f, 0.1f, 1000.f, 1.f);
+			mat4 proj = cam*persp;
+			GfxLowLevel::setUniform_projectionMatrix(&proj.v[0][0]);
+		}
+
 		// teapot
 
 			

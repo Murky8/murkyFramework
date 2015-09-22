@@ -71,6 +71,9 @@ namespace GfxLowLevel
     
     void setUniform_projectionMatrix(const float *pMat)
     {
+		// note: OGL, this accepts row-major, pre-multiplying of verts and post-multi in vertex shader.
+		// ie no need to transpose if post-multi (Mv) in vertex shader.
+
         glUseProgram(Shaders::posColText.getHandle());
         glUniformMatrix4fv(Shaders::uniformHandle_projectionMatrix, 1, false, pMat);		
         glUseProgram(0);

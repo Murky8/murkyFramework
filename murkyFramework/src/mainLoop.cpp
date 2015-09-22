@@ -26,7 +26,7 @@
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/state.hpp>
 #include <murkyFramework/include/maths.hpp>
-#include "../include/vectorMatrix_rotation.hpp"
+#include <murkyFramework/include/vectorMatrix_rotation.hpp>
 
 // called from windows loop in main.cpp
 void mainLoop_threadMain(InputDevices &inputDevices, State &state)
@@ -68,16 +68,16 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
         speed *= 10.f;
 
     if (inputDevices.keyStatus(InputDevices::KeyCode::d))
-        state.cursorPos += vec::right * speed;	
+        state.cursorPos += state.cursorOri.get_r() * speed;	
     
     if (inputDevices.keyStatus(InputDevices::KeyCode::a))
-        state.cursorPos -= vec::right * speed;
+        state.cursorPos -= state.cursorOri.get_r() * speed;
 
     if (inputDevices.keyStatus(InputDevices::KeyCode::w))
-        state.cursorPos += vec::forward * speed;
+        state.cursorPos += state.cursorOri.get_f() * speed;
 
     if (inputDevices.keyStatus(InputDevices::KeyCode::s))
-        state.cursorPos -= vec::forward * speed;
+        state.cursorPos -= state.cursorOri.get_f() * speed;
 
     if (inputDevices.keyStatus(InputDevices::KeyCode::e))
         state.cursorPos += vec::up * speed;
@@ -85,13 +85,17 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
     if (inputDevices.keyStatus(InputDevices::KeyCode::q))
         state.cursorPos -= vec::up * speed;
 	
-	//state.cursorPos += vec::right * 0.1f*(float)inputDevices.consumeAllMouseDx();
-	vec rv(zero);
-	
-	rv.y = 0.01f;
-	//rv.y	+= 0.01f*(float)inputDevices.consumeAllMouseDx();
+	// rotate l/r
+	vec rv(zero);	
+	rv.y	-= 0.001f*(float)inputDevices.consumeAllMouseDx();
 	mat3 rmat = makeRotationMatrix3c(rv);
 	state.cursorOri = state.cursorOri*rmat;
+	// rotate l/r
+
+	// rotate u/d
+	//vec rv2 = state.cursorOri.get_r()*0.001f*(float)inputDevices.consumeAllMouseDy();
+	// rotate u/d
+
 
 	debugLogScreen << rmat << L"\n";
 	//debugLogScreen << state.cursorOri << L"\n";

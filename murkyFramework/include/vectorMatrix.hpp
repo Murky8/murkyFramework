@@ -75,6 +75,19 @@ public:
 private:    
 };
 
+class vec3p
+{
+	static const auto nDim = 3;
+	// data
+	union
+	{
+		struct
+		{
+			float x, y, z, p; //p=padding
+		};
+		float s[nDim];
+	};
+};
 //------------------------------------------------------------------------------
 // Main vector class
 class vec4
@@ -163,11 +176,12 @@ public:
     vec4    get_u() const;
     vec4    get_f() const;
 	vec4    get_t() const;
-	void set_v(vec4 in, int index);
+	void	set_v(vec4 in, int index);
 	void    set_r(vec4);
     void    set_u(vec4);
 	void    set_f(vec4);
 	void    set_t(vec4);
+	void	set_ori(const mat3 &rhs);
     //mat4    inverse() const;
     mat4    transpose() const;
 
@@ -226,6 +240,7 @@ vec4 operator -(const vec4 &a, const vec4 &b);
 vec4 operator -=(vec4 &a, const vec4 &b);
 
 vec4 operator *(const vec4 &a, const float &m);
+vec4 operator *(const float &m, const vec4 &a);
 vec4 operator *=(vec4 &a, const vec4 &m);
 
 vec4 operator /(const vec4 &a, const float &d);
@@ -245,6 +260,6 @@ mat3 operator *(const mat3 &ma, const mat3 &mb);
 // mat4
 vec4 operator *(const mat4 &m, const vec4 &v);
 vec4 operator *(const vec4 &v, const mat4 &m);
-mat3 operator *(const mat4 &m, const float &s);
-mat3 operator *=(mat4 &m, const float &s);
-mat3 operator *(const mat4 &ma, const mat4 &mb);
+mat4 operator *(const mat4 &m, const float &s);
+mat4 operator *=(mat4 &m, const float &s);
+mat4 operator *(const mat4 &ma, const mat4 &mb);
