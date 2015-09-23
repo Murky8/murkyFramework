@@ -2,18 +2,11 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
 #include <windows.h>
 #include <vector>
-#include <codecvt>
 
-#include <murkyFramework/include/types.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/loadSaveFile.hpp>
-#include <murkyFramework/include/randomNumbers.hpp>
-#include <murkyFramework/include/system.hpp>
-#include <murkyFramework/include/fileUtils.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/appFramework.hpp>
 #include <murkyFramework/include/state.hpp>
@@ -25,7 +18,6 @@
 #include <murkyFramework/include/Render/render.hpp>
 #include <murkyFramework/include/Render/textRender.hpp>
 #define GLM_FORCE_RADIANS
-#include <external/glm/glm.hpp>
 #include "glm/gtc/matrix_transform.inl"
 #include "murkyFramework/include/Render/linesShapes.hpp"
 #include "murkyFramework/include/Render/projectionMat.hpp"
@@ -128,35 +120,11 @@ namespace Render
 		// draw onscreen stuff
 		
 		// teapot
-		if (0)
-		{
-			glm::vec3 curs = glm::vec3(-state.cursorPos.x, -state.cursorPos.y, -state.cursorPos.z);
-			glm::mat4 Perspective = glm::perspective(1.8f, 1.f, 5.f, 500.f);
-			glm::mat4 trans = glm::translate(glm::mat4(1.0f), curs);
-			glm::mat4 rot;
-			for (int i = 0;i < 3;++i)
-				for (int j = 0;j < 3;++j)
-					rot[j][i] = state.cursorOri.v[j][i];
-
-			/*	glm::mat4 rot = glm::lookAt(
-				curs,
-				curs + glm::vec3(0.f, 0.f, 1.0f),
-				glm::vec3(0.f, 1.0f, 0.f)
-				);*/
-
-			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-			glm::mat4 proj = Perspective*scale*trans*rot;
-
-			GfxDevice::setUniform_projectionMatrix(&proj[0][0]);
-		}
-		else
-		{
+	
 			mat4 cam = makeCameraMatrix(state.cursorPos, state.cursorOri);
-			mat4 persp = GfxDevice::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
+			mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
 			mat4 proj = cam*persp;
 			GfxDevice::setUniform_projectionMatrix(&proj.v[0][0]);
-		}
-
 		// teapot
 
 			

@@ -66,12 +66,7 @@ namespace GfxDevice
 
     void setStateToAppDefault()
     {
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LESS);
-                
-        //glEnable(GL_CULL_FACE);
-        //glFrontFace(GL_CW);
-        //glCullFace(GL_BACK);
+  
     }   
 
     void drawBegin()
