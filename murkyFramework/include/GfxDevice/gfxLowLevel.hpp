@@ -3,11 +3,11 @@
 // 2015 J. Coelho.
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
-#include <murkyFramework/include/types.hpp>
-
-namespace system2
+namespace GfxDevice 
 {
-    f64 readTimeSeconds();
-    f64 readTimeSecondsSinceAppStart();
-    u64 ticksCPUSinceAppStart();
+    void onGfxDeviceErrorTriggerBreakpoint();
+    void initialise();
+    void deinitialise();
+    void drawBegin();
+    void drawEnd();
 }

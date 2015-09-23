@@ -4,7 +4,7 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/inputDevices.hpp>
 #include <murkyFramework/include/stringHelpers.hpp>
-#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
+#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
 #include <iostream>
 #include <vector>
@@ -20,9 +20,9 @@
 #include <murkyFramework/include/loadSaveFile.hpp>
 #include <murkyFramework/include/inputDevices.hpp>
 #include <murkyFramework/include/system.hpp>
-#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
-#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
-#include <murkyFramework/include/gfxHighLevel/render.hpp>
+#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
+#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
+#include <murkyFramework/include/Render/render.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/state.hpp>
 #include <murkyFramework/include/maths.hpp>
@@ -111,7 +111,7 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
     //state.cursorOri 
 
 	//------------------------------------------------------------------------------
-    RenderHi::drawAll(state);  
+    Render::drawAll(state);  
     
     // unlimited frame rate
     if (Gapp.frameRateLimit == 0)

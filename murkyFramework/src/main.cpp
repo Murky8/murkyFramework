@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
+#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
 #include <iostream>
 
@@ -13,12 +13,12 @@
 #include <murkyFramework/include/types.hpp>
 #include <murkyFramework/include/loadSaveFile.hpp>
 #include <murkyFramework/include/inputDevices.hpp>
-#include <murkyFramework/include/gfxHighLevel/render.hpp>
+#include <murkyFramework/include/Render/render.hpp>
 #include <murkyFramework/include/state.hpp>
 #include <murkyFramework/include/readFBX.hpp>
 
 // forward declarations
-namespace RenderHi
+namespace Render
 {        
     void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd);
 }
@@ -109,7 +109,7 @@ void initialise_main()
         triggerBreakpoint(L"Init device failed");
 
 
-    RenderHi::initialise(hDC, hRC, hWnd);
+    Render::initialise(hDC, hRC, hWnd);
     bool res2 = loadFBX(L"data", L"tea", L"FBX");
 
     Gapp.initialised = true;
@@ -117,7 +117,7 @@ void initialise_main()
 
 void deinitialise_main()
 {
-    RenderHi::deinitialise();
+    Render::deinitialise();
 }
 
 int main()

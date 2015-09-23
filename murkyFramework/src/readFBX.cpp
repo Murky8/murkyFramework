@@ -7,7 +7,7 @@
 #include <murkyFramework/include/stringHelpers.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>   
 #include <murkyFramework/include/debugUtils.hpp>   
-#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>   
+#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>   
 #include <regex>
 //http://www.cheatography.com/davechild/cheat-sheets/regular-expressions/
 
