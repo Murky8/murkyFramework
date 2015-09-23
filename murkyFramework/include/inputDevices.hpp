@@ -15,15 +15,10 @@ public:
     // methods
 	InputDevices(HWND hWnd);
     static bool keyStatus(InputDevices::KeyCode iKey);
-    bool consumeSinglemouseDx(int &out);
-	int consumeAllMouseDx();    
-    void processWindowsMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-    
+    void	processWindowsMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	bool	consumeAllMouseDx(int& out);
+	bool	consumeAllMouseDy(int& out);
     // data
-	boost::circular_buffer<int> mouseDx{ 10 };
-	boost::circular_buffer<int> mouseDy{ 10 };
-	bool firstRun = true;
-	
     u32 mouseB0 = 0;
     u32 mouseB1 = 0;
     u32 mouseB2 = 0;
@@ -85,5 +80,13 @@ public:
     };
 
 private:
-   
+	// data
+	boost::circular_buffer<int> mouseDx{ 10 };
+	boost::circular_buffer<int> mouseDy{ 10 };
+	bool firstRun = true;
+
+	int		consumeSingleMouseMove(boost::circular_buffer<int> &buffer);
+    bool	consumeSingleMouseMove(int &out, boost::circular_buffer<int> &buffer);
+	bool	consumeAllMouseMove(int &out, boost::circular_buffer<int> &buffer);
+	int		consumeAllMouseMove(boost::circular_buffer<int>& buffer);
 };

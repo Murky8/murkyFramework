@@ -63,7 +63,7 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
     debugLogScreen << L"Framerate: " << aveFR << L"\n";    
     
 	//------------------------------------------------------------------------------
-    f32 speed = lastFrameDuration*10.f;
+    f32 speed = lastFrameDuration*50.f;
     if (inputDevices.keyStatus(InputDevices::KeyCode::shift))
         speed *= 10.f;
 
@@ -85,16 +85,25 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
     if (inputDevices.keyStatus(InputDevices::KeyCode::q))
         state.cursorPos -= vec::up * speed;
 	
-	// rotate l/r
+	// free look
 	vec rv(zero);	
-	rv.y	-= 0.001f*(float)inputDevices.consumeAllMouseDx();
+	int mx, my;
+	inputDevices.consumeAllMouseDx(mx);
+	inputDevices.consumeAllMouseDy(my);
+
+	// rotate l/r
+	rv.y	+= -0.001f*(float)mx;
 	mat3 rmat = makeRotationMatrix3c(rv);
 	state.cursorOri = state.cursorOri*rmat;
 	// rotate l/r
 
 	// rotate u/d
-	//vec rv2 = state.cursorOri.get_r()*0.001f*(float)inputDevices.consumeAllMouseDy();
+	rv = vec(zero);
+	rv = state.cursorOri.get_r()*-0.001f*(float)my;
+	rmat = makeRotationMatrix3c(rv);
+	state.cursorOri = state.cursorOri*rmat;
 	// rotate u/d
+	// free look
 
 
 	debugLogScreen << rmat << L"\n";

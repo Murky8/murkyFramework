@@ -12,63 +12,6 @@
 
 #ifdef _WINDOWS
 
-
-//          Copyright Florian Winter 2010 - 2010.
-// Distributed under the Boost Software License, Version 1.0.
-//    (See accompanying file LICENSE_1_0.txt or copy at
-//          http://www.boost.org/LICENSE_1_0.txt)
-
-
-
-
-/*
-namespace tk11 {
-	namespace detail {
-
-		Mouse::Mouse(HWND window_handle) {
-			// Create description of raw input device
-			ZeroMemory(&rid, sizeof(rid));
-			rid.usUsagePage = 0x01; // HID_USAGE_PAGE_GENERIC
-			rid.usUsage = 0x02; // HID_USAGE_GENERIC_MOUSE
-
-			if (window_handle != 0) {
-				// Only the given window receives raw input,
-				// and even if the window does not have the input focus.
-				rid.dwFlags = RIDEV_INPUTSINK;
-				rid.hwndTarget = window_handle;
-			}
-			else {
-				// The window which has the input focus receives raw input.
-				rid.dwFlags = 0;
-				rid.hwndTarget = 0;
-			}
-
-			// Register raw input device
-			if (TRUE != RegisterRawInputDevices(&rid, 1, sizeof(rid))) {
-				BOOST_THROW_EXCEPTION(Register_Raw_Input_Failed());
-			}
-		}
-
-		Mouse::~Mouse() {
-			// Unregister raw input device
-			rid.dwFlags = RIDEV_REMOVE;
-			RegisterRawInputDevices(&rid, 1, sizeof(rid));
-		}
-
-	}
-}
-*/
-
-//#ifndef HID_USAGE_PAGE_GENERIC
-//#define HID_USAGE_PAGE_GENERIC         ((USHORT) 0x01)
-//#endif
-//#ifndef HID_USAGE_GENERIC_MOUSE
-//#define HID_USAGE_GENERIC_MOUSE        ((USHORT) 0x02)
-//#endif
-//#ifndef HID_USAGE_PAGE_KEYBOARD      
-//#define HID_USAGE_PAGE_KEYBOARD       ((USHORT) 0x07)
-//#endif
-
 InputDevices::InputDevices(HWND hWnd)
 {
 	RAWINPUTDEVICE rid[2];
@@ -82,7 +25,6 @@ InputDevices::InputDevices(HWND hWnd)
 	rid[1].dwFlags = RIDEV_INPUTSINK;
 	rid[1].hwndTarget = hWnd;
 
-	//bool result = RegisterRawInputDevices(rid, 2, sizeof(RAWINPUTDEVICE));
 	bool result = RegisterRawInputDevices(rid, sizeof(rid)/sizeof(RAWINPUTDEVICE), sizeof(RAWINPUTDEVICE));
 
 	if (!result)
@@ -90,7 +32,6 @@ InputDevices::InputDevices(HWND hWnd)
 		triggerBreakpoint();
 		//EGSystemError("RegisterRawInputDevices Error: ", GetLastError());
 	}	
-
 }
 
 bool InputDevices::keyStatus(InputDevices::KeyCode iKey)
@@ -105,31 +46,14 @@ void InputDevices::processWindowsMessages(HWND hWnd, UINT uMsg, WPARAM wParam, L
 {	
     switch (uMsg)
     {    
- //   case WM_MOUSEMOVE:
-	//{
-	//	int newMouseX = (short)LOWORD(lParam);
-	//	int newMouseY = (short)HIWORD(lParam);
-	//	if (firstRun)
-	//	{ // if first frame, ignore input state as it is meaningless.
-	//		mouseX = newMouseX;
-	//		mouseY = newMouseY;
-	//	}
-
-	//	int dx = newMouseX - mouseX;
-	//	mouseDx.push_back(dx);
-	//	mouseX = newMouseX;
-
-	//	mouseDy = newMouseY - mouseY;
-	//	mouseY = newMouseY;
-	//	break;
-	//}
+ 
 	case WM_INPUT:
 	{
 		UINT dwSize;
 
 		GetRawInputData((HRAWINPUT)lParam, RID_INPUT, NULL, &dwSize,
 			sizeof(RAWINPUTHEADER));
-		LPBYTE lpb = new BYTE[dwSize];
+		LPBYTE lpb = new BYTE[dwSize]; // todo: no new here please!!!
 		if (lpb == NULL)
 		{
 			break;
@@ -205,26 +129,107 @@ void InputDevices::processWindowsMessages(HWND hWnd, UINT uMsg, WPARAM wParam, L
 		firstRun = false;
 }
 
-bool InputDevices::consumeSinglemouseDx(int &out)
-{
-	if (mouseDx.size() == 0)
+bool InputDevices::consumeSingleMouseMove(int &out, boost::circular_buffer<int> &buffer )
+{	
+	if (buffer.size() == 0)
+	{
+		out = 0;
 		return false;
+	}
 
-	out = mouseDx[0];
-	mouseDx.pop_front();
+	out = buffer[0];
+	buffer.pop_front();
 
 	return true;
 }
 
-int InputDevices::consumeAllMouseDx()
+int InputDevices::consumeSingleMouseMove(boost::circular_buffer<int> &buffer)
 {
-    int acc = 0;
-    while (mouseDx.size() != 0)
-    {
-        acc+= mouseDx[0];
-        mouseDx.pop_front();        
-    }
-    return acc;
+	int out;
+	consumeSingleMouseMove(out, buffer);
+	return out;
 }
 
+bool InputDevices::consumeAllMouseMove(int &out, boost::circular_buffer<int> &buffer)
+{	
+	if (buffer.size() == 0)
+	{
+		out = 0;
+		return false;
+	}
+
+	int acc = 0;
+    while (buffer.size() != 0)
+    {
+        acc+= buffer[0];
+        buffer.pop_front();        
+    }
+	out = acc;
+    return true;
+}
+
+int InputDevices::consumeAllMouseMove(boost::circular_buffer<int> &buffer)
+{
+	int out;
+	consumeAllMouseMove(out, buffer);
+	return out;
+}
+
+bool InputDevices::consumeAllMouseDx(int &out)
+{
+	return consumeAllMouseMove(out, mouseDx);
+}
+
+bool InputDevices::consumeAllMouseDy(int &out)
+{
+	return consumeAllMouseMove(out, mouseDy);
+}
+
+
+
+//          Copyright Florian Winter 2010 - 2010.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)
+
+
+
+
+/*
+namespace tk11 {
+namespace detail {
+
+Mouse::Mouse(HWND window_handle) {
+// Create description of raw input device
+ZeroMemory(&rid, sizeof(rid));
+rid.usUsagePage = 0x01; // HID_USAGE_PAGE_GENERIC
+rid.usUsage = 0x02; // HID_USAGE_GENERIC_MOUSE
+
+if (window_handle != 0) {
+// Only the given window receives raw input,
+// and even if the window does not have the input focus.
+rid.dwFlags = RIDEV_INPUTSINK;
+rid.hwndTarget = window_handle;
+}
+else {
+// The window which has the input focus receives raw input.
+rid.dwFlags = 0;
+rid.hwndTarget = 0;
+}
+
+// Register raw input device
+if (TRUE != RegisterRawInputDevices(&rid, 1, sizeof(rid))) {
+BOOST_THROW_EXCEPTION(Register_Raw_Input_Failed());
+}
+}
+
+Mouse::~Mouse() {
+// Unregister raw input device
+rid.dwFlags = RIDEV_REMOVE;
+RegisterRawInputDevices(&rid, 1, sizeof(rid));
+}
+
+}
+}
+*/
 #endif

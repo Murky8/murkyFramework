@@ -3,7 +3,6 @@
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
-
 #include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 
 #ifdef USE_DIRECT3D

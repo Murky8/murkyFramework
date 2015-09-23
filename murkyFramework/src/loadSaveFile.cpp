@@ -11,10 +11,6 @@
 #include <murkyFramework/include/loadSaveFile.hpp>
 #include <murkyFramework/include/debugUtils.hpp>   
 
-namespace
-{
-    //std::wstring basePathName;
-}
 
 //------------------------------------------------------------------------------
 // Returns false if file doesn't exist
@@ -37,6 +33,31 @@ int getFileSize(const wchar_t *const fileName)
         return -1;
 
     return findData.nFileSizeLow;    
+}
+
+//http://www.jose.it-berater.org/sysinfo/pages/getfiletime.htm
+long int getFileModTime(const wchar_t *const fileName)
+{
+	HANDLE	hFile;
+	WIN32_FIND_DATA	findData;
+
+	hFile = FindFirstFile(fileName, &findData);
+
+	if (hFile == INVALID_HANDLE_VALUE)
+		return -1;
+
+	FILETIME ftCreate, ftAccess, ftWrite;
+	SYSTEMTIME stUTC, stLocal;
+	DWORD dwRet;
+
+	if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
+		return -1;
+
+	// Convert the last-write time to local time.
+	FileTimeToSystemTime(&ftWrite, &stUTC);
+	SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+	triggerBreakpoint();
+	//GetFileTime();
 }
 
 namespace qdev

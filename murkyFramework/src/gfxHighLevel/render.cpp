@@ -27,8 +27,8 @@
 #define GLM_FORCE_RADIANS
 #include <external/glm/glm.hpp>
 #include "glm/gtc/matrix_transform.inl"
-#include "../../include/gfxHighLevel/linesShapes.hpp"
-#include "../../include/gfxHighLevel/projectionMat.hpp"
+#include "murkyFramework/include/gfxHighLevel/linesShapes.hpp"
+#include "murkyFramework/include/gfxHighLevel/projectionMat.hpp"
 
 namespace GfxLowLevel
 {
@@ -40,6 +40,7 @@ namespace GfxLowLevel
     bool        deinitialise_device();    
     void        initilise_textureSystem();
     void        deinitilise_textureSystem();
+	mat4		makeProjectionMatrix_perspective(float x, float x1, float x2, float x3);
 }
 
 extern std::vector<Vert_pct> gdeb_verts;
@@ -54,8 +55,7 @@ namespace RenderHi
     mat4	                            projectionMatrix;
     GfxLowLevel::TextureManager         *textureManager;
     // forward declarations
-    std::vector<Line_pct>               defaultLines;
-    
+    std::vector<Line_pct>               defaultLines;    
     
     void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd)
     {
@@ -152,7 +152,7 @@ namespace RenderHi
 		else
 		{
 			mat4 cam = makeCameraMatrix(state.cursorPos, state.cursorOri);
-			mat4 persp = makeProjectionMatrix_perspective1(1.74f, 0.1f, 1000.f, 1.f);
+			mat4 persp = GfxLowLevel::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
 			mat4 proj = cam*persp;
 			GfxLowLevel::setUniform_projectionMatrix(&proj.v[0][0]);
 		}
