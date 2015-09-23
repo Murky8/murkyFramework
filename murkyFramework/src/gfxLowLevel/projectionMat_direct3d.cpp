@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
-#ifdef USE_DIRECT3D
+#ifdef USE_DIRECT3D11
 
 #include <vector>
 
@@ -28,4 +28,4 @@ namespace GfxLowLevel
 		return m;
 	}
 }
-#endif //USE_DIRECT3D
+#endif //USE_DIRECT3D11

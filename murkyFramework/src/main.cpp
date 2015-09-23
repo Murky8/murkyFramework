@@ -5,27 +5,17 @@
 #include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 
 #include <iostream>
-#include <vector>
-#include <thread>
 
 #include <windows.h>
-#include <stdlib.h>
 
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/appFramework.hpp>
 #include <murkyFramework/include/types.hpp>
-#include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/loadSaveFile.hpp>
 #include <murkyFramework/include/inputDevices.hpp>
-#include <murkyFramework/include/system.hpp>
-#include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
-#include <murkyFramework/include/gfxLowLevel/gfxLowLevel.hpp>
 #include <murkyFramework/include/gfxHighLevel/render.hpp>
 #include <murkyFramework/include/state.hpp>
 #include <murkyFramework/include/readFBX.hpp>
-
-#include <d3d11_1.h>// temp
-#include <memory>
 
 // forward declarations
 namespace RenderHi
@@ -45,8 +35,6 @@ namespace
 
     u64         frameStartTime = 0;
     bool        wndProcCalled = false;
-
-
 }
 
 void skool();
@@ -64,7 +52,7 @@ void initialise_main()
     title += L"OpenGL 4  ";
 #endif
 
-#ifdef USE_DIRECT3D
+#ifdef USE_DIRECT3D11
     debugLog << L"Using D3d \n";
     title += L"D3d11  ";
 

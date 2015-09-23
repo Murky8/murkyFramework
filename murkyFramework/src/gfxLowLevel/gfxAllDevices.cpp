@@ -6,10 +6,10 @@
 
 // todo: move libs to solution folder
 
-#ifdef USE_DIRECT3D
+#ifdef USE_DIRECT3D11
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
-#endif // USE_DIRECT3D
+#endif // USE_DIRECT3D11
 
 #ifdef USE_OPENGL
 #pragma comment(lib,"OpenGL32.lib")

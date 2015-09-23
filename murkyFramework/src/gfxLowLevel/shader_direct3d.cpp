@@ -5,7 +5,7 @@
 #include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
 #include <murkyFramework/include/gfxLowLevel/gfxPrimativeTypes.hpp>
 
-#ifdef USE_DIRECT3D
+#ifdef USE_DIRECT3D11
 
 #include <vector>
 #include <windows.h>
@@ -201,5 +201,5 @@ namespace GfxLowLevel
         g_pPixelShader->Release();
     }
 }
-#endif // USE_DIRECT3D
+#endif // USE_DIRECT3D11
 

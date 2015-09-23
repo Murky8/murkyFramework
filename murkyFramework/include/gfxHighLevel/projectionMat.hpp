@@ -8,8 +8,7 @@
 
 namespace RenderHi
 {    
-	mat4 makeCameraMatrix(vec pos, mat3 ori);
-	mat4 makeProjectionMatrix_perspective_ogl(f32 fovYRads, f32 zNear, f32 zFar, f32 aspectRatio);
-	mat4 makeProjectionMatrix_perspective_d3d(f32 fovYRads, f32 zNear, f32 zFar, f32 aspectRatio);
-	mat4 makeProjectionMatrix_ortho(f32 left, f32 right, f32 bottom, f32 top, f32 zNear = -1.f, f32 zFar = 1.f);    
+	mat4	makeCameraMatrix(vec pos, mat3 ori);	
+	mat4	makeProjectionMatrix_ortho(f32 left, f32 right, f32 bottom, f32 top, f32 zNear = -1.f, f32 zFar = 1.f);    
+	mat4	makeProjectionMatrix_perspective(float x, float x1, float x2, float x3);
 }

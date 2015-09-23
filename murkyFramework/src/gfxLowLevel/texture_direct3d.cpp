@@ -3,7 +3,7 @@
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
-#ifdef USE_DIRECT3D
+#ifdef USE_DIRECT3D11
 
 #include <windows.h>
 #include <d3d11_1.h>
@@ -178,4 +178,4 @@ namespace GfxLowLevel
 
     
 }
-#endif // USE_DIRECT3D
+#endif // USE_DIRECT3D11

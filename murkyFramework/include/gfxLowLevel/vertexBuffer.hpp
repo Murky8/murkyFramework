@@ -36,9 +36,9 @@ namespace GfxLowLevel
     private:
       
 
-#ifdef USE_DIRECT3D
+#ifdef USE_DIRECT3D11
            
-#endif // USE_DIRECT3D
+#endif // USE_DIRECT3D11
 #ifdef USE_OPENGL
            //u32 vao;
            //u32 vbo;        
