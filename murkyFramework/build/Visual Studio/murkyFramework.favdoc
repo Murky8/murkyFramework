@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<Favorites xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <folders>
+    <Folder>
+      <name>qfav</name>
+      <favorites>
+        <Favorite>
+          <name>shader_direct3d.cpp</name>
+          <absolutePath>Z:\dev\murkyFramework\src\gfxLowLevel\shader_direct3d.cpp</absolutePath>
+        </Favorite>
+        <Favorite>
+          <name>texture_direct3d.cpp</name>
+          <absolutePath>Z:\dev\murkyFramework\src\gfxLowLevel\texture_direct3d.cpp</absolutePath>
+        </Favorite>
+        <Favorite>
+          <name>posColTex.vs</name>
+          <absolutePath>Z:\dev\murkyFramework\src\shaders\posColTex.vs</absolutePath>
+        </Favorite>
+        <Favorite>
+          <name>gfxLowLevel_direct3d.cpp</name>
+          <absolutePath>Z:\dev\murkyFramework\src\gfxLowLevel\gfxLowLevel_direct3d.cpp</absolutePath>
+        </Favorite>
+        <Favorite>
+          <name>initDevice_direct3d.cpp</name>
+          <absolutePath>Z:\dev\murkyFramework\src\gfxLowLevel\initDevice_direct3d.cpp</absolutePath>
+        </Favorite>
+        <Favorite>
+          <name>version.hpp</name>
+          <absolutePath>Z:\dev\murkyFramework\include\version.hpp</absolutePath>
+        </Favorite>
+        <Favorite>
+          <name>render.cpp</name>
+          <absolutePath>Z:\dev\murkyFramework\src\gfxHighLevel\render.cpp</absolutePath>
+        </Favorite>
+        <Favorite>
+          <name>shead.cpp</name>
+          <absolutePath>Z:\dev\murkyFramework\src\shead.cpp</absolutePath>
+        </Favorite>
+      </favorites>
+    </Folder>
+  </folders>
+  <favorites />
+</Favorites>
