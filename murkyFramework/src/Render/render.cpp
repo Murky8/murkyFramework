@@ -28,7 +28,8 @@ namespace GfxDevice
     TextureId   createTextureObjectFromFile(const std::wstring &dirName,
     const       std::wstring &fileName, const std::wstring &extensionName);
     TextureId   createTestTextureObject();
-    bool        initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);    
+	bool        initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);
+	bool        initialise_device24(HDC &hDC, HGLRC &hRC, HWND &hWnd);
     bool        deinitialise_device();    
     void        initilise_textureSystem();
     void        deinitilise_textureSystem();
@@ -52,7 +53,13 @@ namespace Render
     void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd)
     {
         debugLog << L"RenderHi::initialise" << "\n";
-        GfxDevice::initialise_device(hDC, hRC, hWnd);
+		
+		//GfxDevice::initialise_device(hDC, hRC, hWnd);
+		GfxDevice::initialise_device24(hDC, hRC, hWnd);
+
+		exit(0);
+
+
         GfxDevice::Shaders::initialise();
         GfxDevice::initilise_textureSystem();
         textureManager = new GfxDevice::TextureManager();

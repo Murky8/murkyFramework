@@ -11,7 +11,6 @@
 class AppFramework
 {
 public:
- 
     void    initOnce();
  
     // Data

@@ -44,14 +44,14 @@ namespace GfxDevice
     extern  ID3D11RasterizerState *g_pRasterState;
     extern  ID3D11Buffer*           g_pCBChangesEveryFrame;
  
-    bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd)
+    bool initialise_device(HDC &in_hDC, HGLRC &in_hRC, HWND &in_hWnd)
     {
         //-------------------------------------------------------------------------------------- 
         // Create Direct3D device and swap chain 
         //--------------------------------------------------------------------------------------         
-            GfxDevice::hDC = hDC;//hDC = GetDC(hWnd); // Get the device context for our window
-            GfxDevice::hRC = hRC;
-            GfxDevice::hWnd = hWnd;
+            GfxDevice::hDC	= in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
+            GfxDevice::hRC	= in_hRC;
+            GfxDevice::hWnd	= in_hWnd;
 
             RECT rc;
             GetClientRect(hWnd, &rc);

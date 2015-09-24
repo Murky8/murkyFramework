@@ -54,9 +54,13 @@ void initialise_main()
 #endif
 
 #ifdef USE_DIRECT3D11
-    debugLog << L"Using D3d \n";
+    debugLog << L"Using D3d11 \n";
     title += L"D3d11  ";
+#endif
 
+#ifdef USE_DIRECT3D12
+	debugLog << L"Using D3d12 \n";
+	title += L"D3d12  ";
 #endif
 
 #ifdef ENVIRONMENT32
@@ -86,6 +90,7 @@ void initialise_main()
 
     qdev::setCurrentDirectoryToAppRoot();
 
+	// create window. nothing device specific here.
     {
         HWND    desktop = GetDesktopWindow();
         RECT    screenDims;
@@ -101,22 +106,20 @@ void initialise_main()
             Gapp.screenResX = 800;
             Gapp.screenResY = 800;
         }
+
+		auto res = createWindow(title.c_str(), Gapp.screenResX, Gapp.screenResY);    
+		if (!res)
+	        triggerBreakpoint(L"Init device failed");
     }
-
-    auto res = createWindow(title.c_str(), Gapp.screenResX, Gapp.screenResY);
-        
-
-    if (!res)
-        triggerBreakpoint(L"Init device failed");
-
 
     Render::initialise(hDC, hRC, hWnd);
 
 	f64 t = system2::readTimeSecondsSinceAppStart();
     
-	bool res2 = loadFBX(L"data", L"tea", L"FBX");
-	
+	//  move this!!!!
+	bool res2 = loadFBX(L"data", L"tea", L"FBX");	
 	debugLog << L"fbx time " << system2::readTimeSecondsSinceAppStart()-t;
+	//  move this!!!!
 
     Gapp.initialised = true;
 }

@@ -20,11 +20,11 @@ namespace GfxDevice
     extern  HGLRC   hRC;
     extern  HWND    hWnd;
     
-    bool initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd)         
+	bool initialise_device(HDC &in_hDC, HGLRC &in_hRC, HWND &in_hWnd)
     {
-            GfxDevice::hDC = hDC;//hDC = GetDC(hWnd); // Get the device context for our window
-            GfxDevice::hRC = hRC;
-            GfxDevice::hWnd = hWnd;
+            GfxDevice::hDC	= in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
+            GfxDevice::hRC	= in_hRC;
+            GfxDevice::hWnd	= in_hWnd;
 
             PIXELFORMATDESCRIPTOR pfd; // Create a new PIXELFORMATDESCRIPTOR (PFD)
             memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR)); // Clear our  PFD
