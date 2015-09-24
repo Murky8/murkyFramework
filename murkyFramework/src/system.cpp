@@ -69,7 +69,7 @@ namespace system2
 
     f64 readTimeSecondsSinceAppStart()
     {
-        return (readTimeSeconds() - appStartTime);
+		return (readTimeSeconds() - appStartTime);
     }
 
     #include <stdint.h>

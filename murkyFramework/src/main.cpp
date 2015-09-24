@@ -16,6 +16,7 @@
 #include <murkyFramework/include/Render/render.hpp>
 #include <murkyFramework/include/state.hpp>
 #include <murkyFramework/include/readFBX.hpp>
+#include <murkyFramework/include/system.hpp>
 
 // forward declarations
 namespace Render
@@ -110,7 +111,12 @@ void initialise_main()
 
 
     Render::initialise(hDC, hRC, hWnd);
-    bool res2 = loadFBX(L"data", L"tea", L"FBX");
+
+	f64 t = system2::readTimeSecondsSinceAppStart();
+    
+	bool res2 = loadFBX(L"data", L"tea", L"FBX");
+	
+	debugLog << L"fbx time " << system2::readTimeSecondsSinceAppStart()-t;
 
     Gapp.initialised = true;
 }

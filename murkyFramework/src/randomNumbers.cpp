@@ -19,16 +19,16 @@ namespace qmaths
         return randFloat_0_to_1()*2.0f - 1.0f;
     }
     
-    float *const rand3Floats_m1_to_1()
-    { 
-        triggerBreakpoint();// test
-        float fl[3];
-        
-        for_0_to(i, 2)
-        {
-            fl[i] = randFloat_m1_to_1();
-        }
-        return  fl;
-    }
+    //float *const rand3Floats_m1_to_1()
+    //{ 
+    //    triggerBreakpoint();// test
+    //    float fl[3];
+    //    
+    //    for_0_to(i, 2)
+    //    {
+    //        fl[i] = randFloat_m1_to_1();
+    //    }
+    //    return  fl;
+    //}
 }
 
