@@ -38,12 +38,15 @@ namespace
     bool        wndProcCalled = false;
 }
 
+extern AppFramework *Gapp;
 void skool();
 //int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE	hPrevInstance, LPSTR lpCmdLine,int nCmdShow)			// Window Show State
 
 
 void initialise_main()
 { 
+	Gapp = new AppFramework();
+
     std::wstring title{ L"Murky " };
 
     wchar_t wcstring[] = L"Murky8\n";
@@ -96,9 +99,9 @@ void initialise_main()
         RECT    screenDims;
         GetWindowRect(desktop, &screenDims);
 
-        if (Gapp.fullScreen)
+        if (Gapp->fullScreen)
         {
-            Gapp.screenResX = screenDims.right;
+            Gapp->screenResX = screenDims.right;
             Gapp.screenResY = screenDims.bottom;
         }
         else
@@ -270,7 +273,7 @@ return FALSE;
 
 bool createWindow(LPCWSTR title, int width, int height)
 {
-    WNDCLASS windowClass;
+    WNDCLASS windowClass {0};
     DWORD dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_BORDER | WS_MINIMIZEBOX | WS_VISIBLE;
     DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
 
@@ -290,7 +293,6 @@ bool createWindow(LPCWSTR title, int width, int height)
     if (!RegisterClass(&windowClass))
     {
         triggerBreakpoint(L"Init device failed");
-
         return false;
     }
 

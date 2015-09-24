@@ -32,4 +32,4 @@ private:
 };
 
 
-extern AppFramework Gapp;
+extern AppFramework *Gapp;

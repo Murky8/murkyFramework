@@ -6,7 +6,7 @@
 
 #include <murkyFramework/include/appFramework.hpp>
 
-AppFramework Gapp;
+//AppFramework Gapp;
 
 
 //void AppFramework::resume()
