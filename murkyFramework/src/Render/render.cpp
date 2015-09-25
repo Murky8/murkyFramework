@@ -5,7 +5,7 @@
 
 #include <windows.h>
 #include <vector>
-
+#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/appFramework.hpp>
@@ -53,12 +53,13 @@ namespace Render
     void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd)
     {
         debugLog << L"RenderHi::initialise" << "\n";
-		
-		//GfxDevice::initialise_device(hDC, hRC, hWnd);
+				
+#ifdef USE_DIRECT3D12
 		GfxDevice::initialise_device24(hDC, hRC, hWnd);
-
 		exit(0);
-
+#else
+		GfxDevice::initialise_device(hDC, hRC, hWnd);
+#endif
 
         GfxDevice::Shaders::initialise();
         GfxDevice::initilise_textureSystem();

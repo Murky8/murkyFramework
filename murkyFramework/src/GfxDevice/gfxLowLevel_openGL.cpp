@@ -71,7 +71,7 @@ namespace GfxDevice
 
     void drawBegin()
     {
-        glViewport(0, 0, Gapp.screenResX, Gapp.screenResY);
+        glViewport(0, 0, Gapp->screenResX, Gapp->screenResY);
 
         glClearColor(0.4f, 0.6f, 0.9f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

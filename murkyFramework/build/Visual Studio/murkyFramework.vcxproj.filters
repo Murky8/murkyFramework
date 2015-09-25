@@ -43,58 +43,25 @@
     <Filter Include="Source Files\GfxDevice\direct3D12\shaders">
       <UniqueIdentifier>{5d2e00bc-ce9e-4bed-8893-78c0830295bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\include">
+      <UniqueIdentifier>{66ea1701-69d7-450e-ac64-c2192e53a518}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src">
+      <UniqueIdentifier>{8629ba91-ea98-4da6-9d9e-004c95d107e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GfxDevice\d3d12">
+      <UniqueIdentifier>{1d44e1a8-b882-4e12-b540-9740623bf48f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GfxDevice\d3d11">
+      <UniqueIdentifier>{01c79804-1902-430a-a299-75ab4758367c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GfxDevice\openGL">
+      <UniqueIdentifier>{af5ae917-1896-4b50-a7f9-054b567d1ce6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\common.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\debugUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\inputDevices.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\loadSaveFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\randomNumbers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\system.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\vectorMatrix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\appFramework.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\fileUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\external\lodepng.cpp">
       <Filter>external</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\school.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\mainLoop.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\stringHelpers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\maths.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\readFBX.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\vectorMatrix_transform.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\vertexBuffer_direct3d.cpp">
       <Filter>Source Files\GfxDevice\direct3D11</Filter>
@@ -159,61 +126,70 @@
     <ClCompile Include="..\..\src\GfxDevice\initDevice_direct3d12.cpp">
       <Filter>Source Files\GfxDevice\direct3D12</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\vertexBuffer_direct3d12.cpp">
+      <Filter>Source Files\GfxDevice\direct3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\texture_direct3d12.cpp">
+      <Filter>Source Files\GfxDevice\direct3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\shader_direct3d12.cpp">
+      <Filter>Source Files\GfxDevice\direct3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\gfxLowLevel_direct3d12.cpp">
+      <Filter>Source Files\GfxDevice\direct3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\appFramework.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\common.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\debugUtils.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\fileUtils.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\inputDevices.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\loadSaveFile.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\main.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\mainLoop.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\maths.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\randomNumbers.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\readFBX.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\school.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\stringHelpers.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\system.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\vectorMatrix.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\vectorMatrix_transform.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\appFramework.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\common.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\debugUtils.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\inputDevices.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\loadSaveFile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\randomNumbers.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\stringHelpers.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\system.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\vectorMatrix.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\fileUtils.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\types.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\external\lodepng.h">
       <Filter>external</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\version.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\state.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\maths.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\readFBX.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\hidusage.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\vectorMatrix_rotation.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\GfxDevice\gfxLowLevel.hpp">
       <Filter>Header Files\GfxDevice</Filter>
@@ -247,6 +223,69 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Render\textRender.hpp">
       <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\appFramework.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\common.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\debugUtils.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\fileUtils.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\inputDevices.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\loadSaveFile.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\maths.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\randomNumbers.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\readFBX.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\state.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\stringHelpers.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\system.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\types.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vectorMatrix.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vectorMatrix_rotation.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\version.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\hidusage.h">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GfxDevice\d3d12\gfxLowLevel_d3d12.hpp">
+      <Filter>Header Files\GfxDevice\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GfxDevice\d3d12\shaders_d3d12.hpp">
+      <Filter>Header Files\GfxDevice\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GfxDevice\d3d12\texture_d3d12.hpp">
+      <Filter>Header Files\GfxDevice\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GfxDevice\d3d12\vertexBuffer_d3d12.hpp">
+      <Filter>Header Files\GfxDevice\d3d12</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
