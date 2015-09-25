@@ -6,6 +6,7 @@
 #ifdef USE_DIRECT3D12
 
 #include <windows.h>
+#include <external/d3d12/d3dx12.h>
 #include <d3d12.h>
 #include <dxgi1_4.h>
 //#include "d3dx12.h"
@@ -23,6 +24,8 @@
 
 #include <string>
 #include <wrl.h>
+#include <combaseapi.h>
+#include <murkyFramework/include/appFramework.hpp>
 
 //using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -30,18 +33,71 @@ using namespace Microsoft::WRL;
 namespace GfxDevice
 {        
     // forward declarations    
-    extern  HDC     hDC;
-    extern  HGLRC   hRC;
-    extern  HWND    hWnd;
-
+    extern  HDC			hDC;
+    extern  HGLRC		hRC;
+    extern  HWND		hWnd;
     extern  HINSTANCE	g_hInst;
-    
+
+	// Pipeline objects.
+	D3D12_VIEWPORT m_viewport;
+	D3D12_RECT m_scissorRect;
+	ComPtr<IDXGISwapChain3> m_swapChain;
+	ComPtr<ID3D12Device> m_device;
+	static const UINT FrameCount = 2;
+	ComPtr<ID3D12Resource> m_renderTargets[FrameCount];
+	ComPtr<ID3D12CommandAllocator> m_commandAllocator;
+	ComPtr<ID3D12CommandQueue> m_commandQueue;
+	ComPtr<ID3D12RootSignature> m_rootSignature;
+	ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
+	ComPtr<ID3D12PipelineState> m_pipelineState;
+	ComPtr<ID3D12GraphicsCommandList> m_commandList;
+	UINT m_rtvDescriptorSize;
+	// Pipeline objects.
+
+	// App resources.
+	ComPtr<ID3D12Resource> m_vertexBuffer;
+	D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView;
+
+	// Synchronization objects.
+	UINT m_frameIndex;
+	HANDLE m_fenceEvent;
+	ComPtr<ID3D12Fence> m_fence;
+	UINT64 m_fenceValue;
+
 	inline void ThrowIfFailed(HRESULT hr)
 	{
 		if (FAILED(hr))
 		{
 			throw;
 		}
+	}
+
+	void GetHardwareAdapter(_In_ IDXGIFactory4* pFactory, _Outptr_result_maybenull_ IDXGIAdapter1** ppAdapter)
+	{
+		IDXGIAdapter1* pAdapter = nullptr;
+		*ppAdapter = nullptr;
+
+		for (UINT adapterIndex = 0; DXGI_ERROR_NOT_FOUND != pFactory->EnumAdapters1(adapterIndex, &pAdapter); ++adapterIndex)
+		{
+			DXGI_ADAPTER_DESC1 desc;
+			pAdapter->GetDesc1(&desc);
+
+			if (desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE)
+			{
+				// Don't select the Basic Render Driver adapter.
+				// If you want a software adapter, pass in "/warp" on the command line.
+				continue;
+			}
+
+			// Check to see if the adapter supports Direct3D 12, but don't create the
+			// actual device yet.
+			if (SUCCEEDED(D3D12CreateDevice(pAdapter, D3D_FEATURE_LEVEL_11_0, _uuidof(ID3D12Device), nullptr)))
+			{
+				break;
+			}
+		}
+
+		*ppAdapter = pAdapter;
 	}
 
 	_Check_return_
@@ -67,8 +123,7 @@ namespace GfxDevice
 			ComPtr<IDXGIFactory4> factory;			
 			ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&factory)));
 
-			/*
-			if (m_useWarpDevice)
+			if (/*m_useWarpDevice*/ true)
 			{
 				ComPtr<IDXGIAdapter> warpAdapter;
 				ThrowIfFailed(factory->EnumWarpAdapter(IID_PPV_ARGS(&warpAdapter)));
@@ -101,12 +156,12 @@ namespace GfxDevice
 			// Describe and create the swap chain.
 			DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
 			swapChainDesc.BufferCount = FrameCount;
-			swapChainDesc.BufferDesc.Width = m_width;
-			swapChainDesc.BufferDesc.Height = m_height;
+			swapChainDesc.BufferDesc.Width = /*m_width*/ Gapp->screenResX;
+			swapChainDesc.BufferDesc.Height = /*m_height*/ Gapp->screenResY;
 			swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 			swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 			swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
-			swapChainDesc.OutputWindow = m_hwnd;
+			swapChainDesc.OutputWindow = /*m_hwnd*/ hWnd;
 			swapChainDesc.SampleDesc.Count = 1;
 			swapChainDesc.Windowed = TRUE;
 
@@ -120,7 +175,7 @@ namespace GfxDevice
 			ThrowIfFailed(swapChain.As(&m_swapChain));
 
 			// This sample does not support fullscreen transitions.
-			ThrowIfFailed(factory->MakeWindowAssociation(m_hwnd, DXGI_MWA_NO_ALT_ENTER));
+			ThrowIfFailed(factory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER));
 
 			m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
 
@@ -150,7 +205,8 @@ namespace GfxDevice
 			}
 
 			ThrowIfFailed(m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&m_commandAllocator)));
-			*/
+			
+			debugLog << L"finished success" << L"\n";
 			return true;
     }
 

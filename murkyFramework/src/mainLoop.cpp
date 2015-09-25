@@ -35,11 +35,11 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
     static f64 lastFrameClock = 0;
     f64 currentFrameClock = system2::readTimeSecondsSinceAppStart();
 
-    f64 lastFrameDuration = currentFrameClock - lastFrameClock;
+    f32 lastFrameDuration = static_cast<f32>(currentFrameClock - lastFrameClock);
     //debugLog << L"d: " << (f32)lastFrameDuration << L"\n";
     lastFrameClock = currentFrameClock;
     
-    Gapp.frameRate = 1.0 / lastFrameDuration;
+    Gapp->frameRate = static_cast<f32>(1.0/lastFrameDuration);
 
     static f32 aveFR = 0.f;
     { // ave frame rate
@@ -52,9 +52,8 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
         nAcc++;
         if (aveFRTimer < 0)
         {
-            aveFRTimer += 0.3f;
-            
-            aveFR = nAcc / (f32)acc;
+            aveFRTimer += 0.3f;           
+            aveFR = nAcc/acc;
             nAcc = 0;
             acc = 0.f;
         }
@@ -114,16 +113,16 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
     Render::drawAll(state);  
     
     // unlimited frame rate
-    if (Gapp.frameRateLimit == 0)
+    if (Gapp->frameRateLimit == 0)
     {
     }
     else
     { // limit frame rate
-        f64 frameTimeMax = 1.0 / Gapp.frameRateLimit;
+        f32 frameTimeMax = 1.0f / Gapp->frameRateLimit;
         if (lastFrameDuration < frameTimeMax)
-           Sleep((float)(frameTimeMax - lastFrameDuration)*1000.f);        
+           Sleep(static_cast<int>((frameTimeMax - lastFrameDuration)*1000.f));        
     }
-    Gapp.frameCounter++;      
+    Gapp->frameCounter++;      
 }
 
 void mainLoop_threadSecond(InputDevices &inputDevices, State &state)

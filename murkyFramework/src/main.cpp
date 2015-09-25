@@ -37,11 +37,9 @@ namespace
     u64         frameStartTime = 0;
     bool        wndProcCalled = false;
 }
+AppFramework *Gapp;
 
-extern AppFramework *Gapp;
 void skool();
-//int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE	hPrevInstance, LPSTR lpCmdLine,int nCmdShow)			// Window Show State
-
 
 void initialise_main()
 { 
@@ -80,17 +78,6 @@ void initialise_main()
     debugLog << L"Windows\n";
 #endif
 
-    /*
-    #ifdef __INTEL_COMPILER
-    debugLog << L"Compiled with Intel " << (int)__INTEL_COMPILER << L"\n";
-    #else
-    #ifdef _MSC_VER
-    debugLog << L"Compiled with MS C++ " << (int)_MSC_VER<< L"\n";
-    #endif
-    #endif
-    //__clang__
-    */
-
     qdev::setCurrentDirectoryToAppRoot();
 
 	// create window. nothing device specific here.
@@ -102,15 +89,15 @@ void initialise_main()
         if (Gapp->fullScreen)
         {
             Gapp->screenResX = screenDims.right;
-            Gapp.screenResY = screenDims.bottom;
+            Gapp->screenResY = screenDims.bottom;
         }
         else
         {
-            Gapp.screenResX = 800;
-            Gapp.screenResY = 800;
+            Gapp->screenResX = 800;
+            Gapp->screenResY = 800;
         }
 
-		auto res = createWindow(title.c_str(), Gapp.screenResX, Gapp.screenResY);    
+		auto res = createWindow(title.c_str(), Gapp->screenResX, Gapp->screenResY);    
 		if (!res)
 	        triggerBreakpoint(L"Init device failed");
     }
@@ -124,7 +111,7 @@ void initialise_main()
 	debugLog << L"fbx time " << system2::readTimeSecondsSinceAppStart()-t;
 	//  move this!!!!
 
-    Gapp.initialised = true;
+    Gapp->initialised = true;
 }
 
 void deinitialise_main()
@@ -141,18 +128,16 @@ int main()
         
     InputDevices *pInputDevices(new InputDevices(hWnd));
     State state;
-
     
     ::SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pInputDevices);
     
-
-    while (!Gapp.exitWholeApp)
+    while (!Gapp->exitWholeApp)
     {
         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {	// Is There A Message Waiting?        
             if (msg.message == WM_QUIT)
             {				// Have We Received A Quit Message?
-                Gapp.exitWholeApp = TRUE;							// If So done=TRUE
+                Gapp->exitWholeApp = TRUE;							// If So done=TRUE
             }
             else
             {
@@ -162,7 +147,7 @@ int main()
         }
         else
         {										// If There Are No Messages        
-            if (Gapp.gfxInitialised == false)
+            if (Gapp->gfxInitialised == false)
                 triggerBreakpoint();
 
             mainLoop_threadMain(*pInputDevices, state);
@@ -170,12 +155,7 @@ int main()
         }
     }
 
-    deinitialise_main();
-
-    //wglMakeCurrent(hDC, 0); // Remove the rendering context from our device context
-    //wglDeleteContext(hRC); // Delete our rendering context
-    //ReleaseDC(hWnd, hDC); // Release the device context from our window
-
+    deinitialise_main();    
     delete pInputDevices;
     debugLog << L"Finished\n";
 }
@@ -195,12 +175,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         switch (wParam)
         {
         case VK_ESCAPE:
-            Gapp.exitWholeApp = true;
+            Gapp->exitWholeApp = true;
         }
     }
 
     // note: WndProc can recieve messages while initialising
-    if (Gapp.initialised)
+    if (Gapp->initialised)
     {    
         static InputDevices *pInputDevices = (InputDevices*)::GetWindowLongPtr(hWnd, GWLP_USERDATA);
         pInputDevices->processWindowsMessages(hWnd, message, wParam, lParam);

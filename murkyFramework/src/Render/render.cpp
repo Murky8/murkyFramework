@@ -90,7 +90,7 @@ namespace Render
         //textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
         textRenderer = new TextRender(std::move(newt));
 
-        Gapp.gfxInitialised = true;
+        Gapp->gfxInitialised = true;
     }
 
     void deinitialise()
