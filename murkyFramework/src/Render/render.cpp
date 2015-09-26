@@ -56,7 +56,9 @@ namespace Render
 				
 #ifdef USE_DIRECT3D12
 		GfxDevice::initialise_device24(hDC, hRC, hWnd);
-		exit(0);
+		Gapp->gfxInitialised = true;
+		return;
+		//exit(0);
 #else
 		GfxDevice::initialise_device(hDC, hRC, hWnd);
 #endif
@@ -117,6 +119,7 @@ namespace Render
     void drawAll(State &state)
     {                
         GfxDevice::drawBegin();        
+#ifndef USE_DIRECT3D12
         defaultLines.clear();
         debugLogScreen << state.cursorPos << L"\n";
 
@@ -182,6 +185,7 @@ namespace Render
         //defaultLineVB->draw(gdeb_tris.data(), gdeb_tris.size());
 
         GfxDevice::drawEnd();
+#endif
     }
 
     void addQuad_pct(std::vector<Triangle_pct> &tris, const Vert_pct v[4])

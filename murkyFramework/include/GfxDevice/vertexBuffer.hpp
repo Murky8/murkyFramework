@@ -22,7 +22,7 @@ namespace GfxDevice
             u32 nVerts );
         ~VertexBufferDynamic();
         // Methods		
-        void	draw(void *data, int nPrimatives);
+        void	draw(void *data, u32 nPrimatives);
 
         s32 getCapacityBytes() const;
         // Data

@@ -95,7 +95,7 @@ namespace GfxDevice
         return s;
     }
 
-    void	VertexBufferDynamic::draw( void *vertexData, int nPrimatives )
+    void	VertexBufferDynamic::draw( void *vertexData, u32 nPrimatives )
     {        
         if (nPrimatives >= capacity)
             triggerBreakpoint();

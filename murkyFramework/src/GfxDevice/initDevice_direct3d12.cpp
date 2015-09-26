@@ -5,29 +5,26 @@
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_DIRECT3D12
 
+#include <string>
 #include <windows.h>
-#include <external/d3d12/d3dx12.h>
+#include <combaseapi.h>
+#include <wrl.h>
+
 #include <d3d12.h>
+#include <external/d3d12/d3dx12.h>
 #include <dxgi1_4.h>
-//#include "d3dx12.h"
+#include <d2d1_3.h>
+#include <D3Dcompiler.h>
+#include <DirectXMath.h>
+#include <dwrite.h>
+#include <d3d11on12.h>
 
 #include <murkyFramework/include/common.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
-
-#include <d2d1_3.h>
-#include <dwrite.h>
-#include <d3d11on12.h>
-#include <D3Dcompiler.h>
-#include <DirectXMath.h>
-
-#include <string>
-#include <wrl.h>
-#include <combaseapi.h>
 #include <murkyFramework/include/appFramework.hpp>
 
-//using namespace DirectX;
+using namespace DirectX;
 using namespace Microsoft::WRL;
-
 
 struct Vertex
 {

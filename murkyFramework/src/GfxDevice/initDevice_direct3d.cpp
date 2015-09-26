@@ -38,10 +38,10 @@ namespace GfxDevice
     extern  ID3D11InputLayout*      g_pVertexLayout;
     extern  ID3D11Buffer*           g_pVertexBuffer;
 
-    extern  ID3D11SamplerState       *g_pSamplerLinear;
+    extern  ID3D11SamplerState      *g_pSamplerLinear;
     extern  ID3D11Debug             *d3dDebug;
 
-    extern  ID3D11RasterizerState *g_pRasterState;
+    extern  ID3D11RasterizerState	*g_pRasterState;
     extern  ID3D11Buffer*           g_pCBChangesEveryFrame;
  
     bool initialise_device(HDC &in_hDC, HGLRC &in_hRC, HWND &in_hWnd)
