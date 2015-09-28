@@ -70,7 +70,7 @@ DebObj operator << (DebObj obj, double f)
 
 DebObj operator << (DebObj obj, vec2 v)
 {
-    for (int i = 0; i < vec4::nDim; ++i)
+    for (int i = 0; i < vec2::nDim; ++i)
     {
         outputDebugString(std::to_wstring(v.s[i]).c_str());
         outputDebugString(L" ");
@@ -81,7 +81,7 @@ DebObj operator << (DebObj obj, vec2 v)
 
 DebObj operator << (DebObj obj, vec3 v)
 {
-    for (int i = 0; i < vec4::nDim; ++i)
+    for (int i = 0; i < vec3::nDim; ++i)
     {
         outputDebugString(std::to_wstring(v.s[i]).c_str());
         outputDebugString(L" ");

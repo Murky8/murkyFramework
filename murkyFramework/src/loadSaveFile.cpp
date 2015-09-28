@@ -48,7 +48,7 @@ long int getFileModTime(const wchar_t *const fileName)
 
 	FILETIME ftCreate, ftAccess, ftWrite;
 	SYSTEMTIME stUTC, stLocal;
-	DWORD dwRet;
+	//DWORD dwRet;
 
 	if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
 		return -1;
@@ -57,6 +57,7 @@ long int getFileModTime(const wchar_t *const fileName)
 	FileTimeToSystemTime(&ftWrite, &stUTC);
 	SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
 	triggerBreakpoint();
+	return -1;
 	//GetFileTime();
 }
 

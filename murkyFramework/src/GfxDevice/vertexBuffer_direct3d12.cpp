@@ -3,12 +3,22 @@
 // Platform: C++11
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#ifdef USE_DIRECT3D11
+#ifdef USE_DIRECT3D12
 
 #include <windows.h>
 #include <d3d11_1.h>
 #include <vector>
+#include <combaseapi.h>
+#include <wrl.h>
 
+#include <d3d12.h>
+#include <external/d3d12/d3dx12.h>
+#include <dxgi1_4.h>
+#include <d2d1_3.h>
+#include <D3Dcompiler.h>
+#include <DirectXMath.h>
+#include <dwrite.h>
+#include <d3d11on12.h>
 #include "murkyFramework/include/common.hpp"
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
@@ -77,7 +87,7 @@ namespace GfxDevice
         return s;
     }
 
-    void	VertexBufferDynamic::draw( void *vertexData, int nPrimatives )
+    void	VertexBufferDynamic::draw( void *vertexData, u32 nPrimatives )
     {        
         if (nPrimatives >= capacity)
             triggerBreakpoint();

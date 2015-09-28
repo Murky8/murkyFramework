@@ -54,7 +54,7 @@ std::wstring &operator << (std::wstring &st, float f)
 
 std::wstring &operator << (std::wstring &lhs, vec2 v)
 {
-    for (int i = 0; i < vec4::nDim; ++i)
+    for (int i = 0; i < vec2::nDim; ++i)
     {
         lhs.append(std::to_wstring(v.s[i]).c_str());
         lhs.append(L" ");
@@ -64,7 +64,7 @@ std::wstring &operator << (std::wstring &lhs, vec2 v)
 
 std::wstring &operator << (std::wstring &lhs, vec3 v)
 {
-    for (int i = 0; i < vec4::nDim; ++i)
+    for (int i = 0; i < vec3::nDim; ++i)
     {
         lhs.append(std::to_wstring(v.s[i]).c_str());
         lhs.append(L" ");        

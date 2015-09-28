@@ -106,7 +106,7 @@ namespace Render
 
         //setProjMatOrtho(1.f, 0.f, 0.f, 1.f, GfxLowLevel::projectionMatrix);
 
-        this->textTriangleBuffer->draw(textTris.data(), textTris.size());            
+        this->textTriangleBuffer->draw(textTris.data(), static_cast<u32>(textTris.size()));            
         GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
 
     }

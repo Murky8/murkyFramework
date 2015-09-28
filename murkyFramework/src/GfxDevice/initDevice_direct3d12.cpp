@@ -38,14 +38,14 @@ namespace GfxDevice
 	extern  HDC			hDC;
 	extern  HGLRC		hRC;
 	extern  HWND		hWnd;
-	extern  HINSTANCE	g_hInst;
+	//extern  HINSTANCE	g_hInst;
 
 	// Pipeline objects.
 	D3D12_VIEWPORT m_viewport;
 	D3D12_RECT m_scissorRect;
 	ComPtr<IDXGISwapChain3> m_swapChain;
 	ComPtr<ID3D12Device> m_device;
-	static const UINT FrameCount = 2;
+	const UINT FrameCount = 2;
 	ComPtr<ID3D12Resource> m_renderTargets[FrameCount];
 	ComPtr<ID3D12CommandAllocator> m_commandAllocator;
 	ComPtr<ID3D12CommandQueue> m_commandQueue;
@@ -122,15 +122,15 @@ namespace GfxDevice
 		m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
 	}
 
-	_Check_return_
-		bool initialise_device24(HDC &hDC, HGLRC &hRC, HWND &hWnd)
+	//_Check_return_
+	bool initialise_device24(HDC &in_hDC, HGLRC &in_hRC, HWND &in_hWnd)
 	{
 		//-------------------------------------------------------------------------------------- 
 		// Create Direct3D device and swap chain 
 
-		GfxDevice::hDC = hDC;//hDC = GetDC(hWnd); // Get the device context for our window
-		GfxDevice::hRC = hRC;
-		GfxDevice::hWnd = hWnd;
+		GfxDevice::hDC = in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
+		GfxDevice::hRC = in_hRC;
+		GfxDevice::hWnd = in_hWnd;
 
 #ifdef _DEBUG
 		// Enable the D3D12 debug layer.
@@ -353,7 +353,7 @@ namespace GfxDevice
 		return true;	
 	}	
 
-	bool deinitialise_device24()
+	bool deinitialise_device()
 	{
 		return true;
 	}

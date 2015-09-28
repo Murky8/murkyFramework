@@ -15,7 +15,7 @@ int getNextPosInt_incIt(std::wstring::const_iterator &it, std::wstring::const_it
 {
     static std::wregex regx_int(L"[0-9]+");
 
-    int i;
+    int i {0};
     std::wsmatch match;
 
     if (std::regex_search(it, end, match, regx_int))
@@ -33,7 +33,7 @@ int getNextInt_incIt(std::wstring::const_iterator &it, std::wstring::const_itera
 {
     static std::wregex regx_int(L"[-\\+]?[0-9]+");
 
-    int i;
+    int i {0};
     std::wsmatch match;
 
     if (std::regex_search(it, end, match, regx_int))
@@ -52,7 +52,7 @@ float getNextFloat_incIt(std::wstring::const_iterator &it, std::wstring::const_i
     // "-+[0-9]+\\.+[0-9]+"
     static std::wregex regx_float(L"[-\\+]?[0-9]*\\.?[0-9]+");
 
-    float f;
+    float f {0};
     std::wsmatch match;
 
     if (std::regex_search(it, end, match, regx_float))

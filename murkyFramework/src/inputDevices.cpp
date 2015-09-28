@@ -25,9 +25,9 @@ InputDevices::InputDevices(HWND hWnd)
 	rid[1].dwFlags = RIDEV_INPUTSINK;
 	rid[1].hwndTarget = hWnd;
 
-	bool result = RegisterRawInputDevices(rid, sizeof(rid)/sizeof(RAWINPUTDEVICE), sizeof(RAWINPUTDEVICE));
+	auto result = RegisterRawInputDevices(rid, sizeof(rid)/sizeof(RAWINPUTDEVICE), sizeof(RAWINPUTDEVICE));
 
-	if (!result)
+	if (result==0)
 	{
 		triggerBreakpoint();
 		//EGSystemError("RegisterRawInputDevices Error: ", GetLastError());
@@ -49,7 +49,7 @@ void InputDevices::processWindowsMessages(HWND hWnd, UINT uMsg, WPARAM wParam, L
  
 	case WM_INPUT:
 	{
-		UINT dwSize;
+		UINT dwSize {0};
 
 		GetRawInputData((HRAWINPUT)lParam, RID_INPUT, NULL, &dwSize,
 			sizeof(RAWINPUTHEADER));

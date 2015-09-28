@@ -44,7 +44,7 @@ namespace GfxDevice
     HDC     hDC;   // a copy from main.cpp
     HGLRC   hRC;
     HWND    hWnd;
-
+	
 	// forward declarations
 	extern void WaitForPreviousFrame();
 	//// Pipeline objects.
@@ -52,8 +52,8 @@ namespace GfxDevice
 	extern D3D12_RECT m_scissorRect;
 	extern ComPtr<IDXGISwapChain3> m_swapChain;
 	extern ComPtr<ID3D12Device> m_device;
-	//static const UINT FrameCount = 2;
-	extern ComPtr<ID3D12Resource> m_renderTargets[];
+	const UINT FrameCount = 2;
+	extern ComPtr<ID3D12Resource> m_renderTargets[FrameCount]; //note: !!!
 	extern ComPtr<ID3D12CommandAllocator> m_commandAllocator;
 	extern ComPtr<ID3D12CommandQueue> m_commandQueue;
 	extern ComPtr<ID3D12RootSignature> m_rootSignature;
