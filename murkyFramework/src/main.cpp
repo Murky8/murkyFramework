@@ -29,18 +29,19 @@ bool createWindow(LPCWSTR title, int width, int height);
 // variables
 namespace
 {
-    HDC			hDC;		// Private GDI Device Context
-    HGLRC		hRC;		// Permanent Rendering Context
     HWND		hWnd;	    // Holds Our Window Handle
     HINSTANCE	hInstance;	// Holds The Instance Of The Application
 
-    u64         frameStartTime = 0;
-    bool        wndProcCalled = false;
+    HDC			hDC;		// opengl only? SwapBuffers(GfxDevice::hDC)
+    HGLRC		hRC;		// opengl only?
+    u64         frameStartTime = 0;    
 }
+
 AppFramework *Gapp;
 
 void skool();
 
+// called from void main()
 void initialise_main()
 { 
 	Gapp = new AppFramework();
@@ -107,7 +108,7 @@ void initialise_main()
 	f64 t = system2::readTimeSecondsSinceAppStart();
     
 	//  move this!!!!
-	bool res2 = loadFBX(L"data", L"tea", L"FBX");	
+	//bool res2 = loadFBX(L"data", L"tea", L"FBX");	
 	debugLog << L"fbx time " << system2::readTimeSecondsSinceAppStart()-t;
 	//  move this!!!!
 
@@ -119,6 +120,8 @@ void deinitialise_main()
     Render::deinitialise();
 }
 
+//------------------------------------------------------------------------------
+// 
 int main()
 {
     MSG		msg;
@@ -163,7 +166,7 @@ int main()
 //http://www.cplusplus.com/forum/windows/39141/
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    wndProcCalled = true;
+    
     switch (message)
     {
 
@@ -187,77 +190,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
-/*
-LRESULT MandelbrotMgr::HandleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
-{
-// Current mouse position
-int nMouseX = ( short )LOWORD( lParam );
-int nMouseY = ( short )HIWORD( lParam );
-D3DXVECTOR2 vPosNow = D3DXVECTOR2( static_cast< float >( nMouseX ), static_cast< float >( nMouseY ) );
-
-static D3DXVECTOR2 vPosPrevL;
-static D3DXVECTOR2 vPosPrevR;
-
-//float fFPS = DXUTGetFPS();
-//if( fFPS < 1.0f ) { fFPS = 60.0f; }
-float fFPS = 60.0f;
-
-//if( vPosNow.x > 500 ) { return FALSE; }
-
-switch( uMsg )
-{
-case WM_LBUTTONDOWN:
-case WM_LBUTTONDBLCLK:
-vPosPrevL = vPosNow;
-return TRUE;
-
-case WM_LBUTTONUP:
-return TRUE;
-
-case WM_RBUTTONDOWN:
-case WM_RBUTTONDBLCLK:
-vPosPrevR = vPosNow;
-return TRUE;
-
-case WM_RBUTTONUP:
-case WM_MBUTTONUP:
-return TRUE;
-
-case WM_MOUSEMOVE:
-if( ( MK_LBUTTON & wParam ) )
-{
-const float POS_DELTA = 0.005f;
-D3DXVECTOR2 vPosDiff = vPosNow - vPosPrevL;
-D3DXVECTOR2 vPosDiffScaled = vPosDiff * POS_DELTA * ( 60.0f / fFPS );
-vPosDiffScaled.x = -vPosDiffScaled.x;
-TranslateCenter( vPosDiffScaled );
-vPosPrevL = vPosNow;
-}
-if( ( MK_RBUTTON & wParam ) )
-{
-const float ZOOM_DELTA = 0.01f;
-float fPosDiff = ( vPosNow.x - vPosPrevR.x ) * ZOOM_DELTA;
-float fPosDiffScaled = 1.0f - fPosDiff * ( 60.0f / fFPS );
-if( fPosDiffScaled < 0.0f ) {
-fPosDiffScaled  = 1.0f / abs( fPosDiffScaled );
-}
-ZoomScale( fPosDiffScaled );
-vPosPrevR = vPosNow;
-}
-return TRUE;
-}
-
-return FALSE;
-}
-*/
 
 bool createWindow(LPCWSTR title, int width, int height)
 {
-    WNDCLASS windowClass {0};
+   /* WNDCLASS windowClass {0};
     DWORD dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_BORDER | WS_MINIMIZEBOX | WS_VISIBLE;
     DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
 
-    hInstance = GetModuleHandle(NULL);
 
     windowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     windowClass.lpfnWndProc = (WNDPROC)WndProc;
@@ -268,26 +207,45 @@ bool createWindow(LPCWSTR title, int width, int height)
     windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
     windowClass.hbrBackground = NULL;
     windowClass.lpszMenuName = NULL;
-    windowClass.lpszClassName = title;
+    windowClass.lpszClassName = title;*/
+    hInstance = GetModuleHandle(nullptr);
+	if (hInstance == NULL)
+		triggerBreakpoint();
 
-    if (!RegisterClass(&windowClass))
+	WNDCLASSEX windowClass = { 0 };
+	windowClass.cbSize = sizeof(WNDCLASSEX);
+	windowClass.style = CS_HREDRAW | CS_VREDRAW;
+	windowClass.lpfnWndProc = WndProc;
+	windowClass.hInstance = hInstance;
+	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	windowClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	windowClass.lpszClassName = title;
+	
+	if (RegisterClassEx(&windowClass)==0)
+	{
+		auto errorCode = GetLastError();
+		triggerBreakpoint(L"Init device failed\n");
+		return false;
+	}
+
+    /*if (!RegisterClass(&windowClass))
     {
         triggerBreakpoint(L"Init device failed");
         return false;
     }
-
+*/
     RECT rect;
     rect.left = 0;
     rect.top = 0;
     rect.right = width;
     rect.bottom = height;
-    AdjustWindowRectEx(&rect, dwStyle, 0, dwExStyle);
+    AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
 
     hWnd = CreateWindowEx(
-        dwExStyle, 
+        NULL, 
         title, 
         title, 
-        dwStyle,
+		WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 
         CW_USEDEFAULT,
         rect.right-rect.left,
@@ -297,10 +255,18 @@ bool createWindow(LPCWSTR title, int width, int height)
         hInstance, 
         NULL
         );
+
+	if (hWnd == NULL)
+	{
+		auto errorCode = GetLastError();
+		triggerBreakpoint();
+
+	//https://msdn.microsoft.com/en-us/library/windows/desktop/ms681381(v=vs.85).aspx
+	}
+
     hDC = GetDC(hWnd); // Get the device context for our window
      
-    ShowWindow(hWnd, SW_SHOW);
-    UpdateWindow(hWnd);
-
+    ShowWindow(hWnd, 10);
+   UpdateWindow(hWnd);
     return true;
 }

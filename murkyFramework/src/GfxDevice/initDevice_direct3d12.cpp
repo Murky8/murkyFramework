@@ -53,7 +53,7 @@ namespace GfxDevice
 	ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
 	ComPtr<ID3D12PipelineState> m_pipelineState;
 	ComPtr<ID3D12GraphicsCommandList> m_commandList;
-	UINT m_rtvDescriptorSize;
+	UINT m_rtvDescriptorSize = 0;
 	// Pipeline objects.
 
 	// App resources.
@@ -61,7 +61,7 @@ namespace GfxDevice
 	D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView;
 
 	// Synchronization objects.
-	UINT m_frameIndex;
+	UINT m_frameIndex = 0;
 	HANDLE m_fenceEvent;
 	ComPtr<ID3D12Fence> m_fence;
 	UINT64 m_fenceValue;
@@ -143,8 +143,9 @@ namespace GfxDevice
 		}
 #endif
 		ComPtr<IDXGIFactory4> factory;
-		ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&factory)));
-
+		//ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&factory)));
+		ThrowIfFailed(CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG,IID_PPV_ARGS(&factory)));
+		// CreateDXGIFactory2 and DXGI_CREATE_FACTORY_DEBUG.
 		if (/*m_useWarpDevice*/ true)
 		{
 			ComPtr<IDXGIAdapter> warpAdapter;
@@ -167,6 +168,14 @@ namespace GfxDevice
 				IID_PPV_ARGS(&m_device)
 				));
 		}
+		// murky
+		m_scissorRect.right = static_cast<LONG>(Gapp->screenResX);
+		m_scissorRect.bottom = static_cast<LONG>(Gapp->screenResY);
+		m_viewport.Width = static_cast<float>(Gapp->screenResX);
+		m_viewport.Height = static_cast<float>(Gapp->screenResY);
+		m_viewport.MaxDepth = 1.0f;
+
+		// murky
 
 		// Describe and create the command queue.
 		D3D12_COMMAND_QUEUE_DESC queueDesc = {};
