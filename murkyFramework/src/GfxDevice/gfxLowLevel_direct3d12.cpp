@@ -112,7 +112,11 @@ namespace GfxDevice
 				m_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
 		//
 		//		// Record commands.
-				const float clearColor[] = { 0.0f, 0.2f, 0.4f, 1.0f };
+				static auto nonk = 0.f;
+				nonk += 0.01f;
+				if (nonk > 1.f)nonk = 0.f;
+
+				const float clearColor[] = { nonk, 0.2f, 0.4f, 1.0f };
 				m_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 				m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 				m_commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
