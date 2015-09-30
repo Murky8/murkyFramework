@@ -4,8 +4,7 @@
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
 namespace GfxDevice 
-{
-    void onGfxDeviceErrorTriggerBreakpoint();
+{    
     void initialise();
     void deinitialise();
     void drawBegin();

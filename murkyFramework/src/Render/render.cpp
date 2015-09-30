@@ -18,29 +18,28 @@
 #include <murkyFramework/include/Render/render.hpp>
 #include <murkyFramework/include/Render/textRender.hpp>
 #define GLM_FORCE_RADIANS
-#include "glm/gtc/matrix_transform.inl"
-#include "murkyFramework/include/Render/linesShapes.hpp"
-#include "murkyFramework/include/Render/projectionMat.hpp"
+#include <glm/gtc/matrix_transform.inl>
+#include <murkyFramework/include/Render/linesShapes.hpp>
+#include <murkyFramework/include/Render/projectionMat.hpp>
+#include <murkyFramework/include/readFBX.hpp>
 
+// forward declarations
 namespace GfxDevice
 {
-    // forward declarations
     TextureId   createTextureObjectFromFile(const std::wstring &dirName,
     const       std::wstring &fileName, const std::wstring &extensionName);
     TextureId   createTestTextureObject();
-	bool        initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);
-	bool        initialise_device24(HDC &hDC, HGLRC &hRC, HWND &hWnd);
+	bool        initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);	
     bool        deinitialise_device();    
     void        initilise_textureSystem();
     void        deinitilise_textureSystem();
 	mat4		makeProjectionMatrix_perspective(float x, float x1, float x2, float x3);
 }
-
-extern std::vector<Vert_pct> gdeb_verts;
 extern std::vector<Triangle_pct> gdeb_tris;
 
 namespace Render
 {        
+	using namespace murkyFramework;
     // data    
     GfxDevice::VertexBufferDynamic    *vertexBufferTemp;  // for testing
     GfxDevice::VertexBufferDynamic    *defaultLineVB;          
@@ -55,7 +54,7 @@ namespace Render
         debugLog << L"RenderHi::initialise" << "\n";
 				
 #ifdef USE_DIRECT3D12
-		GfxDevice::initialise_device24(hDC, hRC, hWnd);
+		GfxDevice::initialise_device(hDC, hRC, hWnd);
 		Gapp->gfxInitialised = true;
 		return;
 		//exit(0);
@@ -114,16 +113,20 @@ namespace Render
             //m[0][0]=
             triggerBreakpoint();// todo: finish
             return m;
-    }
+    }	
 
-    void drawAll(State &state)
+	void drawAll(State &state)
     {                
         GfxDevice::drawBegin();        
 #ifndef USE_DIRECT3D12
         defaultLines.clear();
-        debugLogScreen << state.cursorPos << L"\n";
 
 		// draw onscreen stuff
+		if (murkyFramework::done == false)
+			debugLogScreen << L"Loading teapot!!!\n";
+        debugLogScreen << state.cursorPos << L"\n";
+
+
         projectionMatrix = makeProjectionMatrix_ortho(
             0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
         GfxDevice::setUniform_projectionMatrix(&projectionMatrix.v[0][0]);
@@ -173,11 +176,12 @@ namespace Render
             defaultLineVB->draw(lines.data(), lines.size());
         }  */      
      
+		if( murkyFramework::done==true)
         if (1)
         {
-            for (Vert_pct &v : gdeb_verts)
+            for (Triangle_pct &t : gdeb_tris)
             {
-                drawCrosshair(vec3(v.pos.x, v.pos.y, -v.pos.z), vec3(1, 1, 1), 1.f);
+                drawCrosshair(vec3(t.v[0].pos.x, t.v[0].pos.y, -t.v[0].pos.z), vec3(1, 1, 1), 1.f);
             }
             defaultLineVB->draw(defaultLines.data(), defaultLines.size());
         }

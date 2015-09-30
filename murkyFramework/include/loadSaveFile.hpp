@@ -13,25 +13,23 @@ namespace qdev
     class BinaryFileLoader
     {
     public:                
-        // Constructors 
+        // constructors 
         BinaryFileLoader() = delete;
         BinaryFileLoader(const std::wstring &dirName, const std::wstring &fileName,
             const std::wstring &extensionName);
         BinaryFileLoader(const std::wstring &fileName);
         BinaryFileLoader( const wchar_t *const fileName );
 
-        // Destructors
+        // destructor
         ~BinaryFileLoader();
 
-        // Methods
+        // methods
         char    *data();
         int     getDataLength()const;        
-        char        *pdata;        
+        char       *pdata;        
         
-    private:
-        // Constructors 
-
-        // Data
+    private:        
+        // data
         int         dataLength;
     };    
 }

@@ -37,6 +37,9 @@ namespace
     u64         frameStartTime = 0;    
 }
 
+// variables todo: move
+std::vector<Triangle_pct> gdeb_tris;
+
 AppFramework *Gapp;
 
 void skool();
@@ -83,12 +86,12 @@ void initialise_main()
 
 	// create window. nothing device specific here.
     {
-        HWND    desktop = GetDesktopWindow();
-        RECT    screenDims;
-        GetWindowRect(desktop, &screenDims);
 
         if (Gapp->fullScreen)
         {
+			HWND    desktop = GetDesktopWindow();
+			RECT    screenDims;
+			GetWindowRect(desktop, &screenDims);
             Gapp->screenResX = screenDims.right;
             Gapp->screenResY = screenDims.bottom;
         }
@@ -107,12 +110,12 @@ void initialise_main()
 
 	f64 t = system2::readTimeSecondsSinceAppStart();
     
-	//  move this!!!!
-	//bool res2 = loadFBX(L"data", L"tea", L"FBX");	
-	debugLog << L"fbx time " << system2::readTimeSecondsSinceAppStart()-t;
-	//  move this!!!!
+	//  move this!!!!		
+	//murkyFramework::loadFBX_tris(L"data", L"tea", L"FBX", gdeb_tris);	
+	std::thread murkyThread(murkyFramework::loadFBX_tris, L"data", L"tea", L"FBX", std::ref(gdeb_tris));
+	murkyThread.detach();
 
-    Gapp->initialised = true;
+	Gapp->initialised = true;
 }
 
 void deinitialise_main()
@@ -165,8 +168,7 @@ int main()
 
 //http://www.cplusplus.com/forum/windows/39141/
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    
+{    
     switch (message)
     {
 
@@ -193,21 +195,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 bool createWindow(LPCWSTR title, int width, int height)
 {
-   /* WNDCLASS windowClass {0};
-    DWORD dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_BORDER | WS_MINIMIZEBOX | WS_VISIBLE;
-    DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
-
-
-    windowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    windowClass.lpfnWndProc = (WNDPROC)WndProc;
-    windowClass.cbClsExtra = 0;
-    windowClass.cbWndExtra = 0;
-    windowClass.hInstance = hInstance;
-    windowClass.hIcon = LoadIcon(NULL, IDI_WINLOGO);
-    windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
-    windowClass.hbrBackground = NULL;
-    windowClass.lpszMenuName = NULL;
-    windowClass.lpszClassName = title;*/
     hInstance = GetModuleHandle(nullptr);
 	if (hInstance == NULL)
 		triggerBreakpoint();
@@ -228,12 +215,6 @@ bool createWindow(LPCWSTR title, int width, int height)
 		return false;
 	}
 
-    /*if (!RegisterClass(&windowClass))
-    {
-        triggerBreakpoint(L"Init device failed");
-        return false;
-    }
-*/
     RECT rect;
     rect.left = 0;
     rect.top = 0;
@@ -258,15 +239,15 @@ bool createWindow(LPCWSTR title, int width, int height)
 
 	if (hWnd == NULL)
 	{
+		//https://msdn.microsoft.com/en-us/library/windows/desktop/ms681381(v=vs.85).aspx
 		auto errorCode = GetLastError();
 		triggerBreakpoint();
-
-	//https://msdn.microsoft.com/en-us/library/windows/desktop/ms681381(v=vs.85).aspx
+		return false;
 	}
 
     hDC = GetDC(hWnd); // Get the device context for our window
      
     ShowWindow(hWnd, 10);
-   UpdateWindow(hWnd);
+	UpdateWindow(hWnd);
     return true;
 }

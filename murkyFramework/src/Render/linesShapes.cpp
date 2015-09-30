@@ -36,16 +36,16 @@ namespace Render
         std::vector<Line_pct> newLines
         {
             {
-                { vec3(pos - vec3(size, 0, 0)), colour, vec2(0.f, 0.f) },
-                { vec3(pos + vec3(size, 0, 0)), colour, vec2(0.f, 0.f) }
+                { vec3(pos - vec3(size, 0.f, 0.f)), colour, vec2(0.f, 0.f) },
+                { vec3(pos + vec3(size, 0.f, 0.f)), colour, vec2(0.f, 0.f) }
             },
             {
-                { vec3(pos - vec3(0, size, 0)), colour, vec2(0.f, 0.f) },
-                { vec3(pos + vec3(0, size, 0)), colour, vec2(0.f, 0.f) }
+                { vec3(pos - vec3(0.f, size, 0.f)), colour, vec2(0.f, 0.f) },
+                { vec3(pos + vec3(0.f, size, 0.f)), colour, vec2(0.f, 0.f) }
             },
             {
-                { vec3(pos - vec3(0, 0, size)), colour, vec2(0.f, 0.f) },
-                { vec3(pos + vec3(0, 0, size)), colour, vec2(0.f, 0.f) }
+                { vec3(pos - vec3(0.f, 0.f, size)), colour, vec2(0.f, 0.f) },
+                { vec3(pos + vec3(0.f, 0.f, size)), colour, vec2(0.f, 0.f) }
             }
         };
         lines.insert(lines.end(), newLines.begin(), newLines.end());

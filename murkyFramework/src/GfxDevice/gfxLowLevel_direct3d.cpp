@@ -1,7 +1,6 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_DIRECT3D11
 
@@ -11,19 +10,11 @@
 
 #include <vector>
 
-#include <murkyFramework/include/types.hpp>  
-#include "murkyFramework/include/common.hpp"
-#include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/appFramework.hpp>
-#include <murkyFramework/include/system.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
-#include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
-#include <murkyFramework/include/GfxDevice/shaders.hpp>
 #include <murkyFramework/include/GfxDevice/texture.hpp>
 
-////////////////////////////////////////////////////////////////////////////
 // forward declarations
 namespace Render  // todo: delete
 {        
@@ -63,22 +54,9 @@ namespace GfxDevice
     ID3D11RasterizerState   *g_pRasterState = nullptr;
     ID3D11Buffer*            g_pCBChangesEveryFrame = nullptr;
 
-    // Data
+    // data
     mat4 projectionMatrix(unit);    
-
-    void onGfxDeviceErrorTriggerBreakpoint()
-    {            
-    }    
-
-    void setStateToAppDefault()
-    {
-        //glEnable(GL_DEPTH_TEST);
-        //glDepthFunc(GL_LESS);                
-        //glEnable(GL_CULL_FACE);
-        //glFrontFace(GL_CW);
-        //glCullFace(GL_BACK);
-    }        
-
+	        
 #define rn (((float)rand() / (float)RAND_MAX))
     void drawBegin()
     {     
@@ -130,17 +108,9 @@ namespace GfxDevice
             g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
 
             //g_pImmediateContext->Draw(10 * 3, 0);
-        }
-
-        
-        onGfxDeviceErrorTriggerBreakpoint();	
+        }                
     }
-
-    /*void setShaderUniform_projMat(mat4 &projMat)
-    {        
-        glUniformMatrix4fv(GfxLowLevel::uniforms_projMatrix, 1, GL_FALSE, &(projMat.v[0][0]));    
-    }
-*/
+    
     void drawEnd()
     {
 

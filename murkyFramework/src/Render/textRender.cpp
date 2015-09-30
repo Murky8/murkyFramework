@@ -30,16 +30,12 @@ namespace Render
 
     // Constructors
     TextRender::TextRender(GfxDevice::TextureId textureRef) 
-    {											
-        GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-        
+    {											            
         textTriangleBuffer = new GfxDevice::VertexBufferDynamic(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::triangle,
             GfxDevice::Shaders::posColText,
-            textureRef, 1024);    
-
-        GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
+            textureRef, 1024);            
     }
 
     void drawChar( std::vector<Triangle_pct> &triangles, 
@@ -76,9 +72,7 @@ namespace Render
     }
 
     void TextRender::drawText(const std::wstring &text)
-    {
-        GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-
+    {        
         // cordinates: 0,0 = top left        
         vec2    cursorPos(0.f,0.f);
         auto    it = text.cbegin();
@@ -106,8 +100,6 @@ namespace Render
 
         //setProjMatOrtho(1.f, 0.f, 0.f, 1.f, GfxLowLevel::projectionMatrix);
 
-        this->textTriangleBuffer->draw(textTris.data(), static_cast<u32>(textTris.size()));            
-        GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-
+        this->textTriangleBuffer->draw(textTris.data(), static_cast<u32>(textTris.size()));                    
     }
 }

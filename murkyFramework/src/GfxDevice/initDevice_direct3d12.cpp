@@ -38,33 +38,35 @@ namespace GfxDevice
 	extern  HDC			hDC;
 	extern  HGLRC		hRC;
 	extern  HWND		hWnd;
-	//extern  HINSTANCE	g_hInst;
-
-	// Pipeline objects.
-	D3D12_VIEWPORT m_viewport;
-	D3D12_RECT m_scissorRect;
-	ComPtr<IDXGISwapChain3> m_swapChain;
-	ComPtr<ID3D12Device> m_device;
+	
+	// forward declarations
+	extern void WaitForPreviousFrame();
+	//// Pipeline objects.
+	extern D3D12_VIEWPORT m_viewport;
+	extern D3D12_RECT m_scissorRect;
+	extern ComPtr<IDXGISwapChain3> m_swapChain;
+	extern ComPtr<ID3D12Device> m_device;
 	const UINT FrameCount = 2;
-	ComPtr<ID3D12Resource> m_renderTargets[FrameCount];
-	ComPtr<ID3D12CommandAllocator> m_commandAllocator;
-	ComPtr<ID3D12CommandQueue> m_commandQueue;
-	ComPtr<ID3D12RootSignature> m_rootSignature;
-	ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
-	ComPtr<ID3D12PipelineState> m_pipelineState;
-	ComPtr<ID3D12GraphicsCommandList> m_commandList;
-	UINT m_rtvDescriptorSize = 0;
+	extern ComPtr<ID3D12Resource> m_renderTargets[FrameCount]; //note: !!!
+	extern ComPtr<ID3D12CommandAllocator> m_commandAllocator;
+	extern ComPtr<ID3D12CommandQueue> m_commandQueue;
+	extern ComPtr<ID3D12RootSignature> m_rootSignature;
+	extern ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
+	extern ComPtr<ID3D12PipelineState> m_pipelineState;
+	extern ComPtr<ID3D12GraphicsCommandList> m_commandList;
+	extern UINT m_rtvDescriptorSize;
 	// Pipeline objects.
 
 	// App resources.
-	ComPtr<ID3D12Resource> m_vertexBuffer;
-	D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView;
+	extern ComPtr<ID3D12Resource> m_vertexBuffer;
+	extern D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView;
 
 	// Synchronization objects.
-	UINT m_frameIndex = 0;
-	HANDLE m_fenceEvent;
-	ComPtr<ID3D12Fence> m_fence;
-	UINT64 m_fenceValue;
+	extern UINT m_frameIndex;
+	extern HANDLE m_fenceEvent;
+	extern ComPtr<ID3D12Fence> m_fence;
+	extern UINT64 m_fenceValue;
+
 
 	inline void ThrowIfFailed(HRESULT hr)
 	{
@@ -100,30 +102,9 @@ namespace GfxDevice
 		}
 		*ppAdapter = pAdapter;
 	}
-
-	void WaitForPreviousFrame()
-	{
-		// WAITING FOR THE FRAME TO COMPLETE BEFORE CONTINUING IS NOT BEST PRACTICE.
-		// This is code implemented as such for simplicity. More advanced samples 
-		// illustrate how to use fences for efficient resource usage.
-
-		// Signal and increment the fence value.
-		const UINT64 fence = m_fenceValue;
-		ThrowIfFailed(m_commandQueue->Signal(m_fence.Get(), fence));
-		m_fenceValue++;
-
-		// Wait until the previous frame is finished.
-		if (m_fence->GetCompletedValue() < fence)
-		{
-			ThrowIfFailed(m_fence->SetEventOnCompletion(fence, m_fenceEvent));
-			WaitForSingleObject(m_fenceEvent, INFINITE);
-		}
-
-		m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
-	}
-
+		
 	//_Check_return_
-	bool initialise_device24(HDC &in_hDC, HGLRC &in_hRC, HWND &in_hWnd)
+	bool initialise_device(HDC &in_hDC, HGLRC &in_hRC, HWND &in_hWnd)
 	{
 		//-------------------------------------------------------------------------------------- 
 		// Create Direct3D device and swap chain 

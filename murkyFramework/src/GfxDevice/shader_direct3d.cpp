@@ -41,8 +41,7 @@ namespace GfxDevice
     extern  ID3D11InputLayout*      g_pVertexLayout;
     extern  ID3D11Buffer*           g_pVertexBuffer;
     extern  ID3D11Buffer            *g_pCBChangesEveryFrame;
-    extern  ID3D11SamplerState       *g_pSamplerLinear;
-    extern     void GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
+    extern  ID3D11SamplerState       *g_pSamplerLinear;    
     
     namespace Shaders
     {     
@@ -97,7 +96,6 @@ namespace GfxDevice
     void	Shaders::initialise()    
     {
         HRESULT hr = S_OK;
-        GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
         debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";        
 
         // Compile the vertex shader

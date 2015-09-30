@@ -1,31 +1,17 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/inputDevices.hpp>
 #include <murkyFramework/include/stringHelpers.hpp>
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-
-#include <iostream>
-#include <vector>
-#include <thread>
-
-#include <windows.h>
-#include <stdlib.h>
 
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/appFramework.hpp>
 #include <murkyFramework/include/types.hpp>
 
-#include <murkyFramework/include/loadSaveFile.hpp>
-#include <murkyFramework/include/inputDevices.hpp>
 #include <murkyFramework/include/system.hpp>
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
-#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/Render/render.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/state.hpp>
-#include <murkyFramework/include/maths.hpp>
 #include <murkyFramework/include/vectorMatrix_rotation.hpp>
 
 // called from windows loop in main.cpp
@@ -103,7 +89,6 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
 	state.cursorOri = state.cursorOri*rmat;
 	// rotate u/d
 	// free look
-
 
 	debugLogScreen << rmat << L"\n";
 	//debugLogScreen << state.cursorOri << L"\n";

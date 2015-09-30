@@ -11,13 +11,6 @@
 #include <murkyFramework/include/loadSaveFile.hpp>
 #include <murkyFramework/include/debugUtils.hpp>   
 
-
-//------------------------------------------------------------------------------
-// Returns false if file doesn't exist
-// TODO: Doesn't handle files more than 4gig
-// Trying out simpl pimpl implementation
-
-
 // returns -1 if unsuccessful
 int getFileSize(const wchar_t *const fileName)
 {
