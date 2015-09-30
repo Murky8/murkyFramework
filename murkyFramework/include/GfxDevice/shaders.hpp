@@ -12,17 +12,6 @@
 
 namespace GfxDevice
 {    
-    class ShaderId;
-    
-    namespace Shaders
-    {    
-        extern	u32	uniforms_textureSamplerID;		
-        extern	u32	uniformHandle_projectionMatrix;
-        extern	ShaderId posColText;
-        void	initialise();
-        void	deinitialise();
-    }
-
     class ShaderId
     {
     public:
@@ -31,6 +20,15 @@ namespace GfxDevice
         u32 handle2;
         struct HandleDeviceShader *pHandle;
     };        
+        
+    namespace Shaders
+    {    
+        extern	u32	uniforms_textureSamplerID;		
+        extern	u32	uniformHandle_projectionMatrix;
+        extern	ShaderId posColText;
+        void	initialise();
+        void	deinitialise();
+    }
 
     void setUniform_projectionMatrix(const float *pMat);
 }
