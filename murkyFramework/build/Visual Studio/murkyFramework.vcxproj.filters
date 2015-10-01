@@ -287,6 +287,12 @@
     <ClInclude Include="..\..\include\GfxDevice\d3d12\vertexBuffer_d3d12.hpp">
       <Filter>Header Files\GfxDevice\d3d12</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\GfxDevice\gfxLowLevel_private.hpp">
+      <Filter>Header Files\GfxDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\collectionNamed.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\GfxDevice\shaders\posColTex.ps">
@@ -301,10 +307,6 @@
     <None Include="..\..\src\GfxDevice\shaders\posColTex.vsh">
       <Filter>Source Files\GfxDevice\openGL\shaders</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\..\src\GfxDevice\shaders\shaders.hlsl">
-      <Filter>Source Files\GfxDevice\direct3D12\shaders</Filter>
-    </FxCompile>
+    <None Include="..\..\src\GfxDevice\shaders\shaders.hlsl" />
   </ItemGroup>
 </Project>

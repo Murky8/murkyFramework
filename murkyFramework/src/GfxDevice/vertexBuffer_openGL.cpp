@@ -12,10 +12,18 @@
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
+#include <murkyFramework/include/collectionNamed.hpp>
 
 namespace GfxDevice
 {
-    void onGfxDeviceErrorTriggerBreakpoint();
+	// forward declarations of external stuff  
+	class ShaderId
+	{
+	public:
+		GLuint value;
+	};
+
+	extern murkyFramework::CollectionNamed<ShaderId*> shaders;
 
     struct handleDeviceVB
     {
@@ -31,20 +39,24 @@ namespace GfxDevice
     // constructor	
     VertexBufferDynamic::VertexBufferDynamic(
         VertexType vertexType, PrimativeType primativeType,
-        ShaderId shaderProgram, GfxDevice::TextureId &texture,
+		std::wstring &shaderName, GfxDevice::TextureId &texture,
         u32 nVerts) :
-        vertexType(vertexType), primativeType(primativeType),
-        shaderProgram(shaderProgram), texture(std::move(texture)),
+        vertexType(vertexType), primativeType(primativeType), 		
+		texture(std::move(texture)),
         capacity(nVerts)
-    {				
-        pHandle = new handleDeviceVB();
+    {				        
+		pHandle = new handleDeviceVB();
+
         glGenVertexArrays(1, &pHandle->vao);
         glBindVertexArray(pHandle->vao);
 
         glGenBuffers(1, &pHandle->vbo);
         glBindBuffer(GL_ARRAY_BUFFER, pHandle->vbo);
 
-        glUseProgram( shaderProgram.getHandle() );
+		GLuint shaderProg = shaders.get(shaderName)->value;
+		pShaderId = new ShaderId();
+		pShaderId->value = shaderProg;
+        glUseProgram( shaderProg );
 
         // layout
         int szVertex = sizeof(Vert_pct);
@@ -72,6 +84,7 @@ namespace GfxDevice
 
     VertexBufferDynamic::~VertexBufferDynamic()
     {
+		delete pShaderId;
         delete pHandle;
     }
 
@@ -123,7 +136,7 @@ namespace GfxDevice
 
         glBindVertexArray(pHandle->vao);		
 
-        glUseProgram(shaderProgram.getHandle());
+        glUseProgram(pShaderId->value);
         glUniform1i(Shaders::uniforms_textureSamplerID, 0);
 
         glBindTexture( GL_TEXTURE_2D, texture.pHandle->deviceTexture );//is this already bound to vao???

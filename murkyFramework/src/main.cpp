@@ -86,7 +86,6 @@ void initialise_main()
 
 	// create window. nothing device specific here.
     {
-
         if (Gapp->fullScreen)
         {
 			HWND    desktop = GetDesktopWindow();

@@ -259,6 +259,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\external\lodepng.h" />
     <ClInclude Include="..\..\include\appFramework.hpp" />
+    <ClInclude Include="..\..\include\collectionNamed.hpp" />
     <ClInclude Include="..\..\include\common.hpp" />
     <ClInclude Include="..\..\include\debugUtils.hpp" />
     <ClInclude Include="..\..\include\fileUtils.hpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="..\..\include\GfxDevice\d3d12\texture_d3d12.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\d3d12\vertexBuffer_d3d12.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\gfxLowLevel.hpp" />
+    <ClInclude Include="..\..\include\GfxDevice\gfxLowLevel_private.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\gfxPrimativeTypes.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\shaders.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\texture.hpp" />

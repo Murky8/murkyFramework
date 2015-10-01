@@ -1,8 +1,6 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #include <murkyFramework/include/Render/textRender.hpp>
 
 ////http://glm.g-truc.net/0.9.6/api/index.html
@@ -14,18 +12,22 @@
 //#include <glm/mat4x4.hpp>
 //#include <glm/gtc/matrix_transform.hpp>
 
-#include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/texture.hpp>
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 
-#include <murkyFramework/include/Render/render.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
-#include <murkyFramework/include/Render/projectionMat.hpp>
+#include <murkyFramework/include/collectionNamed.hpp>
+
+// forward declarations of external stuff    
+namespace GfxDevice
+{
+	class ShaderId;	
+	extern murkyFramework::CollectionNamed< ShaderId* > shaders;
+}
 
 namespace Render
 {
-    // Forward declarations
+	// forward declarations of external stuff    
     extern GfxDevice::TextureManager textureManager;
 
     // Constructors
@@ -34,7 +36,7 @@ namespace Render
         textTriangleBuffer = new GfxDevice::VertexBufferDynamic(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::triangle,
-            GfxDevice::Shaders::posColText,
+			std::wstring(L"posColTex"),		
             textureRef, 1024);            
     }
 

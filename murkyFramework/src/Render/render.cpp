@@ -22,6 +22,7 @@
 #include <murkyFramework/include/Render/linesShapes.hpp>
 #include <murkyFramework/include/Render/projectionMat.hpp>
 #include <murkyFramework/include/readFBX.hpp>
+#include <murkyFramework/include/collectionNamed.hpp>
 
 // forward declarations
 namespace GfxDevice
@@ -33,7 +34,10 @@ namespace GfxDevice
     bool        deinitialise_device();    
     void        initilise_textureSystem();
     void        deinitilise_textureSystem();
-	mat4		makeProjectionMatrix_perspective(float x, float x1, float x2, float x3);
+	mat4		makeProjectionMatrix_perspective(float x, float x1, float x2, float x3);	
+
+	class ShaderId;
+	extern murkyFramework::CollectionNamed< ShaderId* > shaders;
 }
 extern std::vector<Triangle_pct> gdeb_tris;
 
@@ -77,7 +81,7 @@ namespace Render
         vertexBufferTemp = new GfxDevice::VertexBufferDynamic(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::triangle,
-            GfxDevice::Shaders::posColText,
+            std::wstring(L"posColTex"),
             //textureManager->getTextureByName(L"gtex"),
             std::move(newt2),
             1024 );
@@ -85,7 +89,7 @@ namespace Render
         defaultLineVB = new GfxDevice::VertexBufferDynamic(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::line,
-            GfxDevice::Shaders::posColText,
+			std::wstring(L"posColTex"),
             std::move(newt3),            
             16*1024);
 
