@@ -6,12 +6,13 @@
 #include <murkyFramework/include/common.hpp>
 #include <murkyFramework/include/types.hpp>
 #include <murkyFramework/include/GfxDevice/texture.hpp>
+#include <murkyFramework/src/GfxDevice/public/shaderId.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
 #include <memory>
 
 namespace GfxDevice
 {      
-	class ShaderId;
+	class ShaderId2;
 
     class VertexBufferDynamic
     {
@@ -21,7 +22,7 @@ namespace GfxDevice
         // capacity measures in 
         VertexBufferDynamic(
             VertexType vertexType, PrimativeType primativeType, 
-            std::wstring &shaderName, TextureId &texture,
+			ShaderId_private3 shaderId, TextureId &texture,
             u32 nVerts );
         ~VertexBufferDynamic();
         // Methods		
@@ -32,7 +33,7 @@ namespace GfxDevice
         //const u32			capacity?;
         const VertexType	vertexType;		
         const PrimativeType primativeType;
-		ShaderId			*pShaderId;
+		const ShaderId_private3	shaderId;
         const TextureId	    texture;
         struct handleDeviceVB *pHandle;
         u32   capacity;

@@ -24,9 +24,12 @@
 #include <murkyFramework/include/readFBX.hpp>
 #include <murkyFramework/include/collectionNamed.hpp>
 
-// forward declarations
 namespace GfxDevice
 {
+	// external forward declarations 
+	extern murkyFramework::CollectionNamed< ShaderId_private3 > shaders;
+
+	// forward declarations
     TextureId   createTextureObjectFromFile(const std::wstring &dirName,
     const       std::wstring &fileName, const std::wstring &extensionName);
     TextureId   createTestTextureObject();
@@ -35,9 +38,7 @@ namespace GfxDevice
     void        initilise_textureSystem();
     void        deinitilise_textureSystem();
 	mat4		makeProjectionMatrix_perspective(float x, float x1, float x2, float x3);	
-
-	class ShaderId;
-	extern murkyFramework::CollectionNamed< ShaderId* > shaders;
+		
 }
 extern std::vector<Triangle_pct> gdeb_tris;
 
@@ -81,7 +82,7 @@ namespace Render
         vertexBufferTemp = new GfxDevice::VertexBufferDynamic(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::triangle,
-            std::wstring(L"posColTex"),
+	        GfxDevice::shaders.get( std::wstring(L"posColTex")),
             //textureManager->getTextureByName(L"gtex"),
             std::move(newt2),
             1024 );
@@ -89,7 +90,7 @@ namespace Render
         defaultLineVB = new GfxDevice::VertexBufferDynamic(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::line,
-			std::wstring(L"posColTex"),
+	        GfxDevice::shaders.get(std::wstring(L"posColTex")),
             std::move(newt3),            
             16*1024);
 

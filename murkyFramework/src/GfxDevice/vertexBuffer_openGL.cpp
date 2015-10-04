@@ -13,18 +13,14 @@
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
 #include <murkyFramework/include/collectionNamed.hpp>
+#include <murkyFramework/src/GfxDevice/public/shaderId.hpp>
+#include <murkyFramework/src/GfxDevice/private/openGL/shaderId_private.hpp>
 
 namespace GfxDevice
 {
 	// forward declarations of external stuff  
-	class ShaderId
-	{
-	public:
-		GLuint value;
-	};
-
-	extern murkyFramework::CollectionNamed<ShaderId*> shaders;
-
+	extern murkyFramework::CollectionNamed<ShaderId2> shaders; 
+	
     struct handleDeviceVB
     {
         u32 vao;
@@ -39,10 +35,10 @@ namespace GfxDevice
     // constructor	
     VertexBufferDynamic::VertexBufferDynamic(
         VertexType vertexType, PrimativeType primativeType,
-		std::wstring &shaderName, GfxDevice::TextureId &texture,
+		ShaderId_private3 shaderId, GfxDevice::TextureId &texture,
         u32 nVerts) :
         vertexType(vertexType), primativeType(primativeType), 		
-		texture(std::move(texture)),
+		shaderId(shaderId), texture(std::move(texture)),
         capacity(nVerts)
     {				        
 		pHandle = new handleDeviceVB();
@@ -52,11 +48,8 @@ namespace GfxDevice
 
         glGenBuffers(1, &pHandle->vbo);
         glBindBuffer(GL_ARRAY_BUFFER, pHandle->vbo);
-
-		GLuint shaderProg = shaders.get(shaderName)->value;
-		pShaderId = new ShaderId();
-		pShaderId->value = shaderProg;
-        glUseProgram( shaderProg );
+				
+        glUseProgram( shaderId.value );
 
         // layout
         int szVertex = sizeof(Vert_pct);
@@ -83,8 +76,7 @@ namespace GfxDevice
     }
 
     VertexBufferDynamic::~VertexBufferDynamic()
-    {
-		delete pShaderId;
+    {		
         delete pHandle;
     }
 
@@ -136,7 +128,7 @@ namespace GfxDevice
 
         glBindVertexArray(pHandle->vao);		
 
-        glUseProgram(pShaderId->value);
+        glUseProgram(shaderId.value);
         glUniform1i(Shaders::uniforms_textureSamplerID, 0);
 
         glBindTexture( GL_TEXTURE_2D, texture.pHandle->deviceTexture );//is this already bound to vao???

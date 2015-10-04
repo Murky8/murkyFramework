@@ -58,6 +58,21 @@
     <Filter Include="Header Files\GfxDevice\openGL">
       <UniqueIdentifier>{af5ae917-1896-4b50-a7f9-054b567d1ce6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GfxDevice\public">
+      <UniqueIdentifier>{c6ae3ed4-9dd6-4726-979f-8dcd5e72f361}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GfxDevice\private">
+      <UniqueIdentifier>{0ef290c2-4171-4bea-a7c6-3aa86315a368}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GfxDevice\private\openGL">
+      <UniqueIdentifier>{4d3389df-c642-45a9-ba2b-a31f04ea0ef1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GfxDevice\private\direct3D11">
+      <UniqueIdentifier>{dfafd5e8-1375-43ef-83cc-c8af48c34fc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GfxDevice\private\direct3D12">
+      <UniqueIdentifier>{10b94bc0-1450-41e2-a0a7-85698f589d70}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\external\lodepng.cpp">
@@ -292,6 +307,18 @@
     </ClInclude>
     <ClInclude Include="..\..\include\collectionNamed.hpp">
       <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\openGL\shaderId_private.hpp">
+      <Filter>Source Files\GfxDevice\private\openGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d11\shaderId_private.hpp">
+      <Filter>Source Files\GfxDevice\private\direct3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\shaderId_private.hpp">
+      <Filter>Source Files\GfxDevice\private\direct3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\public\shaderId.hpp">
+      <Filter>Source Files\GfxDevice\public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

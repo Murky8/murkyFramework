@@ -30,7 +30,7 @@ namespace murkyFramework
 	template <typename T>
 	CollectionNamed<T>::~CollectionNamed()
 	{
-		triggerBreakpoint();
+		//triggerBreakpoint();
 	}
 
 	template <typename T>

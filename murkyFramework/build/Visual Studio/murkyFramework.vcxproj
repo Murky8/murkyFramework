@@ -292,6 +292,10 @@
     <ClInclude Include="..\..\include\vectorMatrix.hpp" />
     <ClInclude Include="..\..\include\vectorMatrix_rotation.hpp" />
     <ClInclude Include="..\..\include\version.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d11\shaderId_private.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\shaderId_private.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\openGL\shaderId_private.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\public\shaderId.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\GfxDevice\shaders\posColTex.fsh" />

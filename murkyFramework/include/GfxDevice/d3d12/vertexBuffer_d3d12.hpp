@@ -18,7 +18,7 @@ namespace GfxDevice
         // capacity measures in 
         VertexBufferDynamic(
             VertexType vertexType, PrimativeType primativeType, 
-            ShaderId shaderProgram, TextureId &texture,
+            ShaderId2 shaderProgram, TextureId &texture,
             u32 nVerts );
         ~VertexBufferDynamic();
         // Methods		
@@ -29,7 +29,7 @@ namespace GfxDevice
         //const u32			capacity?;
         const VertexType	vertexType;		
         const PrimativeType primativeType;
-        const ShaderId      shaderProgram;
+        ShaderId2      shaderProgram;
         const TextureId	    texture;
         struct handleDeviceVB *pHandle;
         u32   capacity;

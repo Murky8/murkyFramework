@@ -12,13 +12,13 @@
 
 namespace GfxDevice
 {    
-    class ShaderId;
+    class ShaderId2;
     
     namespace Shaders
     {    
         extern	u32	uniforms_textureSamplerID;		
         extern	u32	uniformHandle_projectionMatrix;
-        extern	ShaderId posColText;
+        extern	ShaderId2 posColText;
         void	initialise();
         void	deinitialise();
     }
