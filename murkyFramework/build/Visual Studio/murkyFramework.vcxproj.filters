@@ -30,19 +30,6 @@
     <Filter Include="Source Files\GfxDevice\openGL\shaders">
       <UniqueIdentifier>{16625d3f-3590-4664-a780-d1e7cd839bdc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GfxDevice\direct3D11">
-      <UniqueIdentifier>{bc319cde-97d9-4b8d-bbff-e244d4fff0a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GfxDevice\direct3D11\shaders">
-      <UniqueIdentifier>{017dbdbc-4387-45a5-a544-33561e54cf3c}</UniqueIdentifier>
-      <ParseFiles>false</ParseFiles>
-    </Filter>
-    <Filter Include="Source Files\GfxDevice\direct3D12">
-      <UniqueIdentifier>{d717fade-f759-4d79-82fd-80c6aad6aa0b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GfxDevice\direct3D12\shaders">
-      <UniqueIdentifier>{5d2e00bc-ce9e-4bed-8893-78c0830295bd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\include">
       <UniqueIdentifier>{66ea1701-69d7-450e-ac64-c2192e53a518}</UniqueIdentifier>
     </Filter>
@@ -67,10 +54,23 @@
     <Filter Include="Source Files\GfxDevice\private\openGL">
       <UniqueIdentifier>{4d3389df-c642-45a9-ba2b-a31f04ea0ef1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GfxDevice\private\direct3D11">
+    <Filter Include="Source Files\GfxDevice\d3d11">
+      <UniqueIdentifier>{bc319cde-97d9-4b8d-bbff-e244d4fff0a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GfxDevice\d3d11\shaders">
+      <UniqueIdentifier>{017dbdbc-4387-45a5-a544-33561e54cf3c}</UniqueIdentifier>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files\GfxDevice\d3d12">
+      <UniqueIdentifier>{d717fade-f759-4d79-82fd-80c6aad6aa0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GfxDevice\d3d12\shaders">
+      <UniqueIdentifier>{5d2e00bc-ce9e-4bed-8893-78c0830295bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GfxDevice\private\d3d11">
       <UniqueIdentifier>{dfafd5e8-1375-43ef-83cc-c8af48c34fc9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GfxDevice\private\direct3D12">
+    <Filter Include="Source Files\GfxDevice\private\d3d12">
       <UniqueIdentifier>{10b94bc0-1450-41e2-a0a7-85698f589d70}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -79,22 +79,22 @@
       <Filter>external</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\vertexBuffer_direct3d.cpp">
-      <Filter>Source Files\GfxDevice\direct3D11</Filter>
+      <Filter>Source Files\GfxDevice\d3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\texture_direct3d.cpp">
-      <Filter>Source Files\GfxDevice\direct3D11</Filter>
+      <Filter>Source Files\GfxDevice\d3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\shader_direct3d.cpp">
-      <Filter>Source Files\GfxDevice\direct3D11</Filter>
+      <Filter>Source Files\GfxDevice\d3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\projectionMat_direct3d.cpp">
-      <Filter>Source Files\GfxDevice\direct3D11</Filter>
+      <Filter>Source Files\GfxDevice\d3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\initDevice_direct3d.cpp">
-      <Filter>Source Files\GfxDevice\direct3D11</Filter>
+      <Filter>Source Files\GfxDevice\d3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\gfxLowLevel_direct3d.cpp">
-      <Filter>Source Files\GfxDevice\direct3D11</Filter>
+      <Filter>Source Files\GfxDevice\d3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\vertexBuffer_openGL.cpp">
       <Filter>Source Files\GfxDevice\openGL</Filter>
@@ -139,19 +139,19 @@
       <Filter>Source Files\Render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\initDevice_direct3d12.cpp">
-      <Filter>Source Files\GfxDevice\direct3D12</Filter>
+      <Filter>Source Files\GfxDevice\d3d12</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\vertexBuffer_direct3d12.cpp">
-      <Filter>Source Files\GfxDevice\direct3D12</Filter>
+      <Filter>Source Files\GfxDevice\d3d12</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\texture_direct3d12.cpp">
-      <Filter>Source Files\GfxDevice\direct3D12</Filter>
+      <Filter>Source Files\GfxDevice\d3d12</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\shader_direct3d12.cpp">
-      <Filter>Source Files\GfxDevice\direct3D12</Filter>
+      <Filter>Source Files\GfxDevice\d3d12</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\gfxLowLevel_direct3d12.cpp">
-      <Filter>Source Files\GfxDevice\direct3D12</Filter>
+      <Filter>Source Files\GfxDevice\d3d12</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\appFramework.cpp">
       <Filter>Source Files\src</Filter>
@@ -312,10 +312,10 @@
       <Filter>Source Files\GfxDevice\private\openGL</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\shaderId_private.hpp">
-      <Filter>Source Files\GfxDevice\private\direct3D11</Filter>
+      <Filter>Source Files\GfxDevice\private\d3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\shaderId_private.hpp">
-      <Filter>Source Files\GfxDevice\private\direct3D12</Filter>
+      <Filter>Source Files\GfxDevice\private\d3d12</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\public\shaderId.hpp">
       <Filter>Source Files\GfxDevice\public</Filter>
@@ -323,10 +323,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\GfxDevice\shaders\posColTex.ps">
-      <Filter>Source Files\GfxDevice\direct3D11\shaders</Filter>
+      <Filter>Source Files\GfxDevice\d3d11\shaders</Filter>
     </None>
     <None Include="..\..\src\GfxDevice\shaders\posColTex.vs">
-      <Filter>Source Files\GfxDevice\direct3D11\shaders</Filter>
+      <Filter>Source Files\GfxDevice\d3d11\shaders</Filter>
     </None>
     <None Include="..\..\src\GfxDevice\shaders\posColTex.fsh">
       <Filter>Source Files\GfxDevice\openGL\shaders</Filter>

@@ -15,8 +15,7 @@
 #include <external/glew/include/GL/glew.h> 
 #include <external/glew/include/GL/wglew.h>
 #include <murkyFramework/include/collectionNamed.hpp>
-
-#include <murkyFramework/src/GfxDevice/private/openGL/shaderId_private.hpp>
+#include <murkyFramework/src/GfxDevice/public/shaderId.hpp>
 
 namespace GfxDevice
 {    	    

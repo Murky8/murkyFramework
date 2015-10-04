@@ -19,6 +19,9 @@
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
 #include <murkyFramework/include/loadSaveFile.hpp>
+#include <murkyFramework/src/GfxDevice/public/shaderId.hpp>
+#include <murkyFramework/include/collectionNamed.hpp>
+#include <murkyFramework/include/GfxDevice/d3d12/shaders_d3d12.hpp>
 
 namespace GfxDevice
 {
@@ -43,16 +46,19 @@ namespace GfxDevice
     extern  ID3D11Buffer            *g_pCBChangesEveryFrame;
     extern  ID3D11SamplerState       *g_pSamplerLinear;    
     
+	/*
     namespace Shaders
     {     
-        ShaderId posColText;
+		ShaderId_private3 posColText;
     }
 
-    struct HandleDeviceShader
+   struct HandleDeviceShader
     {
         ID3D11VertexShader     *pVertexShader;
         ID3D11PixelShader      *pPixelShader;
-    };
+    };*/
+
+	murkyFramework::CollectionNamed< ShaderId_private3 > shaders;
 
     void setUniform_projectionMatrix(const float *pMat)
     {   
@@ -150,8 +156,12 @@ namespace GfxDevice
         if (FAILED(hr))
             triggerBreakpoint();
 
-        Shaders::posColText.handle = (u32)g_pVertexShader;
-        Shaders::posColText.handle2 = (u32)g_pPixelShader;
+		ShaderId_private3 newShaderId;
+
+		newShaderId.pVertexShader = g_pVertexShader;
+		newShaderId.pPixelShader = g_pPixelShader;
+
+		shaders.add(std::wstring(L"posColTex"), newShaderId);
 
         // murky VB
         /*    Vert_pct vertices[] =

@@ -11,7 +11,6 @@
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/include/GfxDevice/texture.hpp>
 
-
 namespace Render
 {
     class TextRender

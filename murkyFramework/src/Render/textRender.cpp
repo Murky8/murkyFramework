@@ -17,7 +17,7 @@
 
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/collectionNamed.hpp>
-#include <murkyFramework/src/GfxDevice/private/openGL/shaderId_private.hpp>
+#include <murkyFramework/src/GfxDevice/public/shaderId.hpp>
 
 namespace GfxDevice
 {		

@@ -38,16 +38,7 @@ namespace GfxDevice
         struct handleDeviceVB *pHandle;
         u32   capacity;
     private:
-      
-
-#ifdef USE_DIRECT3D11
-           
-#endif // USE_DIRECT3D11
-#ifdef USE_OPENGL
-           //u32 vao;
-           //u32 vbo;        
-#endif // USE_OPENGL
-        
+              
         VertexBufferDynamic() = delete;
     };   
     //--------------------------------------------------------------------------

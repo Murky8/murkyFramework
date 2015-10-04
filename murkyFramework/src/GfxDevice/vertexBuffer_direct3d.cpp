@@ -39,10 +39,10 @@ namespace GfxDevice
     // constructor	
     VertexBufferDynamic::VertexBufferDynamic(
         VertexType vertexType, PrimativeType primativeType, 
-        ShaderId shaderProgram, GfxDevice::TextureId &texture,
+        ShaderId_private3 shaderId, GfxDevice::TextureId &texture,
         u32 nVerts) :
         vertexType(vertexType), primativeType(primativeType), 
-        shaderProgram(shaderProgram), texture(std::move(texture)),
+        shaderId(shaderId), texture(std::move(texture)),
         capacity(nVerts)
     {			
         u32 sizeVertex = 0;
