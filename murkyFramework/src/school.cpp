@@ -251,13 +251,67 @@ d2 = std::move(d1);
 //    return debObj;
 //}
 
+
+int idProvider = 0;
+struct Zoof
+{
+	// data 
+	int id;		
+	
+	// default constructor
+	Zoof()
+	{
+		id = idProvider++;		
+		debugLog << id <<L":  default constructor\n";		
+	}
+	
+	// copy constructor
+	Zoof(const Zoof& rhs)
+	{
+		id = idProvider++;		
+		debugLog << id << L":  copy constructor\n";		
+	}
+
+	// move constructor
+	Zoof(Zoof&& rhs)
+	{
+		id = idProvider++;
+		debugLog << id << L":  move constructor\n";		
+	}
+
+	// copy assignment
+	Zoof &operator=(const Zoof& rhs)
+	{
+		debugLog << id << L"<-" << rhs.id << L":  copy assigmnet\n";
+	}
+
+	// move assignment 
+	Zoof &operator=(Zoof&& rhs)
+	{
+		debugLog << id << L"<-" << rhs.id << L":  move assigmnet\n";
+	}
+	
+	~Zoof()
+	{
+		debugLog << id << L": destructor\n";
+
+	}
+};
+
+typedef std::unique_ptr<Zoof> upMoof;
 void skool()
 {
-    std::unique_ptr<int> pint(new int{ 123 });
-    std::shared_ptr<int> pintsh(new int{ 123 });
-    {
-    
-    }
+	{
+		std::unique_ptr<Zoof> p(new Zoof);
+		//std::vector<  std::unique_ptr<Zoof> > moofs;
+		//moofs.push_back(std::move(p));
+		std::unique_ptr<Zoof> d;
+		d = std::move(p);
+		
+		//std::shared_ptr<int> pintsh(new int{ 123 });
+		debugLog << L"finished \n";
+	}
+
     exit(0);
 }
 

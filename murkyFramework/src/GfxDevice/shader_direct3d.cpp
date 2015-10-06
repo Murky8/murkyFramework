@@ -46,18 +46,6 @@ namespace GfxDevice
     extern  ID3D11Buffer            *g_pCBChangesEveryFrame;
     extern  ID3D11SamplerState       *g_pSamplerLinear;    
     
-	/*
-    namespace Shaders
-    {     
-		ShaderId_private3 posColText;
-    }
-
-   struct HandleDeviceShader
-    {
-        ID3D11VertexShader     *pVertexShader;
-        ID3D11PixelShader      *pPixelShader;
-    };*/
-
 	murkyFramework::CollectionNamed< ShaderId_private3 > shaders;
 
     void setUniform_projectionMatrix(const float *pMat)

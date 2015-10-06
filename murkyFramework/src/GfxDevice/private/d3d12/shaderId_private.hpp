@@ -8,9 +8,10 @@
 
 namespace GfxDevice
 {
-	class ShaderId_private
+	class ShaderId_private3
 	{
 	public:
 
 	};
 }
+#endif

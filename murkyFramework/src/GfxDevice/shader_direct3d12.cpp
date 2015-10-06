@@ -28,21 +28,15 @@
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
 #include <murkyFramework/include/loadSaveFile.hpp>
+#include <murkyFramework/src/GfxDevice/public/shaderId.hpp>
+#include <murkyFramework/include/collectionNamed.hpp>
+#include <murkyFramework/include/GfxDevice/d3d12/shaders_d3d12.hpp>
 
 namespace GfxDevice
 {
-    using namespace DirectX;
-    extern     void GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-    
-    namespace Shaders
-    {     
-        ShaderId posColText;
-    }
+    using namespace DirectX;    
 
-    struct HandleDeviceShader
-    {        
-    };
-
+	murkyFramework::CollectionNamed< ShaderId_private3 > shaders;
     void setUniform_projectionMatrix(const float *pMat)
     {   
      // g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame, 0, nullptr, pMat, 0, 0);
