@@ -23,16 +23,14 @@
 #include <murkyFramework/include/Render/projectionMat.hpp>
 #include <murkyFramework/include/readFBX.hpp>
 #include <murkyFramework/include/collectionNamed.hpp>
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 
 namespace GfxDevice
 {
-	// external forward declarations 
-	extern murkyFramework::CollectionNamed< ShaderId_private3 > shaders;
-
 	// forward declarations
-    TextureId   createTextureObjectFromFile(const std::wstring &dirName,
+    TextureWrapper   createTextureObjectFromFile(const std::wstring &dirName,
     const       std::wstring &fileName, const std::wstring &extensionName);
-    TextureId   createTestTextureObject();
+    TextureWrapper   createTestTextureObject();
 	bool        initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);	
     bool        deinitialise_device();    
     void        initilise_textureSystem();
@@ -46,11 +44,10 @@ namespace Render
 {        
 	using namespace murkyFramework;
     // data    
-    GfxDevice::VertexBufferDynamic    *vertexBufferTemp;  // for testing
-    GfxDevice::VertexBufferDynamic    *defaultLineVB;          
+    //GfxDevice::VertexBufferWrapper    *vertexBufferTemp;  // for testing
+    //GfxDevice::VertexBufferWrapper    *defaultLineVB;          
     TextRender                          *textRenderer;
-    mat4	                            projectionMatrix;
-    GfxDevice::TextureManager         *textureManager;
+    mat4	                            projectionMatrix;    
     // forward declarations
     std::vector<Line_pct>               defaultLines;    
     
@@ -68,34 +65,31 @@ namespace Render
 #endif
 
         GfxDevice::Shaders::initialise();
-        GfxDevice::initilise_textureSystem();
-        textureManager = new GfxDevice::TextureManager();
+        GfxDevice::initilise_textureSystem();        
         
-        GfxDevice::TextureId newt = GfxDevice::createTextureObjectFromFile(
+        GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
             L"data", L"font", L"png");
-
-        GfxDevice::TextureId newt2 = GfxDevice::createTestTextureObject();
-
-        GfxDevice::TextureId newt3 = GfxDevice::createTextureObjectFromFile(
-            L"data", L"t0", L"png");
-
-        vertexBufferTemp = new GfxDevice::VertexBufferDynamic(
+		GfxDevice::textureManager.add(std::wstring(L"font"), newt);
+        
+		GfxDevice::TextureWrapper newt2 = GfxDevice::createTestTextureObject();
+		GfxDevice::textureManager.add(std::wstring(L"test"), newt2);
+        
+		GfxDevice::vertexBufferManager.add(std::wstring(L"tris"), 
+			GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::triangle,
-	        GfxDevice::shaders.get( std::wstring(L"posColTex")),
-            //textureManager->getTextureByName(L"gtex"),
-            std::move(newt2),
-            1024 );
+	        GfxDevice::shaderManager.get( std::wstring(L"posColTex")),            
+            newt, 1024 ));
 
-        defaultLineVB = new GfxDevice::VertexBufferDynamic(
+		GfxDevice::vertexBufferManager.add(std::wstring(L"lines"),
+			GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::line,
-	        GfxDevice::shaders.get(std::wstring(L"posColTex")),
-            std::move(newt3),            
-            16*1024);
+	        GfxDevice::shaderManager.get(std::wstring(L"posColTex")),
+            newt2, 16*1024));
 
         //textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
-        textRenderer = new TextRender(std::move(newt));
+        textRenderer = new TextRender(newt);
 
         Gapp->gfxInitialised = true;
     }
@@ -105,9 +99,7 @@ namespace Render
         debugLog << L"RenderHi::deinitialise" << "\n";
         GfxDevice::deinitilise_textureSystem();
         GfxDevice::Shaders::deinitialise();
-        delete textRenderer;
-        delete textureManager; // will delete all textures?;
-        delete vertexBufferTemp;
+        delete textRenderer;          
 
         GfxDevice::deinitialise_device();
     }
@@ -188,7 +180,7 @@ namespace Render
             {
                 drawCrosshair(vec3(t.v[0].pos.x, t.v[0].pos.y, -t.v[0].pos.z), vec3(1, 1, 1), 1.f);
             }
-            defaultLineVB->draw(defaultLines.data(), defaultLines.size());
+			GfxDevice::vertexBufferManager.get(std::wstring(L"lines")).draw(defaultLines.data(), defaultLines.size());
         }
 
         //defaultLineVB->draw(gdeb_tris.data(), gdeb_tris.size());

@@ -1,15 +1,17 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
+// Platform: C++11
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-
-#include <map>
-#include <vector>
-#include <murkyFramework/include/types.hpp>
-#include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/common.hpp>
+#ifdef USE_OPENGL
+#include <external/glew/include/GL/glew.h> 
 
 namespace GfxDevice
-{  
-    
+{
+	class ShaderWrapper
+	{
+	public:
+		GLuint value;
+	};
 }
+#endif

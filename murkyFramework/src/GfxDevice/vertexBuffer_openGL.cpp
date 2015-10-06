@@ -13,41 +13,27 @@
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
 #include <murkyFramework/include/collectionNamed.hpp>
-#include <murkyFramework/src/GfxDevice/public/shaderId.hpp>
-#include <murkyFramework/src/GfxDevice/private/openGL/shaderId_private.hpp>
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
+//#include <murkyFramework/src/GfxDevice/private/openGL/shaderId_private.hpp>
 
 namespace GfxDevice
 {
 	// forward declarations of external stuff  
-	extern murkyFramework::CollectionNamed<ShaderId2> shaders; 
-	
-    struct handleDeviceVB
-    {
-        u32 vao;
-        u32 vbo;
-    };
-    
-    struct HandleDeviceTexture
-    {
-        u32 deviceTexture;
-    };
-
+		    
     // constructor	
-    VertexBufferDynamic::VertexBufferDynamic(
+    VertexBufferWrapper::VertexBufferWrapper(
         VertexType vertexType, PrimativeType primativeType,
-		ShaderId_private3 shaderId, GfxDevice::TextureId &texture,
+		ShaderWrapper shaderId, TextureWrapper texture,
         u32 nVerts) :
         vertexType(vertexType), primativeType(primativeType), 		
-		shaderId(shaderId), texture(std::move(texture)),
+		shaderId(shaderId), texture(texture),
         capacity(nVerts)
-    {				        
-		pHandle = new handleDeviceVB();
+    {				        		
+        glGenVertexArrays(1, &vao);
+        glBindVertexArray(vao);
 
-        glGenVertexArrays(1, &pHandle->vao);
-        glBindVertexArray(pHandle->vao);
-
-        glGenBuffers(1, &pHandle->vbo);
-        glBindBuffer(GL_ARRAY_BUFFER, pHandle->vbo);
+        glGenBuffers(1, &vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
 				
         glUseProgram( shaderId.value );
 
@@ -75,13 +61,12 @@ namespace GfxDevice
         onGfxDeviceErrorTriggerBreakpoint();
     }
 
-    VertexBufferDynamic::~VertexBufferDynamic()
-    {		
-        delete pHandle;
+    VertexBufferWrapper::~VertexBufferWrapper()
+    {				
     }
 
     // methods
-    void	VertexBufferDynamic::draw( void *data, u32 nPrimatives )
+    void	VertexBufferWrapper::draw( void *data, u32 nPrimatives )
     {
         if (nPrimatives >= capacity)
             triggerBreakpoint();
@@ -126,15 +111,15 @@ namespace GfxDevice
 
         //Vert_pct *d = static_cast<Vert_pct*>(data);
 
-        glBindVertexArray(pHandle->vao);		
+        glBindVertexArray(vao);		
 
         glUseProgram(shaderId.value);
         glUniform1i(Shaders::uniforms_textureSamplerID, 0);
 
-        glBindTexture( GL_TEXTURE_2D, texture.pHandle->deviceTexture );//is this already bound to vao???
+        glBindTexture( GL_TEXTURE_2D, texture.value );//is this already bound to vao???
         onGfxDeviceErrorTriggerBreakpoint();
 
-        glBindBuffer(GL_ARRAY_BUFFER, pHandle->vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
         //glBufferSubData(GL_ARRAY_BUFFER, 0, nPrimatives*nVerticiesPerPrimative*sizeVertex, data);
         glBufferData(GL_ARRAY_BUFFER, nPrimatives*nVerticiesPerPrimative*sizeVertex, data, GL_DYNAMIC_DRAW);
 

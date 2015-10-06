@@ -14,38 +14,20 @@
 #include <memory>
 #include <array>
 #include <regex>
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 
 namespace GfxDevice
 {
     // forward declarations
-    TextureId   createTextureObject(u8 * in_imageData, u32 width, u32 height);
+    TextureWrapper   createTextureObject(u8 * in_imageData, u32 width, u32 height);
 
-    // forward declarations internal
+    // internal forward declarations 
     bool loadTextureDataFromFile(std::vector<u8> &textureRawOut, const std::wstring &dirName,
         const std::wstring &fileName, const std::wstring &extensionName,
         u32 &widthOut, u32 &heightOut);
 
     // functions
-    void TextureManager::insert(const std::wstring &name, TextureId texID)
-    {
-        textures.insert(std::pair<std::wstring, TextureId>(name, std::move(texID)));
-    }
-
-    TextureId &TextureManager::getTextureByName(const std::wstring &name)
-    {
-        auto it = textures.find(name);
-        if (it != textures.end())
-        {
-            return it->second;
-        }
-        else
-        {
-            triggerBreakpoint();
-            return it->second;
-        }
-    }
-
-    TextureId   createTextureObjectFromFile(const std::wstring &dirName,
+	TextureWrapper   createTextureObjectFromFile(const std::wstring &dirName,
         const std::wstring &fileName, const std::wstring &extensionName)
     {
         std::vector<u8> textureRaw;
@@ -54,11 +36,11 @@ namespace GfxDevice
         loadTextureDataFromFile(textureRaw, dirName, fileName, extensionName,
             width, height);
 
-        TextureId   TextureId = createTextureObject(textureRaw.data(), width, height);
-        return TextureId;
+        TextureWrapper   t = createTextureObject(textureRaw.data(), width, height);
+        return t;
     }
 
-    TextureId   createTestTextureObject()
+    TextureWrapper   createTestTextureObject()
     {        
         const auto subDiv = 256;
 

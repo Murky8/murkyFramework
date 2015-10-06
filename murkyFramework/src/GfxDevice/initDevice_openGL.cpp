@@ -12,7 +12,6 @@
 #include <external/glew/include/GL/wglew.h>
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 
-
 namespace GfxDevice
 {
     // forward declarations    

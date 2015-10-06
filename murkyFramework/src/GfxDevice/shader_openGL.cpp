@@ -15,7 +15,7 @@
 #include <external/glew/include/GL/glew.h> 
 #include <external/glew/include/GL/wglew.h>
 #include <murkyFramework/include/collectionNamed.hpp>
-#include <murkyFramework/src/GfxDevice/public/shaderId.hpp>
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 
 namespace GfxDevice
 {    	    
@@ -24,10 +24,7 @@ namespace GfxDevice
     
     // internal forward declarations
     u32     createShader(const char* sourceText, u32 type);
-    u32	    createProgram(u32 vertexShader, u32 fragmentShader);   		
-
-	
-	murkyFramework::CollectionNamed< ShaderId_private3 > shaders;
+    u32	    createProgram(u32 vertexShader, u32 fragmentShader);   				
 
     namespace Shaders
     {
@@ -77,7 +74,7 @@ namespace GfxDevice
 		// note: OGL, this accepts row-major, pre-multiplying of verts and post-multi in vertex shader.
 		// ie no need to transpose if post-multi (Mv) in vertex shader.
 
-        glUseProgram(shaders.get( L"posColTex").value);
+        glUseProgram(shaderManager.get( L"posColTex").value);
         glUniformMatrix4fv(Shaders::uniformHandle_projectionMatrix, 1, false, pMat);		
         glUseProgram(0);
         GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
@@ -91,7 +88,7 @@ namespace GfxDevice
         u32 vs = GfxDevice::createShader(vertex_shader, GL_VERTEX_SHADER);
         u32 fs = GfxDevice::createShader(fragment_shader, GL_FRAGMENT_SHADER);			
 		GLuint p = GfxDevice::createProgram(vs, fs);			
-		shaders.add(L"posColTex", ShaderId_private3{ p });
+		shaderManager.add(L"posColTex", ShaderWrapper{ p });
 
         uniforms_textureSamplerID = glGetUniformLocation(p, "textureSamplerID");
         checkUniform(uniforms_textureSamplerID);

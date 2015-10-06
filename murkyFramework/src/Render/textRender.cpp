@@ -17,26 +17,22 @@
 
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/collectionNamed.hpp>
-#include <murkyFramework/src/GfxDevice/public/shaderId.hpp>
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 
 namespace GfxDevice
 {		
-	// forward declarations of external stuff    
-	extern murkyFramework::CollectionNamed< ShaderId_private3 > shaders;
-    extern TextureManager textureManager;
+	// forward declarations of external stuff    	
 }
 
 namespace Render
-{
-	// forward declarations of external stuff    
-
+{	
     // Constructors
-    TextRender::TextRender(GfxDevice::TextureId textureRef) 
+    TextRender::TextRender(GfxDevice::TextureWrapper textureRef) 
     {											            
-        textTriangleBuffer = new GfxDevice::VertexBufferDynamic(
+        textTriangleBuffer = new GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::triangle,
-	        GfxDevice::shaders.get(std::wstring(L"posColTex")),		
+	        GfxDevice::shaderManager.get(std::wstring(L"posColTex")),		
             textureRef, 1024);            
     }
 

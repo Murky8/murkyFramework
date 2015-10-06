@@ -216,6 +216,7 @@
     <ClCompile Include="..\..\src\GfxDevice\initDevice_direct3d.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\initDevice_direct3d12.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\initDevice_openGL.cpp" />
+    <ClCompile Include="..\..\src\GfxDevice\private\gfxDevice.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\projectionMat_direct3d.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\projectionMat_openGL.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\shader_direct3d.cpp" />
@@ -273,10 +274,8 @@
     <ClInclude Include="..\..\include\GfxDevice\d3d12\texture_d3d12.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\d3d12\vertexBuffer_d3d12.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\gfxLowLevel.hpp" />
-    <ClInclude Include="..\..\include\GfxDevice\gfxLowLevel_private.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\gfxPrimativeTypes.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\shaders.hpp" />
-    <ClInclude Include="..\..\include\GfxDevice\texture.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\version_gfxDevice.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\vertexBuffer.hpp" />
     <ClInclude Include="..\..\include\hidusage.h" />
@@ -297,10 +296,13 @@
     <ClInclude Include="..\..\include\vectorMatrix.hpp" />
     <ClInclude Include="..\..\include\vectorMatrix_rotation.hpp" />
     <ClInclude Include="..\..\include\version.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\private\d3d11\shaderId_private.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\shaderId_private.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\private\openGL\shaderId_private.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\public\shaderId.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\openGL\shaderWrapper.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\openGL\textureWrapper.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\openGL\vertexBufferWrapper.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\public\gfxDevice.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\public\shaderWrappers.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\public\textureWrappers.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\public\vertexBufferWrappers.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\GfxDevice\shaders\posColTex.fsh" />

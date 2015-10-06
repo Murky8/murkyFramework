@@ -22,6 +22,7 @@
 #include <murkyFramework/include/common.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/appFramework.hpp>
+#include <murkyFramework/include/Render/linesShapes.hpp>
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -250,7 +251,7 @@ namespace GfxDevice
 #else
 			UINT compileFlags = 0;
 #endif
-
+			Shaders::initialise();
 			ThrowIfFailed(D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &vertexShader, nullptr));
 			ThrowIfFailed(D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &pixelShader, nullptr));
 

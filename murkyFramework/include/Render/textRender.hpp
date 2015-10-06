@@ -10,31 +10,24 @@
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/include/GfxDevice/texture.hpp>
+#include <murkyFramework/src/GfxDevice/public/textureWrappers.hpp>
 
 namespace Render
 {
     class TextRender
     {
     public:
-        // Constructors
+        // constructors
         TextRender() = delete;
-        TextRender( GfxDevice::TextureId textureRef);
+        TextRender(GfxDevice::TextureWrapper textureRef);
 
-        // Destructors
-        //~TextRender();
-        // Methods
+        // methods
         void drawText(const std::wstring &text);
-        //void drawAllText();
-        // Data
-        
-        std::vector<Triangle_pct>			textTris;
-        GfxDevice::VertexBufferDynamic	*textTriangleBuffer;        
-        //std::wstring text;
-    private:
-        // Constructors        
-        // Destructors
-        // Methods
-        // Data                
+
+        // data        
+        std::vector<Triangle_pct>				textTris;
+        GfxDevice::VertexBufferWrapper	*textTriangleBuffer;                
+    private:        
     };		
 
     //void drawText(const std::wstring &text, const GfxLowLevel::TextureRef &texture);

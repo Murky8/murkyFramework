@@ -201,6 +201,9 @@
     <ClCompile Include="..\..\src\vectorMatrix_transform.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\private\gfxDevice.cpp">
+      <Filter>Source Files\GfxDevice\private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\external\lodepng.h">
@@ -213,9 +216,6 @@
       <Filter>Header Files\GfxDevice</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\GfxDevice\shaders.hpp">
-      <Filter>Header Files\GfxDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\GfxDevice\texture.hpp">
       <Filter>Header Files\GfxDevice</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\GfxDevice\version_gfxDevice.hpp">
@@ -302,22 +302,28 @@
     <ClInclude Include="..\..\include\GfxDevice\d3d12\vertexBuffer_d3d12.hpp">
       <Filter>Header Files\GfxDevice\d3d12</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\GfxDevice\gfxLowLevel_private.hpp">
-      <Filter>Header Files\GfxDevice</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\collectionNamed.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\private\openGL\shaderId_private.hpp">
+    <ClInclude Include="..\..\src\GfxDevice\private\openGL\textureWrapper.hpp">
       <Filter>Source Files\GfxDevice\private\openGL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\private\d3d11\shaderId_private.hpp">
-      <Filter>Source Files\GfxDevice\private\d3d11</Filter>
+    <ClInclude Include="..\..\src\GfxDevice\private\openGL\vertexBufferWrapper.hpp">
+      <Filter>Source Files\GfxDevice\private\openGL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\shaderId_private.hpp">
-      <Filter>Source Files\GfxDevice\private\d3d12</Filter>
+    <ClInclude Include="..\..\src\GfxDevice\public\textureWrappers.hpp">
+      <Filter>Source Files\GfxDevice\public</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\public\shaderId.hpp">
+    <ClInclude Include="..\..\src\GfxDevice\public\vertexBufferWrappers.hpp">
+      <Filter>Source Files\GfxDevice\public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\public\gfxDevice.hpp">
+      <Filter>Source Files\GfxDevice\public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\openGL\shaderWrapper.hpp">
+      <Filter>Source Files\GfxDevice\private\openGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\public\shaderWrappers.hpp">
       <Filter>Source Files\GfxDevice\public</Filter>
     </ClInclude>
   </ItemGroup>
