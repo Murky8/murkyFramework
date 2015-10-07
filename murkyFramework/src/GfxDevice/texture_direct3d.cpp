@@ -15,6 +15,8 @@
 #include <regex>
 #include <murkyFramework/include/common.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
+
   
 //http://gamedev.stackexchange.com/questions/14507/loading-a-texture2d-array-in-directx11
 //https://msdn.microsoft.com/en-us/library/windows/desktop/ff476904(v=vs.85).aspx
@@ -66,35 +68,10 @@ namespace GfxDevice
     void deinitilise_textureSystem()
     {
         g_pSamplerLinear->Release();
-    }
-
-    // device specific handle to texture
-    struct HandleDeviceTexture
-    {
-        ID3D11ShaderResourceView *deviceTexture;
-    };    
-
-    // TextureId constructor
-    TextureId::TextureId(HandleDeviceTexture* pHandleDeviceTexture) :
-        pHandle(pHandleDeviceTexture)
-    {
-    }
-
-    // TextureId deconstructor
-    TextureId::~TextureId()
-    {
-        if (pHandle != nullptr)
-        {
-            pHandle->deviceTexture->Release();
-            delete pHandle;
-            pHandle = nullptr;
-        }
-    }
-      
-    TextureId   createTextureObject(u8 * in_imageData, u32 width, u32 height)    
-    {
-        TextureId   textureId( new HandleDeviceTexture );                
-
+    }   
+        
+    TextureWrapper   createTextureObject(u8 * in_imageData, u32 width, u32 height)    
+    {        
         HRESULT hr;
         D3D11_TEXTURE2D_DESC desc;
         auto format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -130,52 +107,15 @@ namespace GfxDevice
         resviewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
         resviewDesc.Texture2D.MipLevels = 1;           
 
+
+		TextureWrapper newTexture;
         hr = g_pd3dDevice->CreateShaderResourceView(texture,
-            &resviewDesc, &textureId.pHandle->deviceTexture);
+            &resviewDesc, &newTexture.deviceTexture);
         
         if (FAILED(hr))
             triggerBreakpoint();
 
-        return textureId;
-    }
-
-   
-
-    //// constructor
-    //TextureId::TextureId(const std::wstring &dirName, const std::wstring &fileName,
-    //    const std::wstring &extensionName)
-    //{
-    //    std::vector<u8> textureRaw;
-    //    u32 width, height;
-
-    //    bool res = loadTexture(textureRaw, dirName, fileName, extensionName, width, height);
-    //    if (res == false)
-    //        triggerBreakpoint();
-
-    //    this->insertImageData((u8*)textureRaw.data(), width, height);
-    //}
-
-    //TextureId   loadAndCreateTexture(const std::wstring &dirName, const std::wstring &fileName,
-    //    const std::wstring &extensionName)
-    //{
-    //    std::vector<u8> textureRaw;
-    //    u32 width, height;
-
-    //    bool res = loadTexture(textureRaw, dirName, fileName, extensionName, width, height);
-    //    if (res == false)
-    //        triggerBreakpoint();
-
-    //    triggerBreakpoint();
-
-    //    //this->insertImageData((u8*)textureRaw.data(), width, height);
-    //}
-
-    //// constructor. create texture from raw
-    //TextureId::TextureId(u8 *rawData, u32 width, u32 height)   
-    //{
-    //    this->insertImageData(rawData, width, height);
-    //}
-
-    
+        return newTexture;
+    }    
 }
 #endif // USE_DIRECT3D11

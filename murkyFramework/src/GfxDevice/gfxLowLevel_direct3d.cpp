@@ -17,17 +17,12 @@
 
 // forward declarations
 namespace Render  // todo: delete
-{        
-    extern GfxDevice::TextureManager *textureManager;
+{            
 }
 
 namespace GfxDevice
 {       
-    struct HandleDeviceTexture
-    {
-        ID3D11ShaderResourceView *deviceTexture;
-    };
-
+    
     HDC     hDC;   // a copy from main.cpp
     HGLRC   hRC;
     HWND    hWnd;
@@ -45,8 +40,8 @@ namespace GfxDevice
     ID3D11Texture2D         *g_pDepthStencil = nullptr;
     ID3D11DepthStencilView  *g_pDepthStencilView = nullptr;
 
-    ID3D11VertexShader*     g_pVertexShader = nullptr;
-    ID3D11PixelShader       *g_pPixelShader = nullptr;
+    //3D11VertexShader	    g_pVertexShader = nullptr;
+    //3D11PixelShader       *g_pPixelShader = nullptr;
     ID3D11InputLayout       *g_pVertexLayout = nullptr;
     ID3D11Buffer            *g_pVertexBuffer = nullptr;
     ID3D11Debug             *d3dDebug = nullptr;
@@ -63,52 +58,7 @@ namespace GfxDevice
         g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);   
         g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
-        if (0)
-        {
-            // vb
-            // fill vb
-            std::vector<Triangle_pct> tris;
-            //srand(1);
-
-            // Set the input layout
-            g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
-            
-            for (int i = 0; i < 10; i++)
-            {
-                Triangle_pct tri
-                {
-                    Vert_pct(vec3(rn, rn, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.7f)),
-                    Vert_pct(vec3(rn, rn, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)),
-                    Vert_pct(vec3(rn, rn, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.36f, 0.37f))
-                };
-                tris.push_back(tri);
-            }
-
-            D3D11_MAPPED_SUBRESOURCE subResource;
-            g_pImmediateContext->Map(g_pVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &subResource);
-            //memcpy(ms.pData, verts, sizeof(verts));
-            memcpy(subResource.pData, tris.data(), tris.size()*sizeof(Triangle_pct));
-            g_pImmediateContext->Unmap(g_pVertexBuffer, NULL);
-
-            UINT stride = sizeof(Vert_pct);
-            UINT offset = 0;
-            g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
-            g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-            // fill vb
-
-            //g_pVertexBuffer
-            // vb
-            g_pImmediateContext->VSSetShader(g_pVertexShader, nullptr, 0);
-            g_pImmediateContext->PSSetShader(g_pPixelShader, nullptr, 0);
-            g_pImmediateContext->PSSetShaderResources(
-                0,
-                1,
-                (ID3D11ShaderResourceView * const *)&Render::textureManager->getTextureByName(L"font").pHandle->deviceTexture);
-            g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
-
-            //g_pImmediateContext->Draw(10 * 3, 0);
-        }                
+                   
     }
     
     void drawEnd()

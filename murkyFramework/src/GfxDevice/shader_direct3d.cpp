@@ -19,9 +19,8 @@
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
 #include <murkyFramework/include/loadSaveFile.hpp>
-#include <murkyFramework/src/GfxDevice/public/shaderId.hpp>
 #include <murkyFramework/include/collectionNamed.hpp>
-#include <murkyFramework/include/GfxDevice/d3d12/shaders_d3d12.hpp>
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 
 namespace GfxDevice
 {
@@ -39,14 +38,12 @@ namespace GfxDevice
     extern  IDXGISwapChain*         g_pSwapChain;
     extern  IDXGISwapChain1*        g_pSwapChain1;
 
-    extern  ID3D11VertexShader*     g_pVertexShader;
-    extern  ID3D11PixelShader*      g_pPixelShader;
+    /*extern  ID3D11VertexShader*     g_pVertexShader;
+    extern  ID3D11PixelShader*      g_pPixelShader;*/
     extern  ID3D11InputLayout*      g_pVertexLayout;
     extern  ID3D11Buffer*           g_pVertexBuffer;
     extern  ID3D11Buffer            *g_pCBChangesEveryFrame;
-    extern  ID3D11SamplerState       *g_pSamplerLinear;    
-    
-	murkyFramework::CollectionNamed< ShaderId_private3 > shaders;
+    extern  ID3D11SamplerState       *g_pSamplerLinear;        	
 
     void setUniform_projectionMatrix(const float *pMat)
     {   
@@ -90,7 +87,9 @@ namespace GfxDevice
     void	Shaders::initialise()    
     {
         HRESULT hr = S_OK;
-        debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";        
+		ID3D11VertexShader	*g_pVertexShader;
+		ID3D11PixelShader	*g_pPixelShader;
+		debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";        
 
         // Compile the vertex shader
         ID3DBlob* pVSBlob = nullptr;
@@ -144,12 +143,13 @@ namespace GfxDevice
         if (FAILED(hr))
             triggerBreakpoint();
 
-		ShaderId_private3 newShaderId;
 
-		newShaderId.pVertexShader = g_pVertexShader;
-		newShaderId.pPixelShader = g_pPixelShader;
+		ShaderWrapper newShader;
 
-		shaders.add(std::wstring(L"posColTex"), newShaderId);
+		newShader.pVertexShader = g_pVertexShader;
+		newShader.pPixelShader = g_pPixelShader;
+
+		shaderManager.add(std::wstring(L"posColTex"), newShader);
 
         // murky VB
         /*    Vert_pct vertices[] =
@@ -192,9 +192,11 @@ namespace GfxDevice
     }
 
     void	Shaders::deinitialise()
-    {               
-        g_pVertexShader->Release();
-        g_pPixelShader->Release();
+    {     
+		triggerBreakpoint();
+
+        //g_pVertexShader->Release();
+        //g_pPixelShader->Release();
     }
 }
 #endif // USE_DIRECT3D11
