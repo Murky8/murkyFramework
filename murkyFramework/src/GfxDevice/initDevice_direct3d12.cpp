@@ -349,4 +349,4 @@ namespace GfxDevice
 		return true;
 	}
 } // namespace GfxDevice
-#endif // USE_DIRECT3D12
+#endif 

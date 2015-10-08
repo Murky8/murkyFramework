@@ -64,8 +64,7 @@ namespace Render
 		GfxDevice::initialise_device(hDC, hRC, hWnd);
 #endif
 
-        GfxDevice::Shaders::initialise();
-        GfxDevice::initilise_textureSystem();        
+        GfxDevice::Shaders::initialise();        
         
         GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
             L"data", L"font", L"png");
@@ -96,8 +95,7 @@ namespace Render
 
     void deinitialise()
     {        
-        debugLog << L"RenderHi::deinitialise" << "\n";
-        GfxDevice::deinitilise_textureSystem();
+        debugLog << L"RenderHi::deinitialise" << "\n";        
         GfxDevice::Shaders::deinitialise();
         delete textRenderer;          
 

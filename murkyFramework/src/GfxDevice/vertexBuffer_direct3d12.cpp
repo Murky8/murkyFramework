@@ -24,27 +24,19 @@
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
+#include <murkyFramework/include/collectionNamed.hpp>
 
 namespace GfxDevice
-{    
-    // forward declarations       
-    struct HandleDeviceTexture
-    {
-        //ID3D11ShaderResourceView *deviceTexture;
-    };
-
-    struct handleDeviceVB
-    {
-        //ID3D11Buffer *deviceBuffer;
-    };
+{        
     // constructor	
-    VertexBufferDynamic::VertexBufferDynamic(
-        VertexType vertexType, PrimativeType primativeType, 
-		ShaderId_private3 shaderProgram, GfxDevice::TextureId &texture,
-        u32 nVerts) :
-        vertexType(vertexType), primativeType(primativeType), 
-		shaderId(shaderId), texture(std::move(texture)),
-        capacity(nVerts)
+	VertexBufferWrapper::VertexBufferWrapper(
+		VertexType vertexType, PrimativeType primativeType,
+		ShaderWrapper shaderId, TextureWrapper texture,
+		u32 nVerts) :
+		vertexType(vertexType), primativeType(primativeType),
+		shaderId(shaderId), texture(texture),
+		capacity(nVerts)
     {			
         u32 sizeVertex = 0;
         switch (vertexType)

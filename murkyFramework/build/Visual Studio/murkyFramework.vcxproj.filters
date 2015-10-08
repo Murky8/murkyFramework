@@ -36,15 +36,6 @@
     <Filter Include="Source Files\src">
       <UniqueIdentifier>{8629ba91-ea98-4da6-9d9e-004c95d107e1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GfxDevice\d3d12">
-      <UniqueIdentifier>{1d44e1a8-b882-4e12-b540-9740623bf48f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GfxDevice\d3d11">
-      <UniqueIdentifier>{01c79804-1902-430a-a299-75ab4758367c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GfxDevice\openGL">
-      <UniqueIdentifier>{af5ae917-1896-4b50-a7f9-054b567d1ce6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GfxDevice\public">
       <UniqueIdentifier>{c6ae3ed4-9dd6-4726-979f-8dcd5e72f361}</UniqueIdentifier>
     </Filter>
@@ -221,9 +212,6 @@
     <ClInclude Include="..\..\include\GfxDevice\version_gfxDevice.hpp">
       <Filter>Header Files\GfxDevice</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\GfxDevice\vertexBuffer.hpp">
-      <Filter>Header Files\GfxDevice</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Render\camera.hpp">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
@@ -290,18 +278,6 @@
     <ClInclude Include="..\..\include\hidusage.h">
       <Filter>Source Files\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\GfxDevice\d3d12\gfxLowLevel_d3d12.hpp">
-      <Filter>Header Files\GfxDevice\d3d12</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\GfxDevice\d3d12\shaders_d3d12.hpp">
-      <Filter>Header Files\GfxDevice\d3d12</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\GfxDevice\d3d12\texture_d3d12.hpp">
-      <Filter>Header Files\GfxDevice\d3d12</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\GfxDevice\d3d12\vertexBuffer_d3d12.hpp">
-      <Filter>Header Files\GfxDevice\d3d12</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\collectionNamed.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
@@ -334,6 +310,15 @@
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\vertexBufferWrapper.hpp">
       <Filter>Source Files\GfxDevice\private\d3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\shaderWrapper.hpp">
+      <Filter>Source Files\GfxDevice\private\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\textureWrapper.hpp">
+      <Filter>Source Files\GfxDevice\private\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\vertexBufferWrapper.hpp">
+      <Filter>Source Files\GfxDevice\private\d3d12</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

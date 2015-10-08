@@ -53,17 +53,4 @@ namespace murkyFramework
 			return it->second; // stop compiler warning			
 		}
 	}
-	/*template <typename T>
-	class CollectionNamedUniquePtrs
-	{
-	public:
-		CollectionNamedUniquePtrs();
-		~CollectionNamedUniquePtrs();
-
-		void add(const std::wstring &name, const T& rhs);
-		
-		T &get(const std::wstring &name) const;
-	private:
-		std::map<std::wstring, std::uniT> data;
-	};*/
 }

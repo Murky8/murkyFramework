@@ -3,18 +3,16 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#ifdef USE_DIRECT3D11
+#ifdef USE_DIRECT3D12
 
-#include <murkyFramework/src/GfxDevice/public/shaderId.hpp>
-#include <d3d11_1.h>
 
 namespace GfxDevice
 {
-	class ShaderId_private3
-	{
+	class ShaderWrapper
+	{	
 	public:
-		ID3D11VertexShader     *pVertexShader;
-		ID3D11PixelShader      *pPixelShader;
+	//	ID3D11VertexShader     *pVertexShader;
+//		ID3D11PixelShader      *pPixelShader;	
 	};
 }
 #endif

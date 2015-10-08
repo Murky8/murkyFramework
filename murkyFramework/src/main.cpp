@@ -18,15 +18,17 @@
 #include <murkyFramework/include/readFBX.hpp>
 #include <murkyFramework/include/system.hpp>
 
-// forward declarations
+// external forward declarations
 namespace Render
 {        
     void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd);
 }
+
+// forward declarations
 void mainLoop_threadMain(InputDevices &inputDevices, State &state);
 bool createWindow(LPCWSTR title, int width, int height);
 
-// variables
+// private data/state
 namespace
 {
     HWND		hWnd;	    // Holds Our Window Handle
@@ -37,47 +39,35 @@ namespace
     u64         frameStartTime = 0;    
 }
 
-// variables todo: move
+// global data/state
+AppFramework *Gapp;
 std::vector<Triangle_pct> gdeb_tris;
 
-AppFramework *Gapp;
-
+// testing
 void skool();
 
 // called from void main()
 void initialise_main()
 { 
 	Gapp = new AppFramework();
-
     std::wstring title{ L"Murky " };
-
     wchar_t wcstring[] = L"Murky8\n";
 
 #ifdef USE_OPENGL
-    debugLog << L"Using openGL\n";
-    title += L"OpenGL 4  ";
+    debugLog << L"Using openGL\n";    title += L"OpenGL 4  ";
 #endif
-
 #ifdef USE_DIRECT3D11
-    debugLog << L"Using D3d11 \n";
-    title += L"D3d11  ";
+    debugLog << L"Using D3d11 \n";    title += L"D3d11  ";
 #endif
-
 #ifdef USE_DIRECT3D12
-	debugLog << L"Using D3d12 \n";
-	title += L"D3d12  ";
+	debugLog << L"Using D3d12 \n";	title += L"D3d12  ";
 #endif
-
 #ifdef ENVIRONMENT32
-    debugLog << L"32 bit ";
-    title += L"32 bit  ";
+    debugLog << L"32 bit ";    title += L"32 bit  ";
 #endif
-
 #ifdef ENVIRONMENT64
-    debugLog << L"64 bit ";
-    title += L"64 bit  ";
+    debugLog << L"64 bit ";    title += L"64 bit  ";
 #endif
-
 #ifdef WIN32
     debugLog << L"Windows\n";
 #endif
@@ -126,18 +116,20 @@ void deinitialise_main()
 // 
 int main()
 {
-    MSG		msg;
     //skool();
     
     initialise_main();
         
+	// private data/state
     InputDevices *pInputDevices(new InputDevices(hWnd));
-    State state;
+    State		state;
     
-    ::SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pInputDevices);
+	// enable passing user data to WndProc
+    SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pInputDevices);
     
     while (!Gapp->exitWholeApp)
     {
+    MSG		msg;
         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {	// Is There A Message Waiting?        
             if (msg.message == WM_QUIT)

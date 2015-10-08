@@ -269,15 +269,10 @@
     <ClInclude Include="..\..\include\common.hpp" />
     <ClInclude Include="..\..\include\debugUtils.hpp" />
     <ClInclude Include="..\..\include\fileUtils.hpp" />
-    <ClInclude Include="..\..\include\GfxDevice\d3d12\gfxLowLevel_d3d12.hpp" />
-    <ClInclude Include="..\..\include\GfxDevice\d3d12\shaders_d3d12.hpp" />
-    <ClInclude Include="..\..\include\GfxDevice\d3d12\texture_d3d12.hpp" />
-    <ClInclude Include="..\..\include\GfxDevice\d3d12\vertexBuffer_d3d12.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\gfxLowLevel.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\gfxPrimativeTypes.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\shaders.hpp" />
     <ClInclude Include="..\..\include\GfxDevice\version_gfxDevice.hpp" />
-    <ClInclude Include="..\..\include\GfxDevice\vertexBuffer.hpp" />
     <ClInclude Include="..\..\include\hidusage.h" />
     <ClInclude Include="..\..\include\inputDevices.hpp" />
     <ClInclude Include="..\..\include\loadSaveFile.hpp" />
@@ -299,6 +294,9 @@
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\vertexBufferWrapper.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\shaderWrapper.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\textureWrapper.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\vertexBufferWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\vertexBufferWrapper.hpp" />
