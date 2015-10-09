@@ -28,12 +28,7 @@
 #include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
 #include <murkyFramework/include/collectionNamed.hpp>
 
-struct Vertex
-{
-	//DirectX::XMFLOAT3 position;
-	vec3	pos;
-	vec4	color;
-};
+
 namespace GfxDevice
 {        			
     // constructor	
@@ -62,7 +57,7 @@ namespace GfxDevice
             triggerBreakpoint();
 			*/
 
-		int sizeBytes = capacity*sizeof(Vertex);
+		int sizeBytes = capacity*sizeof(Vert_pct);
 		hr = m_device->CreateCommittedResource(
 			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 			D3D12_HEAP_FLAG_NONE,
@@ -75,7 +70,7 @@ namespace GfxDevice
 
 		// Initialize the vertex buffer view.
 		m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
-		m_vertexBufferView.StrideInBytes = sizeof(Vertex);
+		m_vertexBufferView.StrideInBytes = sizeof(Vert_pct);
 		m_vertexBufferView.SizeInBytes = sizeBytes;
     }
     

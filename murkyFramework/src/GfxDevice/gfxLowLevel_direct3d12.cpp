@@ -103,13 +103,6 @@ namespace GfxDevice
 		m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
 	}
 
-	struct Vertex
-	{
-		//DirectX::XMFLOAT3 position;
-		vec3	pos;
-		vec4	color;
-	};
-
 	void drawBegin()
 	{
 		// Command list allocators can only be reset when the associated 
@@ -147,15 +140,15 @@ namespace GfxDevice
 
 		{// update vb
 			 //https://msdn.microsoft.com/en-us/library/windows/desktop/ff476457(v=vs.85).aspx
-			Vertex triangleVertices[] =
+			Vert_pct triangleVertices[] =
 			{
-				{ { 0.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-				{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-				{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
+				{ { 0.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f},{0.f, 0.f} },
+				{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 1.0f, 0.0f},{0.f, 1.f} },
+				{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f},{1.f, 0.f} },
 
-				{ { 0.5f, 0.5f, 0.0f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-				{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-				{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 0.0f, 1.0f, 1.0f } }
+				{ { 0.5f, 0.5f, 0.0f },{ 1.0f, 0.0f, 0.0f},{ 1.f, 1.f } },
+				{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 1.0f, 0.0f},{ 1.f, 0.f } },
+				{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 0.0f, 1.0f},{ 0.f, 1.f } }
 			};
 
 			const UINT vertexBufferSize = sizeof(triangleVertices);

@@ -65,7 +65,7 @@ namespace GfxDevice
 	{
 		//-------------------------------------------------------------------------------------- 
 		// Create Direct3D device and swap chain 
-
+		HRESULT hr;
 		GfxDevice::hDC = in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
 		GfxDevice::hRC = in_hRC;
 		GfxDevice::hWnd = in_hWnd;
@@ -198,14 +198,37 @@ namespace GfxDevice
 			UINT compileFlags = 0;
 #endif
 			Shaders::initialise();
-			ThrowIfFailed(D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &vertexShader, nullptr));
-			ThrowIfFailed(D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &pixelShader, nullptr));
+			ID3DBlob* pErrorBlob = nullptr;
+			hr = D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &vertexShader, &pErrorBlob);
+			if(FAILED(hr))
+			{
+				if (pErrorBlob)
+				{
+					OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
+					pErrorBlob->Release();
+				}
+				triggerBreakpoint();
+			}
+
+			pErrorBlob = nullptr;
+			hr = D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &pixelShader, &pErrorBlob);
+			if (FAILED(hr))
+			{
+				if (pErrorBlob)
+				{
+					OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
+					pErrorBlob->Release();
+				}
+				triggerBreakpoint();
+			}
+			if (pErrorBlob) pErrorBlob->Release();
 
 			// Define the vertex input layout.
 			D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
 			{
-				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-				{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+				{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "COLOR",		0, DXGI_FORMAT_R32G32B32_FLOAT,	0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,	0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
 			};
 
 			// Describe and create the graphics pipeline state object (PSO).
