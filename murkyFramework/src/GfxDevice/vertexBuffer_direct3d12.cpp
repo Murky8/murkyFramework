@@ -25,27 +25,17 @@
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
 #include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
+#include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
 #include <murkyFramework/include/collectionNamed.hpp>
 
+struct Vertex
+{
+	//DirectX::XMFLOAT3 position;
+	vec3	pos;
+	vec4	color;
+};
 namespace GfxDevice
-{        
-	// external forward declarations;
-	extern Microsoft::WRL::ComPtr<ID3D12Device>		m_device;
-
-	inline void ThrowIfFailed(HRESULT hr)
-	{
-		if (FAILED(hr))
-		{
-			throw;
-		}
-	}
-
-	struct Vertex
-	{
-		DirectX::XMFLOAT3 position;
-		DirectX::XMFLOAT4 color;
-	};
-
+{        			
     // constructor	
 	VertexBufferWrapper::VertexBufferWrapper(
 		VertexType vertexType, PrimativeType primativeType,
@@ -72,42 +62,21 @@ namespace GfxDevice
             triggerBreakpoint();
 			*/
 
-		Vertex triangleVertices[] =
-		{
-			{ { 0.0f, 0.25f, 0.0f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-			{ { 0.25f, -0.25f, 0.0f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-			{ { -0.25f, -0.25f, 0.0f },{ 0.0f, 0.0f, 1.0f, 1.0f } }
-		};
-
-		const UINT vertexBufferSize = sizeof(triangleVertices)*2;
-
-		// Note: using upload heaps to transfer static data like vert buffers is not 
-		// recommended. Every time the GPU needs it, the upload heap will be marshalled 
-		// over. Please read up on Default Heap usage. An upload heap is used here for 
-		// code simplicity and because there are very few verts to actually transfer.
-		// http://www.gamedev.net/topic/666986-direct3d-12-documentation-is-now-public/page-2
-
+		int sizeBytes = capacity*sizeof(Vertex);
 		hr = m_device->CreateCommittedResource(
 			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 			D3D12_HEAP_FLAG_NONE,
-			&CD3DX12_RESOURCE_DESC::Buffer(vertexBufferSize),
+			&CD3DX12_RESOURCE_DESC::Buffer(sizeBytes),
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
 			IID_PPV_ARGS(&m_vertexBuffer));
 		if (FAILED(hr))
 			triggerBreakpoint();
 
-		// Copy the triangle data to the vertex buffer.
-		UINT8* pVertexDataBegin;
-		ThrowIfFailed(m_vertexBuffer->Map(0, nullptr, reinterpret_cast<void**>(&pVertexDataBegin)));
-		memcpy(pVertexDataBegin, triangleVertices, sizeof(triangleVertices));
-		m_vertexBuffer->Unmap(0, nullptr);
-
 		// Initialize the vertex buffer view.
 		m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
 		m_vertexBufferView.StrideInBytes = sizeof(Vertex);
-		m_vertexBufferView.SizeInBytes = vertexBufferSize;
-		//Sleep(1000);                                
+		m_vertexBufferView.SizeInBytes = sizeBytes;
     }
     
     // methods
@@ -125,43 +94,48 @@ namespace GfxDevice
         return s;
     }
 
-    void	VertexBufferWrapper::draw( void *vertexData, u32 nPrimatives )
-    {        
-        if (nPrimatives >= capacity)
-            triggerBreakpoint();
+	void	VertexBufferWrapper::draw(void *vertexData, u32 nPrimatives)
+	{
+		if (nPrimatives >= capacity)
+			triggerBreakpoint();
 
-        u32 sizeVertex = 0;
-        switch (vertexType)
-        {
-        case VertexType::posCol:
-            sizeVertex = sizeof(Vert_pc);
-            triggerBreakpoint();
-            break;
-        case VertexType::posColTex:
-            sizeVertex = sizeof(Vert_pct);
-            break;
-        default:// Catch usage of unimplemented			
-            sizeVertex = 0;
-            triggerBreakpoint();
-        }
+		u32 sizeVertex = 0;
+		switch (vertexType)
+		{
+		case VertexType::posCol:
+			sizeVertex = sizeof(Vert_pc);
+			triggerBreakpoint();
+			break;
+		case VertexType::posColTex:
+			sizeVertex = sizeof(Vert_pct);
+			break;
+		default:// Catch usage of unimplemented			
+			sizeVertex = 0;
+			triggerBreakpoint();
+		}
 
-        int nVerticiesPerPrimative = 0;        
-        D3D_PRIMITIVE_TOPOLOGY primTop;
-        switch (primativeType)
-        {
-        case PrimativeType::triangle:
-            nVerticiesPerPrimative = 3;         
-            primTop = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-            break;
+		int nVerticiesPerPrimative = 0;
+		D3D_PRIMITIVE_TOPOLOGY primTop;
+		switch (primativeType)
+		{
+		case PrimativeType::triangle:
+			nVerticiesPerPrimative = 3;
+			primTop = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+			break;
 
-        case PrimativeType::line:
-            nVerticiesPerPrimative = 2;            
-            primTop = D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
-            break;
-        default:// Catch usage of unimplemented			            
-            triggerBreakpoint();
-        }        
-    } 
+		case PrimativeType::line:
+			nVerticiesPerPrimative = 2;
+			primTop = D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
+			break;
+		default:// Catch usage of unimplemented			            
+			triggerBreakpoint();
+		}
+	}
+	/*	g_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		g_commandList->IASetVertexBuffers(0, 1, &(m_vertexBufferView));
+		g_commandList->DrawInstanced(3*nPrimatives, 1, 0, 0);
+	}*/
+
 }
 #endif // USE_DIRECT3D11
 

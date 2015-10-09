@@ -175,17 +175,7 @@ namespace GfxDevice
 
 		ThrowIfFailed(m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&m_commandAllocator)));
 
-		// end of void D3D12HelloTriangle::LoadPipeline()
-		// end of void D3D12HelloTriangle::LoadPipeline()
-		// end of void D3D12HelloTriangle::LoadPipeline()
-		// end of void D3D12HelloTriangle::LoadPipeline()
-		// end of void D3D12HelloTriangle::LoadPipeline()
-		// end of void D3D12HelloTriangle::LoadPipeline()
-
-
-		//void D3D12HelloTriangle::LoadAssets()
-		//{
-			// Create an empty root signature.
+		// Create an empty root signature.
 		{
 			CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
 			rootSignatureDesc.Init(0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
@@ -237,11 +227,11 @@ namespace GfxDevice
 		}
 
 		// Create the command list.
-		ThrowIfFailed(m_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator.Get(), m_pipelineState.Get(), IID_PPV_ARGS(&m_commandList)));
+		ThrowIfFailed(m_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator.Get(), m_pipelineState.Get(), IID_PPV_ARGS(&g_commandList)));
 
 		// Command lists are created in the recording state, but there is nothing
 		// to record yet. The main loop expects it to be closed, so close it now.
-		ThrowIfFailed(m_commandList->Close());
+		ThrowIfFailed(g_commandList->Close());
 
 		// Create the vertex buffer.
 		{

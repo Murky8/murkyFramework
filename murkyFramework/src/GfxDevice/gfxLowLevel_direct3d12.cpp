@@ -65,7 +65,7 @@ namespace GfxDevice
 	ComPtr<ID3D12RootSignature>	m_rootSignature;
 	ComPtr<ID3D12DescriptorHeap>	m_rtvHeap;
 	ComPtr<ID3D12PipelineState>	m_pipelineState;
-	ComPtr<ID3D12GraphicsCommandList>	m_commandList;
+	ComPtr<ID3D12GraphicsCommandList>	g_commandList;
 	UINT m_rtvDescriptorSize = 0;
 	// Pipeline objects.
 
@@ -111,85 +111,80 @@ namespace GfxDevice
 	};
 
 	void drawBegin()
-    {     
+	{
 		// Command list allocators can only be reset when the associated 
-		//		// command lists have finished execution on the GPU; apps should use 
-		//		// fences to determine GPU execution progress.
-				ThrowIfFailed(m_commandAllocator->Reset());
-		//
+				// command lists have finished execution on the GPU; apps should use 
+				// fences to determine GPU execution progress.
+		ThrowIfFailed(m_commandAllocator->Reset());
+
 		HRESULT hr;
-				{// update vb
-					//https://msdn.microsoft.com/en-us/library/windows/desktop/ff476457(v=vs.85).aspx
-					Vertex triangleVertices[] =
-					{
-						{ { 0.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-						{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-						{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
 
-						{ { 0.5f, 0.5f, 0.0f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-						{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-						{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 0.0f, 1.0f, 1.0f } }
-					};
 
-					const UINT vertexBufferSize = sizeof(triangleVertices);
-					VertexBufferWrapper vb = vertexBufferManager.get(std::wstring(L"tris"));					
-					UINT8* pVertexDataBegin;
-					hr = vb.m_vertexBuffer->Map(0, nullptr, reinterpret_cast<void**>(&pVertexDataBegin));
-					ThrowIfFailed(hr);
-					memcpy(pVertexDataBegin, triangleVertices, sizeof(triangleVertices));
-					vb.m_vertexBuffer->Unmap(0, nullptr);
-				}// update vb
+		// However, when ExecuteCommandList() is called on a particular command 
+		// list, that command list can then be reset at any time and must be before 
+		// re-recording.
+		ThrowIfFailed(g_commandList->Reset(m_commandAllocator.Get(), m_pipelineState.Get()));
 
-		//		// However, when ExecuteCommandList() is called on a particular command 
-		//		// list, that command list can then be reset at any time and must be before 
-		//		// re-recording.
-				ThrowIfFailed(m_commandList->Reset(m_commandAllocator.Get(), m_pipelineState.Get()));
-		//
-		//		// Set necessary state.
-				m_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
-				m_commandList->RSSetViewports(1, &m_viewport);
-				m_commandList->RSSetScissorRects(1, &m_scissorRect);
-		//
-		//		// Indicate that the back buffer will be used as a render target.
-				m_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_renderTargets[m_frameIndex].Get(),
-					D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
-		//
-				CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart(), m_frameIndex, m_rtvDescriptorSize);
-				m_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
-		//
-		//		// Record commands.
-				static auto nonk = 0.f;
-				nonk += 0.01f;
-				if (nonk > 1.f)nonk = 0.f;
+		// Set necessary state.
+		g_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
+		g_commandList->RSSetViewports(1, &m_viewport);
+		g_commandList->RSSetScissorRects(1, &m_scissorRect);
 
-				const float clearColor[] = { nonk, 0.2f, 0.4f, 1.0f };
-				m_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-				m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-				VertexBufferWrapper vb = vertexBufferManager.get(std::wstring(L"tris"));
-				m_commandList->IASetVertexBuffers(0, 1, &(vb.m_vertexBufferView) );
-				m_commandList->DrawInstanced(3, 2, 0, 0);
-		//
-		//		// Indicate that the back buffer will now be used to present.
-				m_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_renderTargets[m_frameIndex].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
-		//
-				ThrowIfFailed(m_commandList->Close());
-		
-		//	void D3D12HelloTriangle::PopulateCommandList()
-		//void D3D12HelloTriangle::OnRender()
-		
+		// Indicate that the back buffer will be used as a render target.
+		g_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_renderTargets[m_frameIndex].Get(),
+			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 
-			ID3D12CommandList* ppCommandLists[] = { m_commandList.Get() };
-			m_commandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart(), m_frameIndex, m_rtvDescriptorSize);
+		g_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
 
-		//	// Present the frame.
-			ThrowIfFailed(m_swapChain->Present(1, 0));
+		static auto nonk = 0.f;
+		nonk += 0.01f;
+		if (nonk > 1.f)nonk = 0.f;
 
-			WaitForPreviousFrame();
 
-    }
+		const float clearColor[] = { nonk, 0.2f, 0.4f, 1.0f };
+		g_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+
+		{// update vb
+			 //https://msdn.microsoft.com/en-us/library/windows/desktop/ff476457(v=vs.85).aspx
+			Vertex triangleVertices[] =
+			{
+				{ { 0.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
+				{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+				{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
+
+				{ { 0.5f, 0.5f, 0.0f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
+				{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+				{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 0.0f, 1.0f, 1.0f } }
+			};
+
+			const UINT vertexBufferSize = sizeof(triangleVertices);
+			VertexBufferWrapper vb = vertexBufferManager.get(std::wstring(L"tris"));
+			UINT8* pVertexDataBegin;
+			hr = vb.m_vertexBuffer->Map(0, nullptr, reinterpret_cast<void**>(&pVertexDataBegin));
+			ThrowIfFailed(hr);
+			memcpy(pVertexDataBegin, triangleVertices, sizeof(triangleVertices));
+			vb.m_vertexBuffer->Unmap(0, nullptr);
+		}// update vb
+	}
 
     void drawEnd()
-    {     
+    {   				
+		g_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		VertexBufferWrapper vb = vertexBufferManager.get(std::wstring(L"tris"));
+		g_commandList->IASetVertexBuffers(0, 1, &(vb.m_vertexBufferView));
+		g_commandList->DrawInstanced(6, 1, 0, 0);
+
+		//		// Indicate that the back buffer will now be used to present.
+		g_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_renderTargets[m_frameIndex].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
+		
+		// finished writing to command list
+		ThrowIfFailed(g_commandList->Close());
+		ID3D12CommandList* ppCommandLists[] = { g_commandList.Get() };
+		m_commandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
+		// Present the frame.
+		ThrowIfFailed(m_swapChain->Present(1, 0));
+		WaitForPreviousFrame();
     }        
 }
 #endif 

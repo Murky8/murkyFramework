@@ -337,6 +337,8 @@
     <None Include="..\..\src\GfxDevice\shaders\posColTex.vsh">
       <Filter>Source Files\GfxDevice\openGL\shaders</Filter>
     </None>
-    <None Include="..\..\src\GfxDevice\shaders\shaders.hlsl" />
+    <None Include="..\..\src\GfxDevice\shaders\shaders.hlsl">
+      <Filter>Source Files\GfxDevice\d3d12\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

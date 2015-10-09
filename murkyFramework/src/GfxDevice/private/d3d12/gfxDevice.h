@@ -36,7 +36,7 @@ extern ComPtr<ID3D12CommandQueue> m_commandQueue;
 extern ComPtr<ID3D12RootSignature> m_rootSignature;
 extern ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
 extern ComPtr<ID3D12PipelineState> m_pipelineState;
-extern ComPtr<ID3D12GraphicsCommandList> m_commandList;
+extern ComPtr<ID3D12GraphicsCommandList> g_commandList;
 extern UINT m_rtvDescriptorSize;
 // Pipeline objects.
 
