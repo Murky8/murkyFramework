@@ -320,6 +320,9 @@
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\vertexBufferWrapper.hpp">
       <Filter>Source Files\GfxDevice\private\d3d12</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\gfxDevice.h">
+      <Filter>Source Files\GfxDevice\private\d3d12</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\GfxDevice\shaders\posColTex.ps">

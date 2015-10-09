@@ -187,14 +187,11 @@ namespace GfxDevice
             hr = g_pd3dDevice->CreateBuffer(&bd, nullptr, &g_pCBChangesEveryFrame);
             if (FAILED(hr))
                 triggerBreakpoint();
-        }
-        
+        }        
     }
 
     void	Shaders::deinitialise()
-    {     
-		triggerBreakpoint();
-
+    {     		
         //g_pVertexShader->Release();
         //g_pPixelShader->Release();
     }

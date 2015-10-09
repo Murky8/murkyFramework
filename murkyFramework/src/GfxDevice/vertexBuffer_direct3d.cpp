@@ -65,11 +65,6 @@ namespace GfxDevice
         if (FAILED(hr))
             triggerBreakpoint();
     }
-
-    VertexBufferWrapper::~VertexBufferWrapper()
-    {       		
-    }
-
     // methods
     s32 VertexBufferWrapper::getCapacityBytes() const
     {

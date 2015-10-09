@@ -52,16 +52,24 @@ namespace Render
     std::vector<Line_pct>               defaultLines;    
     
     void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd)
-    {
-        debugLog << L"RenderHi::initialise" << "\n";
-				
-#ifdef USE_DIRECT3D12
+    {		
+		debugLog << L"RenderHi::initialise" << "\n";				
 		GfxDevice::initialise_device(hDC, hRC, hWnd);
+
+#ifdef USE_DIRECT3D12
 		Gapp->gfxInitialised = true;
+		GfxDevice::Shaders::initialise();
+
+		GfxDevice::vertexBufferManager.add(std::wstring(L"tris"),
+			GfxDevice::VertexBufferWrapper(
+				GfxDevice::VertexType::posColTex,
+				GfxDevice::PrimativeType::triangle,
+				//GfxDevice::shaderManager.get(std::wstring(L"posColTex")),
+				//newt, 1024));
+				GfxDevice::ShaderWrapper(),
+				GfxDevice::TextureWrapper(), 1024));
 		return;
 		//exit(0);
-#else
-		GfxDevice::initialise_device(hDC, hRC, hWnd);
 #endif
 
         GfxDevice::Shaders::initialise();        
@@ -111,78 +119,44 @@ namespace Render
     }	
 
 	void drawAll(State &state)
-    {                
-        GfxDevice::drawBegin();        
-#ifndef USE_DIRECT3D12
-        defaultLines.clear();
-
+	{
+#ifdef USE_DIRECT3D12
+		GfxDevice::drawBegin();
+		GfxDevice::drawEnd();
+#else
+		GfxDevice::drawBegin();
+		defaultLines.clear();
 		// draw onscreen stuff
 		if (murkyFramework::done == false)
 			debugLogScreen << L"Loading teapot!!!\n";
-        debugLogScreen << state.cursorPos << L"\n";
+		debugLogScreen << state.cursorPos << L"\n";
 
 
-        projectionMatrix = makeProjectionMatrix_ortho(
-            0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
-        GfxDevice::setUniform_projectionMatrix(&projectionMatrix.v[0][0]);
-        textRenderer->drawText(debugLogScreen);        
+		projectionMatrix = makeProjectionMatrix_ortho(
+			0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
+		GfxDevice::setUniform_projectionMatrix(&projectionMatrix.v[0][0]);
+		textRenderer->drawText(debugLogScreen);
 		// draw onscreen stuff
-		
+
+		if (murkyFramework::done == true)
+		{
 		// teapot
-	
-			mat4 cam = makeCameraMatrix(state.cursorPos, state.cursorOri);
-			mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
-			mat4 proj = cam*persp;
-			GfxDevice::setUniform_projectionMatrix(&proj.v[0][0]);
+		mat4 cam = makeCameraMatrix(state.cursorPos, state.cursorOri);
+		mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
+		mat4 proj = cam*persp;
+		GfxDevice::setUniform_projectionMatrix(&proj.v[0][0]);
+
+			if (1)
+			{
+				for (Triangle_pct &t : gdeb_tris)
+				{
+					drawCrosshair(vec3(t.v[0].pos.x, t.v[0].pos.y, -t.v[0].pos.z), vec3(1, 1, 1), 1.f);
+				}
+				GfxDevice::vertexBufferManager.get(std::wstring(L"lines")).draw(defaultLines.data(), defaultLines.size());
+			}
+		}
 		// teapot
-
-			
-        // draw stuff here        
-/*        if (0)
-        {
-#define rn (((float)rand() / (float)RAND_MAX))
-            std::vector<Triangle_pct> tris;
-            srand(0);
-
-            for (int i = 0; i < 10; i++)
-            {
-                Triangle_pct tri
-                {
-                    Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
-                    Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
-                    Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f))
-                };
-                tris.push_back(tri);
-            }
-            vertexBufferTemp->draw(tris.data(), tris.size());
-        }
-        if (0)
-        {
-            std::vector<Line_pct> lines;
-            for (int i = 0; i < 10; i++)
-            {
-                Line_pct line
-                {
-                    Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
-                    Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
-                };
-                lines.push_back(line);
-            }
-            defaultLineVB->draw(lines.data(), lines.size());
-        }  */      
-     
-		if( murkyFramework::done==true)
-        if (1)
-        {
-            for (Triangle_pct &t : gdeb_tris)
-            {
-                drawCrosshair(vec3(t.v[0].pos.x, t.v[0].pos.y, -t.v[0].pos.z), vec3(1, 1, 1), 1.f);
-            }
-			GfxDevice::vertexBufferManager.get(std::wstring(L"lines")).draw(defaultLines.data(), defaultLines.size());
-        }
-
         //defaultLineVB->draw(gdeb_tris.data(), gdeb_tris.size());
-
         GfxDevice::drawEnd();
 #endif
     }
@@ -193,3 +167,36 @@ namespace Render
         tris.push_back({ v[1], v[3], v[2] });
     }
 }
+
+/*        if (0)
+{
+#define rn (((float)rand() / (float)RAND_MAX))
+std::vector<Triangle_pct> tris;
+srand(0);
+
+for (int i = 0; i < 10; i++)
+{
+Triangle_pct tri
+{
+Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
+Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
+Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f))
+};
+tris.push_back(tri);
+}
+vertexBufferTemp->draw(tris.data(), tris.size());
+}
+if (0)
+{
+std::vector<Line_pct> lines;
+for (int i = 0; i < 10; i++)
+{
+Line_pct line
+{
+Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
+Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
+};
+lines.push_back(line);
+}
+defaultLineVB->draw(lines.data(), lines.size());
+}  */

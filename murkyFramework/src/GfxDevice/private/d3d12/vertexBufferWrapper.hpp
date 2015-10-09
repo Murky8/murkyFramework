@@ -6,6 +6,8 @@
 #ifdef USE_DIRECT3D12
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 #include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
+#include <d3d12.h>
+#include <wrl.h>
 
 
 namespace GfxDevice
@@ -19,8 +21,7 @@ namespace GfxDevice
 		VertexBufferWrapper(
 			VertexType vertexType, PrimativeType primativeType,
 			ShaderWrapper shaderId, TextureWrapper texture,
-			u32 nVerts);
-		~VertexBufferWrapper();
+			u32 nVerts);		
 		// Methods		
 		void	draw(void *data, u32 nPrimatives);
 
@@ -30,8 +31,9 @@ namespace GfxDevice
 		const VertexType		vertexType;
 		const PrimativeType		primativeType;
 		const ShaderWrapper		shaderId;
-		const TextureWrapper	texture;		
-//		ID3D11Buffer			*deviceBuffer;
+		const TextureWrapper	texture;
+		Microsoft::WRL::ComPtr<ID3D12Resource> m_vertexBuffer;
+		D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView;
 		u32   capacity;
 	private:		
 	};

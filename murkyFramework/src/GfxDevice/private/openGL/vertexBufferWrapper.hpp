@@ -15,19 +15,16 @@ namespace GfxDevice
 	class VertexBufferWrapper
 	{
 	public:
-		// Constructors		
-		// if not using a texture, pass '0'
-		// capacity measures in 		
+		// constructors				
 		VertexBufferWrapper(
 			VertexType vertexType, PrimativeType primativeType,
 			ShaderWrapper shaderId, TextureWrapper texture,
-			u32 nVerts);
-		~VertexBufferWrapper();
-		// Methods		
+			u32 nVerts);		
+		// methods		
 		void	draw(void *data, u32 nPrimatives);
 
 		s32 getCapacityBytes() const;
-		// Data
+		// data
 		//const u32			capacity?;
 		const VertexType	vertexType;
 		const PrimativeType	primativeType;

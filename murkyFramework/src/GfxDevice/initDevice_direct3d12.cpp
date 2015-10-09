@@ -23,9 +23,7 @@
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/appFramework.hpp>
 #include <murkyFramework/include/Render/linesShapes.hpp>
-
-using namespace DirectX;
-using namespace Microsoft::WRL;
+#include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
 
 struct Vertex
 {
@@ -35,48 +33,6 @@ struct Vertex
 
 namespace GfxDevice
 {
-	// forward declarations    
-	extern  HDC			hDC;
-	extern  HGLRC		hRC;
-	extern  HWND		hWnd;
-	
-	// forward declarations
-	extern void WaitForPreviousFrame();
-	//// Pipeline objects.
-	extern D3D12_VIEWPORT m_viewport;
-	extern D3D12_RECT m_scissorRect;
-	extern ComPtr<IDXGISwapChain3> m_swapChain;
-	extern ComPtr<ID3D12Device> m_device;
-	const UINT FrameCount = 2;
-	extern ComPtr<ID3D12Resource> m_renderTargets[FrameCount]; //note: !!!
-	extern ComPtr<ID3D12CommandAllocator> m_commandAllocator;
-	extern ComPtr<ID3D12CommandQueue> m_commandQueue;
-	extern ComPtr<ID3D12RootSignature> m_rootSignature;
-	extern ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
-	extern ComPtr<ID3D12PipelineState> m_pipelineState;
-	extern ComPtr<ID3D12GraphicsCommandList> m_commandList;
-	extern UINT m_rtvDescriptorSize;
-	// Pipeline objects.
-
-	// App resources.
-	extern ComPtr<ID3D12Resource> m_vertexBuffer;
-	extern D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView;
-
-	// Synchronization objects.
-	extern UINT m_frameIndex;
-	extern HANDLE m_fenceEvent;
-	extern ComPtr<ID3D12Fence> m_fence;
-	extern UINT64 m_fenceValue;
-
-
-	inline void ThrowIfFailed(HRESULT hr)
-	{
-		if (FAILED(hr))
-		{
-			throw;
-		}
-	}
-
 	void GetHardwareAdapter(_In_ IDXGIFactory4* pFactory, _Outptr_result_maybenull_ IDXGIAdapter1** ppAdapter)
 	{
 		IDXGIAdapter1* pAdapter = nullptr;
@@ -114,7 +70,7 @@ namespace GfxDevice
 		GfxDevice::hRC = in_hRC;
 		GfxDevice::hWnd = in_hWnd;
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 		// Enable the D3D12 debug layer.
 		{
 			ComPtr<ID3D12Debug> debugController;
@@ -123,7 +79,7 @@ namespace GfxDevice
 				debugController->EnableDebugLayer();
 			}
 		}
-#endif
+//#endif
 		ComPtr<IDXGIFactory4> factory;
 		//ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&factory)));
 		ThrowIfFailed(CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG,IID_PPV_ARGS(&factory)));
@@ -289,38 +245,7 @@ namespace GfxDevice
 
 		// Create the vertex buffer.
 		{
-			// Define the geometry for a triangle.
-			Vertex triangleVertices[] =
-			{
-				{ { 0.0f, 0.25f, 0.0f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-				{ { 0.25f, -0.25f, 0.0f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-				{ { -0.25f, -0.25f, 0.0f },{ 0.0f, 0.0f, 1.0f, 1.0f } }
-			};
-
-			const UINT vertexBufferSize = sizeof(triangleVertices);
-
-			// Note: using upload heaps to transfer static data like vert buffers is not 
-			// recommended. Every time the GPU needs it, the upload heap will be marshalled 
-			// over. Please read up on Default Heap usage. An upload heap is used here for 
-			// code simplicity and because there are very few verts to actually transfer.
-			ThrowIfFailed(m_device->CreateCommittedResource(
-				&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
-				D3D12_HEAP_FLAG_NONE,
-				&CD3DX12_RESOURCE_DESC::Buffer(vertexBufferSize),
-				D3D12_RESOURCE_STATE_GENERIC_READ,
-				nullptr,
-				IID_PPV_ARGS(&m_vertexBuffer)));
-
-			// Copy the triangle data to the vertex buffer.
-			UINT8* pVertexDataBegin;
-			ThrowIfFailed(m_vertexBuffer->Map(0, nullptr, reinterpret_cast<void**>(&pVertexDataBegin)));
-			memcpy(pVertexDataBegin, triangleVertices, sizeof(triangleVertices));
-			m_vertexBuffer->Unmap(0, nullptr);
-
-			// Initialize the vertex buffer view.
-			m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
-			m_vertexBufferView.StrideInBytes = sizeof(Vertex);
-			m_vertexBufferView.SizeInBytes = vertexBufferSize;
+			// Define the geometry for a triangle.		
 		}
 
 		// Create synchronization objects and wait until assets have been uploaded to the GPU.

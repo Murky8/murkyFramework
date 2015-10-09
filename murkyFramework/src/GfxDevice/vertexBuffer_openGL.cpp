@@ -61,10 +61,6 @@ namespace GfxDevice
         onGfxDeviceErrorTriggerBreakpoint();
     }
 
-    VertexBufferWrapper::~VertexBufferWrapper()
-    {				
-    }
-
     // methods
     void	VertexBufferWrapper::draw( void *data, u32 nPrimatives )
     {
