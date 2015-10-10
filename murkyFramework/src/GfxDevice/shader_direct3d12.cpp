@@ -30,6 +30,7 @@
 #include <murkyFramework/include/loadSaveFile.hpp>
 #include <murkyFramework/include/collectionNamed.hpp>
 #include <murkyFramework/include/GfxDevice/d3d12/shaders_d3d12.hpp>
+#include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 
 namespace GfxDevice
 {
@@ -46,6 +47,40 @@ namespace GfxDevice
     void	Shaders::initialise()    
     {
 		//debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";                
+		HRESULT hr;
+#ifdef _DEBUG
+		// Enable better shader debugging with the graphics debugging tools.
+		UINT compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+#else
+		UINT compileFlags = 0;
+#endif
+		ShaderWrapper newShader;
+
+		ID3DBlob* pErrorBlob = nullptr;
+		hr = D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &newShader.vertexShader, &pErrorBlob);
+		if (FAILED(hr))
+		{
+			if (pErrorBlob)
+			{
+				OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
+				pErrorBlob->Release();
+			}
+			triggerBreakpoint();
+		}
+
+		pErrorBlob = nullptr;
+		hr = D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &newShader.pixelShader, &pErrorBlob);
+		if (FAILED(hr))
+		{
+			if (pErrorBlob)
+			{
+				OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
+				pErrorBlob->Release();
+			}
+			triggerBreakpoint();
+		}
+		if (pErrorBlob) pErrorBlob->Release();
+		shaderManager.add(L"posColTex", newShader);
     }
 
     void	Shaders::deinitialise()

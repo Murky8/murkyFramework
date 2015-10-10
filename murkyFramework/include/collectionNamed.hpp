@@ -16,8 +16,8 @@ namespace murkyFramework
 	public:
 		CollectionNamed();
 		~CollectionNamed();
-		void add(const std::wstring &name, T rhs);
-		T get(const std::wstring &name);		
+		void add(wchar_t *name, T rhs);
+		T get(wchar_t *name);
 	private:
 		std::map<std::wstring,T> data;
 	};
@@ -34,15 +34,15 @@ namespace murkyFramework
 	}
 
 	template <typename T>
-	void CollectionNamed<T>::add(const std::wstring &name, T rhs)
+	void CollectionNamed<T>::add(wchar_t *name, T rhs)
 	{
-		data.insert(std::pair<std::wstring, T>(name, rhs));
+		data.insert(std::pair<std::wstring, T>(std::wstring(name), rhs));
 	}
 
 	template <typename T>
-	T CollectionNamed<T>::get(const std::wstring &name)
+	T CollectionNamed<T>::get(wchar_t *name)
 	{
-		auto it = data.find(name);
+		auto it = data.find(std::wstring(name));
 		if (it != data.end())
 		{
 			return it->second;

@@ -57,9 +57,9 @@ namespace Render
 		GfxDevice::initialise_device(hDC, hRC, hWnd);
 
 #ifdef USE_DIRECT3D12
-		GfxDevice::Shaders::initialise();
+		
 
-		GfxDevice::vertexBufferManager.add(std::wstring(L"tris"),
+		GfxDevice::vertexBufferManager.add(L"tris",
 			GfxDevice::VertexBufferWrapper(
 				GfxDevice::VertexType::posColTex,
 				GfxDevice::PrimativeType::triangle,
@@ -68,7 +68,7 @@ namespace Render
 				GfxDevice::ShaderWrapper(),
 				GfxDevice::TextureWrapper(), 6));
 
-		GfxDevice::shaderManager.add(std::wstring(L"posColTex"), GfxDevice::ShaderWrapper()); // dummy object
+		GfxDevice::shaderManager.add(L"posColTex", GfxDevice::ShaderWrapper()); // dummy object
 
 		textRenderer = new TextRender(GfxDevice::TextureWrapper());
 
@@ -81,23 +81,23 @@ namespace Render
         
         GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
             L"data", L"font", L"png");
-		GfxDevice::textureManager.add(std::wstring(L"font"), newt);
+		GfxDevice::textureManager.add(L"font", newt);
         
 		GfxDevice::TextureWrapper newt2 = GfxDevice::createTestTextureObject();
-		GfxDevice::textureManager.add(std::wstring(L"test"), newt2);
+		GfxDevice::textureManager.add(L"test", newt2);
         
-		GfxDevice::vertexBufferManager.add(std::wstring(L"tris"), 
+		GfxDevice::vertexBufferManager.add(L"tris", 
 			GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::triangle,
-	        GfxDevice::shaderManager.get( std::wstring(L"posColTex")),            
+	        GfxDevice::shaderManager.get( L"posColTex"),            
             newt, 1024 ));
 
-		GfxDevice::vertexBufferManager.add(std::wstring(L"lines"),
+		GfxDevice::vertexBufferManager.add(L"lines",
 			GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::line,
-	        GfxDevice::shaderManager.get(std::wstring(L"posColTex")),
+	        GfxDevice::shaderManager.get(L"posColTex"),
             newt2, 16*1024));
 
         //textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
@@ -138,7 +138,7 @@ namespace Render
 			{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.f, 1.f } }
 		};
 
-		GfxDevice::vertexBufferManager.get(std::wstring(L"tris"))
+		GfxDevice::vertexBufferManager.get(L"tris")
 			.draw(reinterpret_cast<void*>(triangleVertices), 2);
 
 		debugLogScreen << state.cursorPos << L"\n";
@@ -174,7 +174,7 @@ namespace Render
 				{
 					drawCrosshair(vec3(t.v[0].pos.x, t.v[0].pos.y, -t.v[0].pos.z), vec3(1, 1, 1), 1.f);
 				}
-				GfxDevice::vertexBufferManager.get(std::wstring(L"lines")).draw(defaultLines.data(), defaultLines.size());
+				GfxDevice::vertexBufferManager.get(L"lines").draw(defaultLines.data(), defaultLines.size());
 			}
 		}
 		// teapot

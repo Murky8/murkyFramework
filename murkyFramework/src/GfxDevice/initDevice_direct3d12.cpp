@@ -188,40 +188,41 @@ namespace GfxDevice
 
 		// Create the pipeline state, which includes compiling and loading shaders.
 		{
-			ComPtr<ID3DBlob> vertexShader;
-			ComPtr<ID3DBlob> pixelShader;
-
-#ifdef _DEBUG
-			// Enable better shader debugging with the graphics debugging tools.
-			UINT compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
-#else
-			UINT compileFlags = 0;
-#endif
 			Shaders::initialise();
-			ID3DBlob* pErrorBlob = nullptr;
-			hr = D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &vertexShader, &pErrorBlob);
-			if(FAILED(hr))
-			{
-				if (pErrorBlob)
-				{
-					OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
-					pErrorBlob->Release();
-				}
-				triggerBreakpoint();
-			}
 
-			pErrorBlob = nullptr;
-			hr = D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &pixelShader, &pErrorBlob);
-			if (FAILED(hr))
-			{
-				if (pErrorBlob)
-				{
-					OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
-					pErrorBlob->Release();
-				}
-				triggerBreakpoint();
-			}
-			if (pErrorBlob) pErrorBlob->Release();
+//			ComPtr<ID3DBlob> vertexShader;
+//			ComPtr<ID3DBlob> pixelShader;
+//
+//#ifdef _DEBUG
+//			// Enable better shader debugging with the graphics debugging tools.
+//			UINT compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+//#else
+//			UINT compileFlags = 0;
+//#endif
+//			ID3DBlob* pErrorBlob = nullptr;
+//			hr = D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &vertexShader, &pErrorBlob);
+//			if(FAILED(hr))
+//			{
+//				if (pErrorBlob)
+//				{
+//					OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
+//					pErrorBlob->Release();
+//				}
+//				triggerBreakpoint();
+//			}
+//
+//			pErrorBlob = nullptr;
+//			hr = D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &pixelShader, &pErrorBlob);
+//			if (FAILED(hr))
+//			{
+//				if (pErrorBlob)
+//				{
+//					OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
+//					pErrorBlob->Release();
+//				}
+//				triggerBreakpoint();
+//			}
+//			if (pErrorBlob) pErrorBlob->Release();
 
 			// Define the vertex input layout.
 			D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
@@ -240,8 +241,9 @@ namespace GfxDevice
 			D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
 			psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
 			psoDesc.pRootSignature = m_rootSignature.Get();
-			psoDesc.VS = { reinterpret_cast<UINT8*>(vertexShader->GetBufferPointer()), vertexShader->GetBufferSize() };
-			psoDesc.PS = { reinterpret_cast<UINT8*>(pixelShader->GetBufferPointer()), pixelShader->GetBufferSize() };
+			ShaderWrapper shader = shaderManager.get(L"posColTex");
+			psoDesc.VS = { reinterpret_cast<UINT8*>(shader.vertexShader->GetBufferPointer()), shader.vertexShader->GetBufferSize() };
+			psoDesc.PS = { reinterpret_cast<UINT8*>(shader.pixelShader->GetBufferPointer()), shader.pixelShader->GetBufferSize() };
 			//psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 			psoDesc.RasterizerState = rasterDesc;
 			psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);

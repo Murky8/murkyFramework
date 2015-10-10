@@ -153,7 +153,7 @@ namespace GfxDevice
 			};
 
 			const UINT vertexBufferSize = sizeof(triangleVertices);
-			VertexBufferWrapper vb = vertexBufferManager.get(std::wstring(L"tris"));
+			VertexBufferWrapper vb = vertexBufferManager.get(L"tris");
 			UINT8* pVertexDataBegin;
 			hr = vb.m_vertexBuffer->Map(0, nullptr, reinterpret_cast<void**>(&pVertexDataBegin));
 			ThrowIfFailed(hr);
@@ -167,7 +167,7 @@ namespace GfxDevice
 		if (0)
 		{
 			g_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-			VertexBufferWrapper vb = vertexBufferManager.get(std::wstring(L"tris"));
+			VertexBufferWrapper vb = vertexBufferManager.get(L"tris");
 			g_commandList->IASetVertexBuffers(0, 1, &(vb.m_vertexBufferView));
 			g_commandList->DrawInstanced(6, 1, 0, 0);
 		}

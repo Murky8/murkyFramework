@@ -149,7 +149,7 @@ namespace GfxDevice
 		newShader.pVertexShader = g_pVertexShader;
 		newShader.pPixelShader = g_pPixelShader;
 
-		shaderManager.add(std::wstring(L"posColTex"), newShader);
+		shaderManager.add(L"posColTex", newShader);
 
         // murky VB
         /*    Vert_pct vertices[] =

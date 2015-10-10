@@ -32,7 +32,7 @@ namespace Render
         textTriangleBuffer = new GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::triangle,			
-			GfxDevice::shaderManager.get(std::wstring(L"posColTex")),			
+			GfxDevice::shaderManager.get(L"posColTex"),			
             textureRef, 16*1024);            
     }
 
