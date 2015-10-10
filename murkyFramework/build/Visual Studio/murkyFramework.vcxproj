@@ -217,6 +217,7 @@
     <ClCompile Include="..\..\src\GfxDevice\initDevice_direct3d12.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\initDevice_openGL.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\private\gfxDevice.cpp" />
+    <ClCompile Include="..\..\src\GfxDevice\private\vertexBufferHelpers.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\projectionMat_direct3d.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\projectionMat_openGL.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\shader_direct3d.cpp" />
@@ -301,6 +302,7 @@
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\vertexBufferWrapper.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\vertexBufferHelpers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\gfxDevice.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\shaderWrappers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\textureWrappers.hpp" />

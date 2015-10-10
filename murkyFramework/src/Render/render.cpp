@@ -122,6 +122,19 @@ namespace Render
 	{
 #ifdef USE_DIRECT3D12
 		GfxDevice::drawBegin();
+		static Vert_pct triangleVertices[] =
+		{
+			{ { 0.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 0.f, 0.f } },
+			{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.f, 1.f } },
+			{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 1.f, 0.f } },
+
+			{ { 0.5f, 0.5f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.f, 1.f } },
+			{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 1.f, 0.f } },
+			{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.f, 1.f } }
+		};
+		GfxDevice::vertexBufferManager.get(std::wstring(L"tris"))
+			.draw(reinterpret_cast<void*>(triangleVertices), 2);
+
 		GfxDevice::drawEnd();
 #else
 		GfxDevice::drawBegin();

@@ -26,6 +26,7 @@
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
 #include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 #include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
+#include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
 #include <murkyFramework/include/collectionNamed.hpp>
 
 
@@ -41,22 +42,8 @@ namespace GfxDevice
 		capacity(nVerts)
     {			
 		HRESULT hr;
-        u32 sizeVertex = 0;
-		/*
-        switch (vertexType)
-        {
-        case VertexType::posCol:
-            sizeVertex = sizeof(Vert_pc);
-            triggerBreakpoint();
-            break;
-        case VertexType::posColTex:
-            sizeVertex = sizeof(Vert_pct);
-            break;
-        default:// Catch usage of unimplemented			
-            sizeVertex = 0;
-            triggerBreakpoint();
-			*/
-
+        u32 sizeVertex = getVertexSizeInBytes(vertexType);
+				
 		int sizeBytes = capacity*sizeof(Vert_pct);
 		hr = m_device->CreateCommittedResource(
 			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
@@ -94,43 +81,32 @@ namespace GfxDevice
 		if (nPrimatives >= capacity)
 			triggerBreakpoint();
 
-		u32 sizeVertex = 0;
-		switch (vertexType)
-		{
-		case VertexType::posCol:
-			sizeVertex = sizeof(Vert_pc);
-			triggerBreakpoint();
-			break;
-		case VertexType::posColTex:
-			sizeVertex = sizeof(Vert_pct);
-			break;
-		default:// Catch usage of unimplemented			
-			sizeVertex = 0;
-			triggerBreakpoint();
-		}
+		u32 sizeVertex = getVertexSizeInBytes(vertexType);		
+		u32 nVerticiesPerPrimative;
+		getPrimativeInfo(primativeType, &nVerticiesPerPrimative);
 
-		int nVerticiesPerPrimative = 0;
 		D3D_PRIMITIVE_TOPOLOGY primTop;
 		switch (primativeType)
 		{
-		case PrimativeType::triangle:
-			nVerticiesPerPrimative = 3;
-			primTop = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-			break;
-
-		case PrimativeType::line:
-			nVerticiesPerPrimative = 2;
-			primTop = D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
-			break;
+		case PrimativeType::triangle:		
+			primTop = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;	break;
+		case PrimativeType::line:			
+			primTop = D3D_PRIMITIVE_TOPOLOGY_LINELIST;		break;
 		default:// Catch usage of unimplemented			            
 			triggerBreakpoint();
 		}
-	}
-	/*	g_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		g_commandList->IASetVertexBuffers(0, 1, &(m_vertexBufferView));
-		g_commandList->DrawInstanced(3*nPrimatives, 1, 0, 0);
-	}*/
+		HRESULT hr;
+		//const UINT vertexBufferSize = nPrimatives*sizeof(Vert_pct);		
+		static UINT8* pVertexDataBegin;
+		hr = m_vertexBuffer->Map(0, nullptr, reinterpret_cast<void**>(&pVertexDataBegin));
+		ThrowIfFailed(hr);
+		memcpy(pVertexDataBegin, vertexData, nPrimatives*nVerticiesPerPrimative*sizeVertex);
+		m_vertexBuffer->Unmap(0, nullptr);
 
+		g_commandList->IASetPrimitiveTopology(primTop);
+		g_commandList->IASetVertexBuffers(0, 1, &(m_vertexBufferView));
+		g_commandList->DrawInstanced(3*nPrimatives, 1, 0, 0);	
+	}
 }
 #endif // USE_DIRECT3D11
 

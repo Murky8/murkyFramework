@@ -195,6 +195,9 @@
     <ClCompile Include="..\..\src\GfxDevice\private\gfxDevice.cpp">
       <Filter>Source Files\GfxDevice\private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\private\vertexBufferHelpers.cpp">
+      <Filter>Source Files\GfxDevice\private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\external\lodepng.h">
@@ -322,6 +325,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\gfxDevice.h">
       <Filter>Source Files\GfxDevice\private\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\vertexBufferHelpers.hpp">
+      <Filter>Source Files\GfxDevice\private</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
