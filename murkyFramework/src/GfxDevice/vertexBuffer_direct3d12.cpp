@@ -71,8 +71,7 @@ namespace GfxDevice
             break;
         default:
             triggerBreakpoint();
-        }
-    
+        } 
         return s;
     }
 

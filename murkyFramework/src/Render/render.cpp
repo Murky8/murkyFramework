@@ -57,7 +57,6 @@ namespace Render
 		GfxDevice::initialise_device(hDC, hRC, hWnd);
 
 #ifdef USE_DIRECT3D12
-		Gapp->gfxInitialised = true;
 		GfxDevice::Shaders::initialise();
 
 		GfxDevice::vertexBufferManager.add(std::wstring(L"tris"),
@@ -67,7 +66,13 @@ namespace Render
 				//GfxDevice::shaderManager.get(std::wstring(L"posColTex")),
 				//newt, 1024));
 				GfxDevice::ShaderWrapper(),
-				GfxDevice::TextureWrapper(), 1024));
+				GfxDevice::TextureWrapper(), 6));
+
+		GfxDevice::shaderManager.add(std::wstring(L"posColTex"), GfxDevice::ShaderWrapper()); // dummy object
+
+		textRenderer = new TextRender(GfxDevice::TextureWrapper());
+
+		Gapp->gfxInitialised = true;
 		return;
 		//exit(0);
 #endif
@@ -132,8 +137,12 @@ namespace Render
 			{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 1.f, 0.f } },
 			{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.f, 1.f } }
 		};
+
 		GfxDevice::vertexBufferManager.get(std::wstring(L"tris"))
 			.draw(reinterpret_cast<void*>(triangleVertices), 2);
+
+		debugLogScreen << state.cursorPos << L"\n";
+		textRenderer->drawText(debugLogScreen);
 
 		GfxDevice::drawEnd();
 #else
