@@ -113,7 +113,6 @@ namespace GfxDevice
 
 		HRESULT hr;
 
-
 		// However, when ExecuteCommandList() is called on a particular command 
 		// list, that command list can then be reset at any time and must be before 
 		// re-recording.

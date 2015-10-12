@@ -28,9 +28,9 @@
 namespace GfxDevice
 {
 	// forward declarations
-    TextureWrapper   createTextureObjectFromFile(const std::wstring &dirName,
-    const       std::wstring &fileName, const std::wstring &extensionName);
-    TextureWrapper   createTestTextureObject();
+    TextureWrapper		createTextureObjectFromFile(const std::wstring &dirName,
+    const				std::wstring &fileName, const std::wstring &extensionName);
+    TextureWrapper		createTestTextureObject();
 	bool        initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);	
     bool        deinitialise_device();    
     void        initilise_textureSystem();

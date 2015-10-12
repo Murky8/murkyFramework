@@ -37,7 +37,7 @@ namespace GfxDevice
 	extern TextureWrapper createTestTextureObject();
 	void GetHardwareAdapter(_In_ IDXGIFactory4* pFactory, _Outptr_result_maybenull_ IDXGIAdapter1** ppAdapter)
 	{
-		IDXGIAdapter1* pAdapter = nullptr;
+		IDXGIAdapter1* pAdapter = nullptr;		
 		*ppAdapter = nullptr;
 
 		for (UINT adapterIndex = 0; DXGI_ERROR_NOT_FOUND != pFactory->EnumAdapters1(adapterIndex, &pAdapter); ++adapterIndex)
@@ -108,6 +108,7 @@ namespace GfxDevice
 				IID_PPV_ARGS(&m_device)
 				));
 		}
+		m_device->SetName(L"moof");
 		// murky
 		m_scissorRect.right = static_cast<LONG>(Gapp->screenResX);
 		m_scissorRect.bottom = static_cast<LONG>(Gapp->screenResY);
@@ -153,19 +154,19 @@ namespace GfxDevice
 		// Create descriptor heaps.
 		{
 			// Describe and create a render target view (RTV) descriptor heap.
-			D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
+			D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};			
 			rtvHeapDesc.NumDescriptors = FrameCount;
 			rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 			rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 			ThrowIfFailed(m_device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_rtvHeap)));
-
+			m_rtvHeap->SetName(L"bongo");
 #ifdef CURDEV
 {
 	// Describe and create a shader resource view (SRV) heap for the texture.
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
 	srvHeapDesc.NumDescriptors = 1;
 	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;	
 	ThrowIfFailed(m_device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&m_srvHeap)));
 }
 #endif
@@ -300,6 +301,7 @@ namespace GfxDevice
 
 #ifdef CURDEV
 		ComPtr<ID3D12Resource> textureUploadHeap;
+		//textureUploadHeap.SetName
 		{
 			u32 TextureWidth = 256;
 			u32 TextureHeight = 256;
@@ -339,23 +341,24 @@ namespace GfxDevice
 			// Copy data to the intermediate upload heap and then schedule a copy 
 			// from the upload heap to the Texture2D.
 
-			const auto subDiv = 256;			
-			boost::multi_array<u8, 3> t(boost::extents[subDiv][subDiv][4]);
-
-			for (auto i = 0; i < subDiv; ++i)
-				for (auto j = 0; j < subDiv; ++j)
-				{
-					//f32 fi = (f32)i*256.f /subDiv;
-					//f32 fj = (f32)j*256.f /subDiv;
-					//double nulll;
-					//t[j][i][0] = 255.f * modf(modf(fi*fi, &nulll) + modf(fj*fj, &nulll), &nulll);
-					//t[j][i][1] =  i*i*2 + j*j*2;
-					//t[j][i][2] = 0;// i*i + j*j * 2;
-					t[j][i][0] = i*i + j*j;
-					t[j][i][1] = i*i * 2 + j*j * 2;
-					t[j][i][2] = 30;
-				}
 			
+				const auto subDiv = 256;
+				boost::multi_array<u8, 3> t(boost::extents[subDiv][subDiv][4]);
+
+				for (auto i = 0; i < subDiv; ++i)
+					for (auto j = 0; j < subDiv; ++j)
+					{
+						//f32 fi = (f32)i*256.f /subDiv;
+						//f32 fj = (f32)j*256.f /subDiv;
+						//double nulll;
+						//t[j][i][0] = 255.f * modf(modf(fi*fi, &nulll) + modf(fj*fj, &nulll), &nulll);
+						//t[j][i][1] =  i*i*2 + j*j*2;
+						//t[j][i][2] = 0;// i*i + j*j * 2;
+						t[j][i][0] = i*i + j*j;
+						t[j][i][1] = i*i * 2 + j*j * 2;
+						t[j][i][2] = 30;
+					}
+				//L"data", L"font", L"png");
 			//std::vector<UINT8> texture = GenerateTextureData();
 
 			D3D12_SUBRESOURCE_DATA textureData = {};
