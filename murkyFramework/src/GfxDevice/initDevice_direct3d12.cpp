@@ -376,7 +376,17 @@ namespace GfxDevice
 			srvDesc.Format = textureDesc.Format;
 			srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 			srvDesc.Texture2D.MipLevels = 1;
+	
+	#ifdef CURDEV_2
+			// Get the CBV SRV descriptor size for the current device.
+			const UINT srvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+			CD3DX12_CPU_DESCRIPTOR_HANDLE cbvSrvHandle(m_srvHeap->GetCPUDescriptorHandleForHeapStart());
+			m_device->CreateShaderResourceView(m_texture.Get(), &srvDesc, cbvSrvHandle);
+			cbvSrvHandle.Offset(srvDescriptorSize);
+	#else
 			m_device->CreateShaderResourceView(m_texture.Get(), &srvDesc, m_srvHeap->GetCPUDescriptorHandleForHeapStart());		
+	#endif
+
 		}
 #endif
 

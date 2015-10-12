@@ -22,30 +22,6 @@
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
-/*
-Notes:
-
-descriptor heap: 
-Where each descriptor fully describes an object to the GPU.
-Descriptors are the primary unit of binding for a single resource in D3D12.
-
-Create a command allocator.Creating and Recording Command Lists and Bundles.
-Bundles are designed to be used and re-used any number of times. Command lists, on the other hand,
-are typically executed only a single time.
-
-A graphics root signature defines what resources are bound to the graphics pipeline.
-
-resource heap
-
-PSO
-A pipeline state object maintains the state of all currently set shaders as well as certain fixed 
-function state objects (such as the input assembler, tesselator, rasterizer and output merger).
-
-pipeline state is attached to a command list via a pipeline state object (PSO).
-
-You must reset the command list allocator and the command list itself before you can reuse them.
-*/
-
 namespace GfxDevice
 {       
 
@@ -61,18 +37,16 @@ namespace GfxDevice
 	const UINT					FrameCount = 2;
 	ComPtr<ID3D12Resource>		m_renderTargets[FrameCount];
 	ComPtr<ID3D12CommandAllocator>	m_commandAllocator;
-	ComPtr<ID3D12CommandQueue>	m_commandQueue;
-	ComPtr<ID3D12RootSignature>	m_rootSignature;
+	ComPtr<ID3D12CommandQueue>		m_commandQueue;
+	ComPtr<ID3D12RootSignature>		m_rootSignature;
 	ComPtr<ID3D12DescriptorHeap>	m_rtvHeap;
 	ComPtr<ID3D12DescriptorHeap>	m_srvHeap;
-	ComPtr<ID3D12PipelineState>	m_pipelineState;
+	ComPtr<ID3D12PipelineState>		m_pipelineState;
 	ComPtr<ID3D12GraphicsCommandList>	g_commandList;
 	UINT m_rtvDescriptorSize = 0;
 	// Pipeline objects.
 
-	// App resources.
-	//ComPtr<ID3D12Resource> m_vertexBuffer;
-	//D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView;
+	// App resources.	
 	ComPtr<ID3D12Resource> m_texture;
 	// Synchronization objects.
 	UINT m_frameIndex = 0;
