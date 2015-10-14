@@ -24,6 +24,7 @@
 #include <murkyFramework/include/appFramework.hpp>
 #include <murkyFramework/include/Render/linesShapes.hpp>
 #include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
+#include <murkyFramework/src/GfxDevice/private/textureHelpers.hpp>
 #include <external/boost/multi_array.hpp>
 
 struct Vertex
@@ -152,47 +153,39 @@ namespace GfxDevice
 		m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
 
 		// Create descriptor heaps.
-		{
-			// Describe and create a render target view (RTV) descriptor heap.
-			D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};			
-			rtvHeapDesc.NumDescriptors = FrameCount;
-			rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-			rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-			ThrowIfFailed(m_device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_rtvHeap)));
-			m_rtvHeap->SetName(L"bongo");
-#ifdef CURDEV
-{
-	// Describe and create a shader resource view (SRV) heap for the texture.
-	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
-	srvHeapDesc.NumDescriptors = 1;
-	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;	
-	ThrowIfFailed(m_device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&m_srvHeap)));
-}
-#endif
 
-			m_rtvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+		// Describe and create a render target view (RTV) descriptor heap.
+		D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};			
+		rtvHeapDesc.NumDescriptors = FrameCount;
+		rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+		rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+		ThrowIfFailed(m_device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_rtvHeap)));
+		m_rtvHeap->SetName(L"bongo");
 
-		}
+		// Describe and create a shader resource view (SRV) heap for the texture.
+		D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
+		srvHeapDesc.NumDescriptors = 1;
+		srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+		srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;	
+		ThrowIfFailed(m_device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&m_srvHeap)));
+
+		m_rtvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
 		// Create frame resources.
-		{
-			CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart());
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart());
 
-			// Create a RTV for each frame.
-			for (UINT n = 0; n < FrameCount; n++)
-			{
-				ThrowIfFailed(m_swapChain->GetBuffer(n, IID_PPV_ARGS(&m_renderTargets[n])));
-				m_device->CreateRenderTargetView(m_renderTargets[n].Get(), nullptr, rtvHandle);
-				rtvHandle.Offset(1, m_rtvDescriptorSize);
-			}
-		}
+		// Create a RTV for each frame.
+		for (UINT n = 0; n < FrameCount; n++)
+		{
+			ThrowIfFailed(m_swapChain->GetBuffer(n, IID_PPV_ARGS(&m_renderTargets[n])));
+			m_device->CreateRenderTargetView(m_renderTargets[n].Get(), nullptr, rtvHandle);
+			rtvHandle.Offset(1, m_rtvDescriptorSize);
+		}		
 
 		ThrowIfFailed(m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&m_commandAllocator)));
 
 		// Create an /* root*/ signature.
-		{
-#ifdef CURDEV
+		
 			CD3DX12_DESCRIPTOR_RANGE ranges[1];
 			ranges[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 
@@ -215,54 +208,16 @@ namespace GfxDevice
 			sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 			CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
 			rootSignatureDesc.Init(_countof(rootParameters), rootParameters, 1, &sampler, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);			
-#else
-			CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
-			rootSignatureDesc.Init(0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
-#endif
+
 			ComPtr<ID3DBlob> signature;
 			ComPtr<ID3DBlob> error;
 			ThrowIfFailed(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error));
-			ThrowIfFailed(m_device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&m_rootSignature)));
-		}
-
+			ThrowIfFailed(m_device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&m_rootSignature)));		
 
 		// Create the pipeline state, which includes compiling and loading shaders.
 		{
 			Shaders::initialise();
 
-//			ComPtr<ID3DBlob> vertexShader;
-//			ComPtr<ID3DBlob> pixelShader;
-//
-//#ifdef _DEBUG
-//			// Enable better shader debugging with the graphics debugging tools.
-//			UINT compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
-//#else
-//			UINT compileFlags = 0;
-//#endif
-//			ID3DBlob* pErrorBlob = nullptr;
-//			hr = D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &vertexShader, &pErrorBlob);
-//			if(FAILED(hr))
-//			{
-//				if (pErrorBlob)
-//				{
-//					OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
-//					pErrorBlob->Release();
-//				}
-//				triggerBreakpoint();
-//			}
-//
-//			pErrorBlob = nullptr;
-//			hr = D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &pixelShader, &pErrorBlob);
-//			if (FAILED(hr))
-//			{
-//				if (pErrorBlob)
-//				{
-//					OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
-//					pErrorBlob->Release();
-//				}
-//				triggerBreakpoint();
-//			}
-//			if (pErrorBlob) pErrorBlob->Release();
 
 			// Define the vertex input layout.
 			D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
@@ -299,15 +254,16 @@ namespace GfxDevice
 		// Create the command list.
 		ThrowIfFailed(m_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator.Get(), m_pipelineState.Get(), IID_PPV_ARGS(&g_commandList)));
 
-#ifdef CURDEV
 		ComPtr<ID3D12Resource> textureUploadHeap;
+		CD3DX12_CPU_DESCRIPTOR_HANDLE srvHandle(m_srvHeap->GetCPUDescriptorHandleForHeapStart());	
+		const UINT srvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 		//textureUploadHeap.SetName
 		{
-			u32 TextureWidth = 256;
-			u32 TextureHeight = 256;
+			u32 TextureWidth = 512;
+			u32 TextureHeight = 512;
 			u32 TexturePixelSize = 4;
 
-			// Describe and create a Texture2D.
+			// Describe  Texture2D.
 			D3D12_RESOURCE_DESC textureDesc = {};
 			textureDesc.MipLevels = 1;
 			textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -319,32 +275,37 @@ namespace GfxDevice
 			textureDesc.SampleDesc.Quality = 0;
 			textureDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 
-			ThrowIfFailed(m_device->CreateCommittedResource(
-				&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
-				D3D12_HEAP_FLAG_NONE,
-				&textureDesc,
-				D3D12_RESOURCE_STATE_COPY_DEST,
-				nullptr,
-				IID_PPV_ARGS(&m_texture)));
+			{ // upload 1 texture
+				ThrowIfFailed(m_device->CreateCommittedResource(
+					&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+					D3D12_HEAP_FLAG_NONE,
+					&textureDesc,
+					D3D12_RESOURCE_STATE_COPY_DEST,
+					nullptr,
+					IID_PPV_ARGS(&m_texture)));
 
-			const UINT64 uploadBufferSize = GetRequiredIntermediateSize(m_texture.Get(), 0, 1);
+				const UINT64 uploadBufferSize = GetRequiredIntermediateSize(m_texture.Get(), 0, 1);
 
-			// Create the GPU upload buffer.
-			ThrowIfFailed(m_device->CreateCommittedResource(
-				&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
-				D3D12_HEAP_FLAG_NONE,
-				&CD3DX12_RESOURCE_DESC::Buffer(uploadBufferSize),
-				D3D12_RESOURCE_STATE_GENERIC_READ,
-				nullptr,
-				IID_PPV_ARGS(&textureUploadHeap)));
+				// Create the GPU upload buffer.
+				ThrowIfFailed(m_device->CreateCommittedResource(
+					&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+					D3D12_HEAP_FLAG_NONE,
+					&CD3DX12_RESOURCE_DESC::Buffer(uploadBufferSize),
+					D3D12_RESOURCE_STATE_GENERIC_READ,
+					nullptr,
+					IID_PPV_ARGS(&textureUploadHeap)));
 
-			// Copy data to the intermediate upload heap and then schedule a copy 
-			// from the upload heap to the Texture2D.
+				// Copy data to the intermediate upload heap and then schedule a copy 
+				// from the upload heap to the Texture2D.
+				u32 width;
+				u32 height;
+				std::vector<u8> myTexture;
+				loadTextureDataFromFile(myTexture, L"data", L"font 4c", L"png",
+					width, height);
 
-			
+#ifdef fefwf
 				const auto subDiv = 256;
 				boost::multi_array<u8, 3> t(boost::extents[subDiv][subDiv][4]);
-
 				for (auto i = 0; i < subDiv; ++i)
 					for (auto j = 0; j < subDiv; ++j)
 					{
@@ -355,51 +316,42 @@ namespace GfxDevice
 						//t[j][i][1] =  i*i*2 + j*j*2;
 						//t[j][i][2] = 0;// i*i + j*j * 2;
 						t[j][i][0] = i*i + j*j;
-						t[j][i][1] = i*i * 2 + j*j * 2;
+						t[j][i][1] = 0;
 						t[j][i][2] = 30;
 					}
 				//L"data", L"font", L"png");
 			//std::vector<UINT8> texture = GenerateTextureData();
-
-			D3D12_SUBRESOURCE_DATA textureData = {};
-			//textureData.pData = &texture[0];
-			textureData.pData = t.data();
-			textureData.RowPitch = TextureWidth * TexturePixelSize;
-			textureData.SlicePitch = textureData.RowPitch * TextureHeight;
-
-			UpdateSubresources(g_commandList.Get(), m_texture.Get(), textureUploadHeap.Get(), 0, 0, 1, &textureData);
-			g_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_texture.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
-
-			// Describe and create a SRV for the texture.
-			D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-			srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-			srvDesc.Format = textureDesc.Format;
-			srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-			srvDesc.Texture2D.MipLevels = 1;
-	
-	#ifdef CURDEV_2
-			// Get the CBV SRV descriptor size for the current device.
-			const UINT srvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-			CD3DX12_CPU_DESCRIPTOR_HANDLE cbvSrvHandle(m_srvHeap->GetCPUDescriptorHandleForHeapStart());
-			m_device->CreateShaderResourceView(m_texture.Get(), &srvDesc, cbvSrvHandle);
-			cbvSrvHandle.Offset(srvDescriptorSize);
-	#else
-			m_device->CreateShaderResourceView(m_texture.Get(), &srvDesc, m_srvHeap->GetCPUDescriptorHandleForHeapStart());		
-	#endif
-
-		}
 #endif
+				D3D12_SUBRESOURCE_DATA textureData = {};
+				//textureData.pData = &texture[0];
+				textureData.pData = myTexture.data();
+				textureData.RowPitch = TextureWidth * TexturePixelSize;
+				textureData.SlicePitch = textureData.RowPitch * TextureHeight;
+
+				UpdateSubresources(g_commandList.Get(), m_texture.Get(), textureUploadHeap.Get(), 0, 0, 1, &textureData);
+				g_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_texture.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
+
+				// Describe and create a SRV for the texture.
+				D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+				srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+				srvDesc.Format = textureDesc.Format;
+				srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+				srvDesc.Texture2D.MipLevels = 1;
+				CD3DX12_CPU_DESCRIPTOR_HANDLE srvHandle(m_srvHeap->GetCPUDescriptorHandleForHeapStart());
+
+				m_device->CreateShaderResourceView(m_texture.Get(), &srvDesc, srvHandle);	
+				srvHandle.Offset(srvDescriptorSize);
+
+			} // upload 1 texture
+		
+		}
 
 		// Command lists are created in the recording state, but there is nothing
 		// to record yet. The main loop expects it to be closed, so close it now.
 		ThrowIfFailed(g_commandList->Close());
 
-#ifdef CURDEV
-		{
-			ID3D12CommandList* ppCommandLists[] = { g_commandList.Get() };
-			m_commandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
-		}
-#endif
+		ID3D12CommandList* ppCommandLists[] = { g_commandList.Get() };
+		m_commandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
 	
 		// Create synchronization objects and wait until assets have been uploaded to the GPU.
 		{

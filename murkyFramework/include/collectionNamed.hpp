@@ -6,7 +6,7 @@
 #include <string>
 #include <map>
 #include <memory>
-#include "common.hpp"
+#include <murkyFramework/include/common.hpp>
 
 namespace murkyFramework
 {

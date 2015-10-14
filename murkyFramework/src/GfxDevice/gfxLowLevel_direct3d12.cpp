@@ -48,6 +48,7 @@ namespace GfxDevice
 
 	// App resources.	
 	ComPtr<ID3D12Resource> m_texture;
+	ComPtr<ID3D12Resource> m_texture2;
 	// Synchronization objects.
 	UINT m_frameIndex = 0;
 	HANDLE m_fenceEvent;

@@ -7,27 +7,16 @@
 
 #include <windows.h>
 #include <d3d11_1.h>
-#include <vector>
 #include <combaseapi.h>
 #include <wrl.h>
 
 #include <d3d12.h>
 #include <external/d3d12/d3dx12.h>
-#include <dxgi1_4.h>
-#include <d2d1_3.h>
-#include <D3Dcompiler.h>
-#include <DirectXMath.h>
-#include <dwrite.h>
-#include <d3d11on12.h>
 #include "murkyFramework/include/common.hpp"
-#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
-#include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
-#include <murkyFramework/include/GfxDevice/shaders.hpp>
 #include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 #include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
 #include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
-#include <murkyFramework/include/collectionNamed.hpp>
 
 
 namespace GfxDevice

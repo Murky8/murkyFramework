@@ -86,8 +86,8 @@ void initialise_main()
         }
         else
         {
-            Gapp->screenResX = 800;
-            Gapp->screenResY = 800;
+            Gapp->screenResX = 1200;
+            Gapp->screenResY = 1200;
         }
 
 		auto res = createWindow(title.c_str(), Gapp->screenResX, Gapp->screenResY);    
@@ -101,8 +101,8 @@ void initialise_main()
     
 	//  move this!!!!		
 	//murkyFramework::loadFBX_tris(L"data", L"tea", L"FBX", gdeb_tris);	
-	std::thread murkyThread(murkyFramework::loadFBX_tris, L"data", L"tea", L"FBX", std::ref(gdeb_tris));
-	murkyThread.detach();
+	//std::thread murkyThread(murkyFramework::loadFBX_tris, L"data", L"tea", L"FBX", std::ref(gdeb_tris));
+	//murkyThread.detach();
 
 	Gapp->initialised = true;
 }
