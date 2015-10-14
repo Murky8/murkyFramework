@@ -218,7 +218,6 @@ namespace GfxDevice
 		{
 			Shaders::initialise();
 
-
 			// Define the vertex input layout.
 			D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
 			{
