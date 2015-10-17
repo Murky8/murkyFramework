@@ -17,6 +17,12 @@ namespace murkyFramework
 	void loadFBX_tris(const std::wstring &dirName, const std::wstring &fileName, const std::wstring &extensionName,
 		std::vector<Triangle_pct> &out_tris);
 
-	extern bool done;
+	void serializeTris(const std::wstring &dirName, const std::wstring &fileName, const std::wstring &extensionName,
+		std::vector<Triangle_pct> &tris);
+
+	void deserializeTris(const std::wstring &dirName, const std::wstring &fileName, const std::wstring &extensionName,
+		std::vector<Triangle_pct> &tris);
+
+	extern bool done; //todo: temp!!!
 }
 

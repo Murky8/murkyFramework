@@ -11,8 +11,30 @@
 #include <murkyFramework/include/stringHelpers.hpp>
 #include <murkyFramework/include/inputDevices.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
+#include <fstream>
+#include <iostream>
 
 std::wstring debugScreenText;
+const std::wstring logFileNameWithPath = { L"../../logFile.html" };
+
+//void debug2LogToFile(const std::wstring &textToAdd, const std::wstring filePathWithName)
+//{
+//    std::ofstream outfile(logFileNameWithPath);
+//}
+//using namespace std;
+void debug2ResetLogFile()
+{
+	remove(ws2s(logFileNameWithPath).c_str());
+}
+
+void debug2LogToFile(const std::wstring &textToAdd )
+{
+    std::fstream ofile;
+    ofile.open(logFileNameWithPath, std::fstream::app);
+
+    ofile << ws2s(textToAdd) << "\n";
+    ofile.close();
+}
 
 // Data
 #pragma region old code

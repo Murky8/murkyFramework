@@ -11,6 +11,7 @@
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>   
 
 #include <regex>
+#include <fstream>
 
 namespace murkyFramework
 {
@@ -149,6 +150,41 @@ namespace murkyFramework
 
 		// parse text
 		done = true;		
+	}
+
+	void serializeTris(const std::wstring &dirName, const std::wstring &fileName, const std::wstring &extensionName,
+		std::vector<Triangle_pct> &tris)
+	{
+		std::fstream ofile;
+		ofile.open(dirName +L"/"+ fileName+ L"."+extensionName, std::ios::out + std::ios::binary + std::ios::trunc);
+		u32 nTris = tris.size();
+
+		ofile.write(reinterpret_cast<char*>(&nTris), sizeof(nTris));
+		ofile.write(reinterpret_cast<char*>(tris.data()), tris.size() *sizeof(Triangle_pct));
+		/*for(Triangle_pct & tri : tris)
+		{
+			ofile << tri.v[0].pos.x;
+			ofile << tri.v[0].pos.y;
+			ofile << tri.v[0].pos.z;
+			
+		}*/
+		ofile.close();
+	}
+
+	void deserializeTris(const std::wstring &dirName, const std::wstring &fileName, const std::wstring &extensionName,
+		std::vector<Triangle_pct> &tris)
+	{
+		std::ifstream file;
+		file.open(dirName + L"/" + fileName + L"." + extensionName, std::ios::in + std::ios::binary);
+
+		u32 nTris = tris.size();
+		file.read(reinterpret_cast<char*>(&nTris), sizeof(nTris));
+		for (int i = 0; i++ < nTris; )
+		{
+			Triangle_pct newTri;
+			file.read(reinterpret_cast<char*>(&newTri), sizeof(Triangle_pct));
+			tris.push_back(newTri);
+		}
 	}
 
 	/*void loadFBX_threaded(const std::wstring &dirName, const std::wstring &fileName, const std::wstring &extensionName,

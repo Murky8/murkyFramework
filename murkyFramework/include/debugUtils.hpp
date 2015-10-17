@@ -23,6 +23,36 @@ DebObj operator << (DebObj obj, int i);
 DebObj operator << (DebObj obj, float f);
 DebObj operator << (DebObj obj, double f);
 
+//template<typename T>
+//T adder(T v) {
+//	return v;
+//}
+//
+//template<typename T, typename... Args>
+//T adder(T first, Args... args) {
+//	return first + adder(args...);
+//}
+
+template<typename T>
+void debug2Print(T v)
+{
+	debugLog << v;
+	debugLog << L"\n";
+}
+
+template<typename T, typename... Args>
+void debug2Print(T first, Args... args)
+{
+	
+	debugLog << first;// << L" ";
+	debug2Print(args...);
+}
+
+
+void debug2LogToFile(const std::wstring &textToAdd);
+void debug2ResetLogFile();
+
+
 
 
 

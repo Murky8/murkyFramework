@@ -31,27 +31,27 @@ int getFileSize(const wchar_t *const fileName)
 //http://www.jose.it-berater.org/sysinfo/pages/getfiletime.htm
 long int getFileModTime(const wchar_t *const fileName)
 {
-	HANDLE	hFile;
-	WIN32_FIND_DATA	findData;
+    HANDLE	hFile;
+    WIN32_FIND_DATA	findData;
 
-	hFile = FindFirstFile(fileName, &findData);
+    hFile = FindFirstFile(fileName, &findData);
 
-	if (hFile == INVALID_HANDLE_VALUE)
-		return -1;
+    if (hFile == INVALID_HANDLE_VALUE)
+        return -1;
 
-	FILETIME ftCreate, ftAccess, ftWrite;
-	SYSTEMTIME stUTC, stLocal;
-	//DWORD dwRet;
+    FILETIME ftCreate, ftAccess, ftWrite;
+    SYSTEMTIME stUTC, stLocal;
+    //DWORD dwRet;
 
-	if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
-		return -1;
+    if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
+        return -1;
 
-	// Convert the last-write time to local time.
-	FileTimeToSystemTime(&ftWrite, &stUTC);
-	SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
-	triggerBreakpoint();
-	return -1;
-	//GetFileTime();
+    // Convert the last-write time to local time.
+    FileTimeToSystemTime(&ftWrite, &stUTC);
+    SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+    triggerBreakpoint();
+    return -1;
+    //GetFileTime();
 }
 
 namespace qdev

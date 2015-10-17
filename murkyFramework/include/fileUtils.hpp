@@ -7,6 +7,11 @@
 #include <murkyFramework/include/common.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
 
+
+u64 getFileModificationTime1601(std::wstring fileNameWithPath, bool *out_fileExists = nullptr);
+std::wstring makePathString(const std::wstring &dirName, const std::wstring &fileName,
+    const std::wstring &extensionName);
+
 class FileDirectoryWalker
 {
 public:

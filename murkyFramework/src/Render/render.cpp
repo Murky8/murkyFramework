@@ -27,22 +27,22 @@
 
 namespace GfxDevice
 {
-	// forward declarations
+    // forward declarations
     TextureWrapper		createTextureObjectFromFile(const std::wstring &dirName,
     const				std::wstring &fileName, const std::wstring &extensionName);
     TextureWrapper		createTestTextureObject();
-	bool        initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);	
+    bool        initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);	
     bool        deinitialise_device();    
     void        initilise_textureSystem();
     void        deinitilise_textureSystem();
-	mat4		makeProjectionMatrix_perspective(float x, float x1, float x2, float x3);	
-		
+    mat4		makeProjectionMatrix_perspective(float x, float x1, float x2, float x3);	
+        
 }
 extern std::vector<Triangle_pct> gdeb_tris;
 
 namespace Render
 {        
-	using namespace murkyFramework;
+    using namespace murkyFramework;
     // data    
     //GfxDevice::VertexBufferWrapper    *vertexBufferTemp;  // for testing
     //GfxDevice::VertexBufferWrapper    *defaultLineVB;          
@@ -53,51 +53,51 @@ namespace Render
     
     void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd)
     {		
-		debugLog << L"RenderHi::initialise" << "\n";				
-		GfxDevice::initialise_device(hDC, hRC, hWnd);
+        debugLog << L"RenderHi::initialise" << "\n";				
+        GfxDevice::initialise_device(hDC, hRC, hWnd);
 
 #ifdef USE_DIRECT3D12
-		
+        
 
-		GfxDevice::vertexBufferManager.add(L"tris",
-			GfxDevice::VertexBufferWrapper(
-				GfxDevice::VertexType::posColTex,
-				GfxDevice::PrimativeType::triangle,
-				//GfxDevice::shaderManager.get(std::wstring(L"posColTex")),
-				//newt, 1024));
-				GfxDevice::ShaderWrapper(),
-				GfxDevice::TextureWrapper(), 6));
+        GfxDevice::vertexBufferManager.add(L"tris",
+            GfxDevice::VertexBufferWrapper(
+                GfxDevice::VertexType::posColTex,
+                GfxDevice::PrimativeType::triangle,
+                //GfxDevice::shaderManager.get(std::wstring(L"posColTex")),
+                //newt, 1024));
+                GfxDevice::ShaderWrapper(),
+                GfxDevice::TextureWrapper(), 6));
 
-		GfxDevice::shaderManager.add(L"posColTex", GfxDevice::ShaderWrapper()); // dummy object
+        GfxDevice::shaderManager.add(L"posColTex", GfxDevice::ShaderWrapper()); // dummy object
 
-		textRenderer = new TextRender(GfxDevice::TextureWrapper());
+        textRenderer = new TextRender(GfxDevice::TextureWrapper());
 
-		Gapp->gfxInitialised = true;
-		return;
-		//exit(0);
+        Gapp->gfxInitialised = true;
+        return;
+        //exit(0);
 #endif
 
         GfxDevice::Shaders::initialise();        
         
         GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
             L"data", L"font", L"png");
-		GfxDevice::textureManager.add(L"font", newt);
+        GfxDevice::textureManager.add(L"font", newt);
         
-		GfxDevice::TextureWrapper newt2 = GfxDevice::createTestTextureObject();
-		GfxDevice::textureManager.add(L"test", newt2);
+        GfxDevice::TextureWrapper newt2 = GfxDevice::createTestTextureObject();
+        GfxDevice::textureManager.add(L"test", newt2);
         
-		GfxDevice::vertexBufferManager.add(L"tris", 
-			GfxDevice::VertexBufferWrapper(
+        GfxDevice::vertexBufferManager.add(L"tris", 
+            GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::triangle,
-	        GfxDevice::shaderManager.get( L"posColTex"),            
+            GfxDevice::shaderManager.get( L"posColTex"),            
             newt, 1024 ));
 
-		GfxDevice::vertexBufferManager.add(L"lines",
-			GfxDevice::VertexBufferWrapper(
+        GfxDevice::vertexBufferManager.add(L"lines",
+            GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::line,
-	        GfxDevice::shaderManager.get(L"posColTex"),
+            GfxDevice::shaderManager.get(L"posColTex"),
             newt2, 16*1024));
 
         //textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
@@ -123,61 +123,61 @@ namespace Render
             return m;
     }	
 
-	void drawAll(State &state)
-	{
+    void drawAll(State &state)
+    {
 #ifdef USE_DIRECT3D12
-		GfxDevice::drawBegin();
-		static Vert_pct triangleVertices[] =
-		{
-			{ { 0.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 0.f, 0.f } },
-			{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.f, 1.f } },
-			{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 1.f, 0.f } },
+        GfxDevice::drawBegin();
+        static Vert_pct triangleVertices[] =
+        {
+            { { 0.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 0.f, 0.f } },
+            { { 0.0f, 0.5f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.f, 1.f } },
+            { { 0.5f, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 1.f, 0.f } },
 
-			{ { 0.5f, 0.5f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.f, 1.f } },
-			{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 1.f, 0.f } },
-			{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.f, 1.f } }
-		};
+            { { 0.5f, 0.5f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.f, 1.f } },
+            { { 0.5f, 0.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 1.f, 0.f } },
+            { { 0.0f, 0.5f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.f, 1.f } }
+        };
 
-		GfxDevice::vertexBufferManager.get(L"tris")
-			.draw(reinterpret_cast<void*>(triangleVertices), 2);
+        GfxDevice::vertexBufferManager.get(L"tris")
+            .draw(reinterpret_cast<void*>(triangleVertices), 2);
 
-		debugLogScreen << state.cursorPos << L"\n";
-		textRenderer->drawText(debugLogScreen);
+        debugLogScreen << state.cursorPos << L"\n";
+        textRenderer->drawText(debugLogScreen);
 
-		GfxDevice::drawEnd();
+        GfxDevice::drawEnd();
 #else
-		GfxDevice::drawBegin();
-		defaultLines.clear();
-		// draw onscreen stuff
-		if (murkyFramework::done == false)
-			debugLogScreen << L"Loading teapot!!!\n";
-		debugLogScreen << state.cursorPos << L"\n";
+        GfxDevice::drawBegin();
+        defaultLines.clear();
+        // draw onscreen stuff
+        if (murkyFramework::done == false)
+            debugLogScreen << L"Loading teapot!!!\n";
+        debugLogScreen << state.cursorPos << L"\n";
 
 
-		projectionMatrix = makeProjectionMatrix_ortho(
-			0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
-		GfxDevice::setUniform_projectionMatrix(&projectionMatrix.v[0][0]);
-		textRenderer->drawText(debugLogScreen);
-		// draw onscreen stuff
+        projectionMatrix = makeProjectionMatrix_ortho(
+            0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
+        GfxDevice::setUniform_projectionMatrix(&projectionMatrix.v[0][0]);
+        textRenderer->drawText(debugLogScreen);
+        // draw onscreen stuff
 
-		if (murkyFramework::done == true)
-		{
-		// teapot
-		mat4 cam = makeCameraMatrix(state.cursorPos, state.cursorOri);
-		mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
-		mat4 proj = cam*persp;
-		GfxDevice::setUniform_projectionMatrix(&proj.v[0][0]);
+        if (murkyFramework::done == true)
+        {
+        // teapot
+        mat4 cam = makeCameraMatrix(state.cursorPos, state.cursorOri);
+        mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
+        mat4 proj = cam*persp;
+        GfxDevice::setUniform_projectionMatrix(&proj.v[0][0]);
 
-			if (1)
-			{
-				for (Triangle_pct &t : gdeb_tris)
-				{
-					drawCrosshair(vec3(t.v[0].pos.x, t.v[0].pos.y, -t.v[0].pos.z), vec3(1, 1, 1), 1.f);
-				}
-				GfxDevice::vertexBufferManager.get(L"lines").draw(defaultLines.data(), defaultLines.size());
-			}
-		}
-		// teapot
+            if (1)
+            {
+                for (Triangle_pct &t : gdeb_tris)
+                {
+                    drawCrosshair(vec3(t.v[0].pos.x, t.v[0].pos.y, -t.v[0].pos.z), vec3(1, 1, 1), 1.f);
+                }
+                GfxDevice::vertexBufferManager.get(L"lines").draw(defaultLines.data(), defaultLines.size());
+            }
+        }
+        // teapot
         //defaultLineVB->draw(gdeb_tris.data(), gdeb_tris.size());
         GfxDevice::drawEnd();
 #endif

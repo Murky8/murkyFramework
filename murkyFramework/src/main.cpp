@@ -4,9 +4,11 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
-#include <iostream>
-
 #include <windows.h>
+
+#include <iostream>
+#include <stdlib.h>
+#include <wchar.h>
 
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/appFramework.hpp>
@@ -17,6 +19,7 @@
 #include <murkyFramework/include/state.hpp>
 #include <murkyFramework/include/readFBX.hpp>
 #include <murkyFramework/include/system.hpp>
+#include <murkyFramework/include/fileUtils.hpp>
 
 // external forward declarations
 namespace Render
@@ -46,10 +49,103 @@ std::vector<Triangle_pct> gdeb_tris;
 // testing
 void skool();
 
+void visitAllFilesInDirectory(std::wstring startDir, void (*funct)(std::wstring &filePath))
+{	
+	WIN32_FIND_DATA	findData;
+	HANDLE fileHandle = nullptr;
+	std::wstring searchfolderPath = startDir +L"\\*";
+	
+	fileHandle = FindFirstFile(searchfolderPath.c_str(), &findData);
+	if (fileHandle == INVALID_HANDLE_VALUE)
+	{
+		return;
+	}
+
+	// first match should be '.' (check this...). we ignore it.
+	if (std::wstring(findData.cFileName) != L".")
+		triggerBreakpoint();
+		
+	while(1)
+	{
+		HRESULT res;
+		res = FindNextFile(fileHandle, &findData);
+		if (res == FALSE)
+			continue;
+
+		std::wstring fileName(findData.cFileName);
+
+
+		if(fileName == L"..")continue;
+		funct(fileName);		
+	}
+}
+
+void pr(std::wstring &filePath)
+{
+	debugLog << L"lick: " << filePath << L"\n";
+}
+
+void decomposeFilePath(std::wstring in_string, std::wstring &out_directoryPath,
+	std::wstring &out_fileNameNaked, std::wstring &out_extensionName)
+{	
+	wchar_t dirPath[100];	// todo: stack capacity?
+	wchar_t fileName[100];
+	wchar_t extension[10];
+
+	_wsplitpath_s(
+		in_string.c_str(),
+		nullptr,
+		0,
+		dirPath,
+		sizeof(dirPath) / sizeof(wchar_t),
+		fileName,
+		sizeof(fileName) / sizeof(wchar_t),
+		extension,
+		sizeof(extension) / sizeof(wchar_t)
+		);
+	//_splitpath
+
+	out_directoryPath = std::wstring(dirPath);
+	out_fileNameNaked = std::wstring(fileName);
+	out_extensionName = std::wstring(extension);
+
+	//https://msdn.microsoft.com/en-us/library/ms175759.aspx
+}
+
+void compileResources()
+{
+	// scan directory	
+//	visitAllFilesInDirectory(L"data", pr);
+//	exit(0);
+
+	bool binExsists;
+	u64 fbxModTime = getFileModificationTime1601(makePathString(L"data", L"tea", L"FBX"));
+	u64 binModTime = getFileModificationTime1601(makePathString(L"data", L"tea", L"bin"), &binExsists);
+
+	if (fbxModTime>binModTime || binExsists == false)
+	{// compile to .bin
+		debugLog << L"bin is not current. compiling \n";
+		murkyFramework::loadFBX_tris(L"data", L"tea", L"FBX", gdeb_tris);
+		murkyFramework::serializeTris(L"data", L"tea", L"bin", gdeb_tris);
+	}
+	else
+	{
+		debugLog << L"bin is current \n";
+		murkyFramework::deserializeTris(L"data", L"tea", L"bin", gdeb_tris);
+	}
+	murkyFramework::done = true;
+
+	//std::thread murkyThread(murkyFramework::loadFBX_tris, L"data", L"tea", L"FBX", std::ref(gdeb_tris));
+	//murkyThread.detach();
+}
+
 // called from void main()
 void initialise_main()
-{ 
-	Gapp = new AppFramework();
+{ 	
+	qdev::setCurrentDirectoryToAppRoot();
+	debug2ResetLogFile();
+
+    Gapp = new AppFramework();
     std::wstring title{ L"Murky " };
     wchar_t wcstring[] = L"Murky8\n";
 
@@ -60,7 +156,7 @@ void initialise_main()
     debugLog << L"Using D3d11 \n";    title += L"D3d11  ";
 #endif
 #ifdef USE_DIRECT3D12
-	debugLog << L"Using D3d12 \n";	title += L"D3d12  ";
+    debugLog << L"Using D3d12 \n";	title += L"D3d12  ";
 #endif
 #ifdef ENVIRONMENT32
     debugLog << L"32 bit ";    title += L"32 bit  ";
@@ -70,17 +166,15 @@ void initialise_main()
 #endif
 #ifdef WIN32
     debugLog << L"Windows\n";
-#endif
+#endif    
 
-    qdev::setCurrentDirectoryToAppRoot();
-
-	// create window. nothing device specific here.
+    // create window. nothing device specific here.
     {
         if (Gapp->fullScreen)
         {
-			HWND    desktop = GetDesktopWindow();
-			RECT    screenDims;
-			GetWindowRect(desktop, &screenDims);
+            HWND    desktop = GetDesktopWindow();
+            RECT    screenDims;
+            GetWindowRect(desktop, &screenDims);
             Gapp->screenResX = screenDims.right;
             Gapp->screenResY = screenDims.bottom;
         }
@@ -90,21 +184,18 @@ void initialise_main()
             Gapp->screenResY = 800;
         }
 
-		auto res = createWindow(title.c_str(), Gapp->screenResX, Gapp->screenResY);    
-		if (!res)
-	        triggerBreakpoint(L"Init device failed");
+        auto res = createWindow(title.c_str(), Gapp->screenResX, Gapp->screenResY);    
+        if (!res)
+            triggerBreakpoint(L"Init device failed");
     }
 
     Render::initialise(hDC, hRC, hWnd);
 
-	f64 t = system2::readTimeSecondsSinceAppStart();
+    f64 t = system2::readTimeSecondsSinceAppStart();
     
-	//  move this!!!!		
-	//murkyFramework::loadFBX_tris(L"data", L"tea", L"FBX", gdeb_tris);	
-	std::thread murkyThread(murkyFramework::loadFBX_tris, L"data", L"tea", L"FBX", std::ref(gdeb_tris));
-	murkyThread.detach();
-
-	Gapp->initialised = true;
+    //  move this!!!!	
+	compileResources();
+    Gapp->initialised = true;
 }
 
 void deinitialise_main()
@@ -116,15 +207,14 @@ void deinitialise_main()
 // 
 int main()
 {
-    //skool();
-    
+	
     initialise_main();
         
-	// private data/state
+    // private data/state
     InputDevices *pInputDevices(new InputDevices(hWnd));
     State		state;
     
-	// enable passing user data to WndProc
+    // enable passing user data to WndProc
     SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pInputDevices);
     
     while (!Gapp->exitWholeApp)
@@ -187,24 +277,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 bool createWindow(LPCWSTR title, int width, int height)
 {
     hInstance = GetModuleHandle(nullptr);
-	if (hInstance == NULL)
-		triggerBreakpoint();
+    if (hInstance == NULL)
+        triggerBreakpoint();
 
-	WNDCLASSEX windowClass = { 0 };
-	windowClass.cbSize = sizeof(WNDCLASSEX);
-	windowClass.style = CS_HREDRAW | CS_VREDRAW;
-	windowClass.lpfnWndProc = WndProc;
-	windowClass.hInstance = hInstance;
-	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
-	windowClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-	windowClass.lpszClassName = title;
-	
-	if (RegisterClassEx(&windowClass)==0)
-	{
-		auto errorCode = GetLastError();
-		triggerBreakpoint(L"Init device failed\n");
-		return false;
-	}
+    WNDCLASSEX windowClass = { 0 };
+    windowClass.cbSize = sizeof(WNDCLASSEX);
+    windowClass.style = CS_HREDRAW | CS_VREDRAW;
+    windowClass.lpfnWndProc = WndProc;
+    windowClass.hInstance = hInstance;
+    windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+    windowClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+    windowClass.lpszClassName = title;
+    
+    if (RegisterClassEx(&windowClass)==0)
+    {
+        auto errorCode = GetLastError();
+        triggerBreakpoint(L"Init device failed\n");
+        return false;
+    }
 
     RECT rect;
     rect.left = 0;
@@ -217,7 +307,7 @@ bool createWindow(LPCWSTR title, int width, int height)
         NULL, 
         title, 
         title, 
-		WS_OVERLAPPEDWINDOW,
+        WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 
         CW_USEDEFAULT,
         rect.right-rect.left,
@@ -228,17 +318,17 @@ bool createWindow(LPCWSTR title, int width, int height)
         NULL
         );
 
-	if (hWnd == NULL)
-	{
-		//https://msdn.microsoft.com/en-us/library/windows/desktop/ms681381(v=vs.85).aspx
-		auto errorCode = GetLastError();
-		triggerBreakpoint();
-		return false;
-	}
+    if (hWnd == NULL)
+    {
+        //https://msdn.microsoft.com/en-us/library/windows/desktop/ms681381(v=vs.85).aspx
+        auto errorCode = GetLastError();
+        triggerBreakpoint();
+        return false;
+    }
 
     hDC = GetDC(hWnd); // Get the device context for our window
      
     ShowWindow(hWnd, 10);
-	UpdateWindow(hWnd);
+    UpdateWindow(hWnd);
     return true;
 }

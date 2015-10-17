@@ -13,11 +13,10 @@ class AppFramework
 public:
     void    initOnce();
  
-    // Data
+    // data
     bool    fullScreen = false;
     int     screenResY;
     int     screenResX;
-
 
     //bool    multiThreaded = true;
     u32     frameCounter = 0;    
