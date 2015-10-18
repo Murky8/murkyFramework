@@ -85,10 +85,9 @@ namespace murkyFramework
 		return true;
 	}
 		
-	void loadFBX_tris(const std::wstring &dirName, const std::wstring &fileName, const std::wstring &extensionName,
-		std::vector<Triangle_pct> &tris)
+	void loadFBX_tris(const std::wstring &filePathName,	std::vector<Triangle_pct> &tris)
 	{				
-		std::unique_ptr<qdev::BinaryFileLoader> pBinaryFile(new qdev::BinaryFileLoader(dirName, fileName, extensionName));
+		std::unique_ptr<qdev::BinaryFileLoader> pBinaryFile(new qdev::BinaryFileLoader(filePathName));
 		if (pBinaryFile->pdata == nullptr)
 		{// unsuccessful
 			done = true;		
@@ -152,11 +151,10 @@ namespace murkyFramework
 		done = true;		
 	}
 
-	void serializeTris(const std::wstring &dirName, const std::wstring &fileName, const std::wstring &extensionName,
-		std::vector<Triangle_pct> &tris)
+	void serializeTris(const std::wstring &filePathName, std::vector<Triangle_pct> &tris)
 	{
 		std::fstream ofile;
-		ofile.open(dirName +L"/"+ fileName+ L"."+extensionName, std::ios::out + std::ios::binary + std::ios::trunc);
+		ofile.open(filePathName, std::ios::out + std::ios::binary + std::ios::trunc);
 		u32 nTris = tris.size();
 
 		ofile.write(reinterpret_cast<char*>(&nTris), sizeof(nTris));
@@ -171,11 +169,10 @@ namespace murkyFramework
 		ofile.close();
 	}
 
-	void deserializeTris(const std::wstring &dirName, const std::wstring &fileName, const std::wstring &extensionName,
-		std::vector<Triangle_pct> &tris)
+	void deserializeTris(const std::wstring &filePathName, std::vector<Triangle_pct> &tris)
 	{
 		std::ifstream file;
-		file.open(dirName + L"/" + fileName + L"." + extensionName, std::ios::in + std::ios::binary);
+		file.open(filePathName, std::ios::in + std::ios::binary);
 
 		u32 nTris = tris.size();
 		file.read(reinterpret_cast<char*>(&nTris), sizeof(nTris));

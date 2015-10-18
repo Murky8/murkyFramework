@@ -49,67 +49,27 @@ std::vector<Triangle_pct> gdeb_tris;
 // testing
 void skool();
 
-void visitAllFilesInDirectory(std::wstring startDir, void (*funct)(std::wstring &filePath))
-{	
-	WIN32_FIND_DATA	findData;
-	HANDLE fileHandle = nullptr;
-	std::wstring searchfolderPath = startDir +L"\\*";
-	
-	fileHandle = FindFirstFile(searchfolderPath.c_str(), &findData);
-	if (fileHandle == INVALID_HANDLE_VALUE)
-	{
-		return;
-	}
-
-	// first match should be '.' (check this...). we ignore it.
-	if (std::wstring(findData.cFileName) != L".")
-		triggerBreakpoint();
-		
-	while(1)
-	{
-		HRESULT res;
-		res = FindNextFile(fileHandle, &findData);
-		if (res == FALSE)
-			continue;
-
-		std::wstring fileName(findData.cFileName);
-
-
-		if(fileName == L"..")continue;
-		funct(fileName);		
-	}
-}
-
-void pr(std::wstring &filePath)
+void compileFBX(PathFileNameExtComponents pathSplit)
 {
-	debugLog << L"lick: " << filePath << L"\n";
-}
+	
+	std::wstring binPath = makePathString(pathSplit.directoryPath, pathSplit.fileName, L"bin");
 
-void decomposeFilePath(std::wstring in_string, std::wstring &out_directoryPath,
-	std::wstring &out_fileNameNaked, std::wstring &out_extensionName)
-{	
-	wchar_t dirPath[100];	// todo: stack capacity?
-	wchar_t fileName[100];
-	wchar_t extension[10];
-
-	_wsplitpath_s(
-		in_string.c_str(),
-		nullptr,
-		0,
-		dirPath,
-		sizeof(dirPath) / sizeof(wchar_t),
-		fileName,
-		sizeof(fileName) / sizeof(wchar_t),
-		extension,
-		sizeof(extension) / sizeof(wchar_t)
-		);
-	//_splitpath
-
-	out_directoryPath = std::wstring(dirPath);
-	out_fileNameNaked = std::wstring(fileName);
-	out_extensionName = std::wstring(extension);
-
-	//https://msdn.microsoft.com/en-us/library/ms175759.aspx
+	bool binExsists;
+	u64 fbxModTime = getFileModificationTime1601(pathSplit.wholePathName());
+	u64 binModTime = getFileModificationTime1601(binPath, &binExsists);
+		
+	if (fbxModTime>binModTime || binExsists == false)
+	{// compile to .bin
+		debugLog << L"bin is not current. compiling \n";
+		murkyFramework::loadFBX_tris(pathSplit.wholePathName(), gdeb_tris);
+		murkyFramework::serializeTris(binPath, gdeb_tris);
+	}
+	else
+	{
+		debugLog << L"bin is current \n";
+		murkyFramework::deserializeTris(binPath, gdeb_tris);
+	}
+	
 }
 
 void compileResources()
@@ -117,26 +77,10 @@ void compileResources()
 	// scan directory	
 //	visitAllFilesInDirectory(L"data", pr);
 //	exit(0);
+	std::wregex regexp {L"FBX"};
+	visitAllFilesInDirectory(L"data", compileFBX, regexp);
 
-	bool binExsists;
-	u64 fbxModTime = getFileModificationTime1601(makePathString(L"data", L"tea", L"FBX"));
-	u64 binModTime = getFileModificationTime1601(makePathString(L"data", L"tea", L"bin"), &binExsists);
-
-	if (fbxModTime>binModTime || binExsists == false)
-	{// compile to .bin
-		debugLog << L"bin is not current. compiling \n";
-		murkyFramework::loadFBX_tris(L"data", L"tea", L"FBX", gdeb_tris);
-		murkyFramework::serializeTris(L"data", L"tea", L"bin", gdeb_tris);
-	}
-	else
-	{
-		debugLog << L"bin is current \n";
-		murkyFramework::deserializeTris(L"data", L"tea", L"bin", gdeb_tris);
-	}
 	murkyFramework::done = true;
-
-	//std::thread murkyThread(murkyFramework::loadFBX_tris, L"data", L"tea", L"FBX", std::ref(gdeb_tris));
-	//murkyThread.detach();
 }
 
 // called from void main()
