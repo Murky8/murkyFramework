@@ -156,7 +156,7 @@ namespace GfxDevice
 
 		// Describe and create a shader resource view (SRV) heap for the texture.
 		D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
-		srvHeapDesc.NumDescriptors = 1;
+		srvHeapDesc.NumDescriptors = 2;
 		srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 		srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;	
 		ThrowIfFailed(m_device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&m_srvHeap)));
@@ -256,14 +256,17 @@ namespace GfxDevice
 		// Create the command list.
 		ThrowIfFailed(m_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator.Get(), m_pipelineState.Get(), IID_PPV_ARGS(&g_commandList)));
 
-		ComPtr<ID3D12Resource> textureUploadHeap;
+        ComPtr<ID3D12Resource> textureUploadHeap;
+        ComPtr<ID3D12Resource> textureUploadHeap2;
 		CD3DX12_CPU_DESCRIPTOR_HANDLE srvHandle(m_srvHeap->GetCPUDescriptorHandleForHeapStart());	
-		const UINT srvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+		m_srvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 		//textureUploadHeap.SetName
 		{
 			u32 TextureWidth = 512;
 			u32 TextureHeight = 512;
 			u32 TexturePixelSize = 4;
+
+			{ // upload 1st texture
 
 			// Describe  Texture2D.
 			D3D12_RESOURCE_DESC textureDesc = {};
@@ -277,7 +280,6 @@ namespace GfxDevice
 			textureDesc.SampleDesc.Quality = 0;
 			textureDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 
-			{ // upload 1 texture
 				ThrowIfFailed(m_device->CreateCommittedResource(
 					&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
 					D3D12_HEAP_FLAG_NONE,
@@ -324,12 +326,74 @@ namespace GfxDevice
 				srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 				srvDesc.Format = textureDesc.Format;
 				srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-				srvDesc.Texture2D.MipLevels = 1;
-				CD3DX12_CPU_DESCRIPTOR_HANDLE srvHandle(m_srvHeap->GetCPUDescriptorHandleForHeapStart());
+				srvDesc.Texture2D.MipLevels = 1;				
 
 				m_device->CreateShaderResourceView(m_texture.Get(), &srvDesc, srvHandle);	
-				srvHandle.Offset(srvDescriptorSize);
-			} // upload 1 texture		
+				srvHandle.Offset(m_srvDescriptorSize);
+			} // upload 1st texture		
+
+            { // upload 2nd texture
+
+              // Describe  Texture2D.
+                D3D12_RESOURCE_DESC textureDesc = {};
+                textureDesc.MipLevels = 1;
+                textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                textureDesc.Width = TextureWidth;
+                textureDesc.Height = TextureHeight;
+                textureDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
+                textureDesc.DepthOrArraySize = 1;
+                textureDesc.SampleDesc.Count = 1;
+                textureDesc.SampleDesc.Quality = 0;
+                textureDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+
+                ThrowIfFailed(m_device->CreateCommittedResource(
+                    &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+                    D3D12_HEAP_FLAG_NONE,
+                    &textureDesc,
+                    D3D12_RESOURCE_STATE_COPY_DEST,
+                    nullptr,
+                    IID_PPV_ARGS(&m_texture2)));
+
+                const UINT64 uploadBufferSize = GetRequiredIntermediateSize(m_texture2.Get(), 0, 1);
+
+                // Create the GPU upload buffer.
+                ThrowIfFailed(m_device->CreateCommittedResource(
+                    &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+                    D3D12_HEAP_FLAG_NONE,
+                    &CD3DX12_RESOURCE_DESC::Buffer(uploadBufferSize),
+                    D3D12_RESOURCE_STATE_GENERIC_READ,
+                    nullptr,
+                    IID_PPV_ARGS(&textureUploadHeap2)));
+
+                // Copy data to the intermediate upload heap and then schedule a copy 
+                // from the upload heap to the Texture2D.
+                u32 width;
+                u32 height;
+                std::vector<u8> myTexture;
+                loadTextureDataFromFile(myTexture, L"data", L"font 4c", L"png",
+                					width, height);
+                                
+                D3D12_SUBRESOURCE_DATA textureData = {};
+                //textureData.pData = &texture[0];
+                textureData.pData = myTexture.data();
+                textureData.RowPitch = TextureWidth * TexturePixelSize;
+                textureData.SlicePitch = textureData.RowPitch * TextureHeight;
+
+                UpdateSubresources(g_commandList.Get(), m_texture2.Get(), textureUploadHeap2.Get(), 0, 0, 1,
+                    &textureData);
+                g_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_texture2.Get(),
+                    D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
+
+                // Describe and create a SRV for the texture.
+                D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+                srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+                srvDesc.Format = textureDesc.Format;
+                srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+                srvDesc.Texture2D.MipLevels = 1;            
+
+                m_device->CreateShaderResourceView(m_texture2.Get(), &srvDesc, srvHandle);
+                srvHandle.Offset(m_srvDescriptorSize);
+            } // upload 2nd texture		
 		}
 
         // Command lists are created in the recording state.		

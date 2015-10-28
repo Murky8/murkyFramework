@@ -39,9 +39,11 @@ extern ComPtr<ID3D12DescriptorHeap>	m_srvHeap;
 extern ComPtr<ID3D12PipelineState> m_pipelineState;
 extern ComPtr<ID3D12GraphicsCommandList> g_commandList;
 extern UINT m_rtvDescriptorSize;
+extern UINT m_srvDescriptorSize;
 // Pipeline objects.
 
 extern ComPtr<ID3D12Resource> m_texture;
+extern ComPtr<ID3D12Resource> m_texture2;
 // App resources.
 //extern ComPtr<ID3D12Resource> m_vertexBuffer;
 //extern D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView;

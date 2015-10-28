@@ -14,8 +14,7 @@
 #endif
 #endif
 
-#define CURDEV
-#define CURDEV_2
+
 
 //// Check GCC
 //#if __GNUC__

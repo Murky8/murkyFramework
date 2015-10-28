@@ -41,9 +41,11 @@ namespace GfxDevice
 	ComPtr<ID3D12RootSignature>		m_rootSignature;
 	ComPtr<ID3D12DescriptorHeap>	m_rtvHeap;
 	ComPtr<ID3D12DescriptorHeap>	m_srvHeap;
+
 	ComPtr<ID3D12PipelineState>		m_pipelineState;
 	ComPtr<ID3D12GraphicsCommandList>	g_commandList;
-	UINT m_rtvDescriptorSize = 0;
+    UINT m_rtvDescriptorSize = 0;
+    UINT m_srvDescriptorSize = 0;
 	// Pipeline objects.
 
 	// App resources.	
@@ -96,13 +98,21 @@ namespace GfxDevice
 		// Set necessary state.
 		g_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
 
-#ifdef CURDEV
+
 		ID3D12DescriptorHeap* ppHeaps[] = { m_srvHeap.Get() };
 		g_commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
         // HELP0
-        g_commandList->SetGraphicsRootDescriptorTable(0, m_srvHeap->GetGPUDescriptorHandleForHeapStart());
-#endif
+        CD3DX12_GPU_DESCRIPTOR_HANDLE srvGPUHandle(m_srvHeap->GetGPUDescriptorHandleForHeapStart());
+        //srvGPUHandle.Offset(m_srvDescriptorSize);
+        //srvGPUHandle.Offset(nullptr);
+        //CD3DX12_CPU_DESCRIPTOR_HANDLE srvHandle(m_srvHeap->GetCPUDescriptorHandleForHeapStart());
+        //srvHandle.Offset(m_srvDescriptorSize);
+        //g_commandList->SetGraphicsRootDescriptorTable(0, 
+            //m_srvHeap->GetCPUDescriptorHandleForHeapStart()
+            //);
+        g_commandList->SetGraphicsRootDescriptorTable(0, srvGPUHandle);
+
 		g_commandList->RSSetViewports(1, &m_viewport);
 		g_commandList->RSSetScissorRects(1, &m_scissorRect);
 
