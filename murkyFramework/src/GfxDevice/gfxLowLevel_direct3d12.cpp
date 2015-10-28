@@ -99,7 +99,9 @@ namespace GfxDevice
 #ifdef CURDEV
 		ID3D12DescriptorHeap* ppHeaps[] = { m_srvHeap.Get() };
 		g_commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-		g_commandList->SetGraphicsRootDescriptorTable(0, m_srvHeap->GetGPUDescriptorHandleForHeapStart());
+
+        // HELP0
+        g_commandList->SetGraphicsRootDescriptorTable(0, m_srvHeap->GetGPUDescriptorHandleForHeapStart());
 #endif
 		g_commandList->RSSetViewports(1, &m_viewport);
 		g_commandList->RSSetScissorRects(1, &m_scissorRect);

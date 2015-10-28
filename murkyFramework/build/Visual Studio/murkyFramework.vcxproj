@@ -309,21 +309,6 @@
     <ClInclude Include="..\..\src\GfxDevice\public\textureWrappers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\vertexBufferWrappers.hpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\GfxDevice\shaders\posColTex.fsh" />
-    <None Include="..\..\src\GfxDevice\shaders\posColTex.ps" />
-    <None Include="..\..\src\GfxDevice\shaders\posColTex.vs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\GfxDevice\shaders\posColTex.vsh">
-      <FileType>Document</FileType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\GfxDevice\shaders\shaders.hlsl">
-      <FileType>Document</FileType>
-    </None>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -93,7 +93,8 @@ namespace GfxDevice
 
         // Compile the vertex shader
         ID3DBlob* pVSBlob = nullptr;
-        hr = CompileShaderFromFile(L"src/GfxDevice/shaders/posColTex.vs", "mainvs", "vs_4_0", &pVSBlob);
+        //D:\Wicked Dev\dev c++\murkyFramework\src\GfxDevice\private\d3d11\shaders
+        hr = CompileShaderFromFile(L"src/GfxDevice/private/d3d11/shaders/posColTex.vs", "mainvs", "vs_4_0", &pVSBlob);
         if (FAILED(hr))
         {
             MessageBox(nullptr,
@@ -128,8 +129,8 @@ namespace GfxDevice
              
 
         // Compile the pixel shader
-        ID3DBlob* pPSBlob = nullptr;
-        hr = CompileShaderFromFile(L"src/GfxDevice/shaders/posColTex.ps", "mainps", "ps_4_0", &pPSBlob);
+        ID3DBlob* pPSBlob = nullptr; 
+        hr = CompileShaderFromFile(L"src/GfxDevice/private/d3d11/shaders/posColTex.ps", "mainps", "ps_4_0", &pPSBlob);
         if (FAILED(hr))
         {
             MessageBox(nullptr,

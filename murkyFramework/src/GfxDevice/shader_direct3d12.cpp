@@ -57,7 +57,8 @@ namespace GfxDevice
 		ShaderWrapper newShader;
 
 		ID3DBlob* pErrorBlob = nullptr;
-		hr = D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &newShader.vertexShader, &pErrorBlob);
+        
+		hr = D3DCompileFromFile(L"src/GfxDevice/private/d3d12/shaders/shaders.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &newShader.vertexShader, &pErrorBlob);
 		if (FAILED(hr))
 		{
 			if (pErrorBlob)
@@ -69,7 +70,7 @@ namespace GfxDevice
 		}
 
 		pErrorBlob = nullptr;
-		hr = D3DCompileFromFile(L"src/GfxDevice/shaders/shaders.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &newShader.pixelShader, &pErrorBlob);
+		hr = D3DCompileFromFile(L"src/GfxDevice/private/d3d12/shaders/shaders.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &newShader.pixelShader, &pErrorBlob);
 		if (FAILED(hr))
 		{
 			if (pErrorBlob)

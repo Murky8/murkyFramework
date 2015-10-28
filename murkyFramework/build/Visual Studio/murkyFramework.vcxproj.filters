@@ -333,21 +333,4 @@
       <Filter>Source Files\GfxDevice\private</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\GfxDevice\shaders\posColTex.ps">
-      <Filter>Source Files\GfxDevice\d3d11\shaders</Filter>
-    </None>
-    <None Include="..\..\src\GfxDevice\shaders\posColTex.vs">
-      <Filter>Source Files\GfxDevice\d3d11\shaders</Filter>
-    </None>
-    <None Include="..\..\src\GfxDevice\shaders\posColTex.fsh">
-      <Filter>Source Files\GfxDevice\openGL\shaders</Filter>
-    </None>
-    <None Include="..\..\src\GfxDevice\shaders\posColTex.vsh">
-      <Filter>Source Files\GfxDevice\openGL\shaders</Filter>
-    </None>
-    <None Include="..\..\src\GfxDevice\shaders\shaders.hlsl">
-      <Filter>Source Files\GfxDevice\d3d12\shaders</Filter>
-    </None>
-  </ItemGroup>
 </Project>

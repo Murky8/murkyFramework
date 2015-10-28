@@ -152,15 +152,7 @@ namespace GfxDevice
 
 		m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
 
-		// Create descriptor heaps.
-
-		// Describe and create a render target view (RTV) descriptor heap.
-		D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};			
-		rtvHeapDesc.NumDescriptors = FrameCount;
-		rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-		rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-		ThrowIfFailed(m_device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_rtvHeap)));
-		m_rtvHeap->SetName(L"bongo");
+		//// Create descriptor heaps.
 
 		// Describe and create a shader resource view (SRV) heap for the texture.
 		D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
@@ -168,6 +160,15 @@ namespace GfxDevice
 		srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 		srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;	
 		ThrowIfFailed(m_device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&m_srvHeap)));
+        m_srvHeap->SetName(L"texture heep");
+
+		// Describe and create a render target view (RTV) descriptor heap.
+		D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};			
+		rtvHeapDesc.NumDescriptors = FrameCount;
+		rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+		rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+		ThrowIfFailed(m_device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_rtvHeap)));
+		m_rtvHeap->SetName(L"rtv heep");
 
 		m_rtvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
@@ -184,8 +185,8 @@ namespace GfxDevice
 
 		ThrowIfFailed(m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&m_commandAllocator)));
 
-		// Create an /* root*/ signature.
-		
+		// Create a root signature.
+        // HELP0
 			CD3DX12_DESCRIPTOR_RANGE ranges[1];
 			ranges[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 
@@ -207,12 +208,14 @@ namespace GfxDevice
 			sampler.RegisterSpace = 0;
 			sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 			CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
-			rootSignatureDesc.Init(_countof(rootParameters), rootParameters, 1, &sampler, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);			
+			rootSignatureDesc.Init(_countof(rootParameters), rootParameters, 1, &sampler, 
+                D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);			
 
 			ComPtr<ID3DBlob> signature;
 			ComPtr<ID3DBlob> error;
 			ThrowIfFailed(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error));
-			ThrowIfFailed(m_device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&m_rootSignature)));		
+			ThrowIfFailed(m_device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), 
+                IID_PPV_ARGS(&m_rootSignature)));		
 
 		// Create the pipeline state, which includes compiling and loading shaders.
 		{
@@ -299,36 +302,22 @@ namespace GfxDevice
 				u32 width;
 				u32 height;
 				std::vector<u8> myTexture;
-				loadTextureDataFromFile(myTexture, L"data", L"font 4c", L"png",
-					width, height);
+				//loadTextureDataFromFile(myTexture, L"data", L"font 4c", L"png",
+//					width, height);
+                
+                loadTextureDataFromFile(myTexture, L"data", L"t0 4c", L"png",
+                    width, height);
 
-#ifdef fefwf
-				const auto subDiv = 256;
-				boost::multi_array<u8, 3> t(boost::extents[subDiv][subDiv][4]);
-				for (auto i = 0; i < subDiv; ++i)
-					for (auto j = 0; j < subDiv; ++j)
-					{
-						//f32 fi = (f32)i*256.f /subDiv;
-						//f32 fj = (f32)j*256.f /subDiv;
-						//double nulll;
-						//t[j][i][0] = 255.f * modf(modf(fi*fi, &nulll) + modf(fj*fj, &nulll), &nulll);
-						//t[j][i][1] =  i*i*2 + j*j*2;
-						//t[j][i][2] = 0;// i*i + j*j * 2;
-						t[j][i][0] = i*i + j*j;
-						t[j][i][1] = 0;
-						t[j][i][2] = 30;
-					}
-				//L"data", L"font", L"png");
-			//std::vector<UINT8> texture = GenerateTextureData();
-#endif
 				D3D12_SUBRESOURCE_DATA textureData = {};
 				//textureData.pData = &texture[0];
 				textureData.pData = myTexture.data();
 				textureData.RowPitch = TextureWidth * TexturePixelSize;
 				textureData.SlicePitch = textureData.RowPitch * TextureHeight;
 
-				UpdateSubresources(g_commandList.Get(), m_texture.Get(), textureUploadHeap.Get(), 0, 0, 1, &textureData);
-				g_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_texture.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
+				UpdateSubresources(g_commandList.Get(), m_texture.Get(), textureUploadHeap.Get(), 0, 0, 1,
+                    &textureData);
+				g_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_texture.Get(),
+                    D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
 
 				// Describe and create a SRV for the texture.
 				D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
@@ -340,13 +329,10 @@ namespace GfxDevice
 
 				m_device->CreateShaderResourceView(m_texture.Get(), &srvDesc, srvHandle);	
 				srvHandle.Offset(srvDescriptorSize);
-
-			} // upload 1 texture
-		
+			} // upload 1 texture		
 		}
 
-		// Command lists are created in the recording state, but there is nothing
-		// to record yet. The main loop expects it to be closed, so close it now.
+        // Command lists are created in the recording state.		
 		ThrowIfFailed(g_commandList->Close());
 
 		ID3D12CommandList* ppCommandLists[] = { g_commandList.Get() };

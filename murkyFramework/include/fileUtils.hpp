@@ -9,20 +9,20 @@
 #include <murkyFramework/include/debugUtils.hpp>
 
 
-class PathFileNameExtComponents
+class FilePathSplit
 {
 public:
 	std::wstring	directoryPath;
 	std::wstring	fileName;
 	std::wstring	extensionName;
-	std::wstring	wholePathName();
+	std::wstring	getJoinedFilePath();
 
-	PathFileNameExtComponents(){}
-	PathFileNameExtComponents(std::wstring pathFileNameExt);
+	FilePathSplit(){}
+	FilePathSplit(std::wstring pathFileNameExt);
 
 };
 
-void visitAllFilesInDirectory(std::wstring startDir, void (*funct) (PathFileNameExtComponents), std::wregex &regexp);
+void visitAllFilesInDirectory(std::wstring startDir, void (*funct) (FilePathSplit), std::wregex &extensionName_regex);
 void decomposeFilePath(std::wstring in_string, std::wstring &out_directoryPath,
 	std::wstring &out_fileNameNaked, std::wstring &out_extensionName);
 

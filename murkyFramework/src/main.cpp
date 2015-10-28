@@ -49,45 +49,45 @@ std::vector<Triangle_pct> gdeb_tris;
 // testing
 void skool();
 
-void compileFBX(PathFileNameExtComponents pathSplit)
+void compileFBX(FilePathSplit pathSplit)
 {
-	
-	std::wstring binPath = makePathString(pathSplit.directoryPath, pathSplit.fileName, L"bin");
+    
+    std::wstring binPath = makePathString(pathSplit.directoryPath, pathSplit.fileName, L"bin");
 
-	bool binExsists;
-	u64 fbxModTime = getFileModificationTime1601(pathSplit.wholePathName());
-	u64 binModTime = getFileModificationTime1601(binPath, &binExsists);
-		
-	if (fbxModTime>binModTime || binExsists == false)
-	{// compile to .bin
-		debugLog << L"bin is not current. compiling \n";
-		murkyFramework::loadFBX_tris(pathSplit.wholePathName(), gdeb_tris);
-		murkyFramework::serializeTris(binPath, gdeb_tris);
-	}
-	else
-	{
-		debugLog << L"bin is current \n";
-		murkyFramework::deserializeTris(binPath, gdeb_tris);
-	}
-	
+    bool binExsists;
+    u64 fbxModTime = getFileModificationTime1601(pathSplit.getJoinedFilePath());
+    u64 binModTime = getFileModificationTime1601(binPath, &binExsists);
+        
+    if (fbxModTime>binModTime || binExsists == false)
+    {// compile to .bin
+        debugLog << L"bin is not current. compiling \n";
+        murkyFramework::loadFBX_tris(pathSplit.getJoinedFilePath(), gdeb_tris);
+        murkyFramework::serializeTris(binPath, gdeb_tris);
+    }
+    else
+    {
+        debugLog << L"bin is current \n";
+        murkyFramework::deserializeTris(binPath, gdeb_tris);
+    }
+    
 }
 
 void compileResources()
 {
-	// scan directory	
+    // scan directory	
 //	visitAllFilesInDirectory(L"data", pr);
 //	exit(0);
-	std::wregex regexp {L"FBX"};
-	visitAllFilesInDirectory(L"data", compileFBX, regexp);
+    std::wregex regexp {L"FBX"};
+    visitAllFilesInDirectory(L"data", compileFBX, regexp);
 
-	murkyFramework::done = true;
+    murkyFramework::done = true;
 }
 
 // called from void main()
 void initialise_main()
 { 	
-	qdev::setCurrentDirectoryToAppRoot();
-	debug2ResetLogFile();
+    qdev::setCurrentDirectoryToAppRoot();
+    debug2ResetLogFile();
 
     Gapp = new AppFramework();
     std::wstring title{ L"Murky " };
@@ -138,7 +138,7 @@ void initialise_main()
     f64 t = system2::readTimeSecondsSinceAppStart();
     
     //  move this!!!!	
-	compileResources();
+    compileResources();
     Gapp->initialised = true;
 }
 
@@ -151,7 +151,7 @@ void deinitialise_main()
 // 
 int main()
 {
-	
+    
     initialise_main();
         
     // private data/state

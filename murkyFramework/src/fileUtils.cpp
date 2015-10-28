@@ -9,7 +9,7 @@
 #include <murkyFramework/include/debugUtils.hpp>
 #include <regex>
 
-void visitAllFilesInDirectory(std::wstring startDir, void(*funct)(PathFileNameExtComponents), std::wregex &regexp)
+void visitAllFilesInDirectory(std::wstring startDir, void(*funct)(FilePathSplit), std::wregex &extensionName_regex)
 {
 	WIN32_FIND_DATA	findData;
 	HANDLE fileHandle = nullptr;
@@ -34,15 +34,15 @@ void visitAllFilesInDirectory(std::wstring startDir, void(*funct)(PathFileNameEx
 
 		std::wstring fileName;
 		fileName = startDir + L"/" + (findData.cFileName);
-		PathFileNameExtComponents splitPath(fileName);
-		if (std::regex_search(splitPath.extensionName, regexp) == false)
+		FilePathSplit splitPath(fileName);
+		if (std::regex_search(splitPath.extensionName, extensionName_regex) == false)
 			continue;
 
 		funct(splitPath);
 	}
 }
 
-PathFileNameExtComponents::PathFileNameExtComponents(std::wstring pathFileNameExt)
+FilePathSplit::FilePathSplit(std::wstring pathFileNameExt)
 {
 	decomposeFilePath(pathFileNameExt,
 		directoryPath,
@@ -50,7 +50,7 @@ PathFileNameExtComponents::PathFileNameExtComponents(std::wstring pathFileNameEx
 		extensionName);
 }
 
-std::wstring PathFileNameExtComponents::wholePathName()
+std::wstring FilePathSplit::getJoinedFilePath()
 {
 	return makePathString(directoryPath, fileName, extensionName);
 }
@@ -67,8 +67,8 @@ void decomposeFilePath(std::wstring in_string, std::wstring &out_directoryPath,
 	wchar_t dirPath[200];	// todo: stack capacity, threading?
 	wchar_t fileName[30];
 	wchar_t extension[10];
-
-	_wsplitpath_s(
+	
+	_wsplitpath_s(	// todo: windows only :(
 		in_string.c_str(),
 		nullptr,
 		0,
@@ -86,9 +86,6 @@ void decomposeFilePath(std::wstring in_string, std::wstring &out_directoryPath,
 	{
 		out_directoryPath.pop_back();
 	}
-
-	//removeInstsOfChar(out_directoryPath, '/');
-	//removeInstsOfChar(out_directoryPath, '\\');  // escaped
 
 	out_fileNameNaked = std::wstring(fileName);
 
