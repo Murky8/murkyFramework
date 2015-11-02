@@ -101,16 +101,10 @@ namespace GfxDevice
 
 		ID3D12DescriptorHeap* ppHeaps[] = { m_srvHeap.Get() };
 		g_commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-
-        // HELP0
+                
+        // set current texture
         CD3DX12_GPU_DESCRIPTOR_HANDLE srvGPUHandle(m_srvHeap->GetGPUDescriptorHandleForHeapStart());
-        //srvGPUHandle.Offset(m_srvDescriptorSize);
-        //srvGPUHandle.Offset(nullptr);
-        //CD3DX12_CPU_DESCRIPTOR_HANDLE srvHandle(m_srvHeap->GetCPUDescriptorHandleForHeapStart());
-        //srvHandle.Offset(m_srvDescriptorSize);
-        //g_commandList->SetGraphicsRootDescriptorTable(0, 
-            //m_srvHeap->GetCPUDescriptorHandleForHeapStart()
-            //);
+        srvGPUHandle.Offset(1, m_srvDescriptorSize);
         g_commandList->SetGraphicsRootDescriptorTable(0, srvGPUHandle);
 
 		g_commandList->RSSetViewports(1, &m_viewport);

@@ -66,11 +66,11 @@ namespace Render
                 //GfxDevice::shaderManager.get(std::wstring(L"posColTex")),
                 //newt, 1024));
                 GfxDevice::ShaderWrapper(),
-                GfxDevice::TextureWrapper(), 6));
+                GfxDevice::textureManager.get(L"t0 4c"), 6));
 
         GfxDevice::shaderManager.add(L"posColTex", GfxDevice::ShaderWrapper()); // dummy object
 
-        textRenderer = new TextRender(GfxDevice::TextureWrapper());
+        textRenderer = new TextRender(GfxDevice::textureManager.get(L"font 4c"));
 
         Gapp->gfxInitialised = true;
         return;

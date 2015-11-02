@@ -9,9 +9,10 @@
 
 #include <murkyFramework/src/GfxDevice/public/textureWrappers.hpp>
 
-
+static u32 nextTextureID = { 0 };
 namespace GfxDevice
 {    
+
     // forward declarations
     
     // functions
@@ -22,6 +23,9 @@ namespace GfxDevice
 	TextureWrapper   createTextureObject(u8 * in_imageData, u32 width, u32 height)
 	{
 		TextureWrapper   texture;
+        texture.iTexture = nextTextureID;
+        ++nextTextureID;
+
 		return texture;
 	}
 

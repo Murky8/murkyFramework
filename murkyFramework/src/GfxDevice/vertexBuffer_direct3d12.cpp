@@ -91,6 +91,11 @@ namespace GfxDevice
 		memcpy(pVertexDataBegin, vertexData, nPrimatives*nVerticiesPerPrimative*sizeVertex);
 		m_vertexBuffer->Unmap(0, nullptr);
 
+        // set current texture
+        CD3DX12_GPU_DESCRIPTOR_HANDLE srvGPUHandle(m_srvHeap->GetGPUDescriptorHandleForHeapStart());
+        srvGPUHandle.Offset(this->texture.iTexture, m_srvDescriptorSize);
+        g_commandList->SetGraphicsRootDescriptorTable(0, srvGPUHandle);
+
 		g_commandList->IASetPrimitiveTopology(primTop);
 		g_commandList->IASetVertexBuffers(0, 1, &(m_vertexBufferView));
 		g_commandList->DrawInstanced(3*nPrimatives, 1, 0, 0);	

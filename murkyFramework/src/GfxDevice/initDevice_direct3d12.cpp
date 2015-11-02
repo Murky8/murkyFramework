@@ -306,10 +306,13 @@ namespace GfxDevice
 				std::vector<u8> myTexture;
 				//loadTextureDataFromFile(myTexture, L"data", L"font 4c", L"png",
 //					width, height);
-                
-                loadTextureDataFromFile(myTexture, L"data", L"t0 4c", L"png",
-                    width, height);
-
+                {
+                    loadTextureDataFromFile(myTexture, L"data", L"t0 4c", L"png",
+                        width, height);
+                    GfxDevice::TextureWrapper newt;
+                    newt.iTexture = 0;
+                    GfxDevice::textureManager.add(L"t0 4c", newt);
+                }
 				D3D12_SUBRESOURCE_DATA textureData = {};
 				//textureData.pData = &texture[0];
 				textureData.pData = myTexture.data();
@@ -370,9 +373,15 @@ namespace GfxDevice
                 u32 width;
                 u32 height;
                 std::vector<u8> myTexture;
+
+                {                
                 loadTextureDataFromFile(myTexture, L"data", L"font 4c", L"png",
                 					width, height);
                                 
+                    GfxDevice::TextureWrapper newt;
+                    newt.iTexture = 1;
+                    GfxDevice::textureManager.add(L"font 4c", newt);
+                }
                 D3D12_SUBRESOURCE_DATA textureData = {};
                 //textureData.pData = &texture[0];
                 textureData.pData = myTexture.data();
