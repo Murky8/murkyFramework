@@ -20,10 +20,11 @@ namespace murkyFramework
 		T get(const std::wstring &name);
 	private:
 		std::map<std::wstring,T> data;
+        const u32 capacity;
 	};
 
 	template <typename T>
-	CollectionNamed<T>::CollectionNamed()
+	CollectionNamed<T>::CollectionNamed() : capacity(100)
 	{}
 
 	template <typename T>
@@ -33,7 +34,10 @@ namespace murkyFramework
 	template <typename T>
 	void CollectionNamed<T>::add(const std::wstring &name, T rhs)
 	{
-		data.insert(std::pair<std::wstring, T>(name, rhs));
+        if(data.size() >= capacity)
+            triggerBreakpoint(L"container capacity exceeded\n");
+        else
+		    data.insert(std::pair<std::wstring, T>(name, rhs));
 	}
 
 	template <typename T>

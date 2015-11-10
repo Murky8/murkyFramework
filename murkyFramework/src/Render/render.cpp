@@ -58,7 +58,6 @@ namespace Render
 
 #ifdef USE_DIRECT3D12
         
-
         GfxDevice::vertexBufferManager.add(L"tris",
             GfxDevice::VertexBufferWrapper(
                 GfxDevice::VertexType::posColTex,

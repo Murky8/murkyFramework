@@ -20,7 +20,7 @@ namespace GfxDevice
 		const std::wstring &fileName, const std::wstring &extensionName,
 		u32 &widthOut, u32 &heightOut);
 
-	TextureWrapper   createTextureObject(u8 * in_imageData, u32 width, u32 height)
+	TextureWrapper   createTextureObject(u8 * in_imageData, u32 width, uw32 height)
 	{
 		TextureWrapper   texture;
         texture.iTexture = nextTextureID;

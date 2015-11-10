@@ -3,6 +3,6 @@
 // 2015 J. Coelho
 // Platform: Windows 32/64
 
-//#define USE_OPENGL
+#define USE_OPENGL
 //#define USE_DIRECT3D11
-#define USE_DIRECT3D12
+//#define USE_DIRECT3D12

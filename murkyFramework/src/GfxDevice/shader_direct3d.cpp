@@ -37,9 +37,7 @@ namespace GfxDevice
     extern  ID3D11RenderTargetView* g_pRenderTargetView;
     extern  IDXGISwapChain*         g_pSwapChain;
     extern  IDXGISwapChain1*        g_pSwapChain1;
-
-    /*extern  ID3D11VertexShader*     g_pVertexShader;
-    extern  ID3D11PixelShader*      g_pPixelShader;*/
+    
     extern  ID3D11InputLayout*      g_pVertexLayout;
     extern  ID3D11Buffer*           g_pVertexBuffer;
     extern  ID3D11Buffer            *g_pCBChangesEveryFrame;
@@ -87,8 +85,8 @@ namespace GfxDevice
     void	Shaders::initialise()    
     {
         HRESULT hr = S_OK;
-		ID3D11VertexShader	*g_pVertexShader;
-		ID3D11PixelShader	*g_pPixelShader;
+		ID3D11VertexShader	*pVertexShader;
+		ID3D11PixelShader	*pPixelShader;
 		debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";        
 
         // Compile the vertex shader
@@ -103,7 +101,7 @@ namespace GfxDevice
         }
 
         // Create the vertex shader
-        hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &g_pVertexShader);
+        hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &pVertexShader);
         if (FAILED(hr))
         {
             pVSBlob->Release();
@@ -126,7 +124,8 @@ namespace GfxDevice
         pVSBlob->Release();
         if (FAILED(hr))
             triggerBreakpoint();
-             
+        // Define the input layout
+
 
         // Compile the pixel shader
         ID3DBlob* pPSBlob = nullptr; 
@@ -139,7 +138,7 @@ namespace GfxDevice
         }
 
         // Create the pixel shader
-        hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &g_pPixelShader);
+        hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &pPixelShader);
         pPSBlob->Release();
         if (FAILED(hr))
             triggerBreakpoint();
@@ -147,8 +146,8 @@ namespace GfxDevice
 
 		ShaderWrapper newShader;
 
-		newShader.pVertexShader = g_pVertexShader;
-		newShader.pPixelShader = g_pPixelShader;
+		newShader.pVertexShader = pVertexShader;
+		newShader.pPixelShader = pPixelShader;
 
 		shaderManager.add(L"posColTex", newShader);
 

@@ -9,6 +9,9 @@
 #include <murkyFramework/include/debugUtils.hpp>
 #include <regex>
 
+
+
+// note: do recursive?
 void visitAllFilesInDirectory(std::wstring startDir, void(*funct)(FilePathSplit), std::wregex &extensionName_regex)
 {
 	WIN32_FIND_DATA	findData;
@@ -38,9 +41,25 @@ void visitAllFilesInDirectory(std::wstring startDir, void(*funct)(FilePathSplit)
 		if (std::regex_search(splitPath.extensionName, extensionName_regex) == false)
 			continue;
 
-		funct(splitPath);
+        if(funct!= nullptr)
+		    funct(splitPath);
 	}
 }
+
+#if 1 // warning_not_thread_safe
+u32 fileCount;
+void fileCounterIncrementer(FilePathSplit path)
+{
+    ++fileCount;
+}
+
+u32     countFilesInDirectory(std::wstring startDir, std::wregex &extensionName_regex)
+{
+    fileCount = 0;
+    visitAllFilesInDirectory(startDir, fileCounterIncrementer, extensionName_regex);
+    return fileCount;
+}
+#endif
 
 FilePathSplit::FilePathSplit(std::wstring pathFileNameExt)
 {

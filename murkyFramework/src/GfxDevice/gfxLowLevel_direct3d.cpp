@@ -39,9 +39,7 @@ namespace GfxDevice
 
     ID3D11Texture2D         *g_pDepthStencil = nullptr;
     ID3D11DepthStencilView  *g_pDepthStencilView = nullptr;
-
-    //3D11VertexShader	    g_pVertexShader = nullptr;
-    //3D11PixelShader       *g_pPixelShader = nullptr;
+    
     ID3D11InputLayout       *g_pVertexLayout = nullptr;
     ID3D11Buffer            *g_pVertexBuffer = nullptr;
     ID3D11Debug             *d3dDebug = nullptr;
