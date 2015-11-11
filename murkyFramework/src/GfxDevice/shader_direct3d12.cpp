@@ -7,7 +7,7 @@
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 
 #ifdef USE_DIRECT3D12
-#include <vector>
+//#include <vector>
 #include <windows.h>
 #include <combaseapi.h>
 #include <wrl.h>

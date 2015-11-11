@@ -5,7 +5,7 @@
 #include <murkyFramework/include/version.hpp>
 
 #include <windows.h>
-#include <vector>
+//#include <vector>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>

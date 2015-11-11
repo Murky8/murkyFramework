@@ -4,7 +4,7 @@
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
 #include <string>
-#include <vector>
+//#include <vector>
 
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>

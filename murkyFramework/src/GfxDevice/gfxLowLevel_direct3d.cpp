@@ -9,7 +9,7 @@
 #include <d3d11_1.h>
 #include <DirectXColors.h>
 
-#include <vector>
+//#include <vector>
 
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>

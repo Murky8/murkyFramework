@@ -3,7 +3,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <string>
-#include <vector>
+
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 
 namespace murkyFramework

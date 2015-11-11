@@ -5,7 +5,7 @@
 
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
-#include <vector>
+//#include <vector>
 #include <murkyFramework/include/common.hpp>	
 
 class TypeUnit

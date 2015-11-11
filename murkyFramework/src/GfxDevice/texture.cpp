@@ -5,7 +5,7 @@
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #include <murkyFramework/include/GfxDevice/texture.hpp>
 
-#include <vector>
+//#include <vector>
 #include <map>
 #include <murkyFramework/include/types.hpp>
 #include <murkyFramework/include/stringHelpers.hpp>

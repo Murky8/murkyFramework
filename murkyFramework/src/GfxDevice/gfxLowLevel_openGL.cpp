@@ -7,7 +7,7 @@
 #ifdef USE_OPENGL
 
 #include <windows.h>
-#include <vector>
+//#include <vector>
 
 #include <murkyFramework/include/appFramework.hpp>
 #include <murkyFramework/include/types.hpp>  

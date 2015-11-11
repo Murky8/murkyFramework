@@ -27,7 +27,7 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
     lastFrameClock = currentFrameClock;
     
     Gapp->frameRate = static_cast<f32>(1.0/lastFrameDuration);
-
+    
     static f32 aveFR = 0.f;
     { // ave frame rate
         static f32 aveFRTimer = 0.5;
@@ -61,7 +61,7 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
 
     if (inputDevices.keyStatus(InputDevices::KeyCode::w))
         state.cursorPos += state.cursorOri.get_f() * speed;
-
+    
     if (inputDevices.keyStatus(InputDevices::KeyCode::s))
         state.cursorPos -= state.cursorOri.get_f() * speed;
 
@@ -77,12 +77,13 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
 	inputDevices.consumeAllMouseDx(mx);
 	inputDevices.consumeAllMouseDy(my);
 
+   
 	// rotate l/r
 	rv.y	+= -0.001f*(float)mx;
 	mat3 rmat = makeRotationMatrix3c(rv);
 	state.cursorOri = state.cursorOri*rmat;
 	// rotate l/r
-
+    
 	// rotate u/d
 	rv = vec(zero);
 	rv = state.cursorOri.get_r()*-0.001f*(float)my;

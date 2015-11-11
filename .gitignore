@@ -33,7 +33,7 @@ Thumbs.db
 [Bb]in
 *.sbr
 obj/
+external/
 _ReSharper*/
 [Tt]est[Rr]esult*
-external/
 **/My Advisor XE*

@@ -6,7 +6,7 @@
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_OPENGL
 
-#include <vector>
+//#include <vector>
 #include <glew/include/GL/glew.h> 
 #include <glew/include/GL/wglew.h>
 

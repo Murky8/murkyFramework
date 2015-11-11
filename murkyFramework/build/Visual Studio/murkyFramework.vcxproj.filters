@@ -9,9 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="external">
-      <UniqueIdentifier>{0a208fb9-7916-47ba-a993-d022fbd13a5d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GfxDevice">
       <UniqueIdentifier>{7cdbb241-84fc-46f8-b1cf-74cd45630193}</UniqueIdentifier>
     </Filter>
@@ -70,11 +67,11 @@
     <Filter Include="Source Files\src\private">
       <UniqueIdentifier>{75e504eb-9d35-4ffa-ae78-1e73df52abc4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\external">
+      <UniqueIdentifier>{0a208fb9-7916-47ba-a993-d022fbd13a5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\external\lodepng.cpp">
-      <Filter>external</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\vertexBuffer_direct3d.cpp">
       <Filter>Source Files\GfxDevice\d3d11</Filter>
     </ClCompile>
@@ -207,11 +204,11 @@
     <ClCompile Include="..\..\src\private\pch.cpp">
       <Filter>Source Files\src\private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\external\lodepng.cpp">
+      <Filter>Source Files\external</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\external\lodepng.h">
-      <Filter>external</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\GfxDevice\gfxLowLevel.hpp">
       <Filter>Header Files\GfxDevice</Filter>
     </ClInclude>
@@ -343,6 +340,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\private\pch.hpp">
       <Filter>Source Files\src\private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\external\lodepng.h">
+      <Filter>Source Files\external</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
-#include <vector>
+//#include <vector>
 
 namespace GfxDevice
 {

@@ -3,7 +3,7 @@
 // 2015 J. Coelho.
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
-#include <vector>
+//#include <vector>
 #include <murkyFramework/include/types.hpp>
 #include <murkyFramework/include/state.hpp>
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
