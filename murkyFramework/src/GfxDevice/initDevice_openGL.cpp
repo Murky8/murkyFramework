@@ -1,6 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
+#include <murkyFramework/src/private/pch.hpp>
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_OPENGL
@@ -24,7 +25,7 @@ namespace GfxDevice
             GfxDevice::hDC	= in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
             GfxDevice::hRC	= in_hRC;
             GfxDevice::hWnd	= in_hWnd;
-
+            
             PIXELFORMATDESCRIPTOR pfd; // Create a new PIXELFORMATDESCRIPTOR (PFD)
             memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR)); // Clear our  PFD
             pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR); // Set the size of the PFD to the size of the class

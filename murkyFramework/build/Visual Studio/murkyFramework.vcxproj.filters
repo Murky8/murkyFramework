@@ -64,6 +64,12 @@
     <Filter Include="Source Files\GfxDevice\private\d3d12">
       <UniqueIdentifier>{10b94bc0-1450-41e2-a0a7-85698f589d70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\public">
+      <UniqueIdentifier>{400d059f-71e0-4675-96f3-5c23fd3b171a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src\private">
+      <UniqueIdentifier>{75e504eb-9d35-4ffa-ae78-1e73df52abc4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\external\lodepng.cpp">
@@ -198,6 +204,9 @@
     <ClCompile Include="..\..\src\GfxDevice\private\vertexBufferHelpers.cpp">
       <Filter>Source Files\GfxDevice\private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\private\pch.cpp">
+      <Filter>Source Files\src\private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\external\lodepng.h">
@@ -331,6 +340,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\private\textureHelpers.hpp">
       <Filter>Source Files\GfxDevice\private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\private\pch.hpp">
+      <Filter>Source Files\src\private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
