@@ -1,0 +1,1 @@
+#pragma message("Compiling precompiled headers.\n")

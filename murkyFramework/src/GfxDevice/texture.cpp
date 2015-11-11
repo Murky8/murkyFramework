@@ -1,5 +1,6 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
+#include <murkyFramework/src/private/pch.hpp>
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #include <murkyFramework/include/GfxDevice/texture.hpp>

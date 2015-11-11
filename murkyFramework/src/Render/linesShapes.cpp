@@ -1,6 +1,6 @@
-#pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
+#include <murkyFramework/src/private/pch.hpp>
 
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
