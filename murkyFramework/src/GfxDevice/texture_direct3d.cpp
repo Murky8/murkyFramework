@@ -5,13 +5,9 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_DIRECT3D11
-
-#include <windows.h>
 #include <d3d11_1.h>
-#include <murkyFramework/include/GfxDevice/texture.hpp>
-#include <murkyFramework/include/common.hpp>
 #include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-
+#include <murkyFramework/include/GfxDevice/texture.hpp>
   
 //http://gamedev.stackexchange.com/questions/14507/loading-a-texture2d-array-in-directx11
 //https://msdn.microsoft.com/en-us/library/windows/desktop/ff476904(v=vs.85).aspx

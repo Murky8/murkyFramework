@@ -6,11 +6,6 @@
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_DIRECT3D12
 
-#include <string>
-#include <windows.h>
-#include <combaseapi.h>
-#include <wrl.h>
-
 #include <d3d12.h>
 #include <external/d3d12/d3dx12.h>
 #include <dxgi1_4.h>
@@ -20,13 +15,9 @@
 #include <dwrite.h>
 #include <d3d11on12.h>
 
-#include <murkyFramework/include/common.hpp>
-#include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/appFramework.hpp>
-#include <murkyFramework/include/Render/linesShapes.hpp>
 #include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
+#include <murkyFramework/include/Render/linesShapes.hpp>
 #include <murkyFramework/src/GfxDevice/private/textureHelpers.hpp>
-#include <external/boost/multi_array.hpp>
 
 struct Vertex
 {

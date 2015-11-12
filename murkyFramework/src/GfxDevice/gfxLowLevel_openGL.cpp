@@ -4,26 +4,14 @@
 #include <murkyFramework/src/private/pch.hpp>
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
+
 #ifdef USE_OPENGL
-
-#include <windows.h>
-//#include <vector>
-
-#include <murkyFramework/include/appFramework.hpp>
-#include <murkyFramework/include/types.hpp>  
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
 #include <murkyFramework/include/GfxDevice/texture.hpp>
-#include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/system.hpp>
-#include <murkyFramework/include/vectorMatrix.hpp>
-#include <murkyFramework/include/appFramework.hpp>
-
 #include <external/glew/include/GL/glew.h> 
 #include <external/glew/include/GL/wglew.h>
-
 #define GLM_FORCE_RADIANS
 #include <external/glm/glm.hpp>
 #include <external/glm/vec2.hpp>

@@ -3,19 +3,9 @@
 #include <murkyFramework/src/private/pch.hpp>
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#include <murkyFramework/include/GfxDevice/texture.hpp>
-
-//#include <vector>
-#include <map>
-#include <murkyFramework/include/types.hpp>
-#include <murkyFramework/include/stringHelpers.hpp>
-#include <murkyFramework/include/debugUtils.hpp>
-#include <external/lodepng.h>
-#include <external/boost/multi_array.hpp>
-#include <memory>
-#include <array>
-#include <regex>
 #include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
+#include <murkyFramework/include/GfxDevice/texture.hpp>
+#include <external/lodepng.h>
 
 namespace GfxDevice
 {

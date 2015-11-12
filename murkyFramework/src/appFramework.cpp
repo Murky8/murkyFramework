@@ -5,7 +5,7 @@
 
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#include <murkyFramework/include/appFramework.hpp>
+
 
 //void AppFramework::resume()
 //{

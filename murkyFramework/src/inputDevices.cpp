@@ -4,12 +4,12 @@
 #include <murkyFramework/src/private/pch.hpp>
 #include <murkyFramework/include/version.hpp>
 
-#include <windows.h>
+//#include <windows.h>
 #include <winuser.h>
 #include "hidusage.h"
 #include <murkyFramework/include/inputDevices.hpp>
-#include "../include/common.hpp"
-#include "../include/debugUtils.hpp"
+#include "murkyFramework/include/common.hpp"
+#include "murkyFramework/include/debugUtils.hpp"
 
 #ifdef _WINDOWS
 

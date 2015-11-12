@@ -5,23 +5,8 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
-#include <windows.h>
-#include <murkyFramework/include/common.hpp>
-#include <murkyFramework/include/system.hpp>
-#include <cmath>
-#include <iostream>
-#include <string>
-#include <thread>
-#include <mutex>
-#include <cstdio>
-#include <chrono>
-#include <ctime>
-#include <ratio>
-#include <limits>
-
 //using namespace std::literals;
 using namespace std::chrono;
-
 
 namespace system2
 {

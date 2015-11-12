@@ -6,7 +6,6 @@
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
 // todo: move libs to solution folder
-
 #ifdef USE_DIRECT3D11
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")

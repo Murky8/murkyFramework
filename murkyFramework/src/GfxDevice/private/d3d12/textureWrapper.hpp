@@ -4,7 +4,7 @@
 // Platform: C++11
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_DIRECT3D12
-#include <windows.h>
+//#include <windows.h>
 #include <combaseapi.h>
 #include <wrl.h>
 #include <d3d12.h>

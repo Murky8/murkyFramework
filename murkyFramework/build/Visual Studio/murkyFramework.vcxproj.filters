@@ -207,6 +207,9 @@
     <ClCompile Include="..\..\..\external\lodepng.cpp">
       <Filter>Source Files\external</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\private\textureManager.cpp">
+      <Filter>Source Files\GfxDevice\private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GfxDevice\gfxLowLevel.hpp">
@@ -343,6 +346,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\external\lodepng.h">
       <Filter>Source Files\external</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\public\textureManager.hpp">
+      <Filter>Source Files\GfxDevice\public</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

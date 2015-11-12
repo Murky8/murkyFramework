@@ -5,8 +5,6 @@
 #include <murkyFramework/src/private/pch.hpp>
 #include <murkyFramework/include/version.hpp>
 
-#include <cmath>
-#include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/vectorMatrix_rotation.hpp>
 
 //------------------------------------------------------------------------------

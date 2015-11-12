@@ -5,18 +5,12 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_DIRECT3D11
-
-#include <windows.h>
 #include <d3d11_1.h>
-//#include <vector>
 
-#include "murkyFramework/include/common.hpp"
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-#include <murkyFramework/include/collectionNamed.hpp>
 
 namespace GfxDevice
 {    

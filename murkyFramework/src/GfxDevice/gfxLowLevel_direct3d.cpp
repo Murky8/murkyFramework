@@ -3,23 +3,14 @@
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#ifdef USE_DIRECT3D11
 
-#include <windows.h>
+#ifdef USE_DIRECT3D11
 #include <d3d11_1.h>
 #include <DirectXColors.h>
 
-//#include <vector>
-
-#include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/GfxDevice/texture.hpp>
-
-// forward declarations
-namespace Render  // todo: delete
-{            
-}
 
 namespace GfxDevice
 {       

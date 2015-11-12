@@ -98,6 +98,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <PreprocessToFile>false</PreprocessToFile>
       <PrecompiledHeaderFile>murkyFramework/src/private/pch.hpp</PrecompiledHeaderFile>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,6 +128,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <PreprocessToFile>false</PreprocessToFile>
       <PrecompiledHeaderFile>murkyFramework/src/private/pch.hpp</PrecompiledHeaderFile>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -221,6 +223,7 @@
     <ClCompile Include="..\..\src\GfxDevice\initDevice_direct3d12.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\initDevice_openGL.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\private\gfxDevice.cpp" />
+    <ClCompile Include="..\..\src\GfxDevice\private\textureManager.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\private\vertexBufferHelpers.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\projectionMat_direct3d.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\projectionMat_openGL.cpp" />
@@ -316,6 +319,7 @@
     <ClInclude Include="..\..\src\GfxDevice\private\vertexBufferHelpers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\gfxDevice.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\shaderWrappers.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\public\textureManager.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\textureWrappers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\vertexBufferWrappers.hpp" />
     <ClInclude Include="..\..\src\private\pch.hpp" />

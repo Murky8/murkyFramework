@@ -2,12 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-
 #include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/stringHelpers.hpp>
-#include <murkyFramework/include/vectorMatrix.hpp>
-
-#include <string>
 
 std::wstring s2ws(const std::string& str)
 {

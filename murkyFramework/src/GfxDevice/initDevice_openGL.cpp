@@ -2,17 +2,12 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/src/private/pch.hpp>
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_OPENGL
-
-#include <murkyFramework/include/common.hpp>
-#include <murkyFramework/include/debugUtils.hpp>
-#include <windows.h>
+#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <external/glew/include/GL/glew.h> 
 #include <external/glew/include/GL/wglew.h>
-#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 
 namespace GfxDevice
 {

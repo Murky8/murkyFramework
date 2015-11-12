@@ -2,17 +2,8 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/include/inputDevices.hpp>
-#include <murkyFramework/include/stringHelpers.hpp>
 
-#include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/appFramework.hpp>
-#include <murkyFramework/include/types.hpp>
-
-#include <murkyFramework/include/system.hpp>
 #include <murkyFramework/include/Render/render.hpp>
-#include <murkyFramework/include/vectorMatrix.hpp>
-#include <murkyFramework/include/state.hpp>
 #include <murkyFramework/include/vectorMatrix_rotation.hpp>
 
 // called from windows loop in main.cpp
@@ -71,6 +62,7 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
     if (inputDevices.keyStatus(InputDevices::KeyCode::q))
         state.cursorPos -= vec::up * speed;
 	
+    
 	// free look
 	vec rv(zero);	
 	int mx, my;

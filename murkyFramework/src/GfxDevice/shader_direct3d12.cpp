@@ -7,11 +7,6 @@
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 
 #ifdef USE_DIRECT3D12
-//#include <vector>
-#include <windows.h>
-#include <combaseapi.h>
-#include <wrl.h>
-
 #include <d3d12.h>
 #include <external/d3d12/d3dx12.h>
 #include <dxgi1_4.h>
@@ -25,11 +20,8 @@
 #include <directxmath.h>
 #include <directxcolors.h>
 
-#include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
-#include <murkyFramework/include/loadSaveFile.hpp>
-#include <murkyFramework/include/collectionNamed.hpp>
 #include <murkyFramework/include/GfxDevice/d3d12/shaders_d3d12.hpp>
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 

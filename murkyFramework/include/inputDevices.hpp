@@ -2,10 +2,6 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 
-#include <murkyFramework/include/types.hpp>
-#include <windows.h>
-#include <external/boost/circular_buffer.hpp>
-
 class InputDevices
 {
 public:

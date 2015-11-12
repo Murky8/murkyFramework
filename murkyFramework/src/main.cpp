@@ -5,22 +5,8 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
-#include <windows.h>
-
-#include <iostream>
-#include <stdlib.h>
-#include <wchar.h>
-
-#include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/appFramework.hpp>
-#include <murkyFramework/include/types.hpp>
-#include <murkyFramework/include/loadSaveFile.hpp>
-#include <murkyFramework/include/inputDevices.hpp>
 #include <murkyFramework/include/Render/render.hpp>
-#include <murkyFramework/include/state.hpp>
 #include <murkyFramework/include/readFBX.hpp>
-#include <murkyFramework/include/system.hpp>
-#include <murkyFramework/include/fileUtils.hpp>
 
 // external forward declarations
 namespace Render
@@ -152,8 +138,7 @@ void deinitialise_main()
 //------------------------------------------------------------------------------
 // 
 int main()
-{
-    
+{    
     initialise_main();
         
     // private data/state

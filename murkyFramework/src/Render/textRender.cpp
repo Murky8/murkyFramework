@@ -4,26 +4,8 @@
 #include <murkyFramework/src/private/pch.hpp>
 #include <murkyFramework/include/Render/textRender.hpp>
 
-////http://glm.g-truc.net/0.9.6/api/index.html
-//#define GLM_FORCE_RADIANS
-//#include <glm/glm.hpp>
-//#include <glm/vec2.hpp>
-//#include <glm/vec3.hpp>
-//#include <glm/vec4.hpp>
-//#include <glm/mat4x4.hpp>
-//#include <glm/gtc/matrix_transform.hpp>
-
-#include <murkyFramework/include/GfxDevice/texture.hpp>
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
-
-#include <murkyFramework/include/vectorMatrix.hpp>
-#include <murkyFramework/include/collectionNamed.hpp>
 #include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-
-namespace GfxDevice
-{		
-	// forward declarations of external stuff    	
-}
+#include <murkyFramework/include/GfxDevice/texture.hpp>
 
 namespace Render
 {	

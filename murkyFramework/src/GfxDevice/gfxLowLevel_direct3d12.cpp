@@ -6,19 +6,14 @@
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_DIRECT3D12
 
-#include <windows.h>
-#include <combaseapi.h>
-#include <wrl.h>
-
 #include <d3d12.h>
 #include <external/d3d12/d3dx12.h>
 #include <dxgi1_4.h>
 #include <DirectXMath.h>
 
-#include <murkyFramework/include/vectorMatrix.hpp>
-#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 #include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
+#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 
 using namespace DirectX;
 using namespace Microsoft::WRL;

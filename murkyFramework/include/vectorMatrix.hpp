@@ -3,11 +3,6 @@
 // 2015 J. Coelho.
 // Platform: C++11
 
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-
-//#include <vector>
-#include <murkyFramework/include/common.hpp>	
-
 class TypeUnit
 {
     const u8 dummyVal= 0;

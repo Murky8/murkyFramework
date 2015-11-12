@@ -5,18 +5,11 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_OPENGL
-
-//#include <vector>
-#include <memory>
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
-#include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/loadSaveFile.hpp>
-
 #include <external/glew/include/GL/glew.h> 
 #include <external/glew/include/GL/wglew.h>
-#include <murkyFramework/include/collectionNamed.hpp>
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 
 namespace GfxDevice
 {    	    

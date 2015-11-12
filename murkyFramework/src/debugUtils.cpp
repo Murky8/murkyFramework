@@ -2,33 +2,14 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
-#include <murkyFramework/include/debugUtils.hpp>
-#include <windows.h>
-#include <codecvt>
-#include <murkyFramework/include/common.hpp>
-#include <murkyFramework/include/stringHelpers.hpp>
-#include <murkyFramework/include/inputDevices.hpp>
-#include <murkyFramework/include/vectorMatrix.hpp>
-#include <fstream>
-#include <iostream>
-
 // data
-
 std::wstring	debugScreenText;
 std::wstring    logFilePath = { L"../../logFile.html" };
 
-
 // functions
-
-//void debug2LogToFile(const std::wstring &textToAdd, const std::wstring filePathWithName)
-//{
-//    std::ofstream outfile(logFileNameWithPath);
-//}
-//using namespace std;
 
 void debug2ResetLogFile()
 {

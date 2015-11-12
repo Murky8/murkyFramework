@@ -5,19 +5,11 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_OPENGL
-
-#include <murkyFramework/include/GfxDevice/texture.hpp>
 #include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-
-//#include <vector>
-#include <regex>
+#include <murkyFramework/include/GfxDevice/texture.hpp>
 #include <glew/include/GL/glew.h> 
 #include <glew/include/GL/wglew.h>
-
 #include <external/lodepng.h>
-#include <murkyFramework/include/common.hpp>
-#include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/stringHelpers.hpp>
 
 namespace GfxDevice
 {
@@ -43,7 +35,5 @@ namespace GfxDevice
 
         return texture;
     }
-
-
 }
 #endif // USE_OPENGL

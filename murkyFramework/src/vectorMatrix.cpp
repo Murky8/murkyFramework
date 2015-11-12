@@ -5,9 +5,6 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
-#include <cmath>
-#include <murkyFramework/include/vectorMatrix.hpp>
-
 // convention:
 // http://www.mindcontrol.org/~hplus/graphics/matrix-layout.html
 // using row-major matrix

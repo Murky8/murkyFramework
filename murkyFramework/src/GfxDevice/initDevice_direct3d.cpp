@@ -5,11 +5,7 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_DIRECT3D11
-
-#include <windows.h>
 #include <d3d11_1.h>
-#include <murkyFramework/include/common.hpp>
-#include <murkyFramework/include/debugUtils.hpp>
 
 namespace GfxDevice
 {    

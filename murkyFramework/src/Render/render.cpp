@@ -4,14 +4,8 @@
 #include <murkyFramework/src/private/pch.hpp>
 #include <murkyFramework/include/version.hpp>
 
-#include <windows.h>
-//#include <vector>
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/vectorMatrix.hpp>
-#include <murkyFramework/include/appFramework.hpp>
-#include <murkyFramework/include/state.hpp>
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/texture.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
@@ -23,8 +17,6 @@
 #include <murkyFramework/include/Render/linesShapes.hpp>
 #include <murkyFramework/include/Render/projectionMat.hpp>
 #include <murkyFramework/include/readFBX.hpp>
-#include <murkyFramework/include/collectionNamed.hpp>
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 
 namespace GfxDevice
 {

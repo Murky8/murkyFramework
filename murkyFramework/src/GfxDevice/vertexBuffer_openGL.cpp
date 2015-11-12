@@ -5,17 +5,11 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_OPENGL
-
-//#include <vector>
 #include <glew/include/GL/glew.h> 
 #include <glew/include/GL/wglew.h>
-
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
-#include <murkyFramework/include/collectionNamed.hpp>
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-//#include <murkyFramework/src/GfxDevice/private/openGL/shaderId_private.hpp>
 
 namespace GfxDevice
 {

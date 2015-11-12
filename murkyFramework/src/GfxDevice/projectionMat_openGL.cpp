@@ -5,11 +5,7 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_OPENGL
-
 #include <murkyFramework/include/Render/projectionMat.hpp>
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#include <murkyFramework/include/common.hpp>
-#include <murkyFramework/include/debugUtils.hpp>
 
 namespace GfxDevice
 {

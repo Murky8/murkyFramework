@@ -1,19 +1,10 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 #include <murkyFramework/src/private/pch.hpp>
-
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
-#include <murkyFramework/include/vectorMatrix.hpp>
-//#include <vector>
-
-namespace GfxDevice
-{
-}
 
 namespace Render
 {    
-	
 	void	drawLine(Line_pct l, std::vector<Line_pct> &lines)
 	{
 		lines.push_back(l);		

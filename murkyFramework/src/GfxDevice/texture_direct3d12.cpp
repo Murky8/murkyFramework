@@ -6,8 +6,6 @@
 #ifdef USE_DIRECT3D12
 
 #include <murkyFramework/include/GfxDevice/texture.hpp>
-//#include <vector>
-
 #include <murkyFramework/src/GfxDevice/public/textureWrappers.hpp>
 
 static u32 nextTextureID = { 0 };

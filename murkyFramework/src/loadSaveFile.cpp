@@ -5,7 +5,7 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
-#include <windows.h>
+//#include <windows.h>
 #include <string>
 
 #include <murkyFramework/include/common.hpp>

@@ -5,14 +5,6 @@
 
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/readFBX.hpp>
-#include <murkyFramework/include/loadSaveFile.hpp>
-#include <murkyFramework/include/stringHelpers.hpp>
-#include <murkyFramework/include/vectorMatrix.hpp>   
-#include <murkyFramework/include/debugUtils.hpp>   
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>   
-
-#include <regex>
-#include <fstream>
 
 namespace murkyFramework
 {

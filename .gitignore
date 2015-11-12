@@ -21,6 +21,7 @@ Thumbs.db
 *.user
 *.aps
 *.pch
+*.ipch
 *.vspscc
 *_i.c
 *_p.c
@@ -34,6 +35,7 @@ Thumbs.db
 *.sbr
 obj/
 external/
+ipch/
 _ReSharper*/
 [Tt]est[Rr]esult*
 **/My Advisor XE*

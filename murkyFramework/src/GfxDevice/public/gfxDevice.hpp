@@ -3,7 +3,6 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#include <murkyFramework/include/collectionNamed.hpp>
 #include <murkyFramework/src/GfxDevice/public/shaderWrappers.hpp>
 #include <murkyFramework/src/GfxDevice/public/textureWrappers.hpp>
 #include <murkyFramework/src/GfxDevice/public/vertexBufferWrappers.hpp>
