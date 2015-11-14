@@ -32,7 +32,8 @@ namespace GfxDevice
 
     extern  ID3D11VertexShader*     g_pVertexShader;
     extern  ID3D11PixelShader*      g_pPixelShader;
-    extern  ID3D11InputLayout*      g_pVertexLayout;
+    extern  ID3D11InputLayout*      g_pVertexLayout_posColTex;
+    extern  ID3D11InputLayout*      g_pVertexLayout_posCol;
     extern  ID3D11Buffer*           g_pVertexBuffer;
 
     extern  ID3D11SamplerState      *g_pSamplerLinear;
@@ -296,7 +297,8 @@ namespace GfxDevice
         g_pCBChangesEveryFrame->Release();
         //g_pSamplerLinear->Release();
 
-        g_pVertexLayout->Release();
+        g_pVertexLayout_posColTex->Release();
+        g_pVertexLayout_posCol->Release();
 
         // dev obs
         g_pVertexBuffer->Release();            

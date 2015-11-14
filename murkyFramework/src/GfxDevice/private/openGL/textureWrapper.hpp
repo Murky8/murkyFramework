@@ -15,3 +15,25 @@ namespace GfxDevice
 	};
 }
 #endif
+
+
+#if 0
+
+class 
+class TextureWrapper_container
+{
+    TextureWrapper2() = delete;
+    TextureWrapper2(class DeviceTexture *pDevText)
+    {    
+        pDevText = new DeviceTexture
+    }
+
+    ~TextureWrapper2()
+    {
+
+    }
+
+private:
+    class DeviceTexture *pDevText;
+};
+#endif

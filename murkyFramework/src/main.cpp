@@ -76,7 +76,6 @@ void initialise_main()
     qdev::setCurrentDirectoryToAppRoot();
     debug2ResetLogFile();
 
-    
     Gapp = new AppFramework();
     std::wstring title{ L"Murky " };
     wchar_t wcstring[] = L"Murky8\n";
@@ -122,11 +121,8 @@ void initialise_main()
     }
 
     Render::initialise(hDC, hRC, hWnd);
-
-    f64 t = system2::readTimeSecondsSinceAppStart();
-    
-    //  move this!!!!	
-    compileResources();
+        
+    compileResources();// move this!	
     Gapp->initialised = true;
 }
 

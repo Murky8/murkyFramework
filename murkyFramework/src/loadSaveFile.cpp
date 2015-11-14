@@ -86,7 +86,7 @@ namespace qdev
         if (fileSize == -1)
         {
             pdata = 0;
-            debugLog << L"couldn't load file";
+            debugLog << L"couldn't load file !\n";
             return;
         }
 
@@ -98,7 +98,7 @@ namespace qdev
         if (fileHandle == NULL)
         {
             pdata = 0;
-            debugLog << L"couldn't load file";
+            debugLog << L"couldn't load file\n";
             return;
         }
 
@@ -106,7 +106,7 @@ namespace qdev
         fread( pdata, 1, dataLength, fileHandle );
         fclose( fileHandle );
 
-        debugLog << L"loaded file" << fileName;
+        debugLog << L"loaded file" << fileName << "\n";
         // todo: more checks please
     }
 

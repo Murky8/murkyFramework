@@ -54,4 +54,13 @@ namespace murkyFramework
 			return it->second; // stop compiler warning			
 		}
 	}
+
+    template <typename T>
+    class CollectionNamedIndirect
+    {
+    private:
+        //std::map<std::wstring, *T> data;
+    };
+
+
 }

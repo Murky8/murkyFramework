@@ -31,7 +31,9 @@ namespace GfxDevice
     extern  IDXGISwapChain*         g_pSwapChain;
     extern  IDXGISwapChain1*        g_pSwapChain1;
     
-    extern  ID3D11InputLayout*      g_pVertexLayout;
+    extern  ID3D11InputLayout*      g_pVertexLayout_posColTex;
+    extern  ID3D11InputLayout*      g_pVertexLayout_posCol;
+
     extern  ID3D11Buffer*           g_pVertexBuffer;
     extern  ID3D11Buffer            *g_pCBChangesEveryFrame;
     extern  ID3D11SamplerState       *g_pSamplerLinear;        	
@@ -75,22 +77,22 @@ namespace GfxDevice
         return S_OK;
     }
 
-    void	Shaders::initialise()    
+    void	Shaders::initialise()
     {
         HRESULT hr = S_OK;
-		ID3D11VertexShader	*pVertexShader;
-		ID3D11PixelShader	*pPixelShader;
-		debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";        
+        
+        debugLog << L"GfxLowLevel::Shaders::initialise\n";
 
-        // Compile the vertex shader
-        ID3DBlob* pVSBlob = nullptr;
-        //D:\Wicked Dev\dev c++\murkyFramework\src\GfxDevice\private\d3d11\shaders
+        {
+        ID3D11VertexShader	*pVertexShader;
+        ID3D11PixelShader	*pPixelShader;
+
+        // compile the vertex shader
+        ID3DBlob* pVSBlob = nullptr;        
         hr = CompileShaderFromFile(L"src/GfxDevice/private/d3d11/shaders/posColTex.vs", "mainvs", "vs_4_0", &pVSBlob);
         if (FAILED(hr))
-        {
-            MessageBox(nullptr,
-                L"The FX file cannot be compiled.", L"Error", MB_OK);
-            triggerBreakpoint();
+        {            
+            triggerBreakpoint(L"The vs file cannot be compiled.\n");
         }
 
         // Create the vertex shader
@@ -98,7 +100,7 @@ namespace GfxDevice
         if (FAILED(hr))
         {
             pVSBlob->Release();
-            triggerBreakpoint();
+            triggerBreakpoint(L"coulndnt create vs.\n");
         }
 
         // Define the input layout
@@ -111,23 +113,20 @@ namespace GfxDevice
         UINT numElements = ARRAYSIZE(layout);
 
         // Create the input layout
-        g_pVertexLayout = NULL;
+        g_pVertexLayout_posColTex = NULL;
         hr = g_pd3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
-            pVSBlob->GetBufferSize(), &g_pVertexLayout);
+            pVSBlob->GetBufferSize(), &g_pVertexLayout_posColTex);
         pVSBlob->Release();
         if (FAILED(hr))
             triggerBreakpoint();
         // Define the input layout
 
-
         // Compile the pixel shader
-        ID3DBlob* pPSBlob = nullptr; 
+        ID3DBlob* pPSBlob = nullptr;
         hr = CompileShaderFromFile(L"src/GfxDevice/private/d3d11/shaders/posColTex.ps", "mainps", "ps_4_0", &pPSBlob);
         if (FAILED(hr))
-        {
-            MessageBox(nullptr,
-                L"The FX file cannot be compiled.", L"Error", MB_OK);
-            triggerBreakpoint();
+        {            
+            triggerBreakpoint(L"The ps file cannot be compiled.");
         }
 
         // Create the pixel shader
@@ -135,15 +134,62 @@ namespace GfxDevice
         pPSBlob->Release();
         if (FAILED(hr))
             triggerBreakpoint();
+        
+        shaderManager.add(L"posColTex", ShaderWrapper{ pVertexShader , pPixelShader });
+    }
+        {
+            ID3D11VertexShader	*pVertexShader;
+            ID3D11PixelShader	*pPixelShader;
 
+            // compile the vertex shader
+            ID3DBlob* pVSBlob = nullptr;
+            hr = CompileShaderFromFile(L"src/GfxDevice/private/d3d11/shaders/posCol.vs", "mainvs", "vs_4_0", &pVSBlob);
+            if (FAILED(hr))
+            {
+                triggerBreakpoint(L"The vs file cannot be compiled.\n");
+            }
 
-		ShaderWrapper newShader;
+            // Create the vertex shader
+            hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &pVertexShader);
+            if (FAILED(hr))
+            {
+                pVSBlob->Release();
+                triggerBreakpoint(L"coulndnt create vs.\n");
+            }
 
-		newShader.pVertexShader = pVertexShader;
-		newShader.pPixelShader = pPixelShader;
+            // Define the input layout
+            D3D11_INPUT_ELEMENT_DESC layout[] =
+            {
+                { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+                { "COLOR",    0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }                
+            };
+            UINT numElements = ARRAYSIZE(layout);
 
-		shaderManager.add(L"posColTex", newShader);
+            // Create the input layout
+            g_pVertexLayout_posCol = NULL;
+            hr = g_pd3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
+                pVSBlob->GetBufferSize(), &g_pVertexLayout_posCol);
+            pVSBlob->Release();
+            if (FAILED(hr))
+                triggerBreakpoint();
+            // Define the input layout
 
+            // Compile the pixel shader
+            ID3DBlob* pPSBlob = nullptr;
+            hr = CompileShaderFromFile(L"src/GfxDevice/private/d3d11/shaders/posCol.ps", "mainps", "ps_4_0", &pPSBlob);
+            if (FAILED(hr))
+            {
+                triggerBreakpoint(L"The ps file cannot be compiled.");
+            }
+
+            // Create the pixel shader
+            hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &pPixelShader);
+            pPSBlob->Release();
+            if (FAILED(hr))
+                triggerBreakpoint();
+
+            shaderManager.add(L"posCol", ShaderWrapper{ pVertexShader , pPixelShader });
+        }
         // murky VB
         /*    Vert_pct vertices[] =
             {

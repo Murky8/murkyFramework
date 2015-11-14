@@ -32,7 +32,9 @@ namespace GfxDevice
     ID3D11Texture2D         *g_pDepthStencil = nullptr;
     ID3D11DepthStencilView  *g_pDepthStencilView = nullptr;
     
-    ID3D11InputLayout       *g_pVertexLayout = nullptr;
+    ID3D11InputLayout       *g_pVertexLayout_posColTex = nullptr;
+    ID3D11InputLayout       *g_pVertexLayout_posCol = nullptr;
+
     ID3D11Buffer            *g_pVertexBuffer = nullptr;
     ID3D11Debug             *d3dDebug = nullptr;
     ID3D11SamplerState      *g_pSamplerLinear = nullptr;

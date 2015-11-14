@@ -6,8 +6,6 @@
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
-
-
 void triggerBreakpoint()
 {
     triggerBreakpoint(L"Error\n");    

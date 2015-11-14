@@ -18,9 +18,8 @@ namespace GfxDevice
     extern ID3D11Device         *g_pd3dDevice;
     extern ID3D11Buffer         *g_pVertexBuffer;
     extern ID3D11DeviceContext  *g_pImmediateContext;
-    extern ID3D11InputLayout    *g_pVertexLayout;
-    /*extern  ID3D11VertexShader  *g_pVertexShader;
-    extern  ID3D11PixelShader   *g_pPixelShader;*/
+    extern ID3D11InputLayout    *g_pVertexLayout_posColTex;
+    extern ID3D11InputLayout    *g_pVertexLayout_posCol;    
     extern  ID3D11SamplerState  *g_pSamplerLinear;  
     extern  ID3D11Buffer        *g_pCBChangesEveryFrame;
           
@@ -85,10 +84,12 @@ namespace GfxDevice
         {
         case VertexType::posCol:
             sizeVertex = sizeof(Vert_pc);
+            g_pImmediateContext->IASetInputLayout(g_pVertexLayout_posCol);
             triggerBreakpoint();
             break;
         case VertexType::posColTex:
             sizeVertex = sizeof(Vert_pct);
+            g_pImmediateContext->IASetInputLayout(g_pVertexLayout_posColTex);
             break;
         default:// Catch usage of unimplemented			
             sizeVertex = 0;
@@ -112,7 +113,6 @@ namespace GfxDevice
             triggerBreakpoint();
         }
 
-        g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
 
         D3D11_MAPPED_SUBRESOURCE subResource;
         g_pImmediateContext->Map(deviceBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &subResource);
