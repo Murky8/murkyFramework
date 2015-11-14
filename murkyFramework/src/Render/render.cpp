@@ -42,7 +42,7 @@ namespace Render
     TextRender                          *textRenderer;
     mat4	                            projectionMatrix;    
     // forward declarations
-    std::vector<Line_pct>               defaultLines;    
+    std::vector<Line_pc>               defaultLines;    
     
     void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd)
     {		
@@ -87,9 +87,9 @@ namespace Render
 
         GfxDevice::vertexBufferManager.add(L"lines",
             GfxDevice::VertexBufferWrapper(
-            GfxDevice::VertexType::posColTex,
+            GfxDevice::VertexType::posCol,
             GfxDevice::PrimativeType::line,
-            GfxDevice::shaderManager.get(L"posColTex"),
+            GfxDevice::shaderManager.get(L"posCol"),
             newt2, 16*1024));
 
         //textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
@@ -164,7 +164,7 @@ namespace Render
             {
                 for (Triangle_pct &t : gdeb_tris)
                 {
-                    drawCrosshair(vec3(t.v[0].pos.x, t.v[0].pos.y, -t.v[0].pos.z), vec3(1, 1, 1), 1.f);
+                    drawCrosshair(vec3(t.v[0].pos.x, t.v[0].pos.y, -t.v[0].pos.z), vec3(1, 0, 0), 1.f);
                 }
                 GfxDevice::vertexBufferManager.get(L"lines").draw(defaultLines.data(), defaultLines.size());
             }

@@ -305,13 +305,17 @@
     <ClInclude Include="..\..\include\vectorMatrix.hpp" />
     <ClInclude Include="..\..\include\vectorMatrix_rotation.hpp" />
     <ClInclude Include="..\..\include\version.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d11\gfxDeviceObject.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\vertexBufferWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\gfxDevice.h" />
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\gfxDeviceObject.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\vertexBufferWrapper.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\gfxDeviceObjectCommon.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\openGL\gfxDeviceObject.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\vertexBufferWrapper.hpp" />

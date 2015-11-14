@@ -8,6 +8,7 @@
 #include <d3d11_1.h>
 
 #include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
+#include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
@@ -32,20 +33,7 @@ namespace GfxDevice
 		shaderId(shaderId), texture(texture),
 		capacity(nVerts)
     {			
-        u32 sizeVertex = 0;
-        switch (vertexType)
-        {
-        case VertexType::posCol:
-            sizeVertex = sizeof(Vert_pc);
-            triggerBreakpoint();
-            break;
-        case VertexType::posColTex:
-            sizeVertex = sizeof(Vert_pct);
-            break;
-        default:// Catch usage of unimplemented			
-            sizeVertex = 0;
-            triggerBreakpoint();
-        }
+        u32 sizeVertex = getVertexSizeInBytes(vertexType);
         
         D3D11_BUFFER_DESC bd;
         ZeroMemory(&bd, sizeof(bd));
@@ -79,16 +67,13 @@ namespace GfxDevice
         if (nPrimatives >= capacity)
             triggerBreakpoint();
 
-        u32 sizeVertex = 0;
+        u32 sizeVertex = getVertexSizeInBytes(vertexType);        
         switch (vertexType)
         {
-        case VertexType::posCol:
-            sizeVertex = sizeof(Vert_pc);
-            g_pImmediateContext->IASetInputLayout(g_pVertexLayout_posCol);
-            triggerBreakpoint();
+        case VertexType::posCol:            
+            g_pImmediateContext->IASetInputLayout(g_pVertexLayout_posCol);            
             break;
-        case VertexType::posColTex:
-            sizeVertex = sizeof(Vert_pct);
+        case VertexType::posColTex:            
             g_pImmediateContext->IASetInputLayout(g_pVertexLayout_posColTex);
             break;
         default:// Catch usage of unimplemented			
@@ -120,7 +105,7 @@ namespace GfxDevice
         memcpy(subResource.pData, vertexData, nPrimatives*nVerticiesPerPrimative*sizeVertex);
         g_pImmediateContext->Unmap(deviceBuffer, NULL);
 
-        UINT stride = sizeof(Vert_pct);
+        UINT stride = sizeVertex;
         UINT offset = 0;
         g_pImmediateContext->IASetVertexBuffers(0, 1, &deviceBuffer, &stride, &offset);
         g_pImmediateContext->IASetPrimitiveTopology(primTop);

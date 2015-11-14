@@ -25,35 +25,7 @@ namespace GfxDevice
         u32		uniforms_textureSamplerID;
         u32     uniformHandle_projectionMatrix;               		
     }
-    
-    const char* vertex_shader =
-        "#version 400 core\n"
-        "layout(location = 0) in vec3 in_pos;"
-        "layout(location = 1) in vec3 in_col;"
-        "layout(location = 2) in vec2 in_textCoords;"
-        "uniform mat4 projectionMatrix;"
-        "out vec3 colour;"
-        "out vec2 textCoords;"
-        ""
-        "void main()"
-        "{"
-        "	colour = in_col;"
-        "	textCoords = in_textCoords;"
-        "	gl_Position = projectionMatrix*vec4(in_pos, 1.0);"
-        "}";
-
-    const char* fragment_shader =
-        "#version 400 core\n"
-        "in vec3 colour;"
-        "in vec2 textCoords;"
-        "uniform sampler2D textureSamplerID;"
-        "out vec4 frag_colour;"
-        ""
-        "void main ()"
-        "{"
-        "  frag_colour = vec4 (colour, 1.0)*texture( textureSamplerID, textCoords );"
-        "}";
-
+        
     bool checkUniform(s32 a)
     {
         if (a < 0)triggerBreakpoint();
@@ -68,9 +40,15 @@ namespace GfxDevice
         // note: OGL, this accepts row-major, pre-multiplying of verts and post-multi in vertex shader.
         // ie no need to transpose if post-multi (Mv) in vertex shader.
 
+        // note:: eeek!! 
         glUseProgram(shaderManager.get( L"posColTex").value);
         glUniformMatrix4fv(Shaders::uniformHandle_projectionMatrix, 1, false, pMat);		
         glUseProgram(0);
+
+        glUseProgram(shaderManager.get(L"posCol").value);
+        glUniformMatrix4fv(Shaders::uniformHandle_projectionMatrix, 1, false, pMat);
+        glUseProgram(0);
+
         GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
     }
 
@@ -128,6 +106,9 @@ namespace GfxDevice
 
             GLuint p = GfxDevice::createProgram(vs, fs);
             shaderManager.add(L"posCol", ShaderWrapper{ p });
+
+            //uniformHandle_projectionMatrix = glGetUniformLocation(p, "projectionMatrix");
+            //checkUniform(uniformHandle_projectionMatrix);
 
             delete[] fs_text;
             delete[] vs_text;

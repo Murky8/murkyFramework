@@ -5,38 +5,38 @@
 
 namespace Render
 {    
-	void	drawLine(Line_pct l, std::vector<Line_pct> &lines)
+	void	drawLine(Line_pc l, std::vector<Line_pc> &lines)
 	{
 		lines.push_back(l);		
 	}
 
-	void	drawLine(Vert_pct v0, Vert_pct v1, std::vector<Line_pct> &lines)
+	void	drawLine(Vert_pc v0, Vert_pc v1, std::vector<Line_pc> &lines)
 	{
-		drawLine(Line_pct{v0, v1}, lines);
+		drawLine(Line_pc{v0, v1}, lines);
 	}
 
-	void	drawLine(vec v0, vec v1, std::vector<Line_pct> &lines)
+	void	drawLine(vec v0, vec v1, std::vector<Line_pc> &lines)
 	{
 		drawLine(
-			Vert_pct{v0, {1.f, 1.f, 1.f}, {0.f, 0.f}},
-			Vert_pct{v1, {1.f, 1.f, 1.f}, {0.f, 0.f}}, lines);		
+			Vert_pc{v0, {1.f, 1.f, 1.f}},
+			Vert_pc{v1, {1.f, 1.f, 1.f}}, lines);		
 	}
 		
-    void    drawCrosshair(vec3 pos, vec3 colour, f32 size, std::vector<Line_pct> &lines)
+    void    drawCrosshair(vec3 pos, vec3 colour, f32 size, std::vector<Line_pc> &lines)
     {
-        std::vector<Line_pct> newLines
+        std::vector<Line_pc> newLines
         {
             {
-                { vec3(pos - vec3(size, 0.f, 0.f)), colour, vec2(0.f, 0.f) },
-                { vec3(pos + vec3(size, 0.f, 0.f)), colour, vec2(0.f, 0.f) }
+                { vec3(pos - vec3(size, 0.f, 0.f)), colour },
+                { vec3(pos + vec3(size, 0.f, 0.f)), colour }
             },
             {
-                { vec3(pos - vec3(0.f, size, 0.f)), colour, vec2(0.f, 0.f) },
-                { vec3(pos + vec3(0.f, size, 0.f)), colour, vec2(0.f, 0.f) }
+                { vec3(pos - vec3(0.f, size, 0.f)), colour },
+                { vec3(pos + vec3(0.f, size, 0.f)), colour }
             },
             {
-                { vec3(pos - vec3(0.f, 0.f, size)), colour, vec2(0.f, 0.f) },
-                { vec3(pos + vec3(0.f, 0.f, size)), colour, vec2(0.f, 0.f) }
+                { vec3(pos - vec3(0.f, 0.f, size)), colour },
+                { vec3(pos + vec3(0.f, 0.f, size)), colour }
             }
         };
         lines.insert(lines.end(), newLines.begin(), newLines.end());
