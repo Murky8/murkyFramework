@@ -64,10 +64,8 @@ namespace Render
 
         textRenderer = new TextRender(GfxDevice::textureManager.get(L"font 4c"));
 
-        Gapp->gfxInitialised = true;
-        return;
-        //exit(0);
-#endif
+        Gapp->gfxInitialised = true;        
+#else
 
         GfxDevice::Shaders::initialise();        
         
@@ -96,6 +94,7 @@ namespace Render
         textRenderer = new TextRender(newt);
 
         Gapp->gfxInitialised = true;
+#endif
     }
 
     void deinitialise()

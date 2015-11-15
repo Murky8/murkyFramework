@@ -119,42 +119,11 @@ namespace GfxDevice
 
 
 		const float clearColor[] = { nonk, 0.2f, 0.4f, 1.0f };
-		g_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-
-		if(0)
-		{// update vb
-			 //https://msdn.microsoft.com/en-us/library/windows/desktop/ff476457(v=vs.85).aspx
-			Vert_pct triangleVertices[] =
-			{
-				{ { 0.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f},{0.f, 0.f} },
-				{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 1.0f, 0.0f},{0.f, 1.f} },
-				{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f},{1.f, 0.f} },
-
-				{ { 0.5f, 0.5f, 0.0f },{ 1.0f, 0.0f, 0.0f},{ 1.f, 1.f } },
-				{ { 0.5f, 0.0f, 0.0f },{ 0.0f, 1.0f, 0.0f},{ 1.f, 0.f } },
-				{ { 0.0f, 0.5f, 0.0f },{ 0.0f, 0.0f, 1.0f},{ 0.f, 1.f } }
-			};
-
-			const UINT vertexBufferSize = sizeof(triangleVertices);
-			VertexBufferWrapper vb = vertexBufferManager.get(L"tris");
-			UINT8* pVertexDataBegin;
-			hr = vb.m_vertexBuffer->Map(0, nullptr, reinterpret_cast<void**>(&pVertexDataBegin));
-			ThrowIfFailed(hr);
-			memcpy(pVertexDataBegin, triangleVertices, sizeof(triangleVertices));
-			vb.m_vertexBuffer->Unmap(0, nullptr);
-		}// update vb
+		g_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);	
 	}
 
     void drawEnd()
-    {   				
-		if (0)
-		{
-			g_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-			VertexBufferWrapper vb = vertexBufferManager.get(L"tris");
-			g_commandList->IASetVertexBuffers(0, 1, &(vb.m_vertexBufferView));
-			g_commandList->DrawInstanced(6, 1, 0, 0);
-		}
-
+    {   						
 		//		// Indicate that the back buffer will now be used to present.
 		g_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_renderTargets[m_frameIndex].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
 		

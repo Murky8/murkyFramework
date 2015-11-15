@@ -248,10 +248,11 @@ namespace GfxDevice
 		// Create the command list.
 		ThrowIfFailed(m_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator.Get(), m_pipelineState.Get(), IID_PPV_ARGS(&g_commandList)));
 
-        ComPtr<ID3D12Resource> textureUploadHeap;
-        ComPtr<ID3D12Resource> textureUploadHeap2;
 		CD3DX12_CPU_DESCRIPTOR_HANDLE srvHandle(m_srvHeap->GetCPUDescriptorHandleForHeapStart());	
 		m_srvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+        ComPtr<ID3D12Resource> textureUploadHeap;   // kkep in scope until command list executed
+        ComPtr<ID3D12Resource> textureUploadHeap2;
 		//textureUploadHeap.SetName
 		{
 			u32 TextureWidth = 512;
