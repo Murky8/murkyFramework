@@ -70,6 +70,9 @@
     <Filter Include="Source Files\external">
       <UniqueIdentifier>{0a208fb9-7916-47ba-a993-d022fbd13a5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\private\windows">
+      <UniqueIdentifier>{12a80276-8148-46bf-9e73-74c73b937b1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\GfxDevice\vertexBuffer_direct3d.cpp">
@@ -209,6 +212,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\private\textureManager.cpp">
       <Filter>Source Files\GfxDevice\private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\private\windows\windowsSpec.cpp">
+      <Filter>Source Files\src\private\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +367,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\gfxDeviceObject.hpp">
       <Filter>Source Files\GfxDevice\private\openGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\private\windows\windowsSpec.hpp">
+      <Filter>Source Files\src\private\windows</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

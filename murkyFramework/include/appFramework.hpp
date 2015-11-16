@@ -1,7 +1,6 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
 #include    <thread>
 #include    <murkyFramework/include/types.hpp>
@@ -29,6 +28,5 @@ public:
 private:
     
 };
-
 
 extern AppFramework *Gapp;

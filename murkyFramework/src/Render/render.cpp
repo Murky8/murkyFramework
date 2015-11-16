@@ -24,12 +24,11 @@ namespace GfxDevice
     TextureWrapper		createTextureObjectFromFile(const std::wstring &dirName,
     const				std::wstring &fileName, const std::wstring &extensionName);
     TextureWrapper		createTestTextureObject();
-    bool        initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);	
-    bool        deinitialise_device();    
-    void        initilise_textureSystem();
-    void        deinitilise_textureSystem();
-    mat4		makeProjectionMatrix_perspective(float x, float x1, float x2, float x3);	
-        
+    bool                initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);	
+    bool                deinitialise_device();    
+    void                initilise_textureSystem();
+    void                deinitilise_textureSystem();
+    mat4		        makeProjectionMatrix_perspective(float x, float x1, float x2, float x3);	        
 }
 extern std::vector<Triangle_pct> gdeb_tris;
 

@@ -14,6 +14,9 @@
 #endif
 #endif
 
+// android
+//#ifdef ANDROID
+
 //// Check GCC
 //#if __GNUC__
 //#if __x86_64__ || __ppc64__

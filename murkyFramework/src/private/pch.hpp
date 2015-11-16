@@ -1,3 +1,6 @@
+//------------------------------------------------------------------------------
+// 2015 J. Coelho
+
 #pragma message("Compiling precompiled headers.\n")
 
 #include <combaseapi.h>

@@ -2,6 +2,9 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
+
+#include <murkyFramework/src/private/windowsSpec.hpp>
+
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
@@ -23,14 +26,15 @@ namespace
 {
     HWND		hWnd;	    // Holds Our Window Handle
     HINSTANCE	hInstance;	// Holds The Instance Of The Application
-
     HDC			hDC;		// opengl only? SwapBuffers(GfxDevice::hDC)
     HGLRC		hRC;		// opengl only?
+
     u64         frameStartTime = 0;    
 }
 
-// global data/state
+// only global for debugging/development purposes.
 AppFramework *Gapp;
+
 std::vector<Triangle_pct> gdeb_tris;
 
 // testing
