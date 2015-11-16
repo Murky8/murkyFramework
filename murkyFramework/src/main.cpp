@@ -3,11 +3,7 @@
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
 
-#include <murkyFramework/src/private/windowsSpec.hpp>
-
-#include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-
 #include <murkyFramework/include/Render/render.hpp>
 #include <murkyFramework/include/readFBX.hpp>
 
@@ -77,6 +73,19 @@ void compileResources()
 // called from void main()
 void initialise_main()
 { 	
+}
+
+void deinitialise_main()
+{
+    Render::deinitialise();
+}
+
+//------------------------------------------------------------------------------
+// 
+int main()
+{    
+    //skool();
+
     qdev::setCurrentDirectoryToAppRoot();
     debug2ResetLogFile();
 
@@ -102,8 +111,11 @@ void initialise_main()
 #ifdef WIN32
     debugLog << L"Windows\n";
 #endif    
+#ifdef ANDROID
+    debugLog << L"Android\n";
+#endif
 
-    // create window. nothing device specific here.
+    
     {
         if (Gapp->fullScreen)
         {
@@ -119,27 +131,15 @@ void initialise_main()
             Gapp->screenResY = 800;
         }
 
-        auto res = createWindow(title.c_str(), Gapp->screenResX, Gapp->screenResY);    
+        auto res = createWindow(title.c_str(), Gapp->screenResX, Gapp->screenResY);
         if (!res)
             triggerBreakpoint(L"Init device failed");
     }
 
     Render::initialise(hDC, hRC, hWnd);
-        
+
     compileResources();// move this!	
     Gapp->initialised = true;
-}
-
-void deinitialise_main()
-{
-    Render::deinitialise();
-}
-
-//------------------------------------------------------------------------------
-// 
-int main()
-{    
-    initialise_main();
         
     // private data/state
     InputDevices *pInputDevices(new InputDevices(hWnd));
@@ -178,9 +178,9 @@ int main()
     debugLog << L"Finished\n";
 }
 
-//http://www.cplusplus.com/forum/windows/39141/
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {    
+//http://www.cplusplus.com/forum/windows/39141/
     switch (message)
     {
 
@@ -204,6 +204,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
+
 
 bool createWindow(LPCWSTR title, int width, int height)
 {

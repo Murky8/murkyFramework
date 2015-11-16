@@ -61,6 +61,7 @@ namespace qdev
     // but should be Z:\murkyDev\murkyFramework
     const std::wstring baseDir(L"../../");
 
+#ifdef WINDOWS
     void setCurrentDirectoryToAppRoot()
     {        
         wchar_t name[1024];
@@ -70,7 +71,11 @@ namespace qdev
         int	res = SetCurrentDirectory( baseDir.c_str() );                
         if(res == 0)
             triggerBreakpoint(L"Directory problem");        
-    }   
+    } 
+#endif
+#ifdef ANDROID
+#endif
+
 
     BinaryFileLoader::BinaryFileLoader(const std::wstring &dirName, const std::wstring &fileName,
         const std::wstring &extensionName) : BinaryFileLoader

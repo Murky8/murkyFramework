@@ -1,7 +1,8 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-
+#include    <murkyFramework/src/private/pch.hpp>
+#include    <murkyFramework/src/private/windows/windowsSpec.hpp>
 #include    <thread>
 #include    <murkyFramework/include/types.hpp>
 #include    <murkyFramework/include/inputDevices.hpp>
@@ -12,6 +13,9 @@ class AppFramework
 public:
     void    initOnce();
  
+    // objects/components
+    WindowsSpec *windowsSpec;
+
     // data
     bool    fullScreen = false;
     int     screenResY;

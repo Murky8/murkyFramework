@@ -43,6 +43,7 @@
 #include <murkyFramework/include/system.hpp>
 #include <murkyFramework/include/types.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
+#include <murkyFramework/include/version.hpp>
 
 //#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>   

@@ -13,10 +13,3 @@ private:
 
 };
 
-WindowsSpec::WindowsSpec()
-{
-}
-
-WindowsSpec::~WindowsSpec()
-{
-}

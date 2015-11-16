@@ -1,14 +1,75 @@
 #include <murkyFramework/src/private/pch.hpp>
 
-#include <string>
-#include <iostream>
-#include <utility>
-//#include <vector>
-#include <map>
-#include <murkyFramework/include/debugUtils.hpp>
-#include <murkyFramework/include/types.hpp>
-#include <murkyFramework/include/vectorMatrix.hpp>
-#include <memory>
+//#include <string>
+//#include <iostream>
+//#include <utility>
+//#include <murkyFramework/include/debugUtils.hpp>
+//#include <murkyFramework/include/types.hpp>
+//#include <murkyFramework/include/vectorMatrix.hpp>
+//#include <memory>
+
+int idProvider = 0;
+struct Zoof
+{
+    // data 
+    int id;
+    std::unique_ptr<int> pint;
+    // default constructor
+    Zoof()
+    {        
+        id = idProvider++;
+        debugLog << id << L":  default constructor\n";
+    }
+
+    // copy constructor
+    Zoof(const Zoof& rhs)
+    {
+        id = idProvider++;
+        debugLog << id << L":  copy constructor\n";
+    }
+
+    // move constructor
+    Zoof(Zoof&& rhs)
+    {
+        id = idProvider++;
+        debugLog << id << L":  move constructor\n";
+    }
+
+    // copy assignment
+    Zoof &operator=(const Zoof& rhs)
+    {
+        debugLog << id << L"<-" << rhs.id << L":  copy assigmnet\n";
+    }
+
+    // move assignment 
+    Zoof &operator=(Zoof&& rhs)
+    {
+        debugLog << id << L"<-" << rhs.id << L":  move assigmnet\n";
+    }
+
+    ~Zoof()
+    {
+        debugLog << id << L": destructor\n";
+
+    }
+};
+
+typedef std::unique_ptr<Zoof> upMoof;
+void skool()
+{
+    {
+        //std::unique_ptr<Zoof> p(new Zoof);
+        //std::vector<  std::unique_ptr<Zoof> > moofs;
+        //moofs.push_back(std::move(p));
+        //std::unique_ptr<Zoof> d;
+        //d = std::move(p);
+
+        //std::shared_ptr<int> pintsh(new int{ 123 });
+        debugLog << L"finished \n";
+    }
+
+    exit(0);
+}
 
 
 /*
@@ -253,69 +314,6 @@ d2 = std::move(d1);
 //    return debObj;
 //}
 
-
-int idProvider = 0;
-struct Zoof
-{
-	// data 
-	int id;		
-	
-	// default constructor
-	Zoof()
-	{
-		id = idProvider++;		
-		debugLog << id <<L":  default constructor\n";		
-	}
-	
-	// copy constructor
-	Zoof(const Zoof& rhs)
-	{
-		id = idProvider++;		
-		debugLog << id << L":  copy constructor\n";		
-	}
-
-	// move constructor
-	Zoof(Zoof&& rhs)
-	{
-		id = idProvider++;
-		debugLog << id << L":  move constructor\n";		
-	}
-
-	// copy assignment
-	Zoof &operator=(const Zoof& rhs)
-	{
-		debugLog << id << L"<-" << rhs.id << L":  copy assigmnet\n";
-	}
-
-	// move assignment 
-	Zoof &operator=(Zoof&& rhs)
-	{
-		debugLog << id << L"<-" << rhs.id << L":  move assigmnet\n";
-	}
-	
-	~Zoof()
-	{
-		debugLog << id << L": destructor\n";
-
-	}
-};
-
-typedef std::unique_ptr<Zoof> upMoof;
-void skool()
-{
-	{
-		std::unique_ptr<Zoof> p(new Zoof);
-		//std::vector<  std::unique_ptr<Zoof> > moofs;
-		//moofs.push_back(std::move(p));
-		std::unique_ptr<Zoof> d;
-		d = std::move(p);
-		
-		//std::shared_ptr<int> pintsh(new int{ 123 });
-		debugLog << L"finished \n";
-	}
-
-    exit(0);
-}
 
 
 /*
