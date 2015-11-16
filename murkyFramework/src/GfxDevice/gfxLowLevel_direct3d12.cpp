@@ -68,7 +68,8 @@ namespace GfxDevice
 		m_fenceValue++;
 
 		// Wait until the previous frame is finished.
-		if (m_fence->GetCompletedValue() < fence)
+        const UINT64 v = m_fence->GetCompletedValue();
+		if ( v < fence)
 		{
 			ThrowIfFailed(m_fence->SetEventOnCompletion(fence, m_fenceEvent));
 			WaitForSingleObject(m_fenceEvent, INFINITE);

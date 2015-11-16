@@ -419,7 +419,25 @@ namespace GfxDevice
 			// Wait for the command list to execute; we are reusing the same command 
 			// list in our main loop but for now, we just want to wait for setup to 
 			// complete before continuing.
-			WaitForPreviousFrame();
+			//WaitForPreviousFrame();
+            // WAITING FOR THE FRAME TO COMPLETE BEFORE CONTINUING IS NOT BEST PRACTICE.
+            // This is code implemented as such for simplicity. More advanced samples 
+            // illustrate how to use fences for efficient resource usage.
+
+            // Signal and increment the fence value.
+            const UINT64 fence = m_fenceValue;
+            ThrowIfFailed(m_commandQueue->Signal(m_fence.Get(), fence));
+            m_fenceValue++;
+
+            // Wait until the previous frame is finished.
+            const UINT64 v = m_fence->GetCompletedValue();
+            if (v < fence)
+            {
+                ThrowIfFailed(m_fence->SetEventOnCompletion(fence, m_fenceEvent));
+                WaitForSingleObject(m_fenceEvent, INFINITE);
+            }
+
+            m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
 		}	
 		debugLog << L"finished success" << L"\n";
 		return true;	
