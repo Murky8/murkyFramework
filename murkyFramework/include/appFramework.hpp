@@ -14,7 +14,8 @@ public:
     void    initOnce();
  
     // objects/components
-    WindowsSpec *windowsSpec;
+    //WindowsSpec *windowsSpec;   // windows stuff
+
 
     // data
     bool    fullScreen = false;

@@ -3,10 +3,12 @@
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
 #include <murkyFramework/src/private/windows/windowsSpec.hpp>
-
+#if 0
 HWND createWindow(LPCWSTR title, int width, int height)
 {
     HWND hWnd;
+    HINSTANCE	hInstance;	
+
     hInstance = GetModuleHandle(nullptr);
     if (hInstance == NULL)
         triggerBreakpoint();
@@ -63,7 +65,7 @@ HWND createWindow(LPCWSTR title, int width, int height)
     UpdateWindow(hWnd);
     return true;
 }
-
+#endif
 
 WindowsSpec::WindowsSpec()
 {

@@ -14,8 +14,7 @@ namespace GfxDevice
     extern  HDC     hDC;
     extern  HGLRC   hRC;
     extern  HWND    hWnd;
-
-    extern  HINSTANCE               g_hInst;
+    
     //extern  HWND                    g_hWnd;
     extern  D3D_DRIVER_TYPE         g_driverType;
     extern  D3D_FEATURE_LEVEL       g_featureLevel;

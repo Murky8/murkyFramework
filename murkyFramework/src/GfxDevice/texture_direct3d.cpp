@@ -14,8 +14,7 @@
 
 namespace GfxDevice
 {    
-    // forward declarations
-    extern    HINSTANCE               g_hInst;
+    // forward declarations    
     extern    HWND                    g_hWnd;
     extern    D3D_DRIVER_TYPE         g_driverType;
     extern    D3D_FEATURE_LEVEL       g_featureLevel;

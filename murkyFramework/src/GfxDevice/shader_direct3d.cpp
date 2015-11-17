@@ -20,8 +20,7 @@ namespace GfxDevice
     using namespace DirectX;
     // Forward declarations    
     extern  D3D_DRIVER_TYPE         g_driverType;
-    extern  D3D_FEATURE_LEVEL       g_featureLevel;
-    extern  HINSTANCE               g_hInst;
+    extern  D3D_FEATURE_LEVEL       g_featureLevel;    
     extern  HWND                    g_hWnd;
     extern  ID3D11Device*           g_pd3dDevice;
     extern  ID3D11Device1*          g_pd3dDevice1;
