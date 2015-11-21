@@ -2,8 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
+
 #ifdef USE_DIRECT3D11
 #include <d3d11_1.h>
 
@@ -11,9 +10,6 @@ namespace GfxDevice
 {    
     // Forward declarations   
     // forward declarations    
-    extern  HDC     hDC;
-    extern  HGLRC   hRC;
-    extern  HWND    hWnd;
     
     //extern  HWND                    g_hWnd;
     extern  D3D_DRIVER_TYPE         g_driverType;
@@ -41,14 +37,15 @@ namespace GfxDevice
     extern  ID3D11RasterizerState	*g_pRasterState;
     extern  ID3D11Buffer*           g_pCBChangesEveryFrame;
  
-    bool initialise_device(HDC &in_hDC, HGLRC &in_hRC, HWND &in_hWnd)
+    bool initialise_device(WindowsSpecific *const windowsSpecific)
     {
         //-------------------------------------------------------------------------------------- 
         // Create Direct3D device and swap chain 
         //--------------------------------------------------------------------------------------         
-            GfxDevice::hDC	= in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
-            GfxDevice::hRC	= in_hRC;
-            GfxDevice::hWnd	= in_hWnd;
+            //GfxDevice::hDC	= in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
+            //GfxDevice::hRC	= in_hRC;
+            //GfxDevice::hWnd	= in_hWnd;
+            triggerBreakpoint();
 
             RECT rc;
             GetClientRect(hWnd, &rc);

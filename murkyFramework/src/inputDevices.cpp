@@ -2,36 +2,25 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/include/version.hpp>
 
-//#include <windows.h>
-#include <winuser.h>
-#include "hidusage.h"
-#include <murkyFramework/include/inputDevices.hpp>
-#include "murkyFramework/include/common.hpp"
-#include "murkyFramework/include/debugUtils.hpp"
-
-#ifdef _WINDOWS
-
-InputDevices::InputDevices(HWND hWnd)
+InputDevices::InputDevices(const WindowsSpecific *const windowsSpecific)
 {
 	RAWINPUTDEVICE rid[2];
 	rid[0].usUsagePage = HID_USAGE_PAGE_GENERIC;
 	rid[0].usUsage = HID_USAGE_GENERIC_MOUSE;
 	rid[0].dwFlags = RIDEV_INPUTSINK;
-	rid[0].hwndTarget = hWnd;
+	rid[0].hwndTarget = windowsSpecific->gethWnd();
 
 	rid[1].usUsagePage = HID_USAGE_PAGE_GENERIC;
 	rid[1].usUsage = HID_USAGE_GENERIC_KEYBOARD;
 	rid[1].dwFlags = RIDEV_INPUTSINK;
-	rid[1].hwndTarget = hWnd;
+	rid[1].hwndTarget = windowsSpecific->gethWnd();
 
-	auto result = RegisterRawInputDevices(rid, sizeof(rid) / sizeof(RAWINPUTDEVICE), sizeof(RAWINPUTDEVICE));
+	bool result = RegisterRawInputDevices(rid, sizeof(rid) / sizeof(RAWINPUTDEVICE), sizeof(RAWINPUTDEVICE));
 
-	if (result == 0)
+	if(result == false)
 	{
-		triggerBreakpoint();
-		//EGSystemError("RegisterRawInputDevices Error: ", GetLastError());
+		triggerBreakpoint(L"InputDevices::InputDevices() /RegisterRawInputDevices failed\n");		
 	}
 }
 
@@ -125,9 +114,6 @@ void InputDevices::processWindowsMessages(HWND hWnd, UINT uMsg, WPARAM wParam, L
 			break;
 		}
 	}
-
-	if (firstRun)
-		firstRun = false;
 }
 
 bool InputDevices::consumeSingleMouseMove(int &out, boost::circular_buffer<int> &buffer)
@@ -185,6 +171,3 @@ bool InputDevices::consumeAllMouseDy(int &out)
 {
 	return consumeAllMouseMove(out, mouseDy);
 }
-
-
-#endif

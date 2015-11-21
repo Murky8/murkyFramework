@@ -12,15 +12,17 @@
 namespace GfxDevice
 {
     // forward declarations    
-    extern  HDC     hDC;
+    /*extern  HDC     hDC;
     extern  HGLRC   hRC;
     extern  HWND    hWnd;
-    
-	bool initialise_device(HDC &in_hDC, HGLRC &in_hRC, HWND &in_hWnd)
+    */
+	bool initialise_device()
     {
-            GfxDevice::hDC	= in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
-            GfxDevice::hRC	= in_hRC;
-            GfxDevice::hWnd	= in_hWnd;
+        WindowsSpecific ws = dynamic_cast<WindowsSpecific*>(Gapp->systemSpecific);
+
+            //GfxDevice::hDC	= in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
+            //GfxDevice::hRC	= in_hRC;
+            //GfxDevice::hWnd	= in_hWnd;
             
             PIXELFORMATDESCRIPTOR pfd; // Create a new PIXELFORMATDESCRIPTOR (PFD)
             memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR)); // Clear our  PFD
@@ -31,15 +33,15 @@ namespace GfxDevice
             pfd.cDepthBits = 32; // Give us 32 bits of depth information (the higher, the more depth levels)
             pfd.iLayerType = PFD_MAIN_PLANE; // Set the layer of the PFD
 
-            int nPixelFormat = ChoosePixelFormat(hDC, &pfd); // Check if our PFD is valid and get a pixel format back
+            int nPixelFormat = ChoosePixelFormat(ws.gethDC(), &pfd); // Check if our PFD is valid and get a pixel format back
             if (nPixelFormat == 0) // If it fails
                 return false;
 
-            bool bResult = (bool)SetPixelFormat(hDC, nPixelFormat, &pfd); // Try and set the pixel format based on our PFD
+            bool bResult = (bool)SetPixelFormat(ws.gethDC(), nPixelFormat, &pfd); // Try and set the pixel format based on our PFD
             if (!bResult) // If it fails
                 return false;
 
-            HGLRC tempOpenGLContext = wglCreateContext(hDC); // Create an OpenGL 2.1 context for our device context
+            HGLRC tempOpenGLContext = wglCreateContext(ws.gethDC()); // Create an OpenGL 2.1 context for our device context
             wglMakeCurrent(hDC, tempOpenGLContext); // Make the OpenGL 2.1 context current and active
 
             glewExperimental = GL_TRUE;

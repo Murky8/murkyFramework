@@ -2,13 +2,48 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/src/private/windows/windowsSpec.hpp>
-#if 0
-HWND createWindow(LPCWSTR title, int width, int height)
-{
-    HWND hWnd;
-    HINSTANCE	hInstance;	
 
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    //http://www.cplusplus.com/forum/windows/39141/
+
+    //AppFramework  * app = (AppFramework*)::GetWindowLongPtr(hWnd, GWLP_USERDATA);
+    AppFramework  * app= reinterpret_cast<AppFramework*>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
+    
+    if (app!=nullptr) // note: WndProc can receive messages while initializing ie before app exsists
+    {
+        switch (message)
+        {
+
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            break;
+
+        case WM_KEYDOWN:
+            switch (wParam)
+            {
+            case VK_ESCAPE:
+                app->exitWholeApp = true;
+            }
+        }
+
+        app->inputDevices->processWindowsMessages(hWnd, message, wParam, lParam);
+    }
+    else
+    {
+
+    }
+
+    return DefWindowProc(hWnd, message, wParam, lParam);
+}
+
+void WindowsSpecific::windowsLoopIteration()
+{
+}
+
+bool WindowsSpecific::createWindow(std::wstring title, int width, int height)
+{    
     hInstance = GetModuleHandle(nullptr);
     if (hInstance == NULL)
         triggerBreakpoint();
@@ -20,7 +55,7 @@ HWND createWindow(LPCWSTR title, int width, int height)
     windowClass.hInstance = hInstance;
     windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
     windowClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-    windowClass.lpszClassName = title;
+    windowClass.lpszClassName = title.c_str();
 
     if (RegisterClassEx(&windowClass) == 0)
     {
@@ -38,8 +73,8 @@ HWND createWindow(LPCWSTR title, int width, int height)
 
     hWnd = CreateWindowEx(
         NULL,
-        title,
-        title,
+        title.c_str(),
+        title.c_str(),
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT,
         CW_USEDEFAULT,
@@ -59,18 +94,21 @@ HWND createWindow(LPCWSTR title, int width, int height)
         return false;
     }
 
+    SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)nullptr); // this will eventually hold appFramework* but 
+    //  appFramework* hasn't been created yet'
+
     hDC = GetDC(hWnd); // Get the device context for our window
 
-    ShowWindow(hWnd, 10);
+    ShowWindow(hWnd, 1);
     UpdateWindow(hWnd);
     return true;
 }
-#endif
 
-WindowsSpec::WindowsSpec()
+
+WindowsSpecific::WindowsSpecific()
 {
 }
 
-WindowsSpec::~WindowsSpec()
+WindowsSpecific::~WindowsSpecific()
 {
 }

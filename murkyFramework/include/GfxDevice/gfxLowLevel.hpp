@@ -6,7 +6,7 @@
 namespace GfxDevice 
 {
     void onGfxDeviceErrorTriggerBreakpoint();
-    void initialise();
+    void initialise(WindowsSpecific *const windowsSpecific);
     void deinitialise();
     void drawBegin();
     void drawEnd();

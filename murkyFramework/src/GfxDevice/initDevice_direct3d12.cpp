@@ -56,15 +56,15 @@ namespace GfxDevice
 	}
 		
 	//_Check_return_
-	bool initialise_device(HDC &in_hDC, HGLRC &in_hRC, HWND &in_hWnd)
+	bool initialise_device(WindowsSpecific *const windowsSpecific)
 	{
 		//-------------------------------------------------------------------------------------- 
 		// Create Direct3D device and swap chain 
 		HRESULT hr;
-		GfxDevice::hDC = in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
-		GfxDevice::hRC = in_hRC;
-		GfxDevice::hWnd = in_hWnd;
-
+		//GfxDevice::hDC = in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
+		//GfxDevice::hRC = in_hRC;
+		//GfxDevice::hWnd = in_hWnd;
+        triggerBreakpoint();
 //#ifdef _DEBUG
 		// Enable the D3D12 debug layer.
 		{

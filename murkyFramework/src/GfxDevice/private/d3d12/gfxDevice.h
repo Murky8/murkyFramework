@@ -18,10 +18,10 @@ using namespace DirectX;
 using namespace Microsoft::WRL;
 
 	// forward declarations    
-	extern  HDC			hDC;
+	/*extern  HDC			hDC;
 	extern  HGLRC		hRC;
 	extern  HWND		hWnd;
-
+*/
 // forward declarations
 extern void WaitForPreviousFrame();
 //// Pipeline objects.

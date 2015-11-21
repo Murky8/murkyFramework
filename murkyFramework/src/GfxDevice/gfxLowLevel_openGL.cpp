@@ -24,9 +24,9 @@ namespace GfxDevice
 {   
     // data
     mat4    projectionMatrix(unit);    
-    HDC     hDC;
-    HGLRC   hRC;
-    HWND    hWnd;
+    //HDC     hDC;
+    //HGLRC   hRC;
+    //HWND    hWnd;
 
     void onGfxDeviceErrorTriggerBreakpoint()
     {
@@ -71,7 +71,8 @@ namespace GfxDevice
     void drawEnd()
     {
         glFlush();
-        SwapBuffers(GfxDevice::hDC);
+        //SwapBuffers(GfxDevice::hDC);
+        triggerBreakpoint();
     }        
 }
 

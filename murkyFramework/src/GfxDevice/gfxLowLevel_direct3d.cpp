@@ -15,9 +15,9 @@
 namespace GfxDevice
 {       
     
-    HDC     hDC;   // a copy from main.cpp
-    HGLRC   hRC;
-    HWND    hWnd;
+    //HDC     hDC;   // a copy from main.cpp
+    //HGLRC   hRC;
+    //HWND    hWnd;
 
     D3D_DRIVER_TYPE         g_driverType = D3D_DRIVER_TYPE_NULL;        // todo: move to gfxLowLevel_d3d...
     D3D_FEATURE_LEVEL       g_featureLevel = D3D_FEATURE_LEVEL_11_0;

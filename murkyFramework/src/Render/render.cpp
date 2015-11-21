@@ -2,21 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/include/version.hpp>
 
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
-#include <murkyFramework/include/GfxDevice/texture.hpp>
-#include <murkyFramework/include/GfxDevice/shaders.hpp>
-#include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
-#include <murkyFramework/include/Render/render.hpp>
-#include <murkyFramework/include/Render/textRender.hpp>
-#define GLM_FORCE_RADIANS
-#include <glm/gtc/matrix_transform.inl>
-#include <murkyFramework/include/Render/linesShapes.hpp>
-#include <murkyFramework/include/Render/projectionMat.hpp>
-#include <murkyFramework/include/readFBX.hpp>
 
 namespace GfxDevice
 {
@@ -43,10 +29,11 @@ namespace Render
     // forward declarations
     std::vector<Line_pc>               defaultLines;    
     
-    void initialise(HDC &hDC, HGLRC &hRC, HWND &hWnd)
+    void initialise(const AppFramework *const app)
     {		
         debugLog << L"RenderHi::initialise" << "\n";				
-        GfxDevice::initialise_device(hDC, hRC, hWnd);
+
+        GfxDevice::initialise_device(app);
 
 #ifdef USE_DIRECT3D12
         

@@ -21,9 +21,9 @@ using namespace Microsoft::WRL;
 namespace GfxDevice
 {       
 
-    HDC     hDC;   // a copy from main.cpp
-    HGLRC   hRC;
-    HWND    hWnd;
+    //HDC     hDC;   // a copy from main.cpp
+    //HGLRC   hRC;
+    //HWND    hWnd;
 	
 	// Pipeline objects.
 	D3D12_VIEWPORT				m_viewport;

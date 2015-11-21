@@ -9,7 +9,8 @@ public:
     enum class KeyCode;
     
     // methods
-	InputDevices(HWND hWnd);
+    InputDevices() = delete;
+	InputDevices(const WindowsSpecific *const windowsSpecific);
     static bool keyStatus(InputDevices::KeyCode iKey);
     void	processWindowsMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	bool	consumeAllMouseDx(int& out);
@@ -79,7 +80,7 @@ private:
 	// data
 	boost::circular_buffer<int> mouseDx{ 10 };
 	boost::circular_buffer<int> mouseDy{ 10 };
-	bool firstRun = true;
+	//bool firstRun = true;
 
 	int		consumeSingleMouseMove(boost::circular_buffer<int> &buffer);
     bool	consumeSingleMouseMove(int &out, boost::circular_buffer<int> &buffer);

@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
+
 
 namespace Render
 {    

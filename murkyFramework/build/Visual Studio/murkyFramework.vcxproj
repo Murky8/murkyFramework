@@ -494,6 +494,7 @@
     <ClCompile Include="..\..\src\common.cpp" />
     <ClCompile Include="..\..\src\debugUtils.cpp" />
     <ClCompile Include="..\..\src\fileUtils.cpp" />
+    <ClCompile Include="..\..\src\Game\private\Game.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\gfxAllDevices.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\gfxLowLevel_direct3d.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\gfxLowLevel_direct3d12.cpp" />
@@ -503,6 +504,7 @@
     <ClCompile Include="..\..\src\GfxDevice\initDevice_direct3d12.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\initDevice_openGL.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\private\gfxDevice.cpp" />
+    <ClCompile Include="..\..\src\GfxDevice\private\GfxDeviceObj.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\private\textureManager.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\private\vertexBufferHelpers.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\projectionMat_direct3d.cpp" />
@@ -534,10 +536,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\src\private\windows\windowsSpec.cpp" />
+    <ClCompile Include="..\..\src\private\systemSpecific.cpp" />
+    <ClCompile Include="..\..\src\private\windows\WindowsSpecific.cpp" />
     <ClCompile Include="..\..\src\randomNumbers.cpp" />
     <ClCompile Include="..\..\src\readFBX.cpp" />
     <ClCompile Include="..\..\src\Render\linesShapes.cpp" />
+    <ClCompile Include="..\..\src\Render\private\RenderObj.cpp" />
     <ClCompile Include="..\..\src\Render\projectionMat.cpp" />
     <ClCompile Include="..\..\src\Render\render.cpp" />
     <ClCompile Include="..\..\src\Render\textRender.cpp" />
@@ -570,13 +574,13 @@
     <ClInclude Include="..\..\include\Render\projectionMat.hpp" />
     <ClInclude Include="..\..\include\Render\render.hpp" />
     <ClInclude Include="..\..\include\Render\textRender.hpp" />
-    <ClInclude Include="..\..\include\state.hpp" />
     <ClInclude Include="..\..\include\stringHelpers.hpp" />
     <ClInclude Include="..\..\include\system.hpp" />
     <ClInclude Include="..\..\include\types.hpp" />
     <ClInclude Include="..\..\include\vectorMatrix.hpp" />
     <ClInclude Include="..\..\include\vectorMatrix_rotation.hpp" />
     <ClInclude Include="..\..\include\version.hpp" />
+    <ClInclude Include="..\..\src\Game\public\Game.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\gfxDeviceObject.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\textureWrapper.hpp" />
@@ -594,12 +598,15 @@
     <ClInclude Include="..\..\src\GfxDevice\private\textureHelpers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\vertexBufferHelpers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\gfxDevice.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\public\GfxDeviceObj.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\shaderWrappers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\textureManager.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\textureWrappers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\vertexBufferWrappers.hpp" />
     <ClInclude Include="..\..\src\private\pch.hpp" />
-    <ClInclude Include="..\..\src\private\windows\windowsSpec.hpp" />
+    <ClInclude Include="..\..\src\private\systemSpecific.hpp" />
+    <ClInclude Include="..\..\src\private\windows\WindowsSpecific.hpp" />
+    <ClInclude Include="..\..\src\Render\public\RenderObj.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

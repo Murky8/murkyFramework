@@ -3,11 +3,8 @@
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
 
-#include <murkyFramework/include/Render/render.hpp>
-#include <murkyFramework/include/vectorMatrix_rotation.hpp>
-
 // called from windows loop in main.cpp
-void mainLoop_threadMain(InputDevices &inputDevices, State &state)
+void mainLoop_threadMain(AppFramework  *const app)
 {        
     debugLogScreen.clear();    
     static f64 lastFrameClock = 0;
@@ -17,7 +14,7 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
     //debugLog << L"d: " << (f32)lastFrameDuration << L"\n";
     lastFrameClock = currentFrameClock;
     
-    Gapp->frameRate = static_cast<f32>(1.0/lastFrameDuration);
+    app->frameRate = static_cast<f32>(1.0/lastFrameDuration);
     
     static f32 aveFR = 0.f;
     { // ave frame rate
@@ -41,39 +38,38 @@ void mainLoop_threadMain(InputDevices &inputDevices, State &state)
     
 	//------------------------------------------------------------------------------
     f32 speed = lastFrameDuration*50.f;
-    if (inputDevices.keyStatus(InputDevices::KeyCode::shift))
+    if (app->inputDevices.keyStatus(InputDevices::KeyCode::shift))
         speed *= 10.f;
 
-    if (inputDevices.keyStatus(InputDevices::KeyCode::d))
+    if (app->inputDevices.keyStatus(InputDevices::KeyCode::d))
         state.cursorPos += state.cursorOri.get_r() * speed;	
     
-    if (inputDevices.keyStatus(InputDevices::KeyCode::a))
+    if (app->inputDevices.keyStatus(InputDevices::KeyCode::a))
         state.cursorPos -= state.cursorOri.get_r() * speed;
 
-    if (inputDevices.keyStatus(InputDevices::KeyCode::w))
+    if (app->inputDevices.keyStatus(InputDevices::KeyCode::w))
         state.cursorPos += state.cursorOri.get_f() * speed;
     
-    if (inputDevices.keyStatus(InputDevices::KeyCode::s))
+    if (app->inputDevices.keyStatus(InputDevices::KeyCode::s))
         state.cursorPos -= state.cursorOri.get_f() * speed;
 
-    if (inputDevices.keyStatus(InputDevices::KeyCode::e))
+    if (app->inputDevices.keyStatus(InputDevices::KeyCode::e))
         state.cursorPos += vec::up * speed;
 
-    if (inputDevices.keyStatus(InputDevices::KeyCode::q))
+    if (app->inputDevices.keyStatus(InputDevices::KeyCode::q))
         state.cursorPos -= vec::up * speed;
-	
-    
+	    
 	// free look
 	vec rv(zero);	
 	int mx, my;
-	inputDevices.consumeAllMouseDx(mx);
-	inputDevices.consumeAllMouseDy(my);
+    app->inputDevices.consumeAllMouseDx(mx);
+    app->inputDevices.consumeAllMouseDy(my);
 
    
 	// rotate l/r
 	rv.y	+= -0.001f*(float)mx;
 	mat3 rmat = makeRotationMatrix3c(rv);
-	state.cursorOri = state.cursorOri*rmat;
+    app->game.cursorOri = state.cursorOri*rmat;
 	// rotate l/r
     
 	// rotate u/d

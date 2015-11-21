@@ -73,6 +73,21 @@
     <Filter Include="Source Files\src\private\windows">
       <UniqueIdentifier>{12a80276-8148-46bf-9e73-74c73b937b1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Render\public">
+      <UniqueIdentifier>{1455827c-ab18-435f-a039-1752e9c937cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Render\private">
+      <UniqueIdentifier>{b99beb5b-378b-49dc-9b8b-2d09cdd6d15c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{89a8eec5-89a3-4516-a0c3-5c2ccc637f84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\private">
+      <UniqueIdentifier>{2ecc17f0-436c-4f1f-8567-863fd2e33a7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\public">
+      <UniqueIdentifier>{8e025b3b-ff39-4ba8-ad50-bf1be24f84ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\GfxDevice\vertexBuffer_direct3d.cpp">
@@ -213,8 +228,20 @@
     <ClCompile Include="..\..\src\GfxDevice\private\textureManager.cpp">
       <Filter>Source Files\GfxDevice\private</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\private\windows\windowsSpec.cpp">
+    <ClCompile Include="..\..\src\GfxDevice\private\GfxDeviceObj.cpp">
+      <Filter>Source Files\GfxDevice\private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Render\private\RenderObj.cpp">
+      <Filter>Source Files\Render\private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\private\windows\WindowsSpecific.cpp">
       <Filter>Source Files\src\private\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\private\systemSpecific.cpp">
+      <Filter>Source Files\src\private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Game\private\Game.cpp">
+      <Filter>Source Files\Game\private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -270,9 +297,6 @@
       <Filter>Header Files\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\readFBX.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\state.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\stringHelpers.hpp">
@@ -368,8 +392,20 @@
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\gfxDeviceObject.hpp">
       <Filter>Source Files\GfxDevice\private\openGL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\private\windows\windowsSpec.hpp">
+    <ClInclude Include="..\..\src\Render\public\RenderObj.hpp">
+      <Filter>Source Files\Render\public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\public\GfxDeviceObj.hpp">
+      <Filter>Source Files\GfxDevice\public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\private\windows\WindowsSpecific.hpp">
       <Filter>Source Files\src\private\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\private\systemSpecific.hpp">
+      <Filter>Source Files\src\private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Game\public\Game.hpp">
+      <Filter>Source Files\Game\public</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

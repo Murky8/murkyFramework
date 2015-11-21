@@ -1,37 +1,39 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-#include    <murkyFramework/src/private/pch.hpp>
-#include    <murkyFramework/src/private/windows/windowsSpec.hpp>
-#include    <thread>
-#include    <murkyFramework/include/types.hpp>
-#include    <murkyFramework/include/inputDevices.hpp>
-
 
 class AppFramework
 {
 public:
-    void    initOnce();
- 
-    // objects/components
-    //WindowsSpec *windowsSpec;   // windows stuff
+    // construction
+    AppFramework();
 
+    // destruction
+    ~AppFramework();
+     
+    // note: data/objects/components initialised in same order as listed below.
 
     // data
-    bool    fullScreen = false;
+    bool    fullScreen;
     int     screenResY;
-    int     screenResX;
-
-    //bool    multiThreaded = true;
+    int     screenResX;    
     u32     frameCounter = 0;    
     float   frameRateLimit = 60; // 0= inf 
     float   frameRate;
     bool    exitWholeApp = false;
-    bool    gfxInitialised = false;
+    bool    gfxInitialised = false;     // todo: temp
     bool    initialised = false;
+    std::wstring title{ L"Murky" };
 
+    // objects/components    
+    SystemSpecific  *systemSpecific;
+    RenderObj       *render;    // contains: gfxDevice object
+    InputDevices    *inputDevices;
+    Game            *game;
+    
 private:
     
 };
 
-extern AppFramework *Gapp;
+// global used only for debuggering and developing purposes.
+extern AppFramework *g_appDebug;
