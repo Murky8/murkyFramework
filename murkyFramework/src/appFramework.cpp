@@ -63,17 +63,22 @@ AppFramework::AppFramework()
     if (!res)
         triggerBreakpoint(L"createWindow failed");
     
-
-    Render::initialise(windowsSpecific);
+    
+    Render::initialise(systemSpecific); // todo:depreciate
+    render = new RenderObj();
 
     // mouse, keyboard, etc input
-    inputDevices = new InputDevices(windowsSpecific);        
+    inputDevices = new InputDevices(windowsSpecific); // todo: pass less
+    game = new Game();
 }
 
 AppFramework::~AppFramework()
 {
+    Render::deinitialise();
     //deinitialise_main();    
-    //delete pInputDevices;
+    delete  inputDevices;
+    delete  render;
+    delete  systemSpecific;
 }
 //void AppFramework::resume()
 //{

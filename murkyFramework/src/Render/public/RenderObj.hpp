@@ -16,6 +16,6 @@ public:
     GfxDeviceObj *gfxDevice;
 
     // data
-    vec4 cursorPos{ 0, 0, -5.f };
-    mat3 cursorOri{ unit };
+    //vec4 cursorPos{ 0, 0, -5.f };
+    //mat3 cursorOri{ unit };
 };

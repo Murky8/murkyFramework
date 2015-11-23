@@ -35,11 +35,10 @@
 
 #include <murkyFramework/include/version.hpp>
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-
 #include <murkyFramework/include/types.hpp>
+#include <murkyFramework/include/common.hpp>
 
 #include <murkyFramework/include/collectionNamed.hpp>
-#include <murkyFramework/include/common.hpp>
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/fileUtils.hpp>
 #include <murkyFramework/include/loadSaveFile.hpp>
@@ -51,6 +50,8 @@
 
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>   
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
+#include <murkyFramework/src/private/systemSpecific.hpp>
+#include <murkyFramework/src/private/windows/WindowsSpecific.hpp>
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/texture.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
@@ -64,10 +65,19 @@
 #include <murkyFramework/src/GfxDevice/public/GfxDeviceObj.hpp>
 #include <murkyFramework/src/Render/public/RenderObj.hpp>
 
-#include <murkyFramework/src/private/systemSpecific.hpp>
-#include <murkyFramework/src/private/windows/WindowsSpecific.hpp>
 #include <murkyFramework/include/inputDevices.hpp>
 #include <murkyFramework/src/game/public/game.hpp>
 #include <murkyFramework/include/appFramework.hpp>
 
-///
+//#ifdef USE_OPENGL
+    #include <external/glew/include/GL/glew.h> 
+    #include <external/glew/include/GL/wglew.h>
+    #define GLM_FORCE_RADIANS
+    #include <external/glm/glm.hpp>
+    #include <external/glm/vec2.hpp>
+    #include <external/glm/vec3.hpp>
+    #include <external/glm/vec4.hpp>
+    #include <external/glm/mat4x4.hpp>
+    #include <external/glm/gtc/matrix_transform.hpp>
+//#endif
+///D:\Wicked Dev\dev c++\murkyFramework\include\GfxDevice\gfxLowLevel.hpp

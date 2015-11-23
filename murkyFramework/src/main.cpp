@@ -10,7 +10,7 @@ namespace Render
 }
 
 // forward declarations
-void mainLoop_threadMain(AppFramework  *const app);
+void mainLoop_threadMain(AppFramework  * app);
 bool createWindow(LPCWSTR title, int width, int height);
 
 // private data/state
@@ -82,9 +82,14 @@ int main()
     //skool();    
     AppFramework *app = new AppFramework;
     g_appDebug = app;
-   
+       
     compileResources();// move this!	            
     
+    SetWindowLongPtr( //note: windows msg loop inactive until following is set.
+        (dynamic_cast<WindowsSpecific*>(app->systemSpecific))->gethWnd(), 
+        GWLP_USERDATA, 
+        (LONG_PTR)app); 
+
     while (app->exitWholeApp==false)
     {
     MSG		msg;

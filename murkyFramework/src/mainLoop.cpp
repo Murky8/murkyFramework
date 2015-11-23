@@ -4,7 +4,7 @@
 #include <murkyFramework/src/private/pch.hpp>
 
 // called from windows loop in main.cpp
-void mainLoop_threadMain(AppFramework  *const app)
+void mainLoop_threadMain(AppFramework  * app)
 {        
     debugLogScreen.clear();    
     static f64 lastFrameClock = 0;
@@ -36,70 +36,66 @@ void mainLoop_threadMain(AppFramework  *const app)
         
     debugLogScreen << L"Framerate: " << aveFR << L"\n";    
     
-	//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
     f32 speed = lastFrameDuration*50.f;
-    if (app->inputDevices.keyStatus(InputDevices::KeyCode::shift))
+    if (app->inputDevices->keyStatus(InputDevices::KeyCode::shift))
         speed *= 10.f;
 
-    if (app->inputDevices.keyStatus(InputDevices::KeyCode::d))
-        state.cursorPos += state.cursorOri.get_r() * speed;	
+    if (app->inputDevices->keyStatus(InputDevices::KeyCode::d))
+        app->game->cursorPos += app->game->cursorOri.get_r() * speed;
     
-    if (app->inputDevices.keyStatus(InputDevices::KeyCode::a))
-        state.cursorPos -= state.cursorOri.get_r() * speed;
+    if (app->inputDevices->keyStatus(InputDevices::KeyCode::a))
+        app->game->cursorPos -= app->game->cursorOri.get_r() * speed;
 
-    if (app->inputDevices.keyStatus(InputDevices::KeyCode::w))
-        state.cursorPos += state.cursorOri.get_f() * speed;
+    if (app->inputDevices->keyStatus(InputDevices::KeyCode::w))
+        app->game->cursorPos += app->game->cursorOri.get_f() * speed;
     
-    if (app->inputDevices.keyStatus(InputDevices::KeyCode::s))
-        state.cursorPos -= state.cursorOri.get_f() * speed;
+    if (app->inputDevices->keyStatus(InputDevices::KeyCode::s))
+        app->game->cursorPos -= app->game->cursorOri.get_f() * speed;
 
-    if (app->inputDevices.keyStatus(InputDevices::KeyCode::e))
-        state.cursorPos += vec::up * speed;
+    if (app->inputDevices->keyStatus(InputDevices::KeyCode::e))
+        app->game->cursorPos += vec::up * speed;
 
-    if (app->inputDevices.keyStatus(InputDevices::KeyCode::q))
-        state.cursorPos -= vec::up * speed;
-	    
-	// free look
-	vec rv(zero);	
-	int mx, my;
-    app->inputDevices.consumeAllMouseDx(mx);
-    app->inputDevices.consumeAllMouseDy(my);
+    if (app->inputDevices->keyStatus(InputDevices::KeyCode::q))
+        app->game->cursorPos -= vec::up * speed;
+        
+    // free look
+    vec rv(zero);	
+    int mx, my;
+    app->inputDevices->consumeAllMouseDx(mx);
+    app->inputDevices->consumeAllMouseDy(my);
 
    
-	// rotate l/r
-	rv.y	+= -0.001f*(float)mx;
-	mat3 rmat = makeRotationMatrix3c(rv);
-    app->game.cursorOri = state.cursorOri*rmat;
-	// rotate l/r
+    // rotate l/r
+    rv.y	+= -0.001f*(float)mx;
+    mat3 rmat = makeRotationMatrix3c(rv);
+    app->game->cursorOri = app->game->cursorOri*rmat;
+    // rotate l/r
     
-	// rotate u/d
-	rv = vec(zero);
-	rv = state.cursorOri.get_r()*-0.001f*(float)my;
-	rmat = makeRotationMatrix3c(rv);
-	state.cursorOri = state.cursorOri*rmat;
-	// rotate u/d
-	// free look
+    // rotate u/d
+    rv = vec(zero);
+    rv = app->game->cursorOri.get_r()*-0.001f*(float)my;
+    rmat = makeRotationMatrix3c(rv);
+    app->game->cursorOri = app->game->cursorOri*rmat;
+    // rotate u/d
+    // free look
 
-	debugLogScreen << rmat << L"\n";
-	//debugLogScreen << state.cursorOri << L"\n";
+    debugLogScreen << rmat << L"\n";
+    //debugLogScreen << state.cursorOri << L"\n";
     //state.cursorOri 
 
-	//------------------------------------------------------------------------------
-    Render::drawAll(state);  
+    //------------------------------------------------------------------------------
+    Render::drawAll();  
     
     // unlimited frame rate
-    if (Gapp->frameRateLimit == 0)
+    if (app->frameRateLimit == 0)
     {
     }
     else
     { // limit frame rate
-        f32 frameTimeMax = 1.0f / Gapp->frameRateLimit;
+        f32 frameTimeMax = 1.0f / app->frameRateLimit;
         if (lastFrameDuration < frameTimeMax)
            Sleep(static_cast<int>((frameTimeMax - lastFrameDuration)*1000.f));        
     }
-    Gapp->frameCounter++;      
-}
-
-void mainLoop_threadSecond(InputDevices &inputDevices, State &state)
-{
+    app->frameCounter++;      
 }

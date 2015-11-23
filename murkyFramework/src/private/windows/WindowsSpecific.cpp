@@ -28,6 +28,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
 
+        //todo: should only pass/process input messages here
         app->inputDevices->processWindowsMessages(hWnd, message, wParam, lParam);
     }
     else

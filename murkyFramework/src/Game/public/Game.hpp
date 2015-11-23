@@ -4,5 +4,7 @@
 
 class Game
 {
-
+public:
+    vec4 cursorPos{ 0, 0, -5.f };
+    mat3 cursorOri{ unit };
 };

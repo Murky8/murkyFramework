@@ -6,6 +6,10 @@
 class GfxDeviceObj
 {
     public:
-    int a;
+    GfxDeviceObj();
+    ~GfxDeviceObj();
+
+    int     a;
+    HDC		hDC = nullptr;
 };
 

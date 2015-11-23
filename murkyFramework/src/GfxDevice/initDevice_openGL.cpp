@@ -2,12 +2,8 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
+
 #ifdef USE_OPENGL
-#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
-#include <external/glew/include/GL/glew.h> 
-#include <external/glew/include/GL/wglew.h>
 
 namespace GfxDevice
 {
@@ -15,10 +11,10 @@ namespace GfxDevice
     /*extern  HDC     hDC;
     extern  HGLRC   hRC;
     extern  HWND    hWnd;
-    */
-	bool initialise_device()
+    */    
+	bool initialise_device(SystemSpecific * systemSpecific)
     {
-        WindowsSpecific ws = dynamic_cast<WindowsSpecific*>(Gapp->systemSpecific);
+        WindowsSpecific * ws = dynamic_cast< WindowsSpecific *>(systemSpecific);
 
             //GfxDevice::hDC	= in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
             //GfxDevice::hRC	= in_hRC;
@@ -33,16 +29,16 @@ namespace GfxDevice
             pfd.cDepthBits = 32; // Give us 32 bits of depth information (the higher, the more depth levels)
             pfd.iLayerType = PFD_MAIN_PLANE; // Set the layer of the PFD
 
-            int nPixelFormat = ChoosePixelFormat(ws.gethDC(), &pfd); // Check if our PFD is valid and get a pixel format back
+            int nPixelFormat = ChoosePixelFormat(ws->gethDC(), &pfd); // Check if our PFD is valid and get a pixel format back
             if (nPixelFormat == 0) // If it fails
                 return false;
 
-            bool bResult = (bool)SetPixelFormat(ws.gethDC(), nPixelFormat, &pfd); // Try and set the pixel format based on our PFD
+            bool bResult = (bool)SetPixelFormat(ws->gethDC(), nPixelFormat, &pfd); // Try and set the pixel format based on our PFD
             if (!bResult) // If it fails
                 return false;
 
-            HGLRC tempOpenGLContext = wglCreateContext(ws.gethDC()); // Create an OpenGL 2.1 context for our device context
-            wglMakeCurrent(hDC, tempOpenGLContext); // Make the OpenGL 2.1 context current and active
+            HGLRC tempOpenGLContext = wglCreateContext(ws->gethDC()); // Create an OpenGL 2.1 context for our device context
+            wglMakeCurrent(ws->gethDC(), tempOpenGLContext); // Make the OpenGL 2.1 context current and active
 
             glewExperimental = GL_TRUE;
             GLenum error = glewInit(); // Enable GLEW
@@ -59,14 +55,14 @@ namespace GfxDevice
 
             if (wglewIsSupported("WGL_ARB_create_context") == 1)
             { // If the OpenGL 3.x context creation extension is available
-                hRC = wglCreateContextAttribsARB(hDC, NULL, attributes); // Create and OpenGL 3.x context based on the given attributes
+                ws->hRC = wglCreateContextAttribsARB(ws->gethDC(), NULL, attributes); // Create and OpenGL 3.x context based on the given attributes
                 wglMakeCurrent(NULL, NULL); // Remove the temporary context from being active
                 wglDeleteContext(tempOpenGLContext); // Delete the temporary OpenGL 2.1 context
-                wglMakeCurrent(hDC, hRC); // Make our OpenGL 3.0 context current
+                wglMakeCurrent(ws->gethDC(), ws->gethRC()); // Make our OpenGL 3.0 context current
             }
             else
             {
-                hRC = tempOpenGLContext; // If we didn't have support for OpenGL 3.x and up, use the OpenGL 2.1 context
+                ws->hRC = tempOpenGLContext; // If we didn't have support for OpenGL 3.x and up, use the OpenGL 2.1 context
                 triggerBreakpoint();
             }
 

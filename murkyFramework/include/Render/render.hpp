@@ -4,11 +4,11 @@
 
 namespace Render
 {
-    extern TextRender *textRenderer;
+    extern class TextRender *textRenderer;
        
-    void initialise(WindowsSpecific *const windowsSpecific);
+    bool initialise(SystemSpecific * systemSpecific);
     void deinitialise();
-    void drawAll(State &state);
+    void drawAll();
     void addQuad_pct();
 }
 

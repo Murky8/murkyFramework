@@ -3,14 +3,12 @@
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
 
-
 namespace GfxDevice
 {
     // forward declarations
     TextureWrapper		createTextureObjectFromFile(const std::wstring &dirName,
     const				std::wstring &fileName, const std::wstring &extensionName);
-    TextureWrapper		createTestTextureObject();
-    bool                initialise_device(HDC &hDC, HGLRC &hRC, HWND &hWnd);	
+    TextureWrapper		createTestTextureObject();    
     bool                deinitialise_device();    
     void                initilise_textureSystem();
     void                deinitilise_textureSystem();
@@ -29,11 +27,11 @@ namespace Render
     // forward declarations
     std::vector<Line_pc>               defaultLines;    
     
-    void initialise(const AppFramework *const app)
+    bool initialise(SystemSpecific *systemSpecific)
     {		
         debugLog << L"RenderHi::initialise" << "\n";				
 
-        GfxDevice::initialise_device(app);
+        GfxDevice::initialise_device(systemSpecific);
 
 #ifdef USE_DIRECT3D12
         
@@ -78,8 +76,8 @@ namespace Render
 
         //textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
         textRenderer = new TextRender(newt);
-
-        Gapp->gfxInitialised = true;
+        
+        return true;
 #endif
     }
 
@@ -100,7 +98,7 @@ namespace Render
             return m;
     }	
 
-    void drawAll(State &state)
+    void drawAll()
     {
 #ifdef USE_DIRECT3D12
         GfxDevice::drawBegin();
@@ -128,7 +126,7 @@ namespace Render
         // draw onscreen stuff
         if (murkyFramework::done == false)
             debugLogScreen << L"Loading teapot!!!\n";
-        debugLogScreen << state.cursorPos << L"\n";
+        debugLogScreen << g_appDebug->game->cursorPos << L"\n";
 
 
         projectionMatrix = makeProjectionMatrix_ortho(
@@ -140,7 +138,7 @@ namespace Render
         if (murkyFramework::done == true)
         {
         // teapot
-        mat4 cam = makeCameraMatrix(state.cursorPos, state.cursorOri);
+        mat4 cam = makeCameraMatrix(g_appDebug->game->cursorPos, g_appDebug->game->cursorOri);
         mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
         mat4 proj = cam*persp;
         GfxDevice::setUniform_projectionMatrix(&proj.v[0][0]);

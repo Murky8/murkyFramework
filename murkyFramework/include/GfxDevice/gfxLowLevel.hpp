@@ -1,13 +1,11 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-
+#include <murkyFramework/src/private/systemSpecific.hpp>
 namespace GfxDevice 
 {
     void onGfxDeviceErrorTriggerBreakpoint();
-    void initialise(WindowsSpecific *const windowsSpecific);
-    void deinitialise();
+    bool initialise_device(SystemSpecific * systemSpecific);    
     void drawBegin();
     void drawEnd();
 }

@@ -2,23 +2,8 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
 #ifdef USE_OPENGL
-#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
-#include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
-#include <murkyFramework/include/GfxDevice/shaders.hpp>
-#include <murkyFramework/include/GfxDevice/texture.hpp>
-#include <external/glew/include/GL/glew.h> 
-#include <external/glew/include/GL/wglew.h>
-#define GLM_FORCE_RADIANS
-#include <external/glm/glm.hpp>
-#include <external/glm/vec2.hpp>
-#include <external/glm/vec3.hpp>
-#include <external/glm/vec4.hpp>
-#include <external/glm/mat4x4.hpp>
-#include <external/glm/gtc/matrix_transform.hpp>
 
 namespace GfxDevice
 {   
@@ -60,7 +45,7 @@ namespace GfxDevice
 
     void drawBegin()
     {
-        glViewport(0, 0, Gapp->screenResX, Gapp->screenResY);
+        glViewport(0, 0, g_appDebug->screenResX, g_appDebug->screenResY);
 
         glClearColor(0.4f, 0.6f, 0.9f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -71,8 +56,9 @@ namespace GfxDevice
     void drawEnd()
     {
         glFlush();
-        //SwapBuffers(GfxDevice::hDC);
-        triggerBreakpoint();
+        SwapBuffers(
+            (dynamic_cast<WindowsSpecific*>(g_appDebug->systemSpecific))->gethDC()
+            );        
     }        
 }
 

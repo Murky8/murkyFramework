@@ -380,9 +380,6 @@
     <ClInclude Include="..\..\src\GfxDevice\public\textureManager.hpp">
       <Filter>Source Files\GfxDevice\public</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\private\gfxDeviceObjectCommon.hpp">
-      <Filter>Source Files\GfxDevice\private</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\gfxDeviceObject.hpp">
       <Filter>Source Files\GfxDevice\private\d3d11</Filter>
     </ClInclude>
