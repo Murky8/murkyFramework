@@ -6,7 +6,7 @@
 // external forward declarations
 
 // forward declarations
-void mainLoop_threadMain(AppFramework  * app);
+void mainLoop_threadMain(AppFramework  *const app);
 
 // the only global. for debugging/development purposes.
 AppFramework *g_appDebug = nullptr;
@@ -53,7 +53,7 @@ void compileResources()
 int main()
 {    
     //skool();    
-    AppFramework *app = new AppFramework;
+    AppFramework *const app = new AppFramework;
     g_appDebug = app;
        
     compileResources();// move this!	            

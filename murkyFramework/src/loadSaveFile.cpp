@@ -76,7 +76,6 @@ namespace qdev
 #ifdef ANDROID
 #endif
 
-
     BinaryFileLoader::BinaryFileLoader(const std::wstring &dirName, const std::wstring &fileName,
         const std::wstring &extensionName) : BinaryFileLoader
         (

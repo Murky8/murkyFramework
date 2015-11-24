@@ -31,6 +31,7 @@
 
 #include <external/boost/circular_buffer.hpp>
 #include <external/boost/multi_array.hpp>
+#include <external/lodepng.h>
 #include "hidusage.h"
 
 #include <murkyFramework/include/version.hpp>
@@ -71,7 +72,7 @@
 #include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
 #include <murkyFramework/src/GfxDevice/private/textureHelpers.hpp>
 
-#ifdef USE_OPENGL
+#ifdef USE_OPENGL //todo: fix
     #include <external/glew/include/GL/glew.h> 
     #include <external/glew/include/GL/wglew.h>
     #define GLM_FORCE_RADIANS
@@ -81,10 +82,9 @@
     #include <external/glm/vec4.hpp>
     #include <external/glm/mat4x4.hpp>
     #include <external/glm/gtc/matrix_transform.hpp>
-#include <murkyFramework/src/GfxDevice/private/openGL/vertexBufferHelpers.hpp>
 #endif
 
-#ifdef USE_DIRECT3D11
+#ifdef USE_DIRECT3D11 //todo: fix
     #include <d3d11_1.h>
     #include <d3dcompiler.h>
     #include <DirectXColors.h>
@@ -93,7 +93,7 @@
 
 #endif
 
-#ifdef USE_DIRECT3D12        
+#ifdef USE_DIRECT3D12 //todo: fix
     #include <d2d1_3.h>
     #include <d3d11on12.h>
     #include <d3d12.h>

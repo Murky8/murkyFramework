@@ -4,7 +4,7 @@
 #include <murkyFramework/src/private/pch.hpp>
 
 // called from windows loop in main.cpp
-void mainLoop_threadMain(AppFramework  * app)
+void mainLoop_threadMain(AppFramework  *const app)
 {        
     debugLogScreen.clear();    
     static f64 lastFrameClock = 0;

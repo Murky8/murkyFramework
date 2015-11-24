@@ -9,7 +9,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     //http://www.cplusplus.com/forum/windows/39141/
 
     //AppFramework  * app = (AppFramework*)::GetWindowLongPtr(hWnd, GWLP_USERDATA);
-    AppFramework  * app= reinterpret_cast<AppFramework*>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
+    AppFramework  *const app= reinterpret_cast<AppFramework *const>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
     
     if (app!=nullptr) // note: WndProc can receive messages while initializing ie before app exsists
     {
@@ -33,7 +33,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     }
     else
     {
-
     }
 
     return DefWindowProc(hWnd, message, wParam, lParam);

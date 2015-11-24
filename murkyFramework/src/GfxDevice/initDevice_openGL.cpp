@@ -15,7 +15,7 @@ namespace GfxDevice
     bool initialise_device(SystemSpecific * systemSpecific)
     {
         WindowsSpecific * ws = dynamic_cast< WindowsSpecific *>(systemSpecific);
-
+        
             //GfxDevice::hDC	= in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
             //GfxDevice::hRC	= in_hRC;
             //GfxDevice::hWnd	= in_hWnd;

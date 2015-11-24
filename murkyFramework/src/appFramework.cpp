@@ -3,7 +3,6 @@
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
 
-
 AppFramework::AppFramework()
 {
     qdev::setCurrentDirectoryToAppRoot();
