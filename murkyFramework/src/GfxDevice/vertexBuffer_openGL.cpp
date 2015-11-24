@@ -2,27 +2,19 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #ifdef USE_OPENGL
-#include <glew/include/GL/glew.h> 
-#include <glew/include/GL/wglew.h>
-#include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-#include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
-#include <murkyFramework/include/GfxDevice/shaders.hpp>
 
 namespace GfxDevice
 {
-	// forward declarations of external stuff  
-		    
+    // forward declarations of external stuff  
+            
     // constructor	
     VertexBufferWrapper::VertexBufferWrapper(
         VertexType vertexType, PrimativeType primativeType,
-		ShaderWrapper shaderId, TextureWrapper texture,
+        ShaderWrapper shaderId, TextureWrapper texture,
         u32 nVerts) :
         vertexType(vertexType), primativeType(primativeType), 		
-		shaderId(shaderId), texture(texture),
+        shaderId(shaderId), texture(texture),
         capacity(nVerts)
     {				        		
         glGenVertexArrays(1, &vao);
@@ -30,7 +22,7 @@ namespace GfxDevice
 
         glGenBuffers(1, &vbo);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
-				
+                
         glUseProgram( shaderId.value );
 
         // layout

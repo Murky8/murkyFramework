@@ -20,8 +20,7 @@ public:
     u32     frameCounter = 0;    
     float   frameRateLimit = 60; // 0= inf 
     float   frameRate;
-    bool    exitWholeApp = false;
-    bool    gfxInitialised = false;     // todo: temp
+    bool    exitWholeApp = false;    
     bool    initialised = false;
     std::wstring title{ L"Murky" };
 

@@ -68,8 +68,10 @@
 #include <murkyFramework/include/inputDevices.hpp>
 #include <murkyFramework/src/game/public/game.hpp>
 #include <murkyFramework/include/appFramework.hpp>
+#include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
+#include <murkyFramework/src/GfxDevice/private/textureHelpers.hpp>
 
-//#ifdef USE_OPENGL
+#ifdef USE_OPENGL
     #include <external/glew/include/GL/glew.h> 
     #include <external/glew/include/GL/wglew.h>
     #define GLM_FORCE_RADIANS
@@ -79,5 +81,30 @@
     #include <external/glm/vec4.hpp>
     #include <external/glm/mat4x4.hpp>
     #include <external/glm/gtc/matrix_transform.hpp>
-//#endif
-///D:\Wicked Dev\dev c++\murkyFramework\include\GfxDevice\gfxLowLevel.hpp
+#include <murkyFramework/src/GfxDevice/private/openGL/vertexBufferHelpers.hpp>
+#endif
+
+#ifdef USE_DIRECT3D11
+    #include <d3d11_1.h>
+    #include <d3dcompiler.h>
+    #include <DirectXColors.h>
+    #include <directxcolors.h>
+    #include <directxmath.h>
+
+#endif
+
+#ifdef USE_DIRECT3D12        
+    #include <d2d1_3.h>
+    #include <d3d11on12.h>
+    #include <d3d12.h>
+    #include <D3Dcompiler.h>
+    #include <directxcolors.h>
+    #include <DirectXMath.h>    
+    #include <dxgi1_4.h>
+    #include <dwrite.h>    
+    #include <external/d3d12/d3dx12.h>
+    #include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
+    #include <murkyFramework/include/GfxDevice/d3d12/shaders_d3d12.hpp>
+
+#endif
+

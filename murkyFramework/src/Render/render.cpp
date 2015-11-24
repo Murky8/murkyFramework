@@ -48,7 +48,6 @@ namespace Render
 
         textRenderer = new TextRender(GfxDevice::textureManager.get(L"font 4c"));
 
-        Gapp->gfxInitialised = true;        
 #else
 
         GfxDevice::Shaders::initialise();        
@@ -77,8 +76,8 @@ namespace Render
         //textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
         textRenderer = new TextRender(newt);
         
+#endif          
         return true;
-#endif
     }
 
     void deinitialise()
@@ -116,7 +115,7 @@ namespace Render
         GfxDevice::vertexBufferManager.get(L"tris")
             .draw(reinterpret_cast<void*>(triangleVertices), 2);
 
-        debugLogScreen << state.cursorPos << L"\n";
+        debugLogScreen << g_appDebug->game->cursorPos << L"\n";
         textRenderer->drawText(debugLogScreen);
 
         GfxDevice::drawEnd();

@@ -2,7 +2,6 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/version.hpp>
 
 namespace GfxDevice
 {

@@ -2,9 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-
 #ifdef USE_DIRECT3D11
-#include <d3d11_1.h>
 
 namespace GfxDevice
 {    
@@ -37,18 +35,15 @@ namespace GfxDevice
     extern  ID3D11RasterizerState	*g_pRasterState;
     extern  ID3D11Buffer*           g_pCBChangesEveryFrame;
  
-    bool initialise_device(WindowsSpecific *const windowsSpecific)
+    bool initialise_device(SystemSpecific * systemSpecific)    
     {
         //-------------------------------------------------------------------------------------- 
         // Create Direct3D device and swap chain 
-        //--------------------------------------------------------------------------------------         
-            //GfxDevice::hDC	= in_hDC;//hDC = GetDC(hWnd); // Get the device context for our window
-            //GfxDevice::hRC	= in_hRC;
-            //GfxDevice::hWnd	= in_hWnd;
-            triggerBreakpoint();
+        //--------------------------------------------------------------------------------------                     
+            WindowsSpecific * ws = dynamic_cast<WindowsSpecific *>(systemSpecific);
 
             RECT rc;
-            GetClientRect(hWnd, &rc);
+            GetClientRect(ws->gethWnd(), &rc);
             UINT width = rc.right - rc.left;
             UINT height = rc.bottom - rc.top;
 
@@ -172,7 +167,7 @@ namespace GfxDevice
                 sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
                 sd.BufferCount = 1;
 
-                hr = dxgiFactory2->CreateSwapChainForHwnd(g_pd3dDevice, hWnd, &sd, nullptr, nullptr, &g_pSwapChain1);
+                hr = dxgiFactory2->CreateSwapChainForHwnd(g_pd3dDevice, ws->gethWnd(), &sd, nullptr, nullptr, &g_pSwapChain1);
                 if (SUCCEEDED(hr))
                 {
                     hr = g_pSwapChain1->QueryInterface(__uuidof(IDXGISwapChain), reinterpret_cast<void**>(&g_pSwapChain));
@@ -192,7 +187,7 @@ namespace GfxDevice
                 sd.BufferDesc.RefreshRate.Numerator = 60;
                 sd.BufferDesc.RefreshRate.Denominator = 1;
                 sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-                sd.OutputWindow = hWnd;
+                sd.OutputWindow = ws->gethWnd();
                 sd.SampleDesc.Count = 1;
                 sd.SampleDesc.Quality = 0;
                 sd.Windowed = TRUE;
@@ -201,7 +196,7 @@ namespace GfxDevice
             }
 
             // Note this tutorial doesn't handle full-screen swapchains so we block the ALT+ENTER shortcut 
-            dxgiFactory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER);
+            dxgiFactory->MakeWindowAssociation(ws->gethWnd(), DXGI_MWA_NO_ALT_ENTER);
 
             dxgiFactory->Release();
 

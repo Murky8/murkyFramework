@@ -2,23 +2,10 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-
 #ifdef USE_DIRECT3D11
-#include <d3d11_1.h>
-#include <DirectXColors.h>
-
-#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
-#include <murkyFramework/include/GfxDevice/texture.hpp>
 
 namespace GfxDevice
-{       
-    
-    //HDC     hDC;   // a copy from main.cpp
-    //HGLRC   hRC;
-    //HWND    hWnd;
-
+{              
     D3D_DRIVER_TYPE         g_driverType = D3D_DRIVER_TYPE_NULL;        // todo: move to gfxLowLevel_d3d...
     D3D_FEATURE_LEVEL       g_featureLevel = D3D_FEATURE_LEVEL_11_0;
     ID3D11Device*           g_pd3dDevice = nullptr;
@@ -40,22 +27,17 @@ namespace GfxDevice
     ID3D11SamplerState      *g_pSamplerLinear = nullptr;
     ID3D11RasterizerState   *g_pRasterState = nullptr;
     ID3D11Buffer*            g_pCBChangesEveryFrame = nullptr;
-
-    // data
-    mat4 projectionMatrix(unit);    
-	        
-#define rn (((float)rand() / (float)RAND_MAX))
+  
+    mat4                     projectionMatrix(unit);    
+            
     void drawBegin()
     {     
         g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);   
-        g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-
-                   
+        g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);                   
     }
     
     void drawEnd()
     {
-
         g_pSwapChain->Present(0, 0);        
     }        
 }

@@ -216,9 +216,6 @@
     <ClCompile Include="..\..\src\GfxDevice\private\gfxDevice.cpp">
       <Filter>Source Files\GfxDevice\private</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\private\vertexBufferHelpers.cpp">
-      <Filter>Source Files\GfxDevice\private</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\private\pch.cpp">
       <Filter>Source Files\src\private</Filter>
     </ClCompile>
@@ -242,6 +239,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Game\private\Game.cpp">
       <Filter>Source Files\Game\private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\private\vertexBufferHelpers.cpp">
+      <Filter>Source Files\GfxDevice</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -365,9 +365,6 @@
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\gfxDevice.h">
       <Filter>Source Files\GfxDevice\private\d3d12</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\private\vertexBufferHelpers.hpp">
-      <Filter>Source Files\GfxDevice\private</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\private\textureHelpers.hpp">
       <Filter>Source Files\GfxDevice\private</Filter>
     </ClInclude>
@@ -403,6 +400,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Game\public\Game.hpp">
       <Filter>Source Files\Game\public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\vertexBufferHelpers.hpp">
+      <Filter>Source Files\GfxDevice</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

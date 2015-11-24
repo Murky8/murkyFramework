@@ -10,6 +10,6 @@ class GfxDeviceObj
     ~GfxDeviceObj();
 
     int     a;
-    HDC		hDC = nullptr;
+    //HDC		hDC = nullptr;
 };
 

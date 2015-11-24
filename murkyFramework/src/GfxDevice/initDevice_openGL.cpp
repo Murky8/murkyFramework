@@ -12,7 +12,7 @@ namespace GfxDevice
     extern  HGLRC   hRC;
     extern  HWND    hWnd;
     */    
-	bool initialise_device(SystemSpecific * systemSpecific)
+    bool initialise_device(SystemSpecific * systemSpecific)
     {
         WindowsSpecific * ws = dynamic_cast< WindowsSpecific *>(systemSpecific);
 
@@ -71,15 +71,15 @@ namespace GfxDevice
             glGetIntegerv(GL_MINOR_VERSION, &glVersion[1]); // Get back the OpenGL MAJOR version we are using
             debugLog << L"Using OpenGL: " << glVersion[0] << "." << glVersion[1] << "\n"; // Output which version of OpenGL we are using
 
-			// state
+            // state
             glEnable(GL_DEPTH_TEST);
-			glDepthFunc(GL_LESS);
-			//glDepthFunc(GL_GREATER);
+            glDepthFunc(GL_LESS);
+            //glDepthFunc(GL_GREATER);
 
-			glDisable(GL_CULL_FACE);
-			//glFrontFace(GL_CW);
-			//glCullFace(GL_BACK);
-			//glc
+            glDisable(GL_CULL_FACE);
+            //glFrontFace(GL_CW);
+            //glCullFace(GL_BACK);
+            //glc
             return true; // We have successfully created a context, return true
         }
 
