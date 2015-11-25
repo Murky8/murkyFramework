@@ -6,18 +6,14 @@ struct GfxDeviceObj_initStruct
 {
     u32 screenWidth;
     u32 screenHeight;
-    HDC hDC;
+    WindowsSpecific* windowsSpecific;
 };
 
 class GfxDeviceObj
 {
-    public:
+public:
     GfxDeviceObj() = delete;
 
-    GfxDeviceObj(GfxDeviceObj_initStruct const &initStruct);
+    GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct);
     ~GfxDeviceObj();
-
-    int     a;
-    HDC const hDC;
 };
-

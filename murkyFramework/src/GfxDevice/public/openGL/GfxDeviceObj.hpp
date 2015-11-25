@@ -18,7 +18,6 @@ class GfxDeviceObj
     GfxDeviceObj(GfxDeviceObj_initStruct  *const initStruct);
     ~GfxDeviceObj();
 
-    int     a;
     HDC const hDC;
 };
 

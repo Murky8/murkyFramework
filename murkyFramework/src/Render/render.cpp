@@ -31,7 +31,14 @@ namespace Render
     {		
         debugLog << L"RenderHi::initialise" << "\n";				
 
-        //GfxDevice::initialise_device(systemSpecific);
+#ifdef USE_DIRECT3D11
+        GfxDevice::initialise_device(systemSpecific);
+#endif USE_DIRECT3D11
+
+#ifdef USE_DIRECT3D12
+        GfxDevice::initialise_device(systemSpecific);
+#endif USE_DIRECT3D12
+
 
 #ifdef USE_DIRECT3D12
         
