@@ -27,11 +27,11 @@ namespace Render
     // forward declarations
     std::vector<Line_pc>               defaultLines;    
     
-    bool initialise(SystemSpecific *systemSpecific)
+    bool initialise(SystemSpecific* systemSpecific)
     {		
         debugLog << L"RenderHi::initialise" << "\n";				
 
-        GfxDevice::initialise_device(systemSpecific);
+        //GfxDevice::initialise_device(systemSpecific);
 
 #ifdef USE_DIRECT3D12
         

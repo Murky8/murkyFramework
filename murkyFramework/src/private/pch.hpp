@@ -2,6 +2,7 @@
 // 2015 J. Coelho
 
 #pragma message("Compiling precompiled headers.\n")
+#include <sal.h>    // special
 
 #include <combaseapi.h>
 #include <stdlib.h>
@@ -35,7 +36,6 @@
 #include "hidusage.h"
 
 #include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #include <murkyFramework/include/types.hpp>
 #include <murkyFramework/include/common.hpp>
 
@@ -49,30 +49,25 @@
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/vectorMatrix_rotation.hpp>
 
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>   
-#include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/src/private/systemSpecific.hpp>
 #include <murkyFramework/src/private/windows/WindowsSpecific.hpp>
+
+#include <murkyFramework/include/inputDevices.hpp>
+#include <murkyFramework/src/game/public/game.hpp>
+#include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
+#include <murkyFramework/src/GfxDevice/private/textureHelpers.hpp>
+
+// gfxDevice
+#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
+#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>   
+#include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/texture.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
 
-#include <murkyFramework/include/Render/linesShapes.hpp>
-#include <murkyFramework/include/Render/projectionMat.hpp>
-#include <murkyFramework/include/Render/render.hpp>
-#include <murkyFramework/include/Render/textRender.hpp>
-
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-#include <murkyFramework/src/GfxDevice/public/GfxDeviceObj.hpp>
-#include <murkyFramework/src/Render/public/RenderObj.hpp>
-
-#include <murkyFramework/include/inputDevices.hpp>
-#include <murkyFramework/src/game/public/game.hpp>
-#include <murkyFramework/include/appFramework.hpp>
-#include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
-#include <murkyFramework/src/GfxDevice/private/textureHelpers.hpp>
-
 #ifdef USE_OPENGL //todo: fix
+    #include <murkyFramework/src/GfxDevice/public/openGL/GfxDeviceObj.hpp>
     #include <external/glew/include/GL/glew.h> 
     #include <external/glew/include/GL/wglew.h>
     #define GLM_FORCE_RADIANS
@@ -85,11 +80,13 @@
 #endif
 
 #ifdef USE_DIRECT3D11 //todo: fix
+
     #include <d3d11_1.h>
     #include <d3dcompiler.h>
     #include <DirectXColors.h>
     #include <directxcolors.h>
     #include <directxmath.h>
+    #include <murkyFramework/src/GfxDevice/public/d3d11/GfxDeviceObj.hpp>
 
 #endif
 
@@ -105,6 +102,17 @@
     #include <external/d3d12/d3dx12.h>
     #include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
     #include <murkyFramework/include/GfxDevice/d3d12/shaders_d3d12.hpp>
-
+    #include <murkyFramework/src/GfxDevice/public/d3d12/GfxDeviceObj.hpp>
 #endif
+// gfxDevice
 
+// render
+#include <murkyFramework/include/Render/linesShapes.hpp>
+#include <murkyFramework/include/Render/projectionMat.hpp>
+#include <murkyFramework/include/Render/render.hpp>
+#include <murkyFramework/include/Render/textRender.hpp>
+#include <murkyFramework/src/Render/public/RenderObj.hpp>
+// render
+
+
+#include <murkyFramework/include/appFramework.hpp>

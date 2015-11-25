@@ -7,8 +7,8 @@ class RenderObj
 {
 public:
     // construction
-    RenderObj();
-
+    RenderObj() = delete;
+    RenderObj(GfxDeviceObj_initStruct  *const initStruct);
     // destruction
     ~RenderObj();
 

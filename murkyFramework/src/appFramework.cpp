@@ -54,17 +54,19 @@ AppFramework::AppFramework()
 #error WINDOWS only at the moment 
 #endif
 
-    bool res = systemSpecific->createWindow(title.c_str(), screenResX, screenResY);
-    
-
-    // wndProc starts getting called after this point. createWindow creates hWnd
-
+    bool res = systemSpecific->createWindow(title.c_str(), screenResX, screenResY);    
+    // note: wndProc starts getting called after this point. createWindow creates hWnd
     if (!res)
-        triggerBreakpoint(L"createWindow failed");
+        triggerBreakpoint(L"createWindow failed");    
     
+    GfxDeviceObj_initStruct initStruct;
+    initStruct.screenWidth = screenResX;
+    initStruct.screenHeight = screenResY;
+    initStruct.windowsSpecific = windowsSpecific;
     
+    render = new RenderObj(&initStruct);
+
     Render::initialise(systemSpecific); // todo:depreciate
-    render = new RenderObj();
 
     // mouse, keyboard, etc input
     inputDevices = new InputDevices(windowsSpecific); // todo: pass less

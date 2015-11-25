@@ -9,9 +9,6 @@ namespace GfxDevice
 {   
     // data
     mat4    projectionMatrix(unit);    
-    //HDC     hDC;
-    //HGLRC   hRC;
-    //HWND    hWnd;
 
     void onGfxDeviceErrorTriggerBreakpoint()
     {
@@ -56,9 +53,7 @@ namespace GfxDevice
     void drawEnd()
     {
         glFlush();
-        SwapBuffers(
-            (dynamic_cast<WindowsSpecific*>(g_appDebug->systemSpecific))->gethDC()
-            );        
+        SwapBuffers(g_appDebug->render->gfxDevice->hDC);        
     }        
 }
 

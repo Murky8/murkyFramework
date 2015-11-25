@@ -2,14 +2,22 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
+struct GfxDeviceObj_initStruct
+{
+    u32 screenWidth;
+    u32 screenHeight;
+    HDC hDC;
+};
 
 class GfxDeviceObj
 {
     public:
-    GfxDeviceObj();
+    GfxDeviceObj() = delete;
+
+    GfxDeviceObj(GfxDeviceObj_initStruct const &initStruct);
     ~GfxDeviceObj();
 
     int     a;
-    //HDC		hDC = nullptr;
+    HDC const hDC;
 };
 

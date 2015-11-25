@@ -525,8 +525,16 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\private\d3d11\GfxDeviceObj.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\private\d3d12\GfxDeviceObj.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\private\gfxDevice.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\private\GfxDeviceObj.cpp" />
+    <ClCompile Include="..\..\src\GfxDevice\private\openGL\GfxDeviceObj.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\private\textureManager.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\private\vertexBufferHelpers.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\projectionMat_direct3d.cpp">
@@ -647,18 +655,18 @@
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\vertexBufferWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\gfxDevice.h" />
-    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\gfxDeviceObject.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\vertexBufferWrapper.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\private\openGL\gfxDeviceObject.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\vertexBufferWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\textureHelpers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\vertexBufferHelpers.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\public\d3d11\GfxDeviceObj.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\public\d3d12\GfxDeviceObj.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\gfxDevice.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\public\GfxDeviceObj.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\public\openGL\GfxDeviceObj.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\shaderWrappers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\textureManager.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\textureWrappers.hpp" />

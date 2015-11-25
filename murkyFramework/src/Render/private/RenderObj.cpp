@@ -3,9 +3,9 @@
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
 
-RenderObj::RenderObj()
+RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
 {
-    gfxDevice = new GfxDeviceObj();
+    gfxDevice = new GfxDeviceObj(initStruct);
 }
 
 RenderObj::~RenderObj()
