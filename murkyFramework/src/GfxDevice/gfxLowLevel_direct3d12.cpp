@@ -10,8 +10,6 @@ using namespace Microsoft::WRL;
 
 namespace GfxDevice
 {
-
-
     // data
     mat4 projectionMatrix(unit);
 }

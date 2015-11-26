@@ -80,14 +80,17 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
     RECT    screenDims{ 0 };
     GetWindowRect(ws->gethWnd(), &screenDims);
 
-    auto screenWidth = screenDims.right - screenDims.left;
-    auto screenHeight = screenDims.top - screenDims.bottom;
+    //auto screenWidth = screenDims.right - screenDims.left;
+    //auto screenHeight = screenDims.top - screenDims.bottom;
 
-
+    m_scissorRect.left = m_scissorRect.top = 0.f;
     m_scissorRect.right = static_cast<LONG>(screenDims.right);
     m_scissorRect.bottom = static_cast<LONG>(screenDims.bottom);
+    
+    m_viewport.TopLeftX = m_viewport.TopLeftY = 0.f;
     m_viewport.Width = static_cast<float>(screenDims.right);
     m_viewport.Height = static_cast<float>(screenDims.bottom);
+    m_viewport.MinDepth = 0.0f;
     m_viewport.MaxDepth = 1.0f;
 
     // murky
