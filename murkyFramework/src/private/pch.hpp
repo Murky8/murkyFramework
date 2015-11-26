@@ -2,7 +2,7 @@
 // 2015 J. Coelho
 
 #pragma message("Compiling precompiled headers.\n")
-#include <sal.h>    // special
+//#include <sal.h>    // special
 
 #include <combaseapi.h>
 #include <stdlib.h>
@@ -54,21 +54,19 @@
 
 #include <murkyFramework/include/inputDevices.hpp>
 #include <murkyFramework/src/game/public/game.hpp>
-#include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
-#include <murkyFramework/src/GfxDevice/private/textureHelpers.hpp>
 
 // gfxDevice
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 #include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
 #include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>   
 #include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
+#include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
 #include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
 #include <murkyFramework/include/GfxDevice/texture.hpp>
+#include <murkyFramework/src/GfxDevice/private/textureHelpers.hpp>
 #include <murkyFramework/include/GfxDevice/shaders.hpp>
 
 #ifdef USE_OPENGL //todo: fix
-    #include <murkyFramework/src/GfxDevice/public/openGL/GfxDeviceObj.hpp>
-    #include <external/glew/include/GL/glew.h> 
     #include <external/glew/include/GL/wglew.h>
     #define GLM_FORCE_RADIANS
     #include <external/glm/glm.hpp>
@@ -77,6 +75,9 @@
     #include <external/glm/vec4.hpp>
     #include <external/glm/mat4x4.hpp>
     #include <external/glm/gtc/matrix_transform.hpp>
+    #include <external/glew/include/GL/glew.h> 
+    #include <murkyFramework/src/GfxDevice/public/openGL/GfxDeviceObj.hpp>
+    #include <murkyFramework/src/GfxDevice/private/openGL/GfxDeviceObj.hpp>
 #endif
 
 #ifdef USE_DIRECT3D11 //todo: fix
@@ -91,9 +92,9 @@
 #endif
 
 #ifdef USE_DIRECT3D12 //todo: fix
+    #include <d3d12.h>
     #include <d2d1_3.h>
     #include <d3d11on12.h>
-    #include <d3d12.h>
     #include <D3Dcompiler.h>
     #include <directxcolors.h>
     #include <DirectXMath.h>    
@@ -103,6 +104,7 @@
     #include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
     #include <murkyFramework/include/GfxDevice/d3d12/shaders_d3d12.hpp>
     #include <murkyFramework/src/GfxDevice/public/d3d12/GfxDeviceObj.hpp>
+    #include <murkyFramework/src/GfxDevice/private/d3d12/GfxDeviceObj.hpp>
 #endif
 // gfxDevice
 
@@ -113,6 +115,5 @@
 #include <murkyFramework/include/Render/textRender.hpp>
 #include <murkyFramework/src/Render/public/RenderObj.hpp>
 // render
-
 
 #include <murkyFramework/include/appFramework.hpp>

@@ -6,34 +6,17 @@
   
 //http://gamedev.stackexchange.com/questions/14507/loading-a-texture2d-array-in-directx11
 //https://msdn.microsoft.com/en-us/library/windows/desktop/ff476904(v=vs.85).aspx
+#define deviceObj  g_appDebug->render->gfxDevice
 
 namespace GfxDevice
 {    
-    // forward declarations    
-    extern    HWND                    g_hWnd;
-    extern    D3D_DRIVER_TYPE         g_driverType;
-    extern    D3D_FEATURE_LEVEL       g_featureLevel;
-    extern    ID3D11Device*           g_pd3dDevice;
-    extern    ID3D11Device1*          g_pd3dDevice1;
-    extern    ID3D11DeviceContext*    g_pImmediateContext;
-    extern    ID3D11DeviceContext1*   g_pImmediateContext1;
-    extern    IDXGISwapChain*         g_pSwapChain;
-    extern    IDXGISwapChain1*        g_pSwapChain1;
-    extern    ID3D11RenderTargetView* g_pRenderTargetView;
-    extern      ID3D11VertexShader*     g_pVertexShader;
-    extern      ID3D11PixelShader*      g_pPixelShader;
-    extern      ID3D11InputLayout*      g_pVertexLayout_posColTex;
-
-    extern      ID3D11Buffer*           g_pVertexBuffer;  
-    extern      ID3D11SamplerState          *g_pSamplerLinear;    
-
     // functions
     void initilise_textureSystem()
     {
         // Create the sample state
         // this has to be done after pixel shader. todo: CHECK
         HRESULT res;
-        g_pSamplerLinear = nullptr;
+        deviceObj->g_pSamplerLinear = nullptr;
         D3D11_SAMPLER_DESC sampDesc;
         ZeroMemory(&sampDesc, sizeof(sampDesc));
         sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -44,7 +27,7 @@ namespace GfxDevice
         sampDesc.MinLOD = 0;
         sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-        res = g_pd3dDevice->CreateSamplerState(&sampDesc, &g_pSamplerLinear);
+        res = deviceObj->g_pd3dDevice->CreateSamplerState(&sampDesc, &deviceObj->g_pSamplerLinear);
 
         if (FAILED(res))
             triggerBreakpoint();
@@ -53,7 +36,7 @@ namespace GfxDevice
 
     void deinitilise_textureSystem()
     {
-        g_pSamplerLinear->Release();
+        deviceObj->g_pSamplerLinear->Release();
     }   
         
     TextureWrapper   createTextureObject(u8 * in_imageData, u32 width, u32 height)    
@@ -82,7 +65,7 @@ namespace GfxDevice
         subRes.SysMemSlicePitch = subRes.SysMemPitch * height;
 
         ID3D11Texture2D* texture = nullptr;
-        hr = g_pd3dDevice->CreateTexture2D(&desc, &subRes, &texture);
+        hr = deviceObj->g_pd3dDevice->CreateTexture2D(&desc, &subRes, &texture);
 
         if (FAILED(hr))
             triggerBreakpoint();
@@ -95,7 +78,7 @@ namespace GfxDevice
 
 
 		TextureWrapper newTexture;
-        hr = g_pd3dDevice->CreateShaderResourceView(texture,
+        hr = deviceObj->g_pd3dDevice->CreateShaderResourceView(texture,
             &resviewDesc, &newTexture.deviceTexture);
         
         if (FAILED(hr))

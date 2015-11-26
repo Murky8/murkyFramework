@@ -108,9 +108,6 @@
     <ClCompile Include="..\..\src\GfxDevice\shader_direct3d.cpp">
       <Filter>Source Files\GfxDevice\d3d11</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\projectionMat_direct3d.cpp">
-      <Filter>Source Files\GfxDevice\d3d11</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\initDevice_direct3d.cpp">
       <Filter>Source Files\GfxDevice\d3d11</Filter>
     </ClCompile>
@@ -130,9 +127,6 @@
       <Filter>Source Files\GfxDevice\openGL</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\initDevice_openGL.cpp">
-      <Filter>Source Files\GfxDevice\openGL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\gfxLowLevel_openGL.cpp">
       <Filter>Source Files\GfxDevice\openGL</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\vertexBuffer.cpp">
@@ -196,9 +190,6 @@
       <Filter>Source Files\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\mainLoop.cpp">
-      <Filter>Source Files\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\maths.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\randomNumbers.cpp">
@@ -415,6 +406,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\public\d3d12\GfxDeviceObj.hpp">
       <Filter>Source Files\GfxDevice\public\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\openGL\GfxDeviceObj.hpp">
+      <Filter>Source Files\GfxDevice\private\openGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\GfxDeviceObj.hpp">
+      <Filter>Source Files\GfxDevice\private\d3d12</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

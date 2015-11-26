@@ -4,7 +4,9 @@
 #include <murkyFramework/src/private/pch.hpp>
 
 AppFramework::AppFramework()
-{
+{    
+    g_appDebug = this; // warning: see g_aapDebug usage notes: for development only, remove!
+
     qdev::setCurrentDirectoryToAppRoot();
     debug2ResetLogFile();    
     wchar_t wcstring[] = L"Murky8\n";
@@ -62,8 +64,7 @@ AppFramework::AppFramework()
     GfxDeviceObj_initStruct initStruct;
     initStruct.screenWidth = screenResX;
     initStruct.screenHeight = screenResY;
-    initStruct.windowsSpecific = windowsSpecific;
-    
+    initStruct.windowsSpecific = windowsSpecific;    
     render = new RenderObj(&initStruct);
 
     Render::initialise(systemSpecific); // todo:depreciate

@@ -2,14 +2,6 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
-#include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
-#include <murkyFramework/include/vectorMatrix.hpp>
-
-namespace GfxDevice
-{
-}
-
 namespace Render
 {    
     // forward declarations

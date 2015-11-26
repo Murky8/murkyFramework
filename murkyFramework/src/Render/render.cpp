@@ -107,7 +107,8 @@ namespace Render
     void drawAll()
     {
 #ifdef USE_DIRECT3D12
-        GfxDevice::drawBegin();
+        g_appDebug->render->gfxDevice->drawBegin();
+
         static Vert_pct triangleVertices[] =
         {
             { { 0.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 0.f, 0.f } },
@@ -125,9 +126,10 @@ namespace Render
         debugLogScreen << g_appDebug->game->cursorPos << L"\n";
         textRenderer->drawText(debugLogScreen);
 
-        GfxDevice::drawEnd();
+        g_appDebug->render->gfxDevice->drawEnd();
+        
 #else
-        GfxDevice::drawBegin();
+        g_appDebug->render->gfxDevice->drawBegin();
         defaultLines.clear();
         // draw onscreen stuff
         if (murkyFramework::done == false)
@@ -160,7 +162,7 @@ namespace Render
         }
         // teapot
         //defaultLineVB->draw(gdeb_tris.data(), gdeb_tris.size());
-        GfxDevice::drawEnd();
+        g_appDebug->render->gfxDevice->drawEnd();        
 #endif
     }
 

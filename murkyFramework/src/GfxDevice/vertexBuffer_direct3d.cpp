@@ -3,18 +3,11 @@
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
 #ifdef USE_DIRECT3D11
+#define deviceObj  g_appDebug->render->gfxDevice
 
 namespace GfxDevice
 {    
-    // forward declarations
-    extern ID3D11Device         *g_pd3dDevice;
-    extern ID3D11Buffer         *g_pVertexBuffer;
-    extern ID3D11DeviceContext  *g_pImmediateContext;
-    extern ID3D11InputLayout    *g_pVertexLayout_posColTex;
-    extern ID3D11InputLayout    *g_pVertexLayout_posCol;    
-    extern  ID3D11SamplerState  *g_pSamplerLinear;  
-    extern  ID3D11Buffer        *g_pCBChangesEveryFrame;
-          
+         
     // constructor	    
 	VertexBufferWrapper::VertexBufferWrapper(
 		VertexType vertexType, PrimativeType primativeType,
@@ -34,7 +27,7 @@ namespace GfxDevice
         bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
         bd.MiscFlags = 0;
         
-        HRESULT hr = g_pd3dDevice->CreateBuffer(&bd, NULL, &deviceBuffer);
+        HRESULT hr = deviceObj->g_pd3dDevice->CreateBuffer(&bd, NULL, &deviceBuffer);
         if (FAILED(hr))
             triggerBreakpoint();
     }
@@ -62,10 +55,10 @@ namespace GfxDevice
         switch (vertexType)
         {
         case VertexType::posCol:            
-            g_pImmediateContext->IASetInputLayout(g_pVertexLayout_posCol);            
+            deviceObj->g_pImmediateContext->IASetInputLayout(deviceObj->g_pVertexLayout_posCol);
             break;
         case VertexType::posColTex:            
-            g_pImmediateContext->IASetInputLayout(g_pVertexLayout_posColTex);
+            deviceObj->g_pImmediateContext->IASetInputLayout(deviceObj->g_pVertexLayout_posColTex);
             break;
         default:// Catch usage of unimplemented			
             sizeVertex = 0;
@@ -91,30 +84,30 @@ namespace GfxDevice
 
 
         D3D11_MAPPED_SUBRESOURCE subResource;
-        g_pImmediateContext->Map(deviceBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &subResource);
+        deviceObj->g_pImmediateContext->Map(deviceBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &subResource);
         //memcpy(ms.pData, verts, sizeof(verts));
         memcpy(subResource.pData, vertexData, nPrimatives*nVerticiesPerPrimative*sizeVertex);
-        g_pImmediateContext->Unmap(deviceBuffer, NULL);
+        deviceObj->g_pImmediateContext->Unmap(deviceBuffer, NULL);
 
         UINT stride = sizeVertex;
         UINT offset = 0;
-        g_pImmediateContext->IASetVertexBuffers(0, 1, &deviceBuffer, &stride, &offset);
-        g_pImmediateContext->IASetPrimitiveTopology(primTop);
+        deviceObj->g_pImmediateContext->IASetVertexBuffers(0, 1, &deviceBuffer, &stride, &offset);
+        deviceObj->g_pImmediateContext->IASetPrimitiveTopology(primTop);
 
         // fill vb
 
         //g_pVertexBuffer
         // vb
-        g_pImmediateContext->VSSetShader(shaderId.pVertexShader, nullptr, 0);
-        g_pImmediateContext->PSSetShader(shaderId.pPixelShader, nullptr, 0);
-        g_pImmediateContext->PSSetShaderResources(
+        deviceObj->g_pImmediateContext->VSSetShader(shaderId.pVertexShader, nullptr, 0);
+        deviceObj->g_pImmediateContext->PSSetShader(shaderId.pPixelShader, nullptr, 0);
+        deviceObj->g_pImmediateContext->PSSetShaderResources(
             0,
             1,
             (ID3D11ShaderResourceView * const *)&(texture.deviceTexture));
-        g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBChangesEveryFrame);
-        g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
+        deviceObj->g_pImmediateContext->VSSetConstantBuffers(0, 1, &deviceObj->g_pCBChangesEveryFrame);
+        deviceObj->g_pImmediateContext->PSSetSamplers(0, 1, &deviceObj->g_pSamplerLinear);
 
-        g_pImmediateContext->Draw(nPrimatives * nVerticiesPerPrimative, 0);
+        deviceObj->g_pImmediateContext->Draw(nPrimatives * nVerticiesPerPrimative, 0);
     } 
 }
 #endif // USE_DIRECT3D11

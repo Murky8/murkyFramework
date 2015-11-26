@@ -1,22 +1,12 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-#include <murkyFramework/include/GfxDevice/texture.hpp>
-#include <external/lodepng.h>
 
 namespace GfxDevice
 {
     // forward declarations
     TextureWrapper   createTextureObject(u8 * in_imageData, u32 width, u32 height);
-
-    // internal forward declarations 
-    bool loadTextureDataFromFile(std::vector<u8> &textureRawOut, const std::wstring &dirName,
-        const std::wstring &fileName, const std::wstring &extensionName,
-        u32 &widthOut, u32 &heightOut);
-
+      
     // functions
 	TextureWrapper   createTextureObjectFromFile(const std::wstring &dirName,
         const std::wstring &fileName, const std::wstring &extensionName)

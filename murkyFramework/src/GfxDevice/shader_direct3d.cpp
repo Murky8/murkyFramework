@@ -3,32 +3,15 @@
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
 #ifdef USE_DIRECT3D11
+#define deviceObj  g_appDebug->render->gfxDevice
 
 namespace GfxDevice
 {
-    using namespace DirectX;
-    // Forward declarations    
-    extern  D3D_DRIVER_TYPE         g_driverType;
-    extern  D3D_FEATURE_LEVEL       g_featureLevel;    
-    extern  HWND                    g_hWnd;
-    extern  ID3D11Device*           g_pd3dDevice;
-    extern  ID3D11Device1*          g_pd3dDevice1;
-    extern  ID3D11DeviceContext*    g_pImmediateContext;
-    extern  ID3D11DeviceContext1*   g_pImmediateContext1;
-    extern  ID3D11RenderTargetView* g_pRenderTargetView;
-    extern  IDXGISwapChain*         g_pSwapChain;
-    extern  IDXGISwapChain1*        g_pSwapChain1;
-    
-    extern  ID3D11InputLayout*      g_pVertexLayout_posColTex;
-    extern  ID3D11InputLayout*      g_pVertexLayout_posCol;
-
-    extern  ID3D11Buffer*           g_pVertexBuffer;
-    extern  ID3D11Buffer            *g_pCBChangesEveryFrame;
-    extern  ID3D11SamplerState       *g_pSamplerLinear;        	
+    using namespace DirectX;     	
 
     void setUniform_projectionMatrix(const float *pMat)
     {   
-        g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame, 0, nullptr, pMat, 0, 0);
+        deviceObj->g_pImmediateContext->UpdateSubresource(deviceObj->g_pCBChangesEveryFrame, 0, nullptr, pMat, 0, 0);
     }
 
     HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
@@ -84,7 +67,7 @@ namespace GfxDevice
         }
 
         // Create the vertex shader
-        hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &pVertexShader);
+        hr = deviceObj->g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &pVertexShader);
         if (FAILED(hr))
         {
             pVSBlob->Release();
@@ -101,9 +84,9 @@ namespace GfxDevice
         UINT numElements = ARRAYSIZE(layout);
 
         // Create the input layout
-        g_pVertexLayout_posColTex = NULL;
-        hr = g_pd3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
-            pVSBlob->GetBufferSize(), &g_pVertexLayout_posColTex);
+        deviceObj->g_pVertexLayout_posColTex = NULL;
+        hr = deviceObj->g_pd3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
+            pVSBlob->GetBufferSize(), &deviceObj->g_pVertexLayout_posColTex);
         pVSBlob->Release();
         if (FAILED(hr))
             triggerBreakpoint();
@@ -118,7 +101,7 @@ namespace GfxDevice
         }
 
         // Create the pixel shader
-        hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &pPixelShader);
+        hr = deviceObj->g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &pPixelShader);
         pPSBlob->Release();
         if (FAILED(hr))
             triggerBreakpoint();
@@ -138,7 +121,7 @@ namespace GfxDevice
             }
 
             // Create the vertex shader
-            hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &pVertexShader);
+            hr = deviceObj->g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &pVertexShader);
             if (FAILED(hr))
             {
                 pVSBlob->Release();
@@ -154,9 +137,9 @@ namespace GfxDevice
             UINT numElements = ARRAYSIZE(layout);
 
             // Create the input layout
-            g_pVertexLayout_posCol = NULL;
-            hr = g_pd3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
-                pVSBlob->GetBufferSize(), &g_pVertexLayout_posCol);
+            deviceObj->g_pVertexLayout_posCol = NULL;
+            hr = deviceObj->g_pd3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
+                pVSBlob->GetBufferSize(), &deviceObj->g_pVertexLayout_posCol);
             pVSBlob->Release();
             if (FAILED(hr))
                 triggerBreakpoint();
@@ -171,7 +154,7 @@ namespace GfxDevice
             }
 
             // Create the pixel shader
-            hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &pPixelShader);
+            hr = deviceObj->g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &pPixelShader);
             pPSBlob->Release();
             if (FAILED(hr))
                 triggerBreakpoint();
@@ -199,7 +182,7 @@ namespace GfxDevice
             //D3D11_SUBRESOURCE_DATA InitData;
             //ZeroMemory(&InitData, sizeof(InitData));
             //InitData.pSysMem = vertices;
-            hr = g_pd3dDevice->CreateBuffer(&bd, NULL, &g_pVertexBuffer);
+            hr = deviceObj->g_pd3dDevice->CreateBuffer(&bd, NULL, &deviceObj->g_pVertexBuffer);
             if (FAILED(hr))
                 triggerBreakpoint();
         }        // Set vertex buffer
@@ -211,7 +194,7 @@ namespace GfxDevice
             bd.ByteWidth = sizeof(mat4);
             bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
             bd.CPUAccessFlags = 0;
-            hr = g_pd3dDevice->CreateBuffer(&bd, nullptr, &g_pCBChangesEveryFrame);
+            hr = deviceObj->g_pd3dDevice->CreateBuffer(&bd, nullptr, &deviceObj->g_pCBChangesEveryFrame);
             if (FAILED(hr))
                 triggerBreakpoint();
         }        

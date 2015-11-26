@@ -3,9 +3,6 @@
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
 
-#include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/readFBX.hpp>
-
 namespace murkyFramework
 {
 //http://www.cheatography.com/davechild/cheat-sheets/regular-expressions/

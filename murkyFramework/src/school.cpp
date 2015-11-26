@@ -1,12 +1,5 @@
 #include <murkyFramework/src/private/pch.hpp>
 
-//#include <string>
-//#include <iostream>
-//#include <utility>
-//#include <murkyFramework/include/debugUtils.hpp>
-//#include <murkyFramework/include/types.hpp>
-//#include <murkyFramework/include/vectorMatrix.hpp>
-//#include <memory>
 
 int idProvider = 0;
 struct Zoof
@@ -52,9 +45,20 @@ struct Zoof
         debugLog << id << L": destructor\n";
 
     }
+
+    struct Poof
+    {
+        Poof()
+        {
+
+        }
+    };
 };
 
 typedef std::unique_ptr<Zoof> upMoof;
+
+
+
 void skool()
 {
     {

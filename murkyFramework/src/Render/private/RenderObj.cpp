@@ -5,6 +5,7 @@
 
 RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
 {
+    g_appDebug->render = this; // warning: see g_aapDebug usage notes: for development only, remove!
     gfxDevice = new GfxDeviceObj(initStruct);
 }
 

@@ -35,4 +35,11 @@ private:
 };
 
 // global used only for debuggering and developing purposes.
+class AppFramework_pointer
+{
+    u32 nReads = 0;
+    u32 nWrites = 0;
+
+};
+
 extern AppFramework *g_appDebug;

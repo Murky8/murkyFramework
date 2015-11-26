@@ -19,5 +19,8 @@ class GfxDeviceObj
     ~GfxDeviceObj();
 
     HDC const hDC;
+
+    void drawBegin();
+    void drawEnd();
 };
 

@@ -506,10 +506,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\gfxLowLevel_openGL.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\gfxPrimativeTypes.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\initDevice_direct3d.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|Win32'">true</ExcludedFromBuild>
@@ -546,10 +542,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\private\textureManager.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\private\vertexBufferHelpers.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\projectionMat_direct3d.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\projectionMat_openGL.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|x64'">true</ExcludedFromBuild>
@@ -601,7 +593,6 @@
     <ClCompile Include="..\..\src\inputDevices.cpp" />
     <ClCompile Include="..\..\src\loadSaveFile.cpp" />
     <ClCompile Include="..\..\src\mainLoop.cpp" />
-    <ClCompile Include="..\..\src\maths.cpp" />
     <ClCompile Include="..\..\src\private\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|Win32'">Create</PrecompiledHeader>
@@ -663,9 +654,11 @@
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\vertexBufferWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\gfxDevice.h" />
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d12\GfxDeviceObj.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\vertexBufferWrapper.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\openGL\GfxDeviceObj.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\vertexBufferWrapper.hpp" />
