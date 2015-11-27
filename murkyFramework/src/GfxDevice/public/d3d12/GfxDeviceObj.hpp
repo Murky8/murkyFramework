@@ -25,7 +25,7 @@ public:
     D3D12_RECT					m_scissorRect;
     ComPtr<IDXGISwapChain3>		m_swapChain;
     ComPtr<ID3D12Device>		m_device;
-    static const UINT					FrameCount = 2; // todo: static?!
+    enum { FrameCount = 2 };
     ComPtr<ID3D12Resource>		m_renderTargets[FrameCount];
     ComPtr<ID3D12CommandAllocator>	m_commandAllocator;
     ComPtr<ID3D12CommandQueue>		m_commandQueue;
@@ -47,4 +47,7 @@ public:
     HANDLE m_fenceEvent;
     ComPtr<ID3D12Fence> m_fence;
     UINT64 m_fenceValue;
+
+    ComPtr<ID3D12Resource> m_constantBufferGS;  // projmat
+    UINT8* m_pConstantBufferGSData;  // projmat
 };

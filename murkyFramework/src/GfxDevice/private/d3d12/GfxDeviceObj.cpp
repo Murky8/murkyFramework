@@ -30,6 +30,14 @@ void GetHardwareAdapter(_In_ IDXGIFactory4* pFactory, _Outptr_result_maybenull_ 
     *ppAdapter = pAdapter;
 }
 
+enum RootParameters : u32
+{
+    RootParameterCB = 0,
+    RootParameterSRV,
+    RootParameterUAV,
+    RootParametersCount
+};
+
 GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
 {
 
@@ -165,6 +173,8 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
     // HELP0
     CD3DX12_DESCRIPTOR_RANGE ranges[1];
     ranges[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+
+    void D3D12nBodyGravity::LoadAssets()
 
     CD3DX12_ROOT_PARAMETER rootParameters[1];
     rootParameters[0].InitAsDescriptorTable(1, &ranges[0], D3D12_SHADER_VISIBILITY_PIXEL);
@@ -511,3 +521,28 @@ void GfxDeviceObj::WaitForPreviousFrame()
 
     m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
 }
+
+/*
+void WaitForCommandQueueFence()
+{
+    //reset the fence signal
+    mFence->Signal(0);
+    //set the event to be fired once the signal value is 1
+    mFence->SetEventOnCompletion(1, mHandle);
+
+    //after the command list has executed, tell the GPU to signal the fence
+    mCommandQueue->Signal(mFence.Get(), 1);
+
+    //wait for the event to be fired by the fence
+    WaitForSingleObject(mHandle, INFINITE);
+}
+
+
+// this is the function that cleans up Direct3D and COM
+void CleanD3D(void)
+{
+    //close the event handle so that mFence can actually release()
+    CloseHandle(mHandle);
+}
+
+*/
