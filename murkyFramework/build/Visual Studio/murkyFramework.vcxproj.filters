@@ -398,20 +398,17 @@
     <ClInclude Include="..\..\src\GfxDevice\private\vertexBufferHelpers.hpp">
       <Filter>Source Files\GfxDevice</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\public\openGL\GfxDeviceObj.hpp">
-      <Filter>Source Files\GfxDevice\public\openGL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\public\d3d11\GfxDeviceObj.hpp">
-      <Filter>Source Files\GfxDevice\public\d3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\public\d3d12\GfxDeviceObj.hpp">
-      <Filter>Source Files\GfxDevice\public\d3d12</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\GfxDeviceObj.hpp">
       <Filter>Source Files\GfxDevice\private\openGL</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\GfxDeviceObj.hpp">
       <Filter>Source Files\GfxDevice\private\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d11\GfxDeviceObj.hpp">
+      <Filter>Source Files\GfxDevice\private\d3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\private\GfxDeviceObjCommon.hpp">
+      <Filter>Source Files\GfxDevice\private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

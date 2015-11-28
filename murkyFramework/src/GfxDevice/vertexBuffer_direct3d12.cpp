@@ -97,7 +97,7 @@ namespace GfxDevice
         // set current texture
         CD3DX12_GPU_DESCRIPTOR_HANDLE srvGPUHandle(deviceObj->m_srvHeap->GetGPUDescriptorHandleForHeapStart());
         srvGPUHandle.Offset(this->texture.iTexture, deviceObj->m_srvDescriptorSize);
-        deviceObj->g_commandList->SetGraphicsRootDescriptorTable(0, srvGPUHandle);
+        deviceObj->g_commandList->SetGraphicsRootDescriptorTable(RootParameterTexture, srvGPUHandle);
 
         deviceObj->g_commandList->IASetPrimitiveTopology(primTop);
         deviceObj->g_commandList->IASetVertexBuffers(0, 1, &(m_vertexBufferView));

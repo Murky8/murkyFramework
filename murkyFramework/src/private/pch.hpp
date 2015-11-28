@@ -75,8 +75,7 @@
     #include <external/glm/vec4.hpp>
     #include <external/glm/mat4x4.hpp>
     #include <external/glm/gtc/matrix_transform.hpp>
-    #include <external/glew/include/GL/glew.h> 
-    #include <murkyFramework/src/GfxDevice/public/openGL/GfxDeviceObj.hpp>
+    #include <external/glew/include/GL/glew.h>     
     #include <murkyFramework/src/GfxDevice/private/openGL/GfxDeviceObj.hpp>
 #endif
 
@@ -87,7 +86,7 @@
     #include <DirectXColors.h>
     #include <directxcolors.h>
     #include <directxmath.h>
-    #include <murkyFramework/src/GfxDevice/public/d3d11/GfxDeviceObj.hpp>
+    #include <murkyFramework/src/GfxDevice/private/d3d11/GfxDeviceObj.hpp>
 
 #endif
 
@@ -103,7 +102,6 @@
     #include <external/d3d12/d3dx12.h>
     #include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
     #include <murkyFramework/include/GfxDevice/d3d12/shaders_d3d12.hpp>
-    #include <murkyFramework/src/GfxDevice/public/d3d12/GfxDeviceObj.hpp>
     #include <murkyFramework/src/GfxDevice/private/d3d12/GfxDeviceObj.hpp>
 #endif
 // gfxDevice

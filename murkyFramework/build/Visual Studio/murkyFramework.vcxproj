@@ -650,6 +650,7 @@
     <ClInclude Include="..\..\include\vectorMatrix_rotation.hpp" />
     <ClInclude Include="..\..\include\version.hpp" />
     <ClInclude Include="..\..\src\Game\public\Game.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\d3d11\GfxDeviceObj.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\vertexBufferWrapper.hpp" />
@@ -658,16 +659,14 @@
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\vertexBufferWrapper.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\private\GfxDeviceObjCommon.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\GfxDeviceObj.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\vertexBufferWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\textureHelpers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\vertexBufferHelpers.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\public\d3d11\GfxDeviceObj.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\public\d3d12\GfxDeviceObj.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\gfxDevice.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\public\openGL\GfxDeviceObj.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\shaderWrappers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\textureManager.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\textureWrappers.hpp" />

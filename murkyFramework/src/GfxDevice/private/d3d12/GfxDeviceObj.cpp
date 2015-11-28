@@ -3,6 +3,7 @@
 // Platform: C++11. openGL4
 #include <murkyFramework/src/private/pch.hpp>
 
+
 void GetHardwareAdapter(_In_ IDXGIFactory4* pFactory, _Outptr_result_maybenull_ IDXGIAdapter1** ppAdapter)
 {
     IDXGIAdapter1* pAdapter = nullptr;
@@ -29,14 +30,6 @@ void GetHardwareAdapter(_In_ IDXGIFactory4* pFactory, _Outptr_result_maybenull_ 
     }
     *ppAdapter = pAdapter;
 }
-
-enum RootParameters : u32
-{
-    RootParameterCB = 0,
-    RootParameterSRV,
-    RootParameterUAV,
-    RootParametersCount
-};
 
 GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
 {
@@ -168,16 +161,31 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
     }
 
     ThrowIfFailed(m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&m_commandAllocator)));
+    
+    // create constatnt buffer stuff
+    const UINT constantBufferGSSize = sizeof(ConstantBufferGS) * FrameCount;
+
+    ThrowIfFailed(m_device->CreateCommittedResource(
+        &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+        D3D12_HEAP_FLAG_NONE,
+        &CD3DX12_RESOURCE_DESC::Buffer(constantBufferGSSize),
+        D3D12_RESOURCE_STATE_GENERIC_READ,
+        nullptr,
+        IID_PPV_ARGS(&m_constantBufferGS)
+        ));
+
+    ThrowIfFailed(m_constantBufferGS->Map(0, nullptr, reinterpret_cast<void**>(&m_pConstantBufferGSData)));
+    ZeroMemory(m_pConstantBufferGSData, constantBufferGSSize);
+    // create constatnt buffer stuff
 
     // Create a root signature.
     // HELP0
     CD3DX12_DESCRIPTOR_RANGE ranges[1];
     ranges[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
-
-    void D3D12nBodyGravity::LoadAssets()
-
-    CD3DX12_ROOT_PARAMETER rootParameters[1];
-    rootParameters[0].InitAsDescriptorTable(1, &ranges[0], D3D12_SHADER_VISIBILITY_PIXEL);
+     
+    CD3DX12_ROOT_PARAMETER rootParameters[RootParametersCount];
+    rootParameters[RootParameterTexture].InitAsDescriptorTable(1, &ranges[0], D3D12_SHADER_VISIBILITY_PIXEL);
+    rootParameters[RootParameterConstantBuf].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
 
     D3D12_STATIC_SAMPLER_DESC sampler = {};
     sampler.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
@@ -446,10 +454,21 @@ void GfxDeviceObj::drawBegin()
     // Command list allocators can only be reset when the associated 
     // command lists have finished execution on the GPU; apps should use 
     // fences to determine GPU execution progress.
-    ThrowIfFailed(m_commandAllocator->Reset());
-
     HRESULT hr;
+    
+    {
+    ConstantBufferGS constantBufferGS = {};
+    constantBufferGS.worldViewProjection = XMMatrixIdentity();
+    constantBufferGS.worldViewProjection.r[0].m128_f32[0] = 2.0f;
 
+        //XMMatrixMultiply(m_camera.GetViewMatrix(), m_camera.GetProjectionMatrix(0.8f, m_aspectRatio, 1.0f, 5000.0f));
+    //constantBufferGS.inverseView = XMMatrixInverse(nullptr, m_camera.GetViewMatrix());
+
+    UINT8* destination = m_pConstantBufferGSData + sizeof(ConstantBufferGS) * m_frameIndex;
+    memcpy(destination, &constantBufferGS, sizeof(ConstantBufferGS));
+    }
+
+        ThrowIfFailed(m_commandAllocator->Reset());
     // However, when ExecuteCommandList() is called on a particular command 
     // list, that command list can then be reset at any time and must be before 
     // re-recording.
@@ -458,6 +477,7 @@ void GfxDeviceObj::drawBegin()
     // Set necessary state.
     g_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
 
+    g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, m_constantBufferGS->GetGPUVirtualAddress() + m_frameIndex * sizeof(ConstantBufferGS));
 
     ID3D12DescriptorHeap* ppHeaps[] = { m_srvHeap.Get() };
     g_commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
