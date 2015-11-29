@@ -19,7 +19,6 @@
 
 namespace GfxDevice
 {        		
-
     using namespace DirectX;
     using namespace Microsoft::WRL;
 

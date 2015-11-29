@@ -16,11 +16,7 @@ enum RootParameters : u32
 //{
     using namespace DirectX;
     using namespace Microsoft::WRL;
-
-
-    // forward declarations
-    void WaitForPreviousFrame();
-
+    
     struct ConstantBufferGS
     {
         XMMATRIX worldViewProjection;
@@ -57,6 +53,7 @@ enum RootParameters : u32
 
         void drawBegin();
         void drawEnd();
+        void waitForGPUFinish();
         void WaitForPreviousFrame();        
 
         mat4    projectionMat{ unit };

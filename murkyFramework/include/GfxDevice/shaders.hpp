@@ -10,6 +10,5 @@ namespace GfxDevice
         extern	u32	uniformHandle_projectionMatrix;        
         void	initialise();
         void	deinitialise();
-    }
-    void setUniform_projectionMatrix(const float *pMat);
+    }    
 }

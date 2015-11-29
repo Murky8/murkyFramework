@@ -3,6 +3,23 @@
 // Platform: C++11. openGL4
 #include <murkyFramework/src/private/pch.hpp>
 
+void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)
+{
+    // note: OGL, this accepts row-major, pre-multiplying of verts and post-multi in vertex shader.
+    // ie no need to transpose if post-multi (Mv) in vertex shader.
+
+    // note:: eeek!! 
+    glUseProgram(GfxDevice::shaderManager.get(L"posColTex").value);
+    glUniformMatrix4fv(GfxDevice::Shaders::uniformHandle_projectionMatrix, 1, false, pMat);
+    glUseProgram(0);
+
+    glUseProgram(GfxDevice::shaderManager.get(L"posCol").value);
+    glUniformMatrix4fv(GfxDevice::Shaders::uniformHandle_projectionMatrix, 1, false, pMat);
+    glUseProgram(0);
+
+    GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
+}
+
 GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct) :
     hDC(initStruct->windowsSpecific->gethDC())
 {

@@ -3,6 +3,11 @@
 // Platform: C++11. openGL4
 #include <murkyFramework/src/private/pch.hpp>
 
+void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)
+{
+    g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame, 0, nullptr, pMat, 0, 0);
+}
+
 GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
 {
     g_appDebug->render->gfxDevice = this; // warning: see g_aapDebug usage notes: for development only, remove!

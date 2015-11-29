@@ -66,7 +66,7 @@ namespace Render
         
         GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
             L"data", L"font", L"png");
-        GfxDevice::textureManager.add(L"font", newt);
+        GfxDevice::textureManager.add(L"font 4c", newt);
         
         GfxDevice::TextureWrapper newt2 = GfxDevice::createTestTextureObject();
         GfxDevice::textureManager.add(L"test", newt2);
@@ -84,8 +84,7 @@ namespace Render
             GfxDevice::PrimativeType::line,
             GfxDevice::shaderManager.get(L"posCol"),
             newt2, 16*1024));
-
-        //textRenderer = new TextRender(textureManager->getTextureByName(L"font"));
+        
         textRenderer = new TextRender(newt);
         
 #endif          
@@ -111,37 +110,13 @@ namespace Render
 
     void drawAll()
     {
-#ifdef dUSE_DIRECT3D12
         g_appDebug->render->gfxDevice->drawBegin();
 
-        static Vert_pct triangleVertices[] =
-        {
-            { { 0.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 0.f, 0.f } },
-            { { 0.0f, 0.5f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.f, 1.f } },
-            { { 0.5f, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 1.f, 0.f } },
-
-            { { 0.5f, 0.5f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.f, 1.f } },
-            { { 0.5f, 0.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 1.f, 0.f } },
-            { { 0.0f, 0.5f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.f, 1.f } }
-        };
-
-        GfxDevice::vertexBufferManager.get(L"tris")
-            .draw(reinterpret_cast<void*>(triangleVertices), 2);
-
-        debugLogScreen << g_appDebug->game->cursorPos << L"\n";
-        textRenderer->drawText(debugLogScreen);
-
-        g_appDebug->render->gfxDevice->drawEnd();
-        
-#endif
-
-#if 1
         mat4 cam = makeCameraMatrix(g_appDebug->game->cursorPos, g_appDebug->game->cursorOri);
         mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
         mat4 proj = cam*persp;
         g_appDebug->render->gfxDevice->setUniform_projectionMatrix(&proj.v[0][0]);
-#endif
-        g_appDebug->render->gfxDevice->drawBegin();
+
         defaultLines.clear();
         // draw onscreen stuff
         if (murkyFramework::done == false)
@@ -151,19 +126,19 @@ namespace Render
 
         projectionMatrix = makeProjectionMatrix_ortho(
             0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
-        //GfxDevice::setUniform_projectionMatrix(&projectionMatrix.v[0][0]);
-        //g_appDebug->render->gfxDevice->setUniform_projectionMatrix(&projectionMatrix.v[0][0]);
-        textRenderer->drawText(debugLogScreen);
-        // draw onscreen stuff
 
-#if 1
+        g_appDebug->render->gfxDevice->setUniform_projectionMatrix(&projectionMatrix.v[0][0]);
+        textRenderer->drawText(debugLogScreen);
+        // draw onscreen stuff        
+
         if (murkyFramework::done == true)
         {
         // teapot
         mat4 cam = makeCameraMatrix(g_appDebug->game->cursorPos, g_appDebug->game->cursorOri);
         mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
         mat4 proj = cam*persp;
-        //GfxDevice::setUniform_projectionMatrix(&proj.v[0][0]);
+
+        g_appDebug->render->gfxDevice->setUniform_projectionMatrix(&proj.v[0][0]);
 
             if (1)
             {
@@ -174,9 +149,8 @@ namespace Render
                 GfxDevice::vertexBufferManager.get(L"lines").draw(defaultLines.data(), defaultLines.size());
             }
         }
-#endif
         // teapot
-        //defaultLineVB->draw(gdeb_tris.data(), gdeb_tris.size());
+        
         g_appDebug->render->gfxDevice->drawEnd();        
 
     }

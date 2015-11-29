@@ -9,11 +9,7 @@ namespace GfxDevice
 {
     using namespace DirectX;     	
 
-    void setUniform_projectionMatrix(const float *pMat)
-    {   
-        deviceObj->g_pImmediateContext->UpdateSubresource(deviceObj->g_pCBChangesEveryFrame, 0, nullptr, pMat, 0, 0);
-    }
-
+    
     HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
     {
         HRESULT hr = S_OK;

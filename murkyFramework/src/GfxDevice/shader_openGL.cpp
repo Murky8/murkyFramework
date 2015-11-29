@@ -33,24 +33,7 @@ namespace GfxDevice
         if (a == GL_INVALID_OPERATION)triggerBreakpoint();
         if (a == GL_INVALID_OPERATION)triggerBreakpoint();
         return true;
-    }
-    
-    void setUniform_projectionMatrix(const float *pMat)
-    {
-        // note: OGL, this accepts row-major, pre-multiplying of verts and post-multi in vertex shader.
-        // ie no need to transpose if post-multi (Mv) in vertex shader.
-
-        // note:: eeek!! 
-        glUseProgram(shaderManager.get( L"posColTex").value);
-        glUniformMatrix4fv(Shaders::uniformHandle_projectionMatrix, 1, false, pMat);		
-        glUseProgram(0);
-
-        glUseProgram(shaderManager.get(L"posCol").value);
-        glUniformMatrix4fv(Shaders::uniformHandle_projectionMatrix, 1, false, pMat);
-        glUseProgram(0);
-
-        GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-    }
+    }       
 
     void	Shaders::initialise()
     {

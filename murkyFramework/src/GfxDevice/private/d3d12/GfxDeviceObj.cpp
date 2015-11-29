@@ -7,6 +7,15 @@
 void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)
 {
     *((mat4*)&this->projectionMat) = *(mat4*)pMat;    
+    {// todo: temp
+        ConstantBufferGS constantBufferGS = {};
+
+        *((mat4*)&constantBufferGS.worldViewProjection) = this->projectionMat;
+
+        UINT8* destination = m_pConstantBufferGSData +sizeof(ConstantBufferGS) * m_frameIndex;
+        memcpy(destination, &constantBufferGS, sizeof(ConstantBufferGS));
+    }
+    g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, m_constantBufferGS->GetGPUVirtualAddress() + m_frameIndex * sizeof(ConstantBufferGS));
 }
 
 void GetHardwareAdapter(_In_ IDXGIFactory4* pFactory, _Outptr_result_maybenull_ IDXGIAdapter1** ppAdapter)
@@ -495,22 +504,8 @@ void GfxDeviceObj::drawBegin()
     // command lists have finished execution on the GPU; apps should use 
     // fences to determine GPU execution progress.
     HRESULT hr;
-    
-    {// todo: temp
-    ConstantBufferGS constantBufferGS = {};
-    constantBufferGS.worldViewProjection = XMMatrixIdentity();
-    constantBufferGS.worldViewProjection.r[0].m128_f32[0]=2.f;
-    
-    *((mat4*)&constantBufferGS.worldViewProjection) = this->projectionMat;
-
-        //XMMatrixMultiply(m_camera.GetViewMatrix(), m_camera.GetProjectionMatrix(0.8f, m_aspectRatio, 1.0f, 5000.0f));
-    //constantBufferGS.inverseView = XMMatrixInverse(nullptr, m_camera.GetViewMatrix());
-
-    UINT8* destination = m_pConstantBufferGSData + sizeof(ConstantBufferGS) * m_frameIndex;
-    memcpy(destination, &constantBufferGS, sizeof(ConstantBufferGS));
-    }
-
-        ThrowIfFailed(m_commandAllocator->Reset());
+      
+     ThrowIfFailed(m_commandAllocator->Reset());
     // However, when ExecuteCommandList() is called on a particular command 
     // list, that command list can then be reset at any time and must be before 
     // re-recording.
@@ -518,9 +513,7 @@ void GfxDeviceObj::drawBegin()
 
     // Set necessary state.
     g_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
-
-    g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, m_constantBufferGS->GetGPUVirtualAddress() + m_frameIndex * sizeof(ConstantBufferGS));
-
+//    g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, m_constantBufferGS->GetGPUVirtualAddress() + m_frameIndex * sizeof(ConstantBufferGS));
     ID3D12DescriptorHeap* ppHeaps[] = { m_srvHeap.Get() };
     g_commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
@@ -539,12 +532,13 @@ void GfxDeviceObj::drawBegin()
     CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart(), m_frameIndex, m_rtvDescriptorSize);
     g_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
 
-    static auto nonk = 0.f;
-    nonk += 0.01f;
-    if (nonk > 1.f)nonk = 0.f;
+    //static auto nonk = 0.f;
+    //nonk += 0.01f;
+    //if (nonk > 1.f)nonk = 0.f;    
+    //const float clearColor[] = { nonk, 0.2f, 0.4f, 1.0f };
+    
+    const float clearColor[] = { 0.f, 0.f, 0.f, 1.0f };
 
-
-    const float clearColor[] = { nonk, 0.2f, 0.4f, 1.0f };
     g_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 }
 
@@ -560,6 +554,20 @@ void GfxDeviceObj::drawEnd()
     // Present the frame.
     ThrowIfFailed(m_swapChain->Present(1, 0));
     WaitForPreviousFrame();
+}
+
+void GfxDeviceObj::waitForGPUFinish()
+{
+    //reset the fence signal
+    m_fence.Get()->Signal(0);
+    //set the event to be fired once the signal value is 1
+    m_fence->SetEventOnCompletion(1, m_fenceEvent);
+
+    //after the command list has executed, tell the GPU to signal the fence
+    m_commandQueue->Signal(m_fence.Get(), 1);
+
+    //wait for the event to be fired by the fence
+    WaitForSingleObject(m_fenceEvent, INFINITE);
 }
 
 void GfxDeviceObj::WaitForPreviousFrame()
