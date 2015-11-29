@@ -659,7 +659,6 @@
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\d3d12\vertexBufferWrapper.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\private\GfxDeviceObjCommon.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\GfxDeviceObj.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\shaderWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\private\openGL\textureWrapper.hpp" />

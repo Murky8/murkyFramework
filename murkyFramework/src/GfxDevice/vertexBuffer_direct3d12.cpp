@@ -35,7 +35,7 @@ namespace GfxDevice
         HRESULT hr;
         u32 sizeVertex = getVertexSizeInBytes(vertexType);
                 
-        int sizeBytes = capacity*sizeof(Vert_pct);
+        int sizeBytes = capacity*sizeVertex;
         hr = deviceObj->m_device->CreateCommittedResource(
             &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
             D3D12_HEAP_FLAG_NONE,
@@ -49,7 +49,7 @@ namespace GfxDevice
 
         // Initialize the vertex buffer view.
         m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
-        m_vertexBufferView.StrideInBytes = sizeof(Vert_pct);
+        m_vertexBufferView.StrideInBytes = sizeVertex;
         m_vertexBufferView.SizeInBytes = sizeBytes;
     }
     
@@ -80,9 +80,11 @@ namespace GfxDevice
         switch (primativeType)
         {
         case PrimativeType::triangle:		
-            primTop = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;	break;
+            primTop = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;	
+            break;
         case PrimativeType::line:			
-            primTop = D3D_PRIMITIVE_TOPOLOGY_LINELIST;		break;
+            primTop = D3D_PRIMITIVE_TOPOLOGY_LINELIST;		
+            break;
         default:// Catch usage of unimplemented			            
             triggerBreakpoint();
         }
@@ -97,10 +99,22 @@ namespace GfxDevice
         // set current texture
         CD3DX12_GPU_DESCRIPTOR_HANDLE srvGPUHandle(deviceObj->m_srvHeap->GetGPUDescriptorHandleForHeapStart());
         srvGPUHandle.Offset(this->texture.iTexture, deviceObj->m_srvDescriptorSize);
-        deviceObj->g_commandList->SetGraphicsRootDescriptorTable(RootParameterTexture, srvGPUHandle);
-
+        deviceObj->g_commandList->SetGraphicsRootDescriptorTable(RootParameterTexture, srvGPUHandle);       
         deviceObj->g_commandList->IASetPrimitiveTopology(primTop);
+
+        switch (this->vertexType)
+        {
+        case VertexType::posColTex:
+            deviceObj->g_commandList->SetPipelineState(deviceObj->m_pipelineState_pct.Get());
+            break;
+
+        case VertexType::posCol:
+            deviceObj->g_commandList->SetPipelineState(deviceObj->m_pipelineState_pc.Get());
+            break;            
+        }        
+
         deviceObj->g_commandList->IASetVertexBuffers(0, 1, &(m_vertexBufferView));
-        deviceObj->g_commandList->DrawInstanced(3*nPrimatives, 1, 0, 0);
+
+        deviceObj->g_commandList->DrawInstanced(nVerticiesPerPrimative*nPrimatives, 1, 0, 0);
     }
 }

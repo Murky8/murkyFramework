@@ -23,6 +23,9 @@ public:
     GfxDeviceObj(GfxDeviceObj_initStruct  *const initStruct);
     ~GfxDeviceObj();
 
+    mat4    projectionMat{ unit };
+    void setUniform_projectionMatrix(const float *pMat);
+
     HDC const hDC;
 
     void drawBegin();

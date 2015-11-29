@@ -47,7 +47,7 @@ enum RootParameters : u32
         WindowsSpecific* windowsSpecific;
     };
 
-    class GfxDeviceObj
+    class GfxDeviceObj 
     {
     public:
         GfxDeviceObj() = delete;
@@ -57,9 +57,10 @@ enum RootParameters : u32
 
         void drawBegin();
         void drawEnd();
-        void WaitForPreviousFrame();
+        void WaitForPreviousFrame();        
 
         mat4    projectionMat{ unit };
+        void setUniform_projectionMatrix(const float *pMat);
 
         D3D12_VIEWPORT				m_viewport;
         D3D12_RECT					m_scissorRect;
@@ -73,7 +74,8 @@ enum RootParameters : u32
         ComPtr<ID3D12DescriptorHeap>	m_rtvHeap;
         ComPtr<ID3D12DescriptorHeap>	m_srvHeap;
 
-        ComPtr<ID3D12PipelineState>		m_pipelineState;
+        ComPtr<ID3D12PipelineState>		m_pipelineState_pct;
+        ComPtr<ID3D12PipelineState>		m_pipelineState_pc;
         ComPtr<ID3D12GraphicsCommandList>	g_commandList;
         UINT m_rtvDescriptorSize = 0;
         UINT m_srvDescriptorSize = 0;

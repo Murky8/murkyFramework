@@ -4,9 +4,7 @@
 // Platform: C++11
 
 class GfxDeviceObjCommon
-{
-    void setUniform_projectionMatrix(const float *pMat);
-
+{    
 };
 
 

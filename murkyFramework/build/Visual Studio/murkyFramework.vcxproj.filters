@@ -407,8 +407,5 @@
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\GfxDeviceObj.hpp">
       <Filter>Source Files\GfxDevice\private\d3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\private\GfxDeviceObjCommon.hpp">
-      <Filter>Source Files\GfxDevice\private</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,6 +18,11 @@ class GfxDeviceObj
     GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct);
     ~GfxDeviceObj();     
 
+
+    mat4    projectionMat{ unit };
+    void setUniform_projectionMatrix(const float *pMat);
+
+
     D3D_DRIVER_TYPE         g_driverType = D3D_DRIVER_TYPE_NULL;        // todo: move to gfxLowLevel_d3d...
     D3D_FEATURE_LEVEL       g_featureLevel = D3D_FEATURE_LEVEL_11_0;
     ID3D11Device*           g_pd3dDevice = nullptr;

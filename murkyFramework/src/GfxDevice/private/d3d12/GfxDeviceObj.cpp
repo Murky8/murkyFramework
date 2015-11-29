@@ -3,6 +3,11 @@
 // Platform: C++11. openGL4
 #include <murkyFramework/src/private/pch.hpp>
 
+// todo:temp
+void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)
+{
+    *((mat4*)&this->projectionMat) = *(mat4*)pMat;    
+}
 
 void GetHardwareAdapter(_In_ IDXGIFactory4* pFactory, _Outptr_result_maybenull_ IDXGIAdapter1** ppAdapter)
 {
@@ -211,9 +216,10 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
     ThrowIfFailed(m_device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(),
         IID_PPV_ARGS(&m_rootSignature)));
 
-    // Create the pipeline state, which includes compiling and loading shaders.
-    {
         GfxDevice::Shaders::initialise();
+
+    // Create the pipeline state, which includes compiling and loading shaders.m_pipelineState_pct
+    {
 
         // Define the vertex input layout.
         D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
@@ -244,11 +250,45 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
         psoDesc.NumRenderTargets = 1;
         psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
         psoDesc.SampleDesc.Count = 1;
-        ThrowIfFailed(m_device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_pipelineState)));
+        ThrowIfFailed(m_device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_pipelineState_pct)));
+    }
+
+    // Create the pipeline state, which includes compiling and loading shaders.m_pipelineState_pc
+    {
+
+        // Define the vertex input layout.
+        D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
+        {
+            { "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+            { "COLOR",		0, DXGI_FORMAT_R32G32B32_FLOAT,	0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }            
+        };
+
+        // Describe and create the graphics pipeline state object (PSO).
+        D3D12_RASTERIZER_DESC rasterDesc{};
+        rasterDesc.CullMode = D3D12_CULL_MODE_NONE;
+        rasterDesc.FillMode = D3D12_FILL_MODE_SOLID;
+
+        D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
+        psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
+        psoDesc.pRootSignature = m_rootSignature.Get();
+        GfxDevice::ShaderWrapper shader = GfxDevice::shaderManager.get(L"posCol");
+        psoDesc.VS = { reinterpret_cast<UINT8*>(shader.vertexShader->GetBufferPointer()), shader.vertexShader->GetBufferSize() };
+        psoDesc.PS = { reinterpret_cast<UINT8*>(shader.pixelShader->GetBufferPointer()), shader.pixelShader->GetBufferSize() };
+        //psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+        psoDesc.RasterizerState = rasterDesc;
+        psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+        psoDesc.DepthStencilState.DepthEnable = FALSE;
+        psoDesc.DepthStencilState.StencilEnable = FALSE;
+        psoDesc.SampleMask = UINT_MAX;
+        psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+        psoDesc.NumRenderTargets = 1;
+        psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+        psoDesc.SampleDesc.Count = 1;
+        ThrowIfFailed(m_device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_pipelineState_pc)));
     }
 
     // Create the command list.
-    ThrowIfFailed(m_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator.Get(), m_pipelineState.Get(), IID_PPV_ARGS(&g_commandList)));
+    ThrowIfFailed(m_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator.Get(), m_pipelineState_pct.Get(), IID_PPV_ARGS(&g_commandList)));
 
     CD3DX12_CPU_DESCRIPTOR_HANDLE srvHandle(m_srvHeap->GetCPUDescriptorHandleForHeapStart());
     m_srvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -456,10 +496,12 @@ void GfxDeviceObj::drawBegin()
     // fences to determine GPU execution progress.
     HRESULT hr;
     
-    {
+    {// todo: temp
     ConstantBufferGS constantBufferGS = {};
     constantBufferGS.worldViewProjection = XMMatrixIdentity();
-    constantBufferGS.worldViewProjection.r[0].m128_f32[0] = 2.0f;
+    constantBufferGS.worldViewProjection.r[0].m128_f32[0]=2.f;
+    
+    *((mat4*)&constantBufferGS.worldViewProjection) = this->projectionMat;
 
         //XMMatrixMultiply(m_camera.GetViewMatrix(), m_camera.GetProjectionMatrix(0.8f, m_aspectRatio, 1.0f, 5000.0f));
     //constantBufferGS.inverseView = XMMatrixInverse(nullptr, m_camera.GetViewMatrix());
@@ -472,7 +514,7 @@ void GfxDeviceObj::drawBegin()
     // However, when ExecuteCommandList() is called on a particular command 
     // list, that command list can then be reset at any time and must be before 
     // re-recording.
-    ThrowIfFailed(g_commandList->Reset(m_commandAllocator.Get(), m_pipelineState.Get()));
+    ThrowIfFailed(g_commandList->Reset(m_commandAllocator.Get(), m_pipelineState_pct.Get()));
 
     // Set necessary state.
     g_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
