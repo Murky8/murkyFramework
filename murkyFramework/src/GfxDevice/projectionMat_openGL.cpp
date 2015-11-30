@@ -25,18 +25,18 @@ namespace GfxDevice
 	//	return m;
 	//}
 
-	mat4 makeProjectionMatrix_perspective(f32 fovYRads, f32 zNear, f32 zFar, f32 aspectRatio)
-	{
-		// d3d 0 z +1
-		mat4 m(zero);
-		m.v[1][1] = 1.f / tan(fovYRads*0.5f);
-		m.v[0][0] = m.v[1][1] * aspectRatio;
+	//mat4 makeProjectionMatrix_perspective(f32 fovYRads, f32 zNear, f32 zFar, f32 aspectRatio)
+	//{
+	//	// d3d 0 z +1
+	//	mat4 m(zero);
+	//	m.v[1][1] = 1.f / tan(fovYRads*0.5f);
+	//	m.v[0][0] = m.v[1][1] * aspectRatio;
 
-		m.v[2][2] = zFar / (zFar - zNear);
-		m.v[2][3] = 1.f;
-		m.v[3][2] = -(zFar*zNear) / (zFar - zNear);
+	//	m.v[2][2] = zFar / (zFar - zNear);
+	//	m.v[2][3] = 1.f;
+	//	m.v[3][2] = -(zFar*zNear) / (zFar - zNear);
 
-		return m;
-	}
+	//	return m;
+	//}
 }
 #endif //USE_OPENGL

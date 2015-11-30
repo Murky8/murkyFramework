@@ -23,6 +23,10 @@ public:
     GfxDeviceObj(GfxDeviceObj_initStruct  *const initStruct);
     ~GfxDeviceObj();
 
+    murkyFramework::CollectionNamed<GfxDevice::ShaderWrapper>		shaderManager;
+    murkyFramework::CollectionNamed<GfxDevice::TextureWrapper>		textureManager;
+    murkyFramework::CollectionNamed<GfxDevice::VertexBufferWrapper>	vertexBufferManager;
+
     mat4    projectionMat{ unit };
     void setUniform_projectionMatrix(const float *pMat);
 

@@ -720,10 +720,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\initDevice_openGL.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\private\d3d11\GfxDeviceObj.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_release|Win32'">true</ExcludedFromBuild>
@@ -751,12 +747,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\private\textureManager.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\private\vertexBufferHelpers.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\projectionMat_openGL.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\shader_direct3d.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_release|Win32'">true</ExcludedFromBuild>

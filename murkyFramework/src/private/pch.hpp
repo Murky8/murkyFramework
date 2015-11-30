@@ -57,16 +57,9 @@
 
 // gfxDevice
 #include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>   
-#include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
-#include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
-#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
-#include <murkyFramework/include/GfxDevice/texture.hpp>
-#include <murkyFramework/src/GfxDevice/private/textureHelpers.hpp>
-#include <murkyFramework/include/GfxDevice/shaders.hpp>
 
 #ifdef USE_OPENGL //todo: fix
+    #include <external/glew/include/GL/glew.h> 
     #include <external/glew/include/GL/wglew.h>
     #define GLM_FORCE_RADIANS
     #include <external/glm/glm.hpp>
@@ -74,8 +67,10 @@
     #include <external/glm/vec3.hpp>
     #include <external/glm/vec4.hpp>
     #include <external/glm/mat4x4.hpp>
-    #include <external/glm/gtc/matrix_transform.hpp>
-    #include <external/glew/include/GL/glew.h>     
+    #include <external/glm/gtc/matrix_transform.hpp>    
+    #include <murkyFramework/src/GfxDevice/private/openGL/shaderWrapper.hpp>
+    #include <murkyFramework/src/GfxDevice/private/openGL/textureWrapper.hpp>
+    #include <murkyFramework/src/GfxDevice/private/openGL/vertexBufferWrapper.hpp>
     #include <murkyFramework/src/GfxDevice/private/openGL/GfxDeviceObj.hpp>
 #endif
 
@@ -102,8 +97,20 @@
     #include <external/d3d12/d3dx12.h>
     #include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
     #include <murkyFramework/include/GfxDevice/d3d12/shaders_d3d12.hpp>
+#include <murkyFramework/src/GfxDevice/private/d3d12/shaderWrapper.hpp>
+#include <murkyFramework/src/GfxDevice/private/d3d12/textureWrapper.hpp>
+#include <murkyFramework/src/GfxDevice/private/d3d12/vertexBufferWrapper.hpp>
     #include <murkyFramework/src/GfxDevice/private/d3d12/GfxDeviceObj.hpp>
 #endif
+
+#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
+#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>   
+#include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
+#include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
+#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
+#include <murkyFramework/include/GfxDevice/texture.hpp>
+#include <murkyFramework/src/GfxDevice/private/textureHelpers.hpp>
+#include <murkyFramework/include/GfxDevice/shaders.hpp>
 // gfxDevice
 
 // render

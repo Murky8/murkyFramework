@@ -9,11 +9,11 @@ void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)
     // ie no need to transpose if post-multi (Mv) in vertex shader.
 
     // note:: eeek!! 
-    glUseProgram(GfxDevice::shaderManager.get(L"posColTex").value);
+    glUseProgram(shaderManager.get(L"posColTex").value);
     glUniformMatrix4fv(GfxDevice::Shaders::uniformHandle_projectionMatrix, 1, false, pMat);
     glUseProgram(0);
 
-    glUseProgram(GfxDevice::shaderManager.get(L"posCol").value);
+    glUseProgram(shaderManager.get(L"posCol").value);
     glUniformMatrix4fv(GfxDevice::Shaders::uniformHandle_projectionMatrix, 1, false, pMat);
     glUseProgram(0);
 

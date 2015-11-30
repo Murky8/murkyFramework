@@ -2,11 +2,8 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/include/Render/textRender.hpp>
 
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-#include <murkyFramework/include/GfxDevice/texture.hpp>
-
+#define deviceObj  g_appDebug->render->gfxDevice
 namespace Render
 {	
     // Constructors
@@ -15,7 +12,7 @@ namespace Render
         textTriangleBuffer = new GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::triangle,			
-			GfxDevice::shaderManager.get(L"posColTex"),			
+			deviceObj->shaderManager.get(L"posColTex"),
             textureRef, 16*1024);            
     }
 

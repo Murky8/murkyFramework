@@ -43,6 +43,11 @@ enum RootParameters : u32
     class GfxDeviceObj 
     {
     public:
+
+        murkyFramework::CollectionNamed<GfxDevice::ShaderWrapper>		shaderManager;
+        murkyFramework::CollectionNamed<GfxDevice::TextureWrapper>		textureManager;
+        murkyFramework::CollectionNamed<GfxDevice::VertexBufferWrapper>	vertexBufferManager;
+
         GfxDeviceObj() = delete;
 
         GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct);

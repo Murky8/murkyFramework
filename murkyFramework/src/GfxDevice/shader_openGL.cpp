@@ -2,15 +2,9 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-#include <murkyFramework/include/version.hpp>
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#ifdef USE_OPENGL
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
-#include <murkyFramework/include/GfxDevice/shaders.hpp>
-#include <external/glew/include/GL/glew.h> 
-#include <external/glew/include/GL/wglew.h>
 
+#define deviceObj  g_appDebug->render->gfxDevice
+#ifdef USE_OPENGL
 namespace GfxDevice
 {    	    
     // external forward declarations 
@@ -57,7 +51,7 @@ namespace GfxDevice
             u32 fs = GfxDevice::createShader(fs_text, GL_FRAGMENT_SHADER);
 
             GLuint p = GfxDevice::createProgram(vs, fs);
-            shaderManager.add(L"posColTex", ShaderWrapper{ p });
+            deviceObj->shaderManager.add(L"posColTex", ShaderWrapper{ p });
 
             delete[] fs_text;
             delete[] vs_text;
@@ -88,7 +82,7 @@ namespace GfxDevice
             u32 fs = GfxDevice::createShader(fs_text, GL_FRAGMENT_SHADER);
 
             GLuint p = GfxDevice::createProgram(vs, fs);
-            shaderManager.add(L"posCol", ShaderWrapper{ p });
+            deviceObj->shaderManager.add(L"posCol", ShaderWrapper{ p });
 
             //uniformHandle_projectionMatrix = glGetUniformLocation(p, "projectionMatrix");
             //checkUniform(uniformHandle_projectionMatrix);

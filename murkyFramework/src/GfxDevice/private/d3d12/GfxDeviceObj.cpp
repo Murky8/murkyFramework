@@ -237,7 +237,7 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
         D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
         psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
         psoDesc.pRootSignature = m_rootSignature.Get();
-        GfxDevice::ShaderWrapper shader = GfxDevice::shaderManager.get(L"posColTex");
+        GfxDevice::ShaderWrapper shader = shaderManager.get(L"posColTex");
         psoDesc.VS = { reinterpret_cast<UINT8*>(shader.vertexShader->GetBufferPointer()), shader.vertexShader->GetBufferSize() };
         psoDesc.PS = { reinterpret_cast<UINT8*>(shader.pixelShader->GetBufferPointer()), shader.pixelShader->GetBufferSize() };
         //psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
@@ -271,7 +271,7 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
         D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
         psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
         psoDesc.pRootSignature = m_rootSignature.Get();
-        GfxDevice::ShaderWrapper shader = GfxDevice::shaderManager.get(L"posCol");
+        GfxDevice::ShaderWrapper shader = shaderManager.get(L"posCol");
         psoDesc.VS = { reinterpret_cast<UINT8*>(shader.vertexShader->GetBufferPointer()), shader.vertexShader->GetBufferSize() };
         psoDesc.PS = { reinterpret_cast<UINT8*>(shader.pixelShader->GetBufferPointer()), shader.pixelShader->GetBufferSize() };
         //psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
@@ -346,7 +346,7 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
                     width, height);
                 GfxDevice::TextureWrapper newt;
                 newt.iTexture = 0;
-                GfxDevice::textureManager.add(L"t0 4c", newt);
+                textureManager.add(L"t0 4c", newt);
             }
             D3D12_SUBRESOURCE_DATA textureData = {};
             //textureData.pData = &texture[0];
@@ -415,7 +415,7 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
 
                 GfxDevice::TextureWrapper newt;
                 newt.iTexture = 1;
-                GfxDevice::textureManager.add(L"font 4c", newt);
+                textureManager.add(L"font 4c", newt);
             }
             D3D12_SUBRESOURCE_DATA textureData = {};
             //textureData.pData = &texture[0];

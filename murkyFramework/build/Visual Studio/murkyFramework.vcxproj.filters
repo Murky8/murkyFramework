@@ -88,15 +88,6 @@
     <Filter Include="Source Files\Game\public">
       <UniqueIdentifier>{8e025b3b-ff39-4ba8-ad50-bf1be24f84ab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GfxDevice\public\openGL">
-      <UniqueIdentifier>{e239e6e5-a20d-421c-808b-68aafc5a6545}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GfxDevice\public\d3d11">
-      <UniqueIdentifier>{de2335bf-101e-4ce8-b61f-d5cdb73900bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GfxDevice\public\d3d12">
-      <UniqueIdentifier>{fe4d0e9c-0227-4cf6-9768-174f72aeb230}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\GfxDevice\vertexBuffer_direct3d.cpp">
@@ -121,12 +112,6 @@
       <Filter>Source Files\GfxDevice\openGL</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\shader_openGL.cpp">
-      <Filter>Source Files\GfxDevice\openGL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\projectionMat_openGL.cpp">
-      <Filter>Source Files\GfxDevice\openGL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\initDevice_openGL.cpp">
       <Filter>Source Files\GfxDevice\openGL</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\vertexBuffer.cpp">
@@ -221,9 +206,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\external\lodepng.cpp">
       <Filter>Source Files\external</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\private\textureManager.cpp">
-      <Filter>Source Files\GfxDevice\private</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Render\private\RenderObj.cpp">
       <Filter>Source Files\Render\private</Filter>

@@ -3,13 +3,14 @@
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
 
+#define deviceObj  g_appDebug->render->gfxDevice
+
 namespace GfxDevice
 {
     // forward declarations
     TextureWrapper		createTextureObjectFromFile(const std::wstring &dirName,
     const				std::wstring &fileName, const std::wstring &extensionName);
-    TextureWrapper		createTestTextureObject();    
-    bool                deinitialise_device();    
+    TextureWrapper		createTestTextureObject();        
     void                initilise_textureSystem();
     void                deinitilise_textureSystem();
     mat4		        makeProjectionMatrix_perspective(float x, float x1, float x2, float x3);	        
@@ -42,23 +43,23 @@ namespace Render
 
 #ifdef USE_DIRECT3D12
         
-        GfxDevice::vertexBufferManager.add(L"tris",
+        deviceObj->vertexBufferManager.add(L"tris",
             GfxDevice::VertexBufferWrapper(
                 GfxDevice::VertexType::posColTex,
                 GfxDevice::PrimativeType::triangle,
                 //GfxDevice::shaderManager.get(std::wstring(L"posColTex")),
                 //newt, 1024));
                 GfxDevice::ShaderWrapper(),
-                GfxDevice::textureManager.get(L"t0 4c"), 6));
+                deviceObj->textureManager.get(L"t0 4c"), 6));
         
-        GfxDevice::vertexBufferManager.add(L"lines",
+        deviceObj->vertexBufferManager.add(L"lines",
             GfxDevice::VertexBufferWrapper(
                 GfxDevice::VertexType::posCol,
                 GfxDevice::PrimativeType::line,
-                GfxDevice::shaderManager.get(L"posCol"),
+                deviceObj->shaderManager.get(L"posCol"),
                 GfxDevice::TextureWrapper(), 16 * 1024));
 
-        textRenderer = new TextRender(GfxDevice::textureManager.get(L"font 4c"));
+        textRenderer = new TextRender(deviceObj->textureManager.get(L"font 4c"));
 
 #else
 
@@ -66,23 +67,23 @@ namespace Render
         
         GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
             L"data", L"font", L"png");
-        GfxDevice::textureManager.add(L"font 4c", newt);
+        deviceObj->textureManager.add(L"font 4c", newt);
         
         GfxDevice::TextureWrapper newt2 = GfxDevice::createTestTextureObject();
-        GfxDevice::textureManager.add(L"test", newt2);
+        deviceObj->textureManager.add(L"test", newt2);
         
-        GfxDevice::vertexBufferManager.add(L"tris", 
+        deviceObj->vertexBufferManager.add(L"tris",
             GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::triangle,
-            GfxDevice::shaderManager.get( L"posColTex"),            
+            deviceObj->shaderManager.get( L"posColTex"),
             newt, 1024 ));
 
-        GfxDevice::vertexBufferManager.add(L"lines",
+        deviceObj->vertexBufferManager.add(L"lines",
             GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posCol,
             GfxDevice::PrimativeType::line,
-            GfxDevice::shaderManager.get(L"posCol"),
+            deviceObj->shaderManager.get(L"posCol"),
             newt2, 16*1024));
         
         textRenderer = new TextRender(newt);
@@ -95,9 +96,7 @@ namespace Render
     {        
         debugLog << L"RenderHi::deinitialise" << "\n";        
         GfxDevice::Shaders::deinitialise();
-        delete textRenderer;          
-
-        GfxDevice::deinitialise_device();
+        delete textRenderer;                  
     }
 
     mat4 makeProjectionMatrix_perspective( )
@@ -147,7 +146,7 @@ namespace Render
                 {
                     drawCrosshair(vec3(t.v[0].pos.x, t.v[0].pos.y, -t.v[0].pos.z), vec3(1, 0, 0), 1.f);
                 }
-                GfxDevice::vertexBufferManager.get(L"lines").draw(defaultLines.data(), defaultLines.size());
+                deviceObj->vertexBufferManager.get(L"lines").draw(defaultLines.data(), defaultLines.size());
             }
         }
         // teapot

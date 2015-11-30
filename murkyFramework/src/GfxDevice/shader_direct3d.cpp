@@ -2,6 +2,8 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
+#define deviceObj  g_appDebug->render->gfxDevice
+
 #ifdef USE_DIRECT3D11
 #define deviceObj  g_appDebug->render->gfxDevice
 
@@ -102,7 +104,7 @@ namespace GfxDevice
         if (FAILED(hr))
             triggerBreakpoint();
         
-        shaderManager.add(L"posColTex", ShaderWrapper{ pVertexShader , pPixelShader });
+        deviceObj->shaderManager.add(L"posColTex", ShaderWrapper{ pVertexShader , pPixelShader });
     }
         {
             ID3D11VertexShader	*pVertexShader;
@@ -155,7 +157,7 @@ namespace GfxDevice
             if (FAILED(hr))
                 triggerBreakpoint();
 
-            shaderManager.add(L"posCol", ShaderWrapper{ pVertexShader , pPixelShader });
+            deviceObj->shaderManager.add(L"posCol", ShaderWrapper{ pVertexShader , pPixelShader });
         }
         // murky VB
         /*    Vert_pct vertices[] =

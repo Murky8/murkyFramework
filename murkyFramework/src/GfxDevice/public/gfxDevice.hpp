@@ -9,22 +9,8 @@
 
 namespace GfxDevice
 {
-	extern murkyFramework::CollectionNamed<ShaderWrapper>		shaderManager;
+	/*extern murkyFramework::CollectionNamed<ShaderWrapper>		shaderManager;
 	extern murkyFramework::CollectionNamed<TextureWrapper>		textureManager;
 	extern murkyFramework::CollectionNamed<VertexBufferWrapper>	vertexBufferManager;
+    */
 }
-
-//
-//#ifdef USE_OPENGL
-//#include <murkyFramework/src/GfxDevice/private/openGL/shaderId_private.hpp>
-//#endif 
-//
-//#ifdef USE_DIRECT3D11
-//#include <murkyFramework/src/GfxDevice/private/d3d11/shaderId_private.hpp>
-//#endif 
-//
-//#ifdef USE_DIRECT3D12
-//#include <murkyFramework/src/GfxDevice/private/d3d12/shaderId_private.hpp>
-//#endif 
-
-//extern 

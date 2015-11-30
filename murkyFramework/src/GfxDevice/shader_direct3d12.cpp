@@ -56,7 +56,7 @@ namespace GfxDevice
                 triggerBreakpoint();
             }
             if (pErrorBlob) pErrorBlob->Release();
-            shaderManager.add(L"posColTex", newShader);
+            deviceObj->shaderManager.add(L"posColTex", newShader);
         }
 
         {// shder pc
@@ -87,7 +87,7 @@ namespace GfxDevice
                 triggerBreakpoint();
             }
             if (pErrorBlob) pErrorBlob->Release();
-            shaderManager.add(L"posCol", newShader);
+            deviceObj->shaderManager.add(L"posCol", newShader);
         }
 
         {// shder pctm2
@@ -118,7 +118,7 @@ namespace GfxDevice
                 triggerBreakpoint();
             }
             if (pErrorBlob) pErrorBlob->Release();
-            shaderManager.add(L"posColTexM2", newShader);
+            deviceObj->shaderManager.add(L"posColTexM2", newShader);
         }
     }
 
