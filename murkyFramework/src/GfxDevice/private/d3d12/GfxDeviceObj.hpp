@@ -18,7 +18,7 @@ enum RootParameters : u32
     struct ConstantBufferGS
     {
         XMMATRIX worldViewProjection;
-        XMMATRIX worldViewProjection2;
+        XMMATRIX unused;
 
         // Constant buffers are 256-byte aligned in GPU memory. Padding is added
         // for convenience when computing the struct's size.
@@ -33,7 +33,6 @@ enum RootParameters : u32
         }
     }
 //}
-
     struct GfxDeviceObj_initStruct
     {
         u32 screenWidth;
@@ -55,9 +54,11 @@ enum RootParameters : u32
         void WaitForPreviousFrame();        
 
         mat4    projectionMat{ unit };
+        mat4    projectionMat2{ unit };
         
         void setUniform_projectionMatrix(const float *pMat);
-        
+        void setUniform_projectionMatrix2(const float *pMat, const float *pMat2);
+                
         D3D12_VIEWPORT				m_viewport;
         D3D12_RECT					m_scissorRect;
         ComPtr<IDXGISwapChain3>		m_swapChain;

@@ -115,6 +115,7 @@ namespace Render
         mat4 cam = makeCameraMatrix(g_appDebug->game->cursorPos, g_appDebug->game->cursorOri);
         mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
         mat4 proj = cam*persp;
+
         g_appDebug->render->gfxDevice->setUniform_projectionMatrix(&proj.v[0][0]);
 
         defaultLines.clear();
@@ -123,11 +124,11 @@ namespace Render
             debugLogScreen << L"Loading teapot!!!\n";
         debugLogScreen << g_appDebug->game->cursorPos << L"\n";
 
-
         projectionMatrix = makeProjectionMatrix_ortho(
             0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
 
         g_appDebug->render->gfxDevice->setUniform_projectionMatrix(&projectionMatrix.v[0][0]);
+
         textRenderer->drawText(debugLogScreen);
         // draw onscreen stuff        
 
@@ -140,7 +141,7 @@ namespace Render
 
         g_appDebug->render->gfxDevice->setUniform_projectionMatrix(&proj.v[0][0]);
 
-            if (1)
+            if (true)
             {
                 for (Triangle_pct &t : gdeb_tris)
                 {

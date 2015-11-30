@@ -18,7 +18,7 @@ public:
     int     screenResY;
     int     screenResX;    
     u32     frameCounter = 0;    
-    float   frameRateLimit = 60; // 0= inf 
+    float   frameRateLimit = 0; // 0= inf 
     float   frameRate;
     bool    exitWholeApp = false;    
     bool    initialised = false;

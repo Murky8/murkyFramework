@@ -7,15 +7,6 @@
 void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)
 {
     *((mat4*)&this->projectionMat) = *(mat4*)pMat;    
-    {// todo: temp
-        ConstantBufferGS constantBufferGS = {};
-
-        *((mat4*)&constantBufferGS.worldViewProjection) = this->projectionMat;
-
-        UINT8* destination = m_pConstantBufferGSData +sizeof(ConstantBufferGS) * m_frameIndex;
-        memcpy(destination, &constantBufferGS, sizeof(ConstantBufferGS));
-    }
-    g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, m_constantBufferGS->GetGPUVirtualAddress() + m_frameIndex * sizeof(ConstantBufferGS));
 }
 
 void GetHardwareAdapter(_In_ IDXGIFactory4* pFactory, _Outptr_result_maybenull_ IDXGIAdapter1** ppAdapter)
@@ -513,7 +504,16 @@ void GfxDeviceObj::drawBegin()
 
     // Set necessary state.
     g_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
-//    g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, m_constantBufferGS->GetGPUVirtualAddress() + m_frameIndex * sizeof(ConstantBufferGS));
+    {
+    ConstantBufferGS constantBufferGS = {};
+
+    *((mat4*)&constantBufferGS.worldViewProjection) = this->projectionMat;
+
+    UINT8* destination = m_pConstantBufferGSData + sizeof(ConstantBufferGS) * m_frameIndex;
+    memcpy(destination, &constantBufferGS, sizeof(ConstantBufferGS));
+    g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, m_constantBufferGS->GetGPUVirtualAddress() + m_frameIndex * sizeof(ConstantBufferGS));
+    }
+
     ID3D12DescriptorHeap* ppHeaps[] = { m_srvHeap.Get() };
     g_commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
@@ -540,6 +540,7 @@ void GfxDeviceObj::drawBegin()
     const float clearColor[] = { 0.f, 0.f, 0.f, 1.0f };
 
     g_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+
 }
 
 void GfxDeviceObj::drawEnd()
