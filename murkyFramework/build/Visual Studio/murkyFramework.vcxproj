@@ -593,6 +593,7 @@
     <ClCompile Include="..\..\src\inputDevices.cpp" />
     <ClCompile Include="..\..\src\loadSaveFile.cpp" />
     <ClCompile Include="..\..\src\mainLoop.cpp" />
+    <ClCompile Include="..\..\src\mclass.cpp" />
     <ClCompile Include="..\..\src\private\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|Win32'">Create</PrecompiledHeader>
@@ -670,6 +671,7 @@
     <ClInclude Include="..\..\src\GfxDevice\public\textureManager.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\textureWrappers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\public\vertexBufferWrappers.hpp" />
+    <ClInclude Include="..\..\src\mclass.hpp" />
     <ClInclude Include="..\..\src\private\pch.hpp" />
     <ClInclude Include="..\..\src\private\systemSpecific.hpp" />
     <ClInclude Include="..\..\src\private\windows\WindowsSpecific.hpp" />

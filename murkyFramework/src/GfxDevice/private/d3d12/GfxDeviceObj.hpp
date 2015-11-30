@@ -10,8 +10,6 @@ enum RootParameters : u32
     RootParametersCount
 };
 
-
-
 //namespace GfxDevice
 //{
     using namespace DirectX;
@@ -20,7 +18,7 @@ enum RootParameters : u32
     struct ConstantBufferGS
     {
         XMMATRIX worldViewProjection;
-        XMMATRIX inverseView;
+        XMMATRIX worldViewProjection2;
 
         // Constant buffers are 256-byte aligned in GPU memory. Padding is added
         // for convenience when computing the struct's size.
@@ -57,8 +55,9 @@ enum RootParameters : u32
         void WaitForPreviousFrame();        
 
         mat4    projectionMat{ unit };
+        
         void setUniform_projectionMatrix(const float *pMat);
-
+        
         D3D12_VIEWPORT				m_viewport;
         D3D12_RECT					m_scissorRect;
         ComPtr<IDXGISwapChain3>		m_swapChain;

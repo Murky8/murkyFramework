@@ -18,7 +18,7 @@ struct PSInput
 cbuffer cb0
 {
     row_major float4x4 g_mWorldViewProj;
-    row_major float4x4 g_mInvView;
+    row_major float4x4 g_mWorldViewProj2;
 };
 
 PSInput VSMain(float4 position : POSITION, float4 color : COLOR)

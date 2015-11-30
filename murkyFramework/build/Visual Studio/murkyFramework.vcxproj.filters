@@ -249,6 +249,9 @@
     <ClCompile Include="..\..\src\GfxDevice\private\d3d12\GfxDeviceObj.cpp">
       <Filter>Source Files\GfxDevice\private\d3d12</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\mclass.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GfxDevice\gfxLowLevel.hpp">
@@ -406,6 +409,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\private\d3d11\GfxDeviceObj.hpp">
       <Filter>Source Files\GfxDevice\private\d3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\mclass.hpp">
+      <Filter>Source Files\src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
