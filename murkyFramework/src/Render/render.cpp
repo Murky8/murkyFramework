@@ -32,15 +32,6 @@ namespace Render
     {		
         debugLog << L"RenderHi::initialise" << "\n";				
 
-#ifdef USE_DIRECT3D11
-        GfxDevice::initialise_device(systemSpecific);
-#endif USE_DIRECT3D11
-
-#ifdef USE_DIRECT3D12
-        GfxDevice::initialise_device(systemSpecific);
-#endif USE_DIRECT3D12
-
-
 #ifdef USE_DIRECT3D12
         
         deviceObj->vertexBufferManager.add(L"tris",
@@ -161,36 +152,3 @@ namespace Render
         tris.push_back({ v[1], v[3], v[2] });
     }
 }
-
-/*        if (0)
-{
-#define rn (((float)rand() / (float)RAND_MAX))
-std::vector<Triangle_pct> tris;
-srand(0);
-
-for (int i = 0; i < 10; i++)
-{
-Triangle_pct tri
-{
-Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
-Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f)),
-Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f))
-};
-tris.push_back(tri);
-}
-vertexBufferTemp->draw(tris.data(), tris.size());
-}
-if (0)
-{
-std::vector<Line_pct> lines;
-for (int i = 0; i < 10; i++)
-{
-Line_pct line
-{
-Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
-Vert_pct(vec3(rn, rn, 0.9f), vec3(1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f)),
-};
-lines.push_back(line);
-}
-defaultLineVB->draw(lines.data(), lines.size());
-}  */

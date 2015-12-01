@@ -72,6 +72,9 @@
     <Filter Include="Source Files\GfxDevice\openGL4\shaders">
       <UniqueIdentifier>{68c48d00-b5a0-4c48-b616-160383459f77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GfxDevice\vulkan">
+      <UniqueIdentifier>{b70420bf-ab9e-42de-9d75-ba6046cd71cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Render\linesShapes.cpp">
@@ -352,13 +355,7 @@
     <ClInclude Include="..\..\src\GfxDevice\d3d12\textureWrapper.hpp">
       <Filter>Source Files\GfxDevice\d3d12</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\vertexBuffer_d3d12.hpp">
-      <Filter>Source Files\GfxDevice\d3d12</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\d3d12\vertexBufferWrapper.hpp">
-      <Filter>Source Files\GfxDevice\d3d12</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\gfxDevice.h">
       <Filter>Source Files\GfxDevice\d3d12</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\d3d12\GfxDeviceObj.hpp">

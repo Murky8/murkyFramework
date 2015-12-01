@@ -64,15 +64,16 @@
 #include <murkyFramework/src/GfxDevice/vertexBufferHelpers.hpp>
 
 #ifdef USE_OPENGL //todo: fix
+    #define GLM_FORCE_RADIANS
     #include <external/glew/include/GL/glew.h> 
     #include <external/glew/include/GL/wglew.h>
-    #define GLM_FORCE_RADIANS
     #include <external/glm/glm.hpp>
     #include <external/glm/vec2.hpp>
     #include <external/glm/vec3.hpp>
     #include <external/glm/vec4.hpp>
     #include <external/glm/mat4x4.hpp>
     #include <external/glm/gtc/matrix_transform.hpp>    
+
     #include <murkyFramework/src/GfxDevice/openGL4/shaderWrapper.hpp>
     #include <murkyFramework/src/GfxDevice/openGL4/textureWrapper.hpp>
     #include <murkyFramework/src/GfxDevice/openGL4/vertexBufferWrapper.hpp>
@@ -101,14 +102,14 @@
     #include <dwrite.h>    
     #include <external/d3d12/d3dx12.h>
                 
-#include <murkyFramework/src/GfxDevice/d3d12/GfxDeviceObj.hpp>
-#include <murkyFramework/src/GfxDevice/d3d12/gfxLowLevel_d3d12.hpp>
-#include <murkyFramework/src/GfxDevice/d3d12/shaders_d3d12.hpp>
-#include <murkyFramework/src/GfxDevice/d3d12/shaderWrapper.hpp>
-#include <murkyFramework/src/GfxDevice/d3d12/texture_d3d12.hpp>
-#include <murkyFramework/src/GfxDevice/d3d12/textureWrapper.hpp>
-#include <murkyFramework/src/GfxDevice/d3d12/vertexBuffer_d3d12.hpp>
-#include <murkyFramework/src/GfxDevice/d3d12/vertexBufferWrapper.hpp>
+    #include <murkyFramework/src/GfxDevice/d3d12/shaderWrapper.hpp>
+    #include <murkyFramework/src/GfxDevice/d3d12/textureWrapper.hpp>
+    #include <murkyFramework/src/GfxDevice/d3d12/vertexBufferWrapper.hpp>
+    #include <murkyFramework/src/GfxDevice/d3d12/gfxLowLevel_d3d12.hpp>
+    #include <murkyFramework/src/GfxDevice/d3d12/shaders_d3d12.hpp>
+    #include <murkyFramework/src/GfxDevice/d3d12/texture_d3d12.hpp>
+    //#include <murkyFramework/src/GfxDevice/d3d12/vertexBuffer_d3d12.hpp>
+    #include <murkyFramework/src/GfxDevice/d3d12/GfxDeviceObj.hpp>
 #endif
 
     #include <murkyFramework/src/GfxDevice/public/shaderWrappers.hpp>

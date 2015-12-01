@@ -4,19 +4,6 @@
 #include <murkyFramework/src/private/pch.hpp>
 #define deviceObj  g_appDebug->render->gfxDevice
 
-#include <windows.h>
-#include <d3d11_1.h>
-#include <combaseapi.h>
-#include <wrl.h>
-
-#include <d3d12.h>
-#include <external/d3d12/d3dx12.h>
-#include "murkyFramework/include/common.hpp"
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-#include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
-#include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
-
 namespace GfxDevice
 {        		
     using namespace DirectX;

@@ -2,13 +2,6 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#ifdef USE_DIRECT3D12
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-#include <d3d12.h>
-#include <wrl.h>
-
 
 namespace GfxDevice
 {
@@ -38,4 +31,3 @@ namespace GfxDevice
 	private:		
 	};
 }
-#endif

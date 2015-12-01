@@ -1,12 +1,6 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-
-#include <murkyFramework/include/common.hpp>
-#include <murkyFramework/include/types.hpp>
-#include <murkyFramework/include/GfxDevice/texture.hpp>
-#include <murkyFramework/include/GfxDevice/shaders.hpp>
 
 namespace GfxDevice
 {      
@@ -33,17 +27,7 @@ namespace GfxDevice
         const TextureId	    texture;
         struct handleDeviceVB *pHandle;
         u32   capacity;
-    private:
-      
-
-#ifdef USE_DIRECT3D11
-           
-#endif // USE_DIRECT3D11
-#ifdef USE_OPENGL
-           //u32 vao;
-           //u32 vbo;        
-#endif // USE_OPENGL
-        
+    private:             
         VertexBufferDynamic() = delete;
     };   
     //--------------------------------------------------------------------------

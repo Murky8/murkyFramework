@@ -32,7 +32,7 @@ namespace GfxDevice
             ShaderWrapper newShader;
 
             ID3DBlob* pErrorBlob = nullptr;
-            std::wstring fileName = { L"src/GfxDevice/private/d3d12/shaders/posColTex.hlsl" };
+            std::wstring fileName = { L"src/GfxDevice/d3d12/shaders/posColTex.hlsl" };
             hr = D3DCompileFromFile(fileName.c_str(), nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &newShader.vertexShader, &pErrorBlob);
             if (FAILED(hr))
             {
@@ -63,7 +63,7 @@ namespace GfxDevice
             ShaderWrapper newShader;
 
             ID3DBlob* pErrorBlob = nullptr;
-            std::wstring fileName = { L"src/GfxDevice/private/d3d12/shaders/posCol.hlsl" };
+            std::wstring fileName = { L"src/GfxDevice/d3d12/shaders/posCol.hlsl" };
             hr = D3DCompileFromFile(fileName.c_str(), nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &newShader.vertexShader, &pErrorBlob);
             if (FAILED(hr))
             {
@@ -88,38 +88,7 @@ namespace GfxDevice
             }
             if (pErrorBlob) pErrorBlob->Release();
             deviceObj->shaderManager.add(L"posCol", newShader);
-        }
-
-        {// shder pctm2
-            ShaderWrapper newShader;
-
-            ID3DBlob* pErrorBlob = nullptr;
-            std::wstring fileName = { L"src/GfxDevice/private/d3d12/shaders/posColTexM2.hlsl" };
-            hr = D3DCompileFromFile(fileName.c_str(), nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &newShader.vertexShader, &pErrorBlob);
-            if (FAILED(hr))
-            {
-                if (pErrorBlob)
-                {
-                    OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
-                    pErrorBlob->Release();
-                }
-                triggerBreakpoint();
-            }
-
-            pErrorBlob = nullptr;
-            hr = D3DCompileFromFile(fileName.c_str(), nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &newShader.pixelShader, &pErrorBlob);
-            if (FAILED(hr))
-            {
-                if (pErrorBlob)
-                {
-                    OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
-                    pErrorBlob->Release();
-                }
-                triggerBreakpoint();
-            }
-            if (pErrorBlob) pErrorBlob->Release();
-            deviceObj->shaderManager.add(L"posColTexM2", newShader);
-        }
+        }  
     }
 
     void	Shaders::deinitialise()

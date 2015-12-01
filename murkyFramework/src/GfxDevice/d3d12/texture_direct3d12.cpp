@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-#ifdef USE_DIRECT3D12
+
 #define deviceObj  g_appDebug->render->gfxDevice
 
 static u32 nextTextureID = { 0 };
@@ -29,4 +29,3 @@ namespace GfxDevice
     {     
     }
 }
-#endif // USE_DIRECT3D12
