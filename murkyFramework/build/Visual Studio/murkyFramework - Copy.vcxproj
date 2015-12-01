@@ -690,40 +690,6 @@
     <ClCompile Include="..\..\src\debugUtils.cpp" />
     <ClCompile Include="..\..\src\fileUtils.cpp" />
     <ClCompile Include="..\..\src\Game\private\Game.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\d3d11\GfxDeviceObj.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\d3d11\shader_direct3d.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\d3d11\texture_direct3d.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\d3d11\vertexBuffer_direct3d.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\d3d12\GfxDeviceObj.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\d3d12\shader_direct3d12.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\d3d12\texture_direct3d12.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\d3d12\vertexBuffer_direct3d12.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\GfxDevice.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\GfxDeviceCommon.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\gfxPrimativeTypes.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\openGL4\GfxDeviceObj.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\openGL4\shader_openGL.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\openGL4\texture_openGL.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\openGL4\vertexBuffer_openGL.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\texture.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\textureManager.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\vertexBufferHelpers.cpp" />
     <ClCompile Include="..\..\src\inputDevices.cpp" />
     <ClCompile Include="..\..\src\loadSaveFile.cpp" />
     <ClCompile Include="..\..\src\mainLoop.cpp" />
@@ -785,106 +751,11 @@
     <ClInclude Include="..\..\include\vectorMatrix_rotation.hpp" />
     <ClInclude Include="..\..\include\version.hpp" />
     <ClInclude Include="..\..\src\Game\public\Game.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\d3d11\GfxDeviceObj.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d11\gfxDeviceObject.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d11\shaderWrapper.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d11\textureWrapper.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d11\vertexBufferWrapper.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\gfxDevice.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\GfxDeviceObj.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\gfxDeviceObject.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\gfxLowLevel_d3d12.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\shaders_d3d12.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\shaderWrapper.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\textureWrapper.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\texture_d3d12.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\vertexBufferWrapper.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\vertexBuffer_d3d12.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\GfxDeviceCommon.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\GfxDeviceObjCommon.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\gfxLowLevel.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\gfxPrimativeTypes.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\openGL4\GfxDeviceObj.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\openGL4\shaderWrapper.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\openGL4\textureWrapper.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\openGL4\vertexBufferWrapper.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\shaders.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\texture.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\textureHelpers.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\version_gfxDevice.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\vertexBufferHelpers.hpp" />
     <ClInclude Include="..\..\src\mclass.hpp" />
     <ClInclude Include="..\..\src\private\pch.hpp" />
     <ClInclude Include="..\..\src\private\systemSpecific.hpp" />
     <ClInclude Include="..\..\src\private\windows\WindowsSpecific.hpp" />
     <ClInclude Include="..\..\src\Render\public\RenderObj.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\GfxDevice\d3d11\shaders\posCol.ps">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\..\src\GfxDevice\d3d11\shaders\posCol.vs">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\..\src\GfxDevice\d3d11\shaders\posColTex.ps">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\..\src\GfxDevice\d3d11\shaders\posColTex.vs">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\..\src\GfxDevice\openGL4\shaders\posCol.fsh">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\..\src\GfxDevice\openGL4\shaders\posColTex.fsh">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\..\src\GfxDevice\d3d12\shaders\posCol.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="..\..\src\GfxDevice\d3d12\shaders\posColTex.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="..\..\src\GfxDevice\d3d12\shaders\posColTexM2.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="..\..\src\GfxDevice\openGL4\shaders\posCol.vsh">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="..\..\src\GfxDevice\openGL4\shaders\posColTex.vsh">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

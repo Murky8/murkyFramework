@@ -1,13 +1,6 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-
-#include <regex>
-#include <wtypes.h>
-#include <murkyFramework/include/common.hpp>
-#include <murkyFramework/include/debugUtils.hpp>
-
 
 class FilePathSplit
 {

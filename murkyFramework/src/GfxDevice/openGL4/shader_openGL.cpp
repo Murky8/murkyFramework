@@ -2,8 +2,8 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/private/pch.hpp>
-
 #define deviceObj  g_appDebug->render->gfxDevice
+
 #ifdef USE_OPENGL
 namespace GfxDevice
 {    	    
@@ -35,13 +35,13 @@ namespace GfxDevice
         debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";
 
         {
-            qdev::BinaryFileLoader vs_text_temp(L"src/GfxDevice/private/openGL/shaders/posColTex.vsh");
+            qdev::BinaryFileLoader vs_text_temp(L"src/GfxDevice/openGL4/shaders/posColTex.vsh");
             int nChars = vs_text_temp.getDataLength();
             char *vs_text = new char[nChars + 1];
             memcpy(vs_text, vs_text_temp.data(), nChars);
             vs_text[nChars] = 0;    // text needs to be null terminted
                         
-            qdev::BinaryFileLoader fs_text_temp(L"src/GfxDevice/private/openGL/shaders/posColTex.fsh");
+            qdev::BinaryFileLoader fs_text_temp(L"src/GfxDevice/openGL4/shaders/posColTex.fsh");
             int nCharsFs = fs_text_temp.getDataLength();
             char *fs_text = new char[nCharsFs + 1];
             memcpy(fs_text, fs_text_temp.data(), nCharsFs);
@@ -66,13 +66,13 @@ namespace GfxDevice
 
         if(1)
         {
-            qdev::BinaryFileLoader vs_text_temp(L"src/GfxDevice/private/openGL/shaders/posCol.vsh");
+            qdev::BinaryFileLoader vs_text_temp(L"src/GfxDevice/openGL4/shaders/posCol.vsh");
             int nChars = vs_text_temp.getDataLength();
             char *vs_text = new char[nChars + 1];
             memcpy(vs_text, vs_text_temp.data(), nChars);
             vs_text[nChars] = 0;    // text needs to be null terminted
 
-            qdev::BinaryFileLoader fs_text_temp(L"src/GfxDevice/private/openGL/shaders/posCol.fsh");
+            qdev::BinaryFileLoader fs_text_temp(L"src/GfxDevice/openGL4/shaders/posCol.fsh");
             int nCharsFs = fs_text_temp.getDataLength();
             char *fs_text = new char[nCharsFs + 1];
             memcpy(fs_text, fs_text_temp.data(), nCharsFs);

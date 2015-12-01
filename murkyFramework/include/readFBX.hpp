@@ -2,9 +2,6 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <string>
-
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
 
 namespace murkyFramework
 {

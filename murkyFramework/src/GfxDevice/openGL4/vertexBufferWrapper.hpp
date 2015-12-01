@@ -2,11 +2,6 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>
-#include <glew/include/GL/glew.h>
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-
 
 #ifdef USE_OPENGL
 

@@ -43,8 +43,6 @@
 #include <murkyFramework/include/debugUtils.hpp>
 #include <murkyFramework/include/fileUtils.hpp>
 #include <murkyFramework/include/loadSaveFile.hpp>
-#include <murkyFramework/include/readFBX.hpp>
-#include <murkyFramework/include/stringHelpers.hpp>
 #include <murkyFramework/include/system.hpp>
 #include <murkyFramework/include/vectorMatrix.hpp>
 #include <murkyFramework/include/vectorMatrix_rotation.hpp>
@@ -56,7 +54,14 @@
 #include <murkyFramework/src/game/public/game.hpp>
 
 // gfxDevice
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
+#include <murkyFramework/src/GfxDevice/version_gfxDevice.hpp>
+#include <murkyFramework/src/GfxDevice/GfxDeviceCommon.hpp>
+#include <murkyFramework/src/GfxDevice/GfxDeviceObjCommon.hpp>
+#include <murkyFramework/src/GfxDevice/gfxLowLevel.hpp>
+#include <murkyFramework/src/GfxDevice/gfxPrimativeTypes.hpp>
+#include <murkyFramework/src/GfxDevice/shaders.hpp>
+#include <murkyFramework/src/GfxDevice/textureHelpers.hpp>
+#include <murkyFramework/src/GfxDevice/vertexBufferHelpers.hpp>
 
 #ifdef USE_OPENGL //todo: fix
     #include <external/glew/include/GL/glew.h> 
@@ -68,10 +73,10 @@
     #include <external/glm/vec4.hpp>
     #include <external/glm/mat4x4.hpp>
     #include <external/glm/gtc/matrix_transform.hpp>    
-    #include <murkyFramework/src/GfxDevice/private/openGL/shaderWrapper.hpp>
-    #include <murkyFramework/src/GfxDevice/private/openGL/textureWrapper.hpp>
-    #include <murkyFramework/src/GfxDevice/private/openGL/vertexBufferWrapper.hpp>
-    #include <murkyFramework/src/GfxDevice/private/openGL/GfxDeviceObj.hpp>
+    #include <murkyFramework/src/GfxDevice/openGL4/shaderWrapper.hpp>
+    #include <murkyFramework/src/GfxDevice/openGL4/textureWrapper.hpp>
+    #include <murkyFramework/src/GfxDevice/openGL4/vertexBufferWrapper.hpp>
+    #include <murkyFramework/src/GfxDevice/openGL4/GfxDeviceObj.hpp>
 #endif
 
 #ifdef USE_DIRECT3D11 //todo: fix
@@ -95,23 +100,26 @@
     #include <dxgi1_4.h>
     #include <dwrite.h>    
     #include <external/d3d12/d3dx12.h>
-    #include <murkyFramework/src/GfxDevice/private/d3d12/gfxDevice.h>
-    #include <murkyFramework/include/GfxDevice/d3d12/shaders_d3d12.hpp>
-#include <murkyFramework/src/GfxDevice/private/d3d12/shaderWrapper.hpp>
-#include <murkyFramework/src/GfxDevice/private/d3d12/textureWrapper.hpp>
-#include <murkyFramework/src/GfxDevice/private/d3d12/vertexBufferWrapper.hpp>
-    #include <murkyFramework/src/GfxDevice/private/d3d12/GfxDeviceObj.hpp>
+                
+#include <murkyFramework/src/GfxDevice/d3d12/GfxDeviceObj.hpp>
+#include <murkyFramework/src/GfxDevice/d3d12/gfxLowLevel_d3d12.hpp>
+#include <murkyFramework/src/GfxDevice/d3d12/shaders_d3d12.hpp>
+#include <murkyFramework/src/GfxDevice/d3d12/shaderWrapper.hpp>
+#include <murkyFramework/src/GfxDevice/d3d12/texture_d3d12.hpp>
+#include <murkyFramework/src/GfxDevice/d3d12/textureWrapper.hpp>
+#include <murkyFramework/src/GfxDevice/d3d12/vertexBuffer_d3d12.hpp>
+#include <murkyFramework/src/GfxDevice/d3d12/vertexBufferWrapper.hpp>
 #endif
 
-#include <murkyFramework/src/GfxDevice/public/gfxDevice.hpp>
-#include <murkyFramework/include/GfxDevice/gfxPrimativeTypes.hpp>   
-#include <murkyFramework/include/GfxDevice/vertexBuffer.hpp>
-#include <murkyFramework/src/GfxDevice/private/vertexBufferHelpers.hpp>
-#include <murkyFramework/include/GfxDevice/gfxLowLevel.hpp>
-#include <murkyFramework/include/GfxDevice/texture.hpp>
-#include <murkyFramework/src/GfxDevice/private/textureHelpers.hpp>
-#include <murkyFramework/include/GfxDevice/shaders.hpp>
+    #include <murkyFramework/src/GfxDevice/public/shaderWrappers.hpp>
+    #include <murkyFramework/src/GfxDevice/public/textureWrappers.hpp>
+    #include <murkyFramework/src/GfxDevice/public/vertexBufferWrappers.hpp>
+
 // gfxDevice
+
+
+#include <murkyFramework/include/readFBX.hpp>
+#include <murkyFramework/include/stringHelpers.hpp>
 
 // render
 #include <murkyFramework/include/Render/linesShapes.hpp>

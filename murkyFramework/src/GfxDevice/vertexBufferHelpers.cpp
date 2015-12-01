@@ -18,7 +18,7 @@ namespace GfxDevice
 		default:// catch usage of unimplemented						
 			triggerBreakpoint();
 		}
-		return 0;
+		return -1;
 	}
 
 	void getPrimativeInfo(PrimativeType primativeType, u32 * const nVerticiesPerPrimative)
@@ -35,4 +35,23 @@ namespace GfxDevice
 			triggerBreakpoint();
 		}
 	}
+
+    u32 getNVertsPerPrimative(PrimativeType primativeType)
+    { // todo: better way to do this?
+        switch (primativeType)
+        {
+        case PrimativeType::triangle:
+            return 3;
+            break;
+
+        case PrimativeType::line:
+            return 2;
+            break;
+        default:// Catch usage of unimplemented			            
+            triggerBreakpoint();
+        }
+
+        return -1;
+    }
+
 }

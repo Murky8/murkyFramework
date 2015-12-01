@@ -1,7 +1,6 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
 
 typedef unsigned char       u8;
 typedef signed char         s8;

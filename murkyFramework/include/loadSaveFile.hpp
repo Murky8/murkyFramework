@@ -1,10 +1,6 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-#include <murkyFramework/include/GfxDevice/version_gfxDevice.hpp>
-
-#include <memory>
-#include <string>
 
 namespace qdev
 {    
