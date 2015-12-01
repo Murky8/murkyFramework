@@ -15,23 +15,11 @@
     <Filter Include="Source Files\Render">
       <UniqueIdentifier>{9956757e-d72e-4811-a74f-52eec20e5ec9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\include">
-      <UniqueIdentifier>{66ea1701-69d7-450e-ac64-c2192e53a518}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\src">
       <UniqueIdentifier>{8629ba91-ea98-4da6-9d9e-004c95d107e1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\src\public">
       <UniqueIdentifier>{400d059f-71e0-4675-96f3-5c23fd3b171a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\src\private">
-      <UniqueIdentifier>{75e504eb-9d35-4ffa-ae78-1e73df52abc4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\external">
-      <UniqueIdentifier>{0a208fb9-7916-47ba-a993-d022fbd13a5d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\src\private\windows">
-      <UniqueIdentifier>{12a80276-8148-46bf-9e73-74c73b937b1d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Render\public">
       <UniqueIdentifier>{1455827c-ab18-435f-a039-1752e9c937cb}</UniqueIdentifier>
@@ -74,6 +62,18 @@
     </Filter>
     <Filter Include="Source Files\GfxDevice\vulkan">
       <UniqueIdentifier>{b70420bf-ab9e-42de-9d75-ba6046cd71cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SystemSpecific">
+      <UniqueIdentifier>{8352be6e-6f51-42d9-ae4d-53217777a9a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SystemSpecific\Windows">
+      <UniqueIdentifier>{0032c408-cee7-4d74-a848-99d7643a0aaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SystemSpecific\Android">
+      <UniqueIdentifier>{1b34c8aa-6a6b-4ba8-8187-8ac5050a6352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ThirdParty">
+      <UniqueIdentifier>{37209219-d06f-472d-a02c-fed964642ab1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -125,29 +125,14 @@
     <ClCompile Include="..\..\src\stringHelpers.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\system.cpp">
-      <Filter>Source Files\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\vectorMatrix.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\vectorMatrix_transform.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\private\pch.cpp">
-      <Filter>Source Files\src\private</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\external\lodepng.cpp">
-      <Filter>Source Files\external</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Render\private\RenderObj.cpp">
       <Filter>Source Files\Render\private</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\private\windows\WindowsSpecific.cpp">
-      <Filter>Source Files\src\private\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\private\systemSpecific.cpp">
-      <Filter>Source Files\src\private</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Game\private\Game.cpp">
       <Filter>Source Files\Game\private</Filter>
@@ -209,6 +194,21 @@
     <ClCompile Include="..\..\src\GfxDevice\openGL4\GfxDeviceObj.cpp">
       <Filter>Source Files\GfxDevice\openGL4</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\pch.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SystemSpecific\systemSpecific.cpp">
+      <Filter>Source Files\SystemSpecific</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SystemSpecific\windows\WindowsSpecific.cpp">
+      <Filter>Source Files\SystemSpecific\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SystemSpecific\system.cpp">
+      <Filter>Source Files\SystemSpecific\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ThirdParty\lodepng.cpp">
+      <Filter>Source Files\ThirdParty</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Render\camera.hpp">
@@ -226,71 +226,11 @@
     <ClInclude Include="..\..\include\Render\textRender.hpp">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\appFramework.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\common.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\debugUtils.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\fileUtils.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\inputDevices.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\loadSaveFile.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\maths.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\randomNumbers.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\readFBX.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\stringHelpers.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\system.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\types.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\vectorMatrix.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\vectorMatrix_rotation.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\version.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\hidusage.h">
       <Filter>Source Files\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\collectionNamed.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\private\pch.hpp">
-      <Filter>Source Files\src\private</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\external\lodepng.h">
-      <Filter>Source Files\external</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Render\public\RenderObj.hpp">
       <Filter>Source Files\Render\public</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\private\windows\WindowsSpecific.hpp">
-      <Filter>Source Files\src\private\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\private\systemSpecific.hpp">
-      <Filter>Source Files\src\private</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Game\public\Game.hpp">
       <Filter>Source Files\Game\public</Filter>
@@ -375,6 +315,90 @@
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\openGL4\vertexBufferWrapper.hpp">
       <Filter>Source Files\GfxDevice\public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pch.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SystemSpecific\systemSpecific.hpp">
+      <Filter>Source Files\SystemSpecific</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SystemSpecific\windows\WindowsSpecific.hpp">
+      <Filter>Source Files\SystemSpecific\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SystemSpecific\system.hpp">
+      <Filter>Source Files\SystemSpecific\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ThirdParty\lodepng.h">
+      <Filter>Source Files\ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\appFramework.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\collectionNamed.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\common.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\debugUtils.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\fileTemplate don%27t build.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\fileUtils.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\fixedPointMaths.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hidusage.h">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inputDevices.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\loadSaveFile.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\log.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\maths.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\misc.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\octree.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\randomNumbers.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\readFBX.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\serialize.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\state.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\stringHelpers.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\types.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\vectorMatrix.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\vectorMatrix_rotation.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\version.hpp">
+      <Filter>Source Files\src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

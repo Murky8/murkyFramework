@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/src/private/pch.hpp>
+#include <murkyFramework/src/pch.hpp>
 
 // convention:
 // http://www.mindcontrol.org/~hplus/graphics/matrix-layout.html

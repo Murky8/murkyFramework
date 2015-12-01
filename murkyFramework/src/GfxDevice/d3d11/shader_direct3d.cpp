@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/src/private/pch.hpp>
+#include <murkyFramework/src/pch.hpp>
 #define deviceObj  g_appDebug->render->gfxDevice
 
 #ifdef USE_DIRECT3D11

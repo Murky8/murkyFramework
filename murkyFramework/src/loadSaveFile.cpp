@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/src/private/pch.hpp>
+#include <murkyFramework/src/pch.hpp>
 
 // returns -1 if unsuccessful
 int getFileSize(const wchar_t *const fileName)

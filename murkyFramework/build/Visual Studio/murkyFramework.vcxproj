@@ -17,28 +17,12 @@
       <Configuration>d3d12_debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="ogl_debug|Win32">
       <Configuration>ogl_debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="ogl_debug|x64">
       <Configuration>ogl_debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -49,12 +33,6 @@
     <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -68,12 +46,6 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ogl_debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
@@ -97,25 +69,8 @@
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -124,9 +79,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ogl_debug|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'" Label="PropertySheets">
@@ -138,17 +90,7 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <RunCodeAnalysis>false</RunCodeAnalysis>
@@ -158,10 +100,6 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ogl_debug|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
@@ -177,52 +115,13 @@
     <LinkIncremental>false</LinkIncremental>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../external/glew/include;../../../external;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Cpp0xSupport>true</Cpp0xSupport>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <BrowseInformation>true</BrowseInformation>
-      <EnablePREfast>false</EnablePREfast>
-      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <PreprocessToFile>false</PreprocessToFile>
-      <PrecompiledHeaderFile>murkyFramework/src/private/pch.hpp</PrecompiledHeaderFile>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.10240.0\um\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-    </Link>
-    <Bscmake>
-      <PreserveSbr>true</PreserveSbr>
-    </Bscmake>
-    <FxCompile>
-      <ShaderModel>5.0</ShaderModel>
-    </FxCompile>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../external/glew/include;../../../external;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../ThirdParty/glew/include;../../../ThirdParty;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Cpp0xSupport>true</Cpp0xSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <BrowseInformation>true</BrowseInformation>
@@ -230,7 +129,7 @@
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
       <MinimalRebuild>false</MinimalRebuild>
       <PreprocessToFile>false</PreprocessToFile>
-      <PrecompiledHeaderFile>murkyFramework/src/private/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>murkyFramework/src/pch.hpp</PrecompiledHeaderFile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -253,7 +152,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../external/glew/include;../../../external;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../ThirdParty/glew/include;../../../ThirdParty;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Cpp0xSupport>true</Cpp0xSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <BrowseInformation>true</BrowseInformation>
@@ -261,7 +160,7 @@
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
       <MinimalRebuild>false</MinimalRebuild>
       <PreprocessToFile>false</PreprocessToFile>
-      <PrecompiledHeaderFile>murkyFramework/src/private/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>murkyFramework/src/pch.hpp</PrecompiledHeaderFile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -284,7 +183,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../external/glew/include;../../../external;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../ThirdParty/glew/include;../../../ThirdParty;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Cpp0xSupport>true</Cpp0xSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <BrowseInformation>true</BrowseInformation>
@@ -292,7 +191,7 @@
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
       <MinimalRebuild>false</MinimalRebuild>
       <PreprocessToFile>false</PreprocessToFile>
-      <PrecompiledHeaderFile>murkyFramework/src/private/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>murkyFramework/src/pch.hpp</PrecompiledHeaderFile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -309,38 +208,6 @@
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Full</Optimization>
-      <PreprocessorDefinitions>WIN32;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BrowseInformation>true</BrowseInformation>
-      <EnablePREfast>false</EnablePREfast>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../external/glew/include;../../../external;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MinimalRebuild>false</MinimalRebuild>
-      <PreprocessToFile>false</PreprocessToFile>
-      <PrecompiledHeaderFile>murkyFramework/src/private/pch.hpp</PrecompiledHeaderFile>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.10240.0\um\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-    </Link>
-    <FxCompile>
-      <ShaderModel>5.0</ShaderModel>
-    </FxCompile>
-    <Bscmake>
-      <PreserveSbr>true</PreserveSbr>
-    </Bscmake>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -349,12 +216,12 @@
       <PreprocessorDefinitions>WIN32;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;USE_DIRECT3D12;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
       <EnablePREfast>false</EnablePREfast>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../external/glew/include;../../../external;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../ThirdParty/glew/include;../../../ThirdParty;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <PreprocessToFile>false</PreprocessToFile>
-      <PrecompiledHeaderFile>murkyFramework/src/private/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>murkyFramework/src/pch.hpp</PrecompiledHeaderFile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -379,12 +246,12 @@
       <PreprocessorDefinitions>WIN32;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;USE_DIRECT3D11;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
       <EnablePREfast>false</EnablePREfast>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../external/glew/include;../../../external;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../ThirdParty/glew/include;../../../ThirdParty;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <PreprocessToFile>false</PreprocessToFile>
-      <PrecompiledHeaderFile>murkyFramework/src/private/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>murkyFramework/src/pch.hpp</PrecompiledHeaderFile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -409,12 +276,12 @@
       <PreprocessorDefinitions>WIN32;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;USE_OPENGL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
       <EnablePREfast>false</EnablePREfast>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../external/glew/include;../../../external;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../ThirdParty/glew/include;../../../ThirdParty;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <PreprocessToFile>false</PreprocessToFile>
-      <PrecompiledHeaderFile>murkyFramework/src/private/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>murkyFramework/src/pch.hpp</PrecompiledHeaderFile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -431,67 +298,8 @@
       <PreserveSbr>true</PreserveSbr>
     </Bscmake>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../external/glew/include;../../../external;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Cpp0xSupport>true</Cpp0xSupport>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <BrowseInformation>false</BrowseInformation>
-      <EnablePREfast>false</EnablePREfast>
-      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <PrecompiledHeaderFile>murkyFramework/src/private/pch.hpp</PrecompiledHeaderFile>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.10240.0\um\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-    </Link>
-    <FxCompile>
-      <ShaderModel>5.0</ShaderModel>
-    </FxCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BrowseInformation>false</BrowseInformation>
-      <EnablePREfast>false</EnablePREfast>
-      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\shared;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10240.0\um;../../../;../../../external/glew/include;../../../external;C:\Program Files (x86)\Windows Kits\8.1\Include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PrecompiledHeaderFile>murkyFramework/src/private/pch.hpp</PrecompiledHeaderFile>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.10240.0\um\x64;../../../external/lib/win64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-    </Link>
-    <FxCompile>
-      <ShaderModel>5.0</ShaderModel>
-    </FxCompile>
-  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\external\lodepng.cpp" />
+    <ClCompile Include="..\..\..\ThirdParty\lodepng.cpp" />
     <ClCompile Include="..\..\src\appFramework.cpp" />
     <ClCompile Include="..\..\src\common.cpp" />
     <ClCompile Include="..\..\src\debugUtils.cpp" />
@@ -547,20 +355,14 @@
     <ClCompile Include="..\..\src\loadSaveFile.cpp" />
     <ClCompile Include="..\..\src\mainLoop.cpp" />
     <ClCompile Include="..\..\src\mclass.cpp" />
-    <ClCompile Include="..\..\src\private\pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+    <ClCompile Include="..\..\src\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ogl_debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ogl_debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\src\private\systemSpecific.cpp" />
-    <ClCompile Include="..\..\src\private\windows\WindowsSpecific.cpp" />
     <ClCompile Include="..\..\src\randomNumbers.cpp" />
     <ClCompile Include="..\..\src\readFBX.cpp" />
     <ClCompile Include="..\..\src\Render\linesShapes.cpp" />
@@ -571,34 +373,27 @@
     <ClCompile Include="..\..\src\school.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\stringHelpers.cpp" />
-    <ClCompile Include="..\..\src\system.cpp" />
+    <ClCompile Include="..\..\src\SystemSpecific\system.cpp" />
+    <ClCompile Include="..\..\src\SystemSpecific\systemSpecific.cpp" />
+    <ClCompile Include="..\..\src\SystemSpecific\windows\WindowsSpecific.cpp" />
     <ClCompile Include="..\..\src\vectorMatrix.cpp" />
     <ClCompile Include="..\..\src\vectorMatrix_transform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\external\lodepng.h" />
-    <ClInclude Include="..\..\include\appFramework.hpp" />
-    <ClInclude Include="..\..\include\collectionNamed.hpp" />
-    <ClInclude Include="..\..\include\common.hpp" />
-    <ClInclude Include="..\..\include\debugUtils.hpp" />
-    <ClInclude Include="..\..\include\fileUtils.hpp" />
+    <ClInclude Include="..\..\..\ThirdParty\lodepng.h" />
     <ClInclude Include="..\..\include\hidusage.h" />
-    <ClInclude Include="..\..\include\inputDevices.hpp" />
-    <ClInclude Include="..\..\include\loadSaveFile.hpp" />
-    <ClInclude Include="..\..\include\maths.hpp" />
-    <ClInclude Include="..\..\include\randomNumbers.hpp" />
-    <ClInclude Include="..\..\include\readFBX.hpp" />
     <ClInclude Include="..\..\include\Render\camera.hpp" />
     <ClInclude Include="..\..\include\Render\linesShapes.hpp" />
     <ClInclude Include="..\..\include\Render\projectionMat.hpp" />
     <ClInclude Include="..\..\include\Render\render.hpp" />
     <ClInclude Include="..\..\include\Render\textRender.hpp" />
-    <ClInclude Include="..\..\include\stringHelpers.hpp" />
-    <ClInclude Include="..\..\include\system.hpp" />
-    <ClInclude Include="..\..\include\types.hpp" />
-    <ClInclude Include="..\..\include\vectorMatrix.hpp" />
-    <ClInclude Include="..\..\include\vectorMatrix_rotation.hpp" />
-    <ClInclude Include="..\..\include\version.hpp" />
+    <ClInclude Include="..\..\src\appFramework.hpp" />
+    <ClInclude Include="..\..\src\collectionNamed.hpp" />
+    <ClInclude Include="..\..\src\common.hpp" />
+    <ClInclude Include="..\..\src\debugUtils.hpp" />
+    <ClInclude Include="..\..\src\fileTemplate don%27t build.hpp" />
+    <ClInclude Include="..\..\src\fileUtils.hpp" />
+    <ClInclude Include="..\..\src\fixedPointMaths.hpp" />
     <ClInclude Include="..\..\src\Game\public\Game.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\d3d11\GfxDeviceObj.hpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
@@ -659,11 +454,28 @@
     <ClInclude Include="..\..\src\GfxDevice\textureHelpers.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\version_gfxDevice.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\vertexBufferHelpers.hpp" />
+    <ClInclude Include="..\..\src\hidusage.h" />
+    <ClInclude Include="..\..\src\inputDevices.hpp" />
+    <ClInclude Include="..\..\src\loadSaveFile.hpp" />
+    <ClInclude Include="..\..\src\log.hpp" />
+    <ClInclude Include="..\..\src\maths.hpp" />
     <ClInclude Include="..\..\src\mclass.hpp" />
-    <ClInclude Include="..\..\src\private\pch.hpp" />
-    <ClInclude Include="..\..\src\private\systemSpecific.hpp" />
-    <ClInclude Include="..\..\src\private\windows\WindowsSpecific.hpp" />
+    <ClInclude Include="..\..\src\misc.hpp" />
+    <ClInclude Include="..\..\src\octree.hpp" />
+    <ClInclude Include="..\..\src\pch.hpp" />
+    <ClInclude Include="..\..\src\randomNumbers.hpp" />
+    <ClInclude Include="..\..\src\readFBX.hpp" />
     <ClInclude Include="..\..\src\Render\public\RenderObj.hpp" />
+    <ClInclude Include="..\..\src\serialize.hpp" />
+    <ClInclude Include="..\..\src\state.hpp" />
+    <ClInclude Include="..\..\src\stringHelpers.hpp" />
+    <ClInclude Include="..\..\src\SystemSpecific\system.hpp" />
+    <ClInclude Include="..\..\src\SystemSpecific\systemSpecific.hpp" />
+    <ClInclude Include="..\..\src\SystemSpecific\windows\WindowsSpecific.hpp" />
+    <ClInclude Include="..\..\src\types.hpp" />
+    <ClInclude Include="..\..\src\vectorMatrix.hpp" />
+    <ClInclude Include="..\..\src\vectorMatrix_rotation.hpp" />
+    <ClInclude Include="..\..\src\version.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\GfxDevice\d3d11\shaders\posCol.ps">

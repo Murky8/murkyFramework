@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 // for projection matrix see 'gfxHigh/blhah'
-#include <murkyFramework/src/private/pch.hpp>
+#include <murkyFramework/src/pch.hpp>
 
 
 //------------------------------------------------------------------------------

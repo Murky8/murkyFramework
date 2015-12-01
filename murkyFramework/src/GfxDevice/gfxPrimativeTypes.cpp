@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/src/private/pch.hpp>
+#include <murkyFramework/src/pch.hpp>
 
 Vert_pc::Vert_pc(vec3 p, vec3 c) : pos(p), col(c) 
 {
