@@ -30,56 +30,7 @@ namespace Render
     
     bool initialise(SystemSpecific* systemSpecific)
     {		
-        debugLog << L"RenderHi::initialise" << "\n";				
-
-#ifdef USE_DIRECT3D12
-        
-        deviceObj->vertexBufferManager.add(L"tris",
-            GfxDevice::VertexBufferWrapper(
-                GfxDevice::VertexType::posColTex,
-                GfxDevice::PrimativeType::triangle,
-                //GfxDevice::shaderManager.get(std::wstring(L"posColTex")),
-                //newt, 1024));
-                GfxDevice::ShaderWrapper(),
-                deviceObj->textureManager.get(L"t0 4c"), 6));
-        
-        deviceObj->vertexBufferManager.add(L"lines",
-            GfxDevice::VertexBufferWrapper(
-                GfxDevice::VertexType::posCol,
-                GfxDevice::PrimativeType::line,
-                deviceObj->shaderManager.get(L"posCol"),
-                GfxDevice::TextureWrapper(), 16 * 1024));
-
-        textRenderer = new TextRender(deviceObj->textureManager.get(L"font 4c"));
-
-#else
-
-        GfxDevice::Shaders::initialise();        
-        
-        GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
-            L"data", L"font", L"png");
-        deviceObj->textureManager.add(L"font 4c", newt);
-        
-        GfxDevice::TextureWrapper newt2 = GfxDevice::createTestTextureObject();
-        deviceObj->textureManager.add(L"test", newt2);
-        
-        deviceObj->vertexBufferManager.add(L"tris",
-            GfxDevice::VertexBufferWrapper(
-            GfxDevice::VertexType::posColTex,
-            GfxDevice::PrimativeType::triangle,
-            deviceObj->shaderManager.get( L"posColTex"),
-            newt, 1024 ));
-
-        deviceObj->vertexBufferManager.add(L"lines",
-            GfxDevice::VertexBufferWrapper(
-            GfxDevice::VertexType::posCol,
-            GfxDevice::PrimativeType::line,
-            deviceObj->shaderManager.get(L"posCol"),
-            newt2, 16*1024));
-        
-        textRenderer = new TextRender(newt);
-        
-#endif          
+         
         return true;
     }
 
