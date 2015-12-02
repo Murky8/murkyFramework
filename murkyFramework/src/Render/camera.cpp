@@ -1,18 +1,16 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-#include <murkyFramework/include/gfxLowLevel/version_gfxDevice.hpp>
+//#include <murkyFramework/src/pch.hpp>
 
-#include <murkyFramework/include/gfxHighLevel/camera.hpp>
-#include <murkyFramework/include/common.hpp>
-#include <murkyFramework/include/debugUtils.hpp>
 
-Camera::Camera(mat3 &ori, vec4 pos, f32 fov) : ori(ori), pos(pos), fov(fov)
-{    
-}
 
-void Camera::getProjectionMat(f32 nearZ, f32 farZ, mat4 &out) const
-{
+//Camera::Camera(mat3 &ori, vec4 pos, f32 fov) : ori(ori), pos(pos), fov(fov)
+//{    
+//}
+
+//void Camera::getProjectionMat(f32 nearZ, f32 farZ, mat4 &out) const
+//{
     /*
     glm::mat4 projMatrix = glm::perspective(
         2.0f,   // The horizontal Field of View, in degrees : the amount of "zoom". Think "camera lens". Usually between 90° (extra wide) and 30° (quite zoomed in)
@@ -56,4 +54,4 @@ void Camera::getProjectionMat(f32 nearZ, f32 farZ, mat4 &out) const
 
     projMat = trans*rot*projMat;
     */
-}
+//}

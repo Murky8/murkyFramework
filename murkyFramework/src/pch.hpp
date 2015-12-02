@@ -121,11 +121,11 @@
 #include <murkyFramework/src/stringHelpers.hpp>
 
 // render
-#include <murkyFramework/include/Render/linesShapes.hpp>
-#include <murkyFramework/include/Render/projectionMat.hpp>
-#include <murkyFramework/include/Render/render.hpp>
-#include <murkyFramework/include/Render/textRender.hpp>
-#include <murkyFramework/src/Render/public/RenderObj.hpp>
+#include <murkyFramework/src/Render/linesShapes.hpp>
+#include <murkyFramework/src/Render/projectionMat.hpp>
+#include <murkyFramework/src/Render/render.hpp>
+#include <murkyFramework/src/Render/textRender.hpp>
+#include <murkyFramework/src/Render/RenderObj.hpp>
 // render
 
 #include <murkyFramework/src/appFramework.hpp>

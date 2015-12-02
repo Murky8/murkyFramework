@@ -366,9 +366,9 @@
     <ClCompile Include="..\..\src\randomNumbers.cpp" />
     <ClCompile Include="..\..\src\readFBX.cpp" />
     <ClCompile Include="..\..\src\Render\linesShapes.cpp" />
-    <ClCompile Include="..\..\src\Render\private\RenderObj.cpp" />
     <ClCompile Include="..\..\src\Render\projectionMat.cpp" />
     <ClCompile Include="..\..\src\Render\render.cpp" />
+    <ClCompile Include="..\..\src\Render\RenderObj.cpp" />
     <ClCompile Include="..\..\src\Render\textRender.cpp" />
     <ClCompile Include="..\..\src\school.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
@@ -382,11 +382,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\ThirdParty\lodepng.h" />
     <ClInclude Include="..\..\include\hidusage.h" />
-    <ClInclude Include="..\..\include\Render\camera.hpp" />
-    <ClInclude Include="..\..\include\Render\linesShapes.hpp" />
-    <ClInclude Include="..\..\include\Render\projectionMat.hpp" />
-    <ClInclude Include="..\..\include\Render\render.hpp" />
-    <ClInclude Include="..\..\include\Render\textRender.hpp" />
     <ClInclude Include="..\..\src\appFramework.hpp" />
     <ClInclude Include="..\..\src\collectionNamed.hpp" />
     <ClInclude Include="..\..\src\common.hpp" />
@@ -465,7 +460,11 @@
     <ClInclude Include="..\..\src\pch.hpp" />
     <ClInclude Include="..\..\src\randomNumbers.hpp" />
     <ClInclude Include="..\..\src\readFBX.hpp" />
-    <ClInclude Include="..\..\src\Render\public\RenderObj.hpp" />
+    <ClInclude Include="..\..\src\Render\linesShapes.hpp" />
+    <ClInclude Include="..\..\src\Render\projectionMat.hpp" />
+    <ClInclude Include="..\..\src\Render\render.hpp" />
+    <ClInclude Include="..\..\src\Render\RenderObj.hpp" />
+    <ClInclude Include="..\..\src\Render\textRender.hpp" />
     <ClInclude Include="..\..\src\serialize.hpp" />
     <ClInclude Include="..\..\src\state.hpp" />
     <ClInclude Include="..\..\src\stringHelpers.hpp" />

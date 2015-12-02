@@ -5,13 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Header Files\Render">
-      <UniqueIdentifier>{93fbcb4a-a7a5-4820-89d6-38e7af132631}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Render">
       <UniqueIdentifier>{9956757e-d72e-4811-a74f-52eec20e5ec9}</UniqueIdentifier>
     </Filter>
@@ -23,9 +16,6 @@
     </Filter>
     <Filter Include="Source Files\Render\public">
       <UniqueIdentifier>{1455827c-ab18-435f-a039-1752e9c937cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Render\private">
-      <UniqueIdentifier>{b99beb5b-378b-49dc-9b8b-2d09cdd6d15c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{89a8eec5-89a3-4516-a0c3-5c2ccc637f84}</UniqueIdentifier>
@@ -131,9 +121,6 @@
     <ClCompile Include="..\..\src\vectorMatrix_transform.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Render\private\RenderObj.cpp">
-      <Filter>Source Files\Render\private</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Game\private\Game.cpp">
       <Filter>Source Files\Game\private</Filter>
     </ClCompile>
@@ -209,28 +196,13 @@
     <ClCompile Include="..\..\..\ThirdParty\lodepng.cpp">
       <Filter>Source Files\ThirdParty</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Render\RenderObj.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\Render\camera.hpp">
-      <Filter>Header Files\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Render\linesShapes.hpp">
-      <Filter>Header Files\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Render\projectionMat.hpp">
-      <Filter>Header Files\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Render\render.hpp">
-      <Filter>Header Files\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Render\textRender.hpp">
-      <Filter>Header Files\Render</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\hidusage.h">
       <Filter>Source Files\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Render\public\RenderObj.hpp">
-      <Filter>Source Files\Render\public</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Game\public\Game.hpp">
       <Filter>Source Files\Game\public</Filter>
@@ -399,6 +371,21 @@
     </ClInclude>
     <ClInclude Include="..\..\src\version.hpp">
       <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Render\linesShapes.hpp">
+      <Filter>Source Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Render\projectionMat.hpp">
+      <Filter>Source Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Render\render.hpp">
+      <Filter>Source Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Render\RenderObj.hpp">
+      <Filter>Source Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Render\textRender.hpp">
+      <Filter>Source Files\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
