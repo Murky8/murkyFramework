@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 class InputDevices
 {
 public:
@@ -87,3 +87,5 @@ private:
 	bool	consumeAllMouseMove(int &out, boost::circular_buffer<int> &buffer);
 	int		consumeAllMouseMove(boost::circular_buffer<int>& buffer);
 };
+
+}//namespace murkyFramework

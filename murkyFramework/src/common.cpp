@@ -4,7 +4,7 @@
 
 #include <murkyFramework/src/pch.hpp>
 
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 //extern AppFramework *g_appDebug;    // for debugging and development only.
 void triggerBreakpoint()
 {
@@ -16,3 +16,4 @@ void triggerBreakpoint(const std::wstring &text)
     debugLog << text;
     DebugBreak();
 }
+}//namespace murkyFramework

@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11. openGL4
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 namespace GfxDevice
 {
     void onGfxDeviceErrorTriggerBreakpoint();
@@ -23,9 +23,9 @@ public:
     GfxDeviceObj(GfxDeviceObj_initStruct  *const initStruct);
     ~GfxDeviceObj();
 
-    murkyFramework::CollectionNamed<GfxDevice::ShaderWrapper>		shaderManager;
-    murkyFramework::CollectionNamed<GfxDevice::TextureWrapper>		textureManager;
-    murkyFramework::CollectionNamed<GfxDevice::VertexBufferWrapper>	vertexBufferManager;
+    CollectionNamed<GfxDevice::ShaderWrapper>		shaderManager;
+    CollectionNamed<GfxDevice::TextureWrapper>		textureManager;
+    CollectionNamed<GfxDevice::VertexBufferWrapper>	vertexBufferManager;
 
     mat4    projectionMat{ unit };
     void setUniform_projectionMatrix(const float *pMat);
@@ -35,3 +35,4 @@ public:
     void drawBegin();
     void drawEnd();
 };
+}//namespace murkyFramework

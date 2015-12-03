@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 namespace GfxDevice
 {
     class TextureWrapper
@@ -12,3 +12,4 @@ namespace GfxDevice
         Microsoft::WRL::ComPtr<ID3D12Resource> deviceTexture;
     };
 }
+}//namespace murkyFramework

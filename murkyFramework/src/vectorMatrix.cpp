@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 // convention:
 // http://www.mindcontrol.org/~hplus/graphics/matrix-layout.html
 // using row-major matrix
@@ -124,6 +124,7 @@ vec3 operator +(const vec3 &a, const vec3 &b)
 
 vec3 operator +=(vec3 &a, const vec3 &b)
 {
+
     return(a = a + b);
 }
 
@@ -543,3 +544,4 @@ inline vec	operator *(const vec &v, const mat &m)
 
 
 
+}//namespace murkyFramework

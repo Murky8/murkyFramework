@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 namespace GfxDevice
 {
     // forward declarations
@@ -11,3 +11,4 @@ namespace GfxDevice
     void                initilise_textureSystem();
     void                deinitilise_textureSystem();
 }
+}//namespace murkyFramework

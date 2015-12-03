@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11. openGL4
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 enum RootParameters : u32
 {
     RootParameterTexture = 0,
@@ -95,3 +95,4 @@ enum RootParameters : u32
         ComPtr<ID3D12Resource> m_constantBufferGS;  // projmat
         UINT8* m_pConstantBufferGSData;  // projmat
     };
+}//namespace murkyFramework

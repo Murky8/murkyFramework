@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 class SystemSpecific
 {
 private:      
@@ -11,3 +11,4 @@ public:
     SystemSpecific();
     virtual bool createWindow(std::wstring title, int width, int height) = 0;    
 };
+}//namespace murkyFramework

@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 class WindowsSpecific : public SystemSpecific
 {
 private:
@@ -23,3 +23,4 @@ public:
     HWND gethWnd()  const { return hWnd; }
 };
 
+}//namespace murkyFramework

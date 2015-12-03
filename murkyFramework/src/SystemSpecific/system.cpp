@@ -3,7 +3,8 @@
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
 
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
+
 //using namespace std::literals;
 using namespace std::chrono;
 
@@ -84,3 +85,5 @@ uint64_t rdtsc(){
     // QueryPerformanceCounter
     // QueryPerfomanceFrequency
 }
+
+}//namespace murkyFramework

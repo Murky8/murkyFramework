@@ -2,8 +2,8 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-namespace murkyFramework {}//namespace murkyFramework
 #ifdef USE_OPENGL
+namespace murkyFramework {
 
 namespace GfxDevice
 {
@@ -31,4 +31,5 @@ namespace GfxDevice
 	private:		
 	};
 }
+}//namespace murkyFramework
 #endif

@@ -3,7 +3,7 @@
 // 2015 J. Coelho.
 // C++11. Windows. /*Android.*/
 
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 
 
 class OctreeCube
@@ -51,3 +51,4 @@ private:
     // Data
     OctreeCube *pCube;
 };
+}//namespace murkyFramework

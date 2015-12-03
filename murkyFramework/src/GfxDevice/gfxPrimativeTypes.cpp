@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 Vert_pc::Vert_pc(vec3 p, vec3 c) : pos(p), col(c) 
 {
 }
@@ -36,5 +36,5 @@ Triangle_pct::Triangle_pct(Vert_pct v0, Vert_pct v1, Vert_pct v2)// : v{ v0, v1,
     v[1] = v1;
     v[2] = v2;
 }
-
+}//namespace murkyFramework
 

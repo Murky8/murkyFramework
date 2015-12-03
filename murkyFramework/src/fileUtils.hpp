@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 class FilePathSplit
 {
 public:
@@ -43,3 +43,4 @@ private:
     HANDLE fileHandle = nullptr;
     std::wstring path;
 };
+}//namespace murkyFramework

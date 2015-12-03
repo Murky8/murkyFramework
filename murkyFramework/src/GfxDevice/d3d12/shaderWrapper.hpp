@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 namespace GfxDevice
 {
 	class ShaderWrapper
@@ -12,3 +12,4 @@ namespace GfxDevice
 		Microsoft::WRL::ComPtr<ID3DBlob> pixelShader;	
 	};
 }
+}//namespace murkyFramework

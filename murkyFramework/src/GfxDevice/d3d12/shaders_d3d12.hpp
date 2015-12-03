@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 namespace GfxDevice
 {        
     namespace Shaders
@@ -13,3 +13,4 @@ namespace GfxDevice
     
     void setUniform_projectionMatrix(const float *pMat);
 }
+}//namespace murkyFramework

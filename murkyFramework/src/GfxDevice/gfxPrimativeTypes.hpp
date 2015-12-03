@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 namespace GfxDevice
 {
     enum class VertexType{ posCol, posColTex };
@@ -82,5 +82,5 @@ public:
 private:
     //Triangle_pct() = delete;
 };
-
+}//namespace murkyFramework
 //#pragma pack(pop)

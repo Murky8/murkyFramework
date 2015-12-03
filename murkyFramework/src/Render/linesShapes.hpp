@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 namespace Render
 {    
     // forward declarations
@@ -15,3 +15,4 @@ namespace Render
         std::vector<Line_pc> &lines = defaultLines);
     
 }
+}//namespace murkyFramework

@@ -2,8 +2,10 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-namespace murkyFramework {}//namespace murkyFramework
+
 #ifdef USE_OPENGL
+namespace murkyFramework{
+
 namespace GfxDevice
 {
 	class TextureWrapper
@@ -12,26 +14,5 @@ namespace GfxDevice
 		GLuint value;
 	};
 }
-#endif
-
-
-#if 0
-
-class 
-class TextureWrapper_container
-{
-    TextureWrapper2() = delete;
-    TextureWrapper2(class DeviceTexture *pDevText)
-    {    
-        pDevText = new DeviceTexture
-    }
-
-    ~TextureWrapper2()
-    {
-
-    }
-
-private:
-    class DeviceTexture *pDevText;
-};
+}//namespace murkyFramework
 #endif

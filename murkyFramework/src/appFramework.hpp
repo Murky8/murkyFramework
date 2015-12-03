@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 class AppFramework
 {
 public:
@@ -39,7 +39,8 @@ class AppFramework_pointer
 {
     u32 nReads = 0;
     u32 nWrites = 0;
-
 };
 
 extern AppFramework *g_appDebug;
+
+}//namespace murkyFramework

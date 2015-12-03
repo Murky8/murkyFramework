@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 namespace Render
 {
     class TextRender
@@ -22,3 +22,4 @@ namespace Render
 
     //void drawText(const std::wstring &text, const GfxLowLevel::TextureRef &texture);
 }
+}//namespace murkyFramework

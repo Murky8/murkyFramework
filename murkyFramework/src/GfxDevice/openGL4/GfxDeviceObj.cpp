@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11. openGL4
 #include <murkyFramework/src/pch.hpp>
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)
 {
     // note: OGL, this accepts row-major, pre-multiplying of verts and post-multi in vertex shader.
@@ -133,3 +133,4 @@ namespace GfxDevice
             triggerBreakpoint();
     }
 }
+}//namespace murkyFramework

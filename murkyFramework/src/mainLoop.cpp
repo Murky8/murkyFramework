@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 // called from windows loop in main.cpp
 void mainLoop_threadMain(AppFramework  *const app)
 {        
@@ -99,3 +99,4 @@ void mainLoop_threadMain(AppFramework  *const app)
     }
     app->frameCounter++;      
 }
+}//namespace murkyFramework

@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 namespace GfxDevice
 {  
     class TextureId    //todo rename ref part
@@ -43,3 +43,4 @@ namespace GfxDevice
         std::map< std::wstring, GfxDevice::TextureId> textures;
     };
 }
+}//namespace murkyFramework

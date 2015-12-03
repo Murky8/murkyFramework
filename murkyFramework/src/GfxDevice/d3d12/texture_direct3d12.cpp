@@ -3,7 +3,7 @@
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
 
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 #define deviceObj  g_appDebug->render->gfxDevice
 
 static u32 nextTextureID = { 0 };
@@ -30,3 +30,4 @@ namespace GfxDevice
     {     
     }
 }
+}//namespace murkyFramework

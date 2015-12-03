@@ -3,7 +3,7 @@
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
 
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 // external forward declarations
 
 // forward declarations
@@ -49,15 +49,20 @@ void compileResources()
     murkyFramework::done = true;
 }
 
+
+}//namespace murkyFramework
+
+
 //------------------------------------------------------------------------------
 // 
-int main()
+using namespace murkyFramework;
+int main() // can't be in a namespace :(
 {    
     //skool();    
     AppFramework *const app = new AppFramework;
-    g_appDebug = app;
+    murkyFramework::g_appDebug = app;
        
-    compileResources();// move this!	            
+    murkyFramework::compileResources();// move this!	            
     
     SetWindowLongPtr( //note: windows msg loop inactive until following is set.
         (dynamic_cast<WindowsSpecific*>(app->systemSpecific))->gethWnd(), 
@@ -81,7 +86,7 @@ int main()
         }
         else
         {										// If There Are No Messages                                
-            mainLoop_threadMain(app);
+            murkyFramework::mainLoop_threadMain(app);
         }
     }
 

@@ -3,7 +3,7 @@
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
 
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 namespace qmaths
 {
     float randFloat_0_to_1()
@@ -17,3 +17,4 @@ namespace qmaths
     }    
 }
 
+}//namespace murkyFramework

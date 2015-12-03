@@ -4,7 +4,7 @@
 #include <murkyFramework/src/pch.hpp>
 #define deviceObj  g_appDebug->render->gfxDevice
 
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 namespace GfxDevice
 {    	    
     // external forward declarations 
@@ -153,5 +153,5 @@ namespace GfxDevice
         return program;
     }
 }
-
+}//namespace murkyFramework
 

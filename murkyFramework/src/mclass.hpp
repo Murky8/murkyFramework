@@ -3,7 +3,8 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 class Mclass
 {
 };
+}//namespace murkyFramework

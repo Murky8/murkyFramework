@@ -2327,7 +2327,7 @@ static unsigned char readBitFromReversedStream(size_t* bitpointer, const unsigne
 
 static unsigned readBitsFromReversedStream(size_t* bitpointer, const unsigned char* bitstream, size_t nbits)
 {
-    triggerBreakpoint();// JC
+    //triggerBreakpoint();// JC
     unsigned result = 0;
     size_t i;
     for (i = nbits - 1; i < nbits; i--)

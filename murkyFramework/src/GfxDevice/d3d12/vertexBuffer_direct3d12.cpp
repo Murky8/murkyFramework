@@ -4,7 +4,7 @@
 #include <murkyFramework/src/pch.hpp>
 #define deviceObj  g_appDebug->render->gfxDevice
 
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 namespace GfxDevice
 {        		
     using namespace DirectX;
@@ -105,3 +105,5 @@ namespace GfxDevice
         deviceObj->g_commandList->DrawInstanced(nVerticiesPerPrimative*nPrimatives, 1, 0, 0);
     }
 }
+
+}//namespace murkyFramework

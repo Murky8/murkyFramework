@@ -1,6 +1,6 @@
 #include <murkyFramework/src/pch.hpp>
 
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 int idProvider = 0;
 struct Zoof
 {
@@ -213,6 +213,7 @@ std::cout << "Trying to move-assign D\n";
 D d1, d2;
 d2 = std::move(d1);
 }
+
 */
 
 //
@@ -463,3 +464,4 @@ destructor 101
         Cl c, d;
         d = c;
         */
+}//namespace murkyFramework

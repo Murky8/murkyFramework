@@ -3,11 +3,11 @@
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
 
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 
 AppFramework::AppFramework()
 {    
-    g_appDebug = this; // warning: see g_aapDebug usage notes: for development only, remove!
+    murkyFramework::g_appDebug = this; // warning: see g_aapDebug usage notes: for development only, remove!
 
     qdev::setCurrentDirectoryToAppRoot();
     debug2ResetLogFile();    
@@ -93,3 +93,6 @@ AppFramework::~AppFramework()
 //    mainLoopThreadAttached = true;
 //    //mainLoopThread = thread;
 //}
+
+
+}//namespace murkyFramework

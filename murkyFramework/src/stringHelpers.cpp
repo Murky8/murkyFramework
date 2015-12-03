@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 std::wstring s2ws(const std::string& str)
 {
     typedef std::codecvt_utf8<wchar_t> convert_typeX;
@@ -104,3 +104,4 @@ std::wstring &operator << (std::wstring &lhs, mat4 m)
 	}
 	return lhs;
 }
+}//namespace murkyFramework

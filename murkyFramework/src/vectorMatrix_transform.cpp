@@ -3,7 +3,7 @@
 // Platform: C++11
 // for projection matrix see 'gfxHigh/blhah'
 #include <murkyFramework/src/pch.hpp>
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 
 //------------------------------------------------------------------------------
 #pragma region quaternion
@@ -71,6 +71,7 @@ mat3 makeRotationMatrix3c(vec rv)
 	return makeRotationMatrix4c(vec4(dir.x, dir.y, dir.z, len));
 }
 
+}//namespace murkyFramework
 
 
 

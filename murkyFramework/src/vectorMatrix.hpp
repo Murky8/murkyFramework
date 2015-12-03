@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 class TypeUnit
 {
     const u8 dummyVal= 0;
@@ -258,3 +258,5 @@ vec4 operator *(const vec4 &v, const mat4 &m);
 mat4 operator *(const mat4 &m, const float &s);
 mat4 operator *=(mat4 &m, const float &s);
 mat4 operator *(const mat4 &ma, const mat4 &mb);
+
+}//namespace murkyFramework

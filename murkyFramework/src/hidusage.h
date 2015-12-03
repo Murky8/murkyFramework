@@ -1,5 +1,5 @@
 #pragma once
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 /*++
 
 Copyright (c) 1996, 1997      Microsoft Corporation
@@ -269,3 +269,4 @@ typedef USHORT USAGE, *PUSAGE;
 
 
 #endif
+}//namespace murkyFramework

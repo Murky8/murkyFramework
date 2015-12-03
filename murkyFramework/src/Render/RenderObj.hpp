@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 class RenderObj
 {
 public:
@@ -19,3 +19,4 @@ public:
     //vec4 cursorPos{ 0, 0, -5.f };
     //mat3 cursorOri{ unit };
 };
+}//namespace murkyFramework

@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
-namespace murkyFramework {}//namespace murkyFramework
+namespace murkyFramework {
 #define deviceObj  g_appDebug->render->gfxDevice
 
 extern std::vector<Triangle_pct> gdeb_tris;
@@ -72,3 +72,4 @@ namespace Render
         tris.push_back({ v[1], v[3], v[2] });
     }
 }
+}//namespace murkyFramework
