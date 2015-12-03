@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-
+namespace murkyFramework {}//namespace murkyFramework
 
 // given unit dir (x, y, z) and rotation angle (w); create matrix achieving this rotation
 // 3 components. 

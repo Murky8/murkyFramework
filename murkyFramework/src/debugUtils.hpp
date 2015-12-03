@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-
+namespace murkyFramework {}//namespace murkyFramework
 class DebObj
 {//dummy object to allow << operator to work on something
 };

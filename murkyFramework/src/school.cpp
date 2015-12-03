@@ -1,6 +1,6 @@
 #include <murkyFramework/src/pch.hpp>
 
-
+namespace murkyFramework {}//namespace murkyFramework
 int idProvider = 0;
 struct Zoof
 {

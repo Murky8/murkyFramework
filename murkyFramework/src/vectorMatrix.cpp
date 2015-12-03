@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
-
+namespace murkyFramework {}//namespace murkyFramework
 // convention:
 // http://www.mindcontrol.org/~hplus/graphics/matrix-layout.html
 // using row-major matrix

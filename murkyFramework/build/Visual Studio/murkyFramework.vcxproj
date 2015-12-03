@@ -381,13 +381,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\ThirdParty\lodepng.h" />
-    <ClInclude Include="..\..\include\hidusage.h" />
     <ClInclude Include="..\..\src\appFramework.hpp" />
     <ClInclude Include="..\..\src\collectionNamed.hpp" />
     <ClInclude Include="..\..\src\common.hpp" />
     <ClInclude Include="..\..\src\debugUtils.hpp" />
     <ClInclude Include="..\..\src\fileUtils.hpp" />
-    <ClInclude Include="..\..\src\fixedPointMaths.hpp" />
     <ClInclude Include="..\..\src\Game\public\Game.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\d3d11\GfxDeviceObj.hpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
@@ -410,9 +408,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\d3d12\GfxDeviceObj.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\gfxDeviceObject.hpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\d3d12\gfxLowLevel_d3d12.hpp">
@@ -451,10 +446,8 @@
     <ClInclude Include="..\..\src\hidusage.h" />
     <ClInclude Include="..\..\src\inputDevices.hpp" />
     <ClInclude Include="..\..\src\loadSaveFile.hpp" />
-    <ClInclude Include="..\..\src\log.hpp" />
     <ClInclude Include="..\..\src\maths.hpp" />
     <ClInclude Include="..\..\src\mclass.hpp" />
-    <ClInclude Include="..\..\src\misc.hpp" />
     <ClInclude Include="..\..\src\octree.hpp" />
     <ClInclude Include="..\..\src\pch.hpp" />
     <ClInclude Include="..\..\src\randomNumbers.hpp" />
@@ -464,8 +457,6 @@
     <ClInclude Include="..\..\src\Render\render.hpp" />
     <ClInclude Include="..\..\src\Render\RenderObj.hpp" />
     <ClInclude Include="..\..\src\Render\textRender.hpp" />
-    <ClInclude Include="..\..\src\serialize.hpp" />
-    <ClInclude Include="..\..\src\state.hpp" />
     <ClInclude Include="..\..\src\stringHelpers.hpp" />
     <ClInclude Include="..\..\src\SystemSpecific\system.hpp" />
     <ClInclude Include="..\..\src\SystemSpecific\systemSpecific.hpp" />
@@ -507,10 +498,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\..\src\GfxDevice\d3d12\shaders\posColTex.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="..\..\src\GfxDevice\d3d12\shaders\posColTexM2.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'">true</ExcludedFromBuild>
     </FxCompile>

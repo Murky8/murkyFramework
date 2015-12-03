@@ -2,6 +2,8 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
+
+namespace murkyFramework {}//namespace murkyFramework
 #ifdef USE_DIRECT3D12
 #define deviceObj  g_appDebug->render->gfxDevice
 

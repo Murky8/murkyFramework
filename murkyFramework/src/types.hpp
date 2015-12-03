@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-
+namespace murkyFramework {}//namespace murkyFramework
 typedef unsigned char       u8;
 typedef signed char         s8;
 

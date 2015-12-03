@@ -3,7 +3,7 @@
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
 
-
+namespace murkyFramework {}//namespace murkyFramework
 // note: do recursive?
 void visitAllFilesInDirectory(std::wstring startDir, void(*funct)(FilePathSplit), std::wregex &extensionName_regex)
 {

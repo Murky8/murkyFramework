@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-
+namespace murkyFramework {}//namespace murkyFramework
 void triggerBreakpoint();
 void triggerBreakpoint(const std::wstring &text);
 

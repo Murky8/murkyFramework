@@ -3,6 +3,8 @@
 // Platform: C++11
 
 #include <murkyFramework/src/pch.hpp>
+
+namespace murkyFramework {}//namespace murkyFramework
 //extern AppFramework *g_appDebug;    // for debugging and development only.
 void triggerBreakpoint()
 {

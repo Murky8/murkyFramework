@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 #include <murkyFramework/src/pch.hpp>
 
-
+namespace murkyFramework {}//namespace murkyFramework
 namespace Render
 {    
 	void	drawLine(Line_pc l, std::vector<Line_pc> &lines)

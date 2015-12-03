@@ -3,6 +3,8 @@
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
 
+namespace murkyFramework {}//namespace murkyFramework
+
 AppFramework::AppFramework()
 {    
     g_appDebug = this; // warning: see g_aapDebug usage notes: for development only, remove!

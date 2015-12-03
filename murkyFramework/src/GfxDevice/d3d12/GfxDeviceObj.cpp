@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11. openGL4
 #include <murkyFramework/src/pch.hpp>
-
+namespace murkyFramework {}//namespace murkyFramework
 // todo:temp
 void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)
 {

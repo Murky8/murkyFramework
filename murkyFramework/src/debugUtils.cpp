@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
-
+namespace murkyFramework {}//namespace murkyFramework
 // data
 std::wstring	debugScreenText;
 std::wstring    logFilePath = { L"../../logFile.html" };

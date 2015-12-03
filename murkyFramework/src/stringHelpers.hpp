@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-
+namespace murkyFramework {}//namespace murkyFramework
 std::wstring s2ws(const std::string& str);
 
 std::wstring pChar2wstring(char const * const pChar);

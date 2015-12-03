@@ -3,7 +3,7 @@
 // Platform: C++11
 // for projection matrix see 'gfxHigh/blhah'
 #include <murkyFramework/src/pch.hpp>
-
+namespace murkyFramework {}//namespace murkyFramework
 
 //------------------------------------------------------------------------------
 #pragma region quaternion

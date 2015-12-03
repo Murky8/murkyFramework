@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11. openGL4
-
+namespace murkyFramework {}//namespace murkyFramework
 namespace GfxDevice
 {
     void onGfxDeviceErrorTriggerBreakpoint();

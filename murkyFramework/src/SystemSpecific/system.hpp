@@ -2,6 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 
+namespace murkyFramework {}//namespace murkyFramework
 namespace system2
 {
     f64 readTimeSeconds();

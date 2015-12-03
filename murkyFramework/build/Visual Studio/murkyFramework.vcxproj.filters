@@ -201,9 +201,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\hidusage.h">
-      <Filter>Source Files\src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Game\public\Game.hpp">
       <Filter>Source Files\Game\public</Filter>
     </ClInclude>
@@ -270,9 +267,6 @@
     <ClInclude Include="..\..\src\GfxDevice\d3d12\GfxDeviceObj.hpp">
       <Filter>Source Files\GfxDevice\d3d12</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d12\gfxDeviceObject.hpp">
-      <Filter>Source Files\GfxDevice\d3d12</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\openGL4\GfxDeviceObj.hpp">
       <Filter>Source Files\GfxDevice\openGL4</Filter>
     </ClInclude>
@@ -315,9 +309,6 @@
     <ClInclude Include="..\..\src\fileUtils.hpp">
       <Filter>Source Files\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\fixedPointMaths.hpp">
-      <Filter>Source Files\src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\hidusage.h">
       <Filter>Source Files\src</Filter>
     </ClInclude>
@@ -327,13 +318,7 @@
     <ClInclude Include="..\..\src\loadSaveFile.hpp">
       <Filter>Source Files\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\log.hpp">
-      <Filter>Source Files\src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\maths.hpp">
-      <Filter>Source Files\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\misc.hpp">
       <Filter>Source Files\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\octree.hpp">
@@ -343,12 +328,6 @@
       <Filter>Source Files\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\readFBX.hpp">
-      <Filter>Source Files\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\serialize.hpp">
-      <Filter>Source Files\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\state.hpp">
       <Filter>Source Files\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\stringHelpers.hpp">
@@ -407,9 +386,6 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\src\GfxDevice\d3d12\shaders\posColTex.hlsl">
-      <Filter>Source Files\GfxDevice\d3d12\shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\src\GfxDevice\d3d12\shaders\posColTexM2.hlsl">
       <Filter>Source Files\GfxDevice\d3d12\shaders</Filter>
     </FxCompile>
     <FxCompile Include="..\..\src\GfxDevice\d3d12\shaders\posCol.hlsl">

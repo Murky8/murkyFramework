@@ -3,7 +3,7 @@
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
 
-
+namespace murkyFramework {}//namespace murkyFramework
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     //http://www.cplusplus.com/forum/windows/39141/

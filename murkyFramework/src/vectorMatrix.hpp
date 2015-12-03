@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
-
+namespace murkyFramework {}//namespace murkyFramework
 class TypeUnit
 {
     const u8 dummyVal= 0;

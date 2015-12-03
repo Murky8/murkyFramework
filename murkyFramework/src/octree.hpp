@@ -1,12 +1,9 @@
+#pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // C++11. Windows. /*Android.*/
 
-#pragma once
-
-#include <version.hpp>
-#include <common.hpp>
-#include <debugUtils.hpp>
+namespace murkyFramework {}//namespace murkyFramework
 
 
 class OctreeCube

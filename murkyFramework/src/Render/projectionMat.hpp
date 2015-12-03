@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-
+namespace murkyFramework {}//namespace murkyFramework
 namespace Render
 {    
 	mat4	makeCameraMatrix(vec pos, mat3 ori);	
