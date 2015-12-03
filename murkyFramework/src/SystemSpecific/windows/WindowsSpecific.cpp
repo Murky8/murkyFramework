@@ -4,6 +4,7 @@
 #include <murkyFramework/src/pch.hpp>
 
 namespace murkyFramework {
+namespace systemSpecific {
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     //http://www.cplusplus.com/forum/windows/39141/
@@ -112,4 +113,6 @@ WindowsSpecific::WindowsSpecific()
 WindowsSpecific::~WindowsSpecific()
 {
 }
+
+}//namespace systemSpecific
 }//namespace murkyFramework

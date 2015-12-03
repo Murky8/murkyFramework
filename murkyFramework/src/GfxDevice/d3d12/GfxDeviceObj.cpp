@@ -44,7 +44,7 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
     // Create Direct3D device and swap chain 
     HRESULT hr;
 
-    WindowsSpecific * ws = initStruct->windowsSpecific;
+    systemSpecific::WindowsSpecific * ws = initStruct->windowsSpecific;
 
     //#ifdef _DEBUG
     // Enable the D3D12 debug layer.

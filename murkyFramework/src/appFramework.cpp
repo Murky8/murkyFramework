@@ -51,7 +51,7 @@ AppFramework::AppFramework()
         screenResY = 800;
     }
     
-    auto *windowsSpecific = new WindowsSpecific();
+    auto *windowsSpecific = new systemSpecific::WindowsSpecific();
     systemSpecific = windowsSpecific;
 
 #else

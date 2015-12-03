@@ -10,7 +10,7 @@ public:
     
     // methods
     InputDevices() = delete;
-	InputDevices(const WindowsSpecific *const windowsSpecific);
+	InputDevices(const systemSpecific::WindowsSpecific *const windowsSpecific);
     static bool keyStatus(InputDevices::KeyCode iKey);
     void	processWindowsMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	bool	consumeAllMouseDx(int& out);

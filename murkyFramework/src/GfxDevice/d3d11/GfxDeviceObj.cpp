@@ -15,7 +15,7 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
         //-------------------------------------------------------------------------------------- 
         // Create Direct3D device and swap chain 
         //--------------------------------------------------------------------------------------                             
-        WindowsSpecific *const ws = initStruct->windowsSpecific;
+    systemSpecific::WindowsSpecific *const ws = initStruct->windowsSpecific;
         RECT rc;
         GetClientRect(ws->gethWnd(), &rc);
         UINT width = rc.right - rc.left;

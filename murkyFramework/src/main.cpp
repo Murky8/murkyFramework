@@ -65,7 +65,7 @@ int main() // can't be in a namespace :(
     murkyFramework::compileResources();// move this!	            
     
     SetWindowLongPtr( //note: windows msg loop inactive until following is set.
-        (dynamic_cast<WindowsSpecific*>(app->systemSpecific))->gethWnd(), 
+        (dynamic_cast<systemSpecific::WindowsSpecific*>(app->systemSpecific))->gethWnd(),
         GWLP_USERDATA, 
         (LONG_PTR)app); 
 

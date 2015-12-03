@@ -7,7 +7,7 @@ namespace murkyFramework {
 namespace GfxDevice
 {
 	// GfxDevice internal data/state
-	/*murkyFramework::CollectionNamed<ShaderWrapper>			shaderManager;
+	/*murkyFramework::CollectionNamed<ShaderWrapper>		shaderManager;
 	murkyFramework::CollectionNamed<TextureWrapper>			textureManager;
 	murkyFramework::CollectionNamed<VertexBufferWrapper>	vertexBufferManager;*/
 }

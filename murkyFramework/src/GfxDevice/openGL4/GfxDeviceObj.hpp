@@ -12,7 +12,7 @@ struct GfxDeviceObj_initStruct
 {
     u32 screenWidth;
     u32 screenHeight;
-    WindowsSpecific* windowsSpecific;
+    systemSpecific::WindowsSpecific* windowsSpecific;
 };
 
 class GfxDeviceObj

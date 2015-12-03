@@ -3,7 +3,7 @@
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
 namespace murkyFramework {
-InputDevices::InputDevices(const WindowsSpecific *const windowsSpecific)
+InputDevices::InputDevices(const systemSpecific::WindowsSpecific *const windowsSpecific)
 {
 	RAWINPUTDEVICE rid[2];
 	rid[0].usUsagePage = HID_USAGE_PAGE_GENERIC;

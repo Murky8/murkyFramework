@@ -23,7 +23,7 @@ void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)
 GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct) :
     hDC(initStruct->windowsSpecific->gethDC())
 {
-    WindowsSpecific *const windowsSpecific = initStruct->windowsSpecific;
+    systemSpecific::WindowsSpecific *const windowsSpecific = initStruct->windowsSpecific;
 
     PIXELFORMATDESCRIPTOR pfd; // Create a new PIXELFORMATDESCRIPTOR (PFD)
     memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR)); // Clear our  PFD

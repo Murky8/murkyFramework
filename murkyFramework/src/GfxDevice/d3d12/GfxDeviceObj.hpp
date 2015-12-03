@@ -37,7 +37,7 @@ enum RootParameters : u32
     {
         u32 screenWidth;
         u32 screenHeight;
-        WindowsSpecific* windowsSpecific;
+        systemSpecific::WindowsSpecific* windowsSpecific;
     };
 
     class GfxDeviceObj 
