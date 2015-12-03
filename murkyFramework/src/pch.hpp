@@ -113,9 +113,8 @@
     #include <murkyFramework/src/GfxDevice/public/shaderWrappers.hpp>
     #include <murkyFramework/src/GfxDevice/public/textureWrappers.hpp>
     #include <murkyFramework/src/GfxDevice/public/vertexBufferWrappers.hpp>
-
+    #include <murkyFramework/src/GfxDevice/texture.hpp>
 // gfxDevice
-
 
 #include <murkyFramework/src/readFBX.hpp>
 #include <murkyFramework/src/stringHelpers.hpp>

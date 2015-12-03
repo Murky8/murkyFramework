@@ -15,8 +15,7 @@ namespace GfxDevice
         const				std::wstring &fileName, const std::wstring &extensionName);
     TextureWrapper		createTestTextureObject();
     void                initilise_textureSystem();
-    void                deinitilise_textureSystem();
-    mat4		        makeProjectionMatrix_perspective(float x, float x1, float x2, float x3);
+    void                deinitilise_textureSystem();    
 }
 extern std::vector<Triangle_pct> gdeb_tris;
 
@@ -78,6 +77,9 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
 
 RenderObj::~RenderObj()
 {
+    debugLog << L"RenderHi::deinitialise" << "\n";
+    GfxDevice::Shaders::deinitialise();
+    delete textRenderer;
     delete gfxDevice;
 }
 

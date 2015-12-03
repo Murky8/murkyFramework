@@ -225,9 +225,6 @@
     <ClInclude Include="..\..\src\GfxDevice\shaders.hpp">
       <Filter>Source Files\GfxDevice</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\texture.hpp">
-      <Filter>Source Files\GfxDevice</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\textureHelpers.hpp">
       <Filter>Source Files\GfxDevice</Filter>
     </ClInclude>
@@ -315,9 +312,6 @@
     <ClInclude Include="..\..\src\debugUtils.hpp">
       <Filter>Source Files\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\fileTemplate don%27t build.hpp">
-      <Filter>Source Files\src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\fileUtils.hpp">
       <Filter>Source Files\src</Filter>
     </ClInclude>
@@ -386,6 +380,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Render\textRender.hpp">
       <Filter>Source Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\texture.hpp">
+      <Filter>Source Files\GfxDevice</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,6 @@
 
 #ifdef USE_OPENGL
 
-
 namespace GfxDevice
 {
 	class ShaderWrapper

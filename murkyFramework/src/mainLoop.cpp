@@ -88,7 +88,7 @@ void mainLoop_threadMain(AppFramework  *const app)
     Render::drawAll();  
     
     // unlimited frame rate
-    if (app->frameRateLimit == 0)
+    if (app->frameRateLimit <= 0.f)
     {
     }
     else

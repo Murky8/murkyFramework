@@ -5,16 +5,6 @@
 
 #define deviceObj  g_appDebug->render->gfxDevice
 
-namespace GfxDevice
-{
-    // forward declarations
-    TextureWrapper		createTextureObjectFromFile(const std::wstring &dirName,
-    const				std::wstring &fileName, const std::wstring &extensionName);
-    TextureWrapper		createTestTextureObject();        
-    void                initilise_textureSystem();
-    void                deinitilise_textureSystem();
-    mat4		        makeProjectionMatrix_perspective(float x, float x1, float x2, float x3);	        
-}
 extern std::vector<Triangle_pct> gdeb_tris;
 
 namespace Render
@@ -26,38 +16,17 @@ namespace Render
     TextRender                          *textRenderer;
     mat4	                            projectionMatrix;    
     // forward declarations
-    std::vector<Line_pc>               defaultLines;    
-    
-    bool initialise(SystemSpecific* systemSpecific)
-    {		
-         
-        return true;
-    }
-
-    void deinitialise()
-    {        
-        debugLog << L"RenderHi::deinitialise" << "\n";        
-        GfxDevice::Shaders::deinitialise();
-        delete textRenderer;                  
-    }
-
-    mat4 makeProjectionMatrix_perspective( )
-    {        
-            mat4 m(zero);
-            //m[0][0]=
-            triggerBreakpoint();// todo: finish
-            return m;
-    }	
+    std::vector<Line_pc>               defaultLines;         
 
     void drawAll()
     {
-        g_appDebug->render->gfxDevice->drawBegin();
+        deviceObj->drawBegin();
 
         mat4 cam = makeCameraMatrix(g_appDebug->game->cursorPos, g_appDebug->game->cursorOri);
         mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
         mat4 proj = cam*persp;
 
-        g_appDebug->render->gfxDevice->setUniform_projectionMatrix(&proj.v[0][0]);
+        deviceObj->setUniform_projectionMatrix(&proj.v[0][0]);
 
         defaultLines.clear();
         // draw onscreen stuff
@@ -68,7 +37,7 @@ namespace Render
         projectionMatrix = makeProjectionMatrix_ortho(
             0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
 
-        g_appDebug->render->gfxDevice->setUniform_projectionMatrix(&projectionMatrix.v[0][0]);
+        deviceObj->setUniform_projectionMatrix(&projectionMatrix.v[0][0]);
 
         textRenderer->drawText(debugLogScreen);
         // draw onscreen stuff        

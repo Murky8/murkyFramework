@@ -34,6 +34,7 @@ AppFramework::AppFramework()
 #endif
     fullScreen = false;
 
+#ifdef WINDOWS
     if(fullScreen)
     {
         HWND    desktop = GetDesktopWindow();
@@ -48,7 +49,6 @@ AppFramework::AppFramework()
         screenResY = 800;
     }
     
-#ifdef WINDOWS
     auto *windowsSpecific = new WindowsSpecific();
     systemSpecific = windowsSpecific;
 
@@ -66,18 +66,14 @@ AppFramework::AppFramework()
     initStruct.screenHeight = screenResY;
     initStruct.windowsSpecific = windowsSpecific;    
     render = new RenderObj(&initStruct);
-
-    Render::initialise(systemSpecific); // todo:depreciate
-
+    
     // mouse, keyboard, etc input
     inputDevices = new InputDevices(windowsSpecific); // todo: pass less
     game = new Game();
 }
 
 AppFramework::~AppFramework()
-{
-    Render::deinitialise();
-    //deinitialise_main();    
+{ 
     delete  inputDevices;
     delete  render;
     delete  systemSpecific;

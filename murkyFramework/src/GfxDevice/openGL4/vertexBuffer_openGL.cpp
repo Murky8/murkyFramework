@@ -2,7 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
-#ifdef USE_OPENGL
+
 
 namespace GfxDevice
 {
@@ -30,7 +30,7 @@ namespace GfxDevice
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, szVertex, 0);
         glEnableVertexAttribArray(0);
 
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3)));//col      
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, szVertex, (void*)(sizeof(vec3))); //col      
         glEnableVertexAttribArray(1);
 
         if (vertexType == VertexType::posColTex)
@@ -118,6 +118,6 @@ namespace GfxDevice
     //{
     //}
 } 
-#endif USE_OPENGL
+
 
   

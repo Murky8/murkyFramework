@@ -386,7 +386,6 @@
     <ClInclude Include="..\..\src\collectionNamed.hpp" />
     <ClInclude Include="..\..\src\common.hpp" />
     <ClInclude Include="..\..\src\debugUtils.hpp" />
-    <ClInclude Include="..\..\src\fileTemplate don%27t build.hpp" />
     <ClInclude Include="..\..\src\fileUtils.hpp" />
     <ClInclude Include="..\..\src\fixedPointMaths.hpp" />
     <ClInclude Include="..\..\src\Game\public\Game.hpp" />
