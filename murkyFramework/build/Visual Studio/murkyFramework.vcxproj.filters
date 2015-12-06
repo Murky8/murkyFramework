@@ -29,9 +29,6 @@
     <Filter Include="Source Files\GfxDevice">
       <UniqueIdentifier>{b4f79137-f453-4959-a515-fbdeff7516dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GfxDevice\d3d11">
-      <UniqueIdentifier>{a42ef99b-ef76-491b-a969-22f6fb0787e0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GfxDevice\d3d12">
       <UniqueIdentifier>{e163fe80-5df6-4ddf-a7f4-b55306b504ff}</UniqueIdentifier>
     </Filter>
@@ -40,9 +37,6 @@
     </Filter>
     <Filter Include="Source Files\GfxDevice\public">
       <UniqueIdentifier>{f1010f1e-7ca1-411a-a89e-eedfd74b48d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GfxDevice\d3d11\shaders">
-      <UniqueIdentifier>{0ac49ff5-3c6b-48d9-b680-5897c2f1e50e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\GfxDevice\d3d12\shaders">
       <UniqueIdentifier>{0e984e47-19ad-41af-b047-2337495d6594}</UniqueIdentifier>
@@ -142,18 +136,6 @@
     <ClCompile Include="..\..\src\GfxDevice\vertexBufferHelpers.cpp">
       <Filter>Source Files\GfxDevice</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\d3d11\shader_direct3d.cpp">
-      <Filter>Source Files\GfxDevice\d3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\d3d11\texture_direct3d.cpp">
-      <Filter>Source Files\GfxDevice\d3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\d3d11\vertexBuffer_direct3d.cpp">
-      <Filter>Source Files\GfxDevice\d3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\d3d11\GfxDeviceObj.cpp">
-      <Filter>Source Files\GfxDevice\d3d11</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\d3d12\shader_direct3d12.cpp">
       <Filter>Source Files\GfxDevice\d3d12</Filter>
     </ClCompile>
@@ -233,21 +215,6 @@
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\vertexBufferHelpers.hpp">
       <Filter>Source Files\GfxDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d11\gfxDeviceObject.hpp">
-      <Filter>Source Files\GfxDevice\d3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d11\shaderWrapper.hpp">
-      <Filter>Source Files\GfxDevice\d3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d11\textureWrapper.hpp">
-      <Filter>Source Files\GfxDevice\d3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d11\vertexBufferWrapper.hpp">
-      <Filter>Source Files\GfxDevice\d3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\d3d11\GfxDeviceObj.hpp">
-      <Filter>Source Files\GfxDevice\d3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\d3d12\gfxLowLevel_d3d12.hpp">
       <Filter>Source Files\GfxDevice\d3d12</Filter>
@@ -374,18 +341,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\src\GfxDevice\d3d11\shaders\posCol.vs">
-      <Filter>Source Files\GfxDevice\d3d11\shaders</Filter>
-    </None>
-    <None Include="..\..\src\GfxDevice\d3d11\shaders\posColTex.ps">
-      <Filter>Source Files\GfxDevice\d3d11\shaders</Filter>
-    </None>
-    <None Include="..\..\src\GfxDevice\d3d11\shaders\posColTex.vs">
-      <Filter>Source Files\GfxDevice\d3d11\shaders</Filter>
-    </None>
-    <None Include="..\..\src\GfxDevice\d3d11\shaders\posCol.ps">
-      <Filter>Source Files\GfxDevice\d3d11\shaders</Filter>
-    </None>
     <None Include="..\..\src\GfxDevice\openGL4\shaders\posColTex.fsh">
       <Filter>Source Files\GfxDevice\openGL4\shaders</Filter>
     </None>

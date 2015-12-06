@@ -79,15 +79,6 @@
     #include <murkyFramework/src/GfxDevice/openGL4/GfxDeviceObj.hpp>
 #endif
 
-#ifdef USE_DIRECT3D11 //todo: separate pch?
-    #include <d3d11_1.h>
-    #include <d3dcompiler.h>
-    #include <DirectXColors.h>
-    #include <directxcolors.h>
-    #include <directxmath.h>
-    #include <murkyFramework/src/GfxDevice/private/d3d11/GfxDeviceObj.hpp>
-#endif
-
 #ifdef USE_DIRECT3D12 //todo: separate pch?
     #include <d3d12.h>
     #include <d2d1_3.h>

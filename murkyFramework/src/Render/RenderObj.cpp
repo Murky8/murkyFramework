@@ -52,28 +52,21 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
 
     loadTexturesInDir(L"data");
 
-    GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
-        L"data", L"font 4c", L"png");
-    deviceObj->textureManager.add(L"font 4c", newt);
-
-    GfxDevice::TextureWrapper newt2 = GfxDevice::createTestTextureObject();
-    deviceObj->textureManager.add(L"test", newt2);
-
     deviceObj->vertexBufferManager.add(L"tris",
         GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posColTex,
             GfxDevice::PrimativeType::triangle,
             deviceObj->shaderManager.get(L"posColTex"),
-            newt, 1024));
+            deviceObj->textureManager.get(L"font 4c"), 1024));
 
     deviceObj->vertexBufferManager.add(L"lines",
         GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posCol,
             GfxDevice::PrimativeType::line,
             deviceObj->shaderManager.get(L"posCol"),
-            newt2, 16 * 1024));
+            deviceObj->textureManager.get(L"font 4c"), 16 * 1024));
 
-    textRenderer = new TextRender(newt);
+    textRenderer = new TextRender(deviceObj->textureManager.get(L"font 4c"));
 
 #endif  
 }
@@ -94,9 +87,12 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
         while (fileWalker.findNext())
         {
             debugLog << L"RenderObj::loadTexturesInDir loaded " << fileWalker.findData.cFileName << "\n";
-
             FilePathSplit pathBits(std::wstring(fileWalker.findData.cFileName));
 
+            GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
+                directoryName, pathBits.fileName, pathBits.extensionName);
+
+            deviceObj->textureManager.add(pathBits.fileName, newt);
 
         }
     }
