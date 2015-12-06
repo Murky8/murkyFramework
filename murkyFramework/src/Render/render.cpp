@@ -2,22 +2,17 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
+
 namespace murkyFramework {
 #define deviceObj  g_appDebug->render->gfxDevice
 
 extern std::vector<Triangle_pct> gdeb_tris;
 
 namespace Render
-{        
-    using namespace murkyFramework;
-    // data    
-    //GfxDevice::VertexBufferWrapper    *vertexBufferTemp;  // for testing
-    //GfxDevice::VertexBufferWrapper    *defaultLineVB;          
-    TextRender                          *textRenderer;
-    mat4	                            projectionMatrix;    
-    // forward declarations
-    std::vector<Line_pc>               defaultLines;         
-
+{                
+    TextRender              *textRenderer;    
+    std::vector<Line_pc>    defaultLines;         
+    
     void drawAll()
     {
         deviceObj->drawBegin();
@@ -34,6 +29,7 @@ namespace Render
             debugLogScreen << L"Loading teapot!!!\n";
         debugLogScreen << g_appDebug->game->cursorPos << L"\n";
 
+        mat4  projectionMatrix;    
         projectionMatrix = makeProjectionMatrix_ortho(
             0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
 
@@ -63,7 +59,6 @@ namespace Render
         // teapot
         
         g_appDebug->render->gfxDevice->drawEnd();        
-
     }
 
     void addQuad_pct(std::vector<Triangle_pct> &tris, const Vert_pct v[4])

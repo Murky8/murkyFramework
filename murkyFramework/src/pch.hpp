@@ -39,7 +39,6 @@
 #include <murkyFramework/src/types.hpp>
 #include <murkyFramework/src/common.hpp>
 
-#include <murkyFramework/src/SystemSpecific/system.hpp>
 #include <murkyFramework/src/SystemSpecific/systemSpecific.hpp>
 #include <murkyFramework/src/SystemSpecific/Windows/WindowsSpecific.hpp>
 
@@ -110,8 +109,18 @@
     #include <murkyFramework/src/GfxDevice/d3d12/GfxDeviceObj.hpp>
 #endif
 
-    #include <murkyFramework/src/GfxDevice/public/shaderWrappers.hpp>
     #include <murkyFramework/src/GfxDevice/public/textureWrappers.hpp>
+    #include <murkyFramework/src/GfxDevice/TexturesManager.hpp>
+
+#ifdef USE_OPENGL //todo: separate pch?
+    #include <murkyFramework/src/GfxDevice/openGL4/TexturesManager_ogl4.hpp>
+#endif
+
+#ifdef USE_DIRECT3D12 //todo: separate pch?
+#include <murkyFramework/src/GfxDevice/d3d12/TexturesManager_d3d12.hpp>
+#endif
+
+    #include <murkyFramework/src/GfxDevice/public/shaderWrappers.hpp>
     #include <murkyFramework/src/GfxDevice/public/vertexBufferWrappers.hpp>
     #include <murkyFramework/src/GfxDevice/texture.hpp>
 // gfxDevice

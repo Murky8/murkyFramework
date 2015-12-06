@@ -14,10 +14,7 @@ namespace murkyFramework {
         {
 
         }
-        //    HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
-        //    {
-        //    }
-        //
+     
         void	Shaders::initialise()
         {
             //debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";                

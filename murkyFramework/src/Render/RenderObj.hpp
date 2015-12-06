@@ -12,6 +12,9 @@ public:
     // destruction
     ~RenderObj();
 
+    // methods
+    void loadTexturesInDir(std::wstring directoryName);
+
     // objects/components
     GfxDeviceObj *gfxDevice;
 

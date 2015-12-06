@@ -39,6 +39,38 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
+WindowsSpecific::WindowsSpecific() : 
+    appStartTime(readTimeSeconds())
+{
+   
+}
+
+f64 WindowsSpecific::getPerformanceCounterFrequency()
+{
+    LARGE_INTEGER  d;
+    QueryPerformanceFrequency(&d);
+    return static_cast<f64>(d.QuadPart);
+}
+
+f64 WindowsSpecific::readTimeSeconds()
+{
+    static bool firstTime{ true };
+    if (firstTime == true)
+    {
+        performanceCounterFrequency = getPerformanceCounterFrequency();
+        firstTime = false;
+    }
+    LARGE_INTEGER n, d;
+
+    QueryPerformanceCounter(&n);
+    return static_cast<f64>(n.QuadPart) / performanceCounterFrequency;
+}
+
+f64 WindowsSpecific::readTimeSecondsSinceAppStart()
+{
+    return (readTimeSeconds() - appStartTime);
+}
+
 void WindowsSpecific::windowsLoopIteration()
 {
 }
@@ -105,14 +137,38 @@ bool WindowsSpecific::createWindow(std::wstring title, int width, int height)
     return true;
 }
 
-
-WindowsSpecific::WindowsSpecific()
-{
-}
-
 WindowsSpecific::~WindowsSpecific()
 {
 }
 
 }//namespace systemSpecific
 }//namespace murkyFramework
+
+
+#if 0
+/*
+using namespace std::chrono;
+#include <stdint.h>
+
+//  Windows
+#ifdef _WIN32
+
+#include <intrin.h>
+
+u64 ticksCPUSinceAppStart()
+{
+return __rdtsc();
+}
+
+//  Linux/GCC
+#else
+
+uint64_t rdtsc(){
+unsigned int lo,hi;
+__asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
+return ((uint64_t)hi << 32) | lo;
+}
+
+#endif
+*/
+#endif

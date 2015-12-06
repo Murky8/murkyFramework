@@ -139,9 +139,6 @@
     <ClCompile Include="..\..\src\GfxDevice\texture.cpp">
       <Filter>Source Files\GfxDevice</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\textureManager.cpp">
-      <Filter>Source Files\GfxDevice</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\vertexBufferHelpers.cpp">
       <Filter>Source Files\GfxDevice</Filter>
     </ClCompile>
@@ -190,14 +187,20 @@
     <ClCompile Include="..\..\src\SystemSpecific\windows\WindowsSpecific.cpp">
       <Filter>Source Files\SystemSpecific\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\SystemSpecific\system.cpp">
-      <Filter>Source Files\SystemSpecific\Windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\ThirdParty\lodepng.cpp">
       <Filter>Source Files\ThirdParty</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Render\RenderObj.cpp">
       <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\TexturesManager.cpp">
+      <Filter>Source Files\GfxDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\d3d12\TexturesManager_d3d12.cpp">
+      <Filter>Source Files\GfxDevice\d3d12</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\openGL4\TexturesManager_ogl4.cpp">
+      <Filter>Source Files\GfxDevice\openGL4</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -288,9 +291,6 @@
     <ClInclude Include="..\..\src\SystemSpecific\windows\WindowsSpecific.hpp">
       <Filter>Source Files\SystemSpecific\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\SystemSpecific\system.hpp">
-      <Filter>Source Files\SystemSpecific\Windows</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\ThirdParty\lodepng.h">
       <Filter>Source Files\ThirdParty</Filter>
     </ClInclude>
@@ -362,6 +362,15 @@
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\texture.hpp">
       <Filter>Source Files\GfxDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\TexturesManager.hpp">
+      <Filter>Source Files\GfxDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\d3d12\TexturesManager_d3d12.hpp">
+      <Filter>Source Files\GfxDevice\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\openGL4\TexturesManager_ogl4.hpp">
+      <Filter>Source Files\GfxDevice\openGL4</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

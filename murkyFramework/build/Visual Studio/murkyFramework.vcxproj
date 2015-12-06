@@ -327,6 +327,14 @@
     <ClCompile Include="..\..\src\GfxDevice\d3d12\shader_direct3d12.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\d3d12\TexturesManager_d3d12.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\d3d12\texture_direct3d12.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -342,6 +350,14 @@
     <ClCompile Include="..\..\src\GfxDevice\openGL4\shader_openGL.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\openGL4\TexturesManager_ogl4.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d11_debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\openGL4\texture_openGL.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -349,7 +365,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\texture.cpp" />
-    <ClCompile Include="..\..\src\GfxDevice\textureManager.cpp" />
+    <ClCompile Include="..\..\src\GfxDevice\TexturesManager.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\vertexBufferHelpers.cpp" />
     <ClCompile Include="..\..\src\inputDevices.cpp" />
     <ClCompile Include="..\..\src\loadSaveFile.cpp" />
@@ -373,7 +389,6 @@
     <ClCompile Include="..\..\src\school.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\stringHelpers.cpp" />
-    <ClCompile Include="..\..\src\SystemSpecific\system.cpp" />
     <ClCompile Include="..\..\src\SystemSpecific\systemSpecific.cpp" />
     <ClCompile Include="..\..\src\SystemSpecific\windows\WindowsSpecific.cpp" />
     <ClCompile Include="..\..\src\vectorMatrix.cpp" />
@@ -419,6 +434,7 @@
     <ClInclude Include="..\..\src\GfxDevice\d3d12\shaderWrapper.hpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\d3d12\TexturesManager_d3d12.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\d3d12\textureWrapper.hpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -436,11 +452,13 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='d3d12_debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\openGL4\shaderWrapper.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\openGL4\TexturesManager_ogl4.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\openGL4\textureWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\openGL4\vertexBufferWrapper.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\shaders.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\texture.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\textureHelpers.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\TexturesManager.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\version_gfxDevice.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\vertexBufferHelpers.hpp" />
     <ClInclude Include="..\..\src\hidusage.h" />
@@ -458,7 +476,6 @@
     <ClInclude Include="..\..\src\Render\RenderObj.hpp" />
     <ClInclude Include="..\..\src\Render\textRender.hpp" />
     <ClInclude Include="..\..\src\stringHelpers.hpp" />
-    <ClInclude Include="..\..\src\SystemSpecific\system.hpp" />
     <ClInclude Include="..\..\src\SystemSpecific\systemSpecific.hpp" />
     <ClInclude Include="..\..\src\SystemSpecific\windows\WindowsSpecific.hpp" />
     <ClInclude Include="..\..\src\types.hpp" />

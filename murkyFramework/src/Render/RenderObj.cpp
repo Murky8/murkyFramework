@@ -2,6 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
+
 namespace murkyFramework {
 #define deviceObj  g_appDebug->render->gfxDevice
 
@@ -49,8 +50,10 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
 
     GfxDevice::Shaders::initialise();
 
+    loadTexturesInDir(L"data");
+
     GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
-        L"data", L"font", L"png");
+        L"data", L"font 4c", L"png");
     deviceObj->textureManager.add(L"font 4c", newt);
 
     GfxDevice::TextureWrapper newt2 = GfxDevice::createTestTextureObject();
@@ -75,12 +78,28 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
 #endif  
 }
 
-RenderObj::~RenderObj()
-{
-    debugLog << L"RenderHi::deinitialise" << "\n";
-    GfxDevice::Shaders::deinitialise();
-    delete textRenderer;
-    delete gfxDevice;
-}
+    RenderObj::~RenderObj()
+    {
+        debugLog << L"RenderHi::deinitialise" << "\n";
+        GfxDevice::Shaders::deinitialise();
+        delete textRenderer;
+        delete gfxDevice;
+    }
+
+    // methods
+    void RenderObj::loadTexturesInDir(std::wstring directoryName)
+    {                                                
+        FileDirectoryWalker fileWalker(directoryName, L"\\.png$");
+        
+        while (fileWalker.findNext())
+        {
+            debugLog << L"RenderObj::loadTexturesInDir loaded " << fileWalker.findData.cFileName << "\n";
+
+            FilePathSplit pathBits(std::wstring(fileWalker.findData.cFileName));
+
+
+        }
+    }
 
 }//namespace murkyFramework
+

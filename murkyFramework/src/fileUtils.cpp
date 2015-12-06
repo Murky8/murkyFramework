@@ -62,92 +62,125 @@ FilePathSplit::FilePathSplit(std::wstring pathFileNameExt)
 		extensionName);
 }
 
-std::wstring FilePathSplit::getJoinedFilePath()
-{
-	return makePathString(directoryPath, fileName, extensionName);
-}
-
-void removeInstsOfChar(std::wstring &str, wchar_t chr)
-{
-	str.erase(std::remove(str.begin(), str.end(), chr),
-		str.end());
-}
-
-void decomposeFilePath(std::wstring in_string, std::wstring &out_directoryPath,
-	std::wstring &out_fileNameNaked, std::wstring &out_extensionName)
-{
-	wchar_t dirPath[200];	// todo: stack capacity, threading?
-	wchar_t fileName[30];
-	wchar_t extension[10];
-	
-	_wsplitpath_s(	// todo: windows only :(
-		in_string.c_str(),
-		nullptr,
-		0,
-		dirPath,
-		sizeof(dirPath) / sizeof(wchar_t),
-		fileName,
-		sizeof(fileName) / sizeof(wchar_t),
-		extension,
-		sizeof(extension) / sizeof(wchar_t)
-		);
-	//_splitpath
-
-	out_directoryPath = std::wstring(dirPath);
-	if(out_directoryPath.back() == '/')
-	{
-		out_directoryPath.pop_back();
-	}
-
-	out_fileNameNaked = std::wstring(fileName);
-
-	out_extensionName = std::wstring(extension);
-	removeInstsOfChar(out_extensionName, '.');
-		
-}
-
-std::wstring makePathString(const std::wstring &dirName, const std::wstring &fileName, 
-    const std::wstring &extensionName)
-{
-	std::wstring str;
-	if (dirName.length() != 0)
-		str += dirName + L"/";
-
-	str += fileName + L"." + extensionName;
-
-    return str;
-}
-
-u64 getFileModificationTime1601(std::wstring fileNameWithPath, bool *out_fileExists)
-{
-    WIN32_FILE_ATTRIBUTE_DATA	info;
-    bool res = GetFileAttributesEx(fileNameWithPath.c_str(), GetFileExInfoStandard, &info);
-
-    if(res==0)
+    std::wstring FilePathSplit::getJoinedFilePath()
     {
-        auto res2 = GetLastError();
-		if(out_fileExists!=nullptr)
-			*out_fileExists = false;
-        return 0;
+	    return makePathString(directoryPath, fileName, extensionName);
     }
+
+    void removeInstsOfChar(std::wstring &str, wchar_t chr)
+    {
+	    str.erase(std::remove(str.begin(), str.end(), chr),
+		    str.end());
+    }
+
+    void decomposeFilePath(std::wstring in_string, std::wstring &out_directoryPath,
+	    std::wstring &out_fileNameNaked, std::wstring &out_extensionName)
+    {
+	    wchar_t dirPath[200];	// todo: stack capacity, threading?
+	    wchar_t fileName[30];
+	    wchar_t extension[10];
+	
+	    _wsplitpath_s(	// todo: windows only :(
+		    in_string.c_str(),
+		    nullptr,
+		    0,
+		    dirPath,
+		    sizeof(dirPath) / sizeof(wchar_t),
+		    fileName,
+		    sizeof(fileName) / sizeof(wchar_t),
+		    extension,
+		    sizeof(extension) / sizeof(wchar_t)
+		    );
+	    //_splitpath
+
+	    out_directoryPath = std::wstring(dirPath);
+	    
+        if(out_directoryPath.size()>0)
+        if(out_directoryPath.back() == '/')
+	    {
+		    out_directoryPath.pop_back();
+	    }
+
+	    out_fileNameNaked = std::wstring(fileName);
+
+	    out_extensionName = std::wstring(extension);
+	    removeInstsOfChar(out_extensionName, '.');		
+    }
+
+    std::wstring makePathString(const std::wstring &dirName, const std::wstring &fileName, 
+        const std::wstring &extensionName)
+    {
+	    std::wstring str;
+	    if (dirName.length() != 0)
+		    str += dirName + L"/";
+
+	    str += fileName + L"." + extensionName;
+
+        return str;
+    }
+
+    u64 getFileModificationTime1601(std::wstring fileNameWithPath, bool *out_fileExists)
+    {
+        WIN32_FILE_ATTRIBUTE_DATA	info;
+        bool res = GetFileAttributesEx(fileNameWithPath.c_str(), GetFileExInfoStandard, &info);
+
+        if(res==0)
+        {
+            auto res2 = GetLastError();
+		    if(out_fileExists!=nullptr)
+			    *out_fileExists = false;
+            return 0;
+        }
             
-    FILETIME time = info.ftLastWriteTime;
-    u64 time2 = (static_cast<u64>(time.dwHighDateTime) << 32) + static_cast<u64>(time.dwLowDateTime);
+        FILETIME time = info.ftLastWriteTime;
+        u64 time2 = (static_cast<u64>(time.dwHighDateTime) << 32) + static_cast<u64>(time.dwLowDateTime);
 
-	if (out_fileExists != nullptr)
-		*out_fileExists = true;
-    return time2;	
-}
+	    if (out_fileExists != nullptr)
+		    *out_fileExists = true;
+        return time2;	
+    }
 
-FileDirectoryWalker::FileDirectoryWalker(const std::wstring &dirName, const std::wstring &filterRegex)
-{
-    WIN32_FIND_DATA	findData;
-    ZeroMemory(&findData, sizeof(findData));
-    path = dirName;   
-}
+    FileDirectoryWalker::FileDirectoryWalker(const std::wstring &startDirName, const std::wstring &filterRegex)
+    {
+        /*
+        WIN32_FIND_DATA	findData;
+        ZeroMemory(&findData, sizeof(findData));
+        path = dirName;   
+        */            
+        path = startDirName + L"\\*";
+        regex = std::wregex(filterRegex);
 
-bool FileDirectoryWalker::findNext(std::wstring &outString)
-{
+        fileHandle = FindFirstFile(path.c_str(), &findData);
+        if (fileHandle == INVALID_HANDLE_VALUE)
+        {
+            return;
+        }
+
+        // first match should be '.' (check this...). we ignore it.
+        if (std::wstring(findData.cFileName) != L".")
+            triggerBreakpoint();
+    }
+
+    bool FileDirectoryWalker::findNext()
+    {
+        HRESULT res;
+        while (1)
+        {
+            res = FindNextFile(fileHandle, &findData);
+            // eg findData.cFileName is L"font 4c.png" 
+            if (res == FALSE)
+                return false;
+
+            std::wstring foundName(findData.cFileName);
+            //bbbfileName = startDir + L"/" + (findData.cFileName);
+            //FilePathSplit splitPath(fileName);
+            if (std::regex_search(foundName,regex) == false)
+                continue;
+            return true;
+        }
+    }
+
+    /*
     WIN32_FIND_DATA	findData;
     ZeroMemory(&findData, sizeof(findData));
     
@@ -180,6 +213,6 @@ bool FileDirectoryWalker::findNext(std::wstring &outString)
             return false;
         }
     }
-}
+    */
 
 }//namespace murkyFramework

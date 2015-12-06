@@ -8,7 +8,7 @@ void mainLoop_threadMain(AppFramework  *const app)
 {        
     debugLogScreen.clear();    
     static f64 lastFrameClock = 0;
-    f64 currentFrameClock = system2::readTimeSecondsSinceAppStart();
+    f64 currentFrameClock = app->systemSpecific->readTimeSecondsSinceAppStart();
 
     f32 lastFrameDuration = static_cast<f32>(currentFrameClock - lastFrameClock);
     //debugLog << L"d: " << (f32)lastFrameDuration << L"\n";

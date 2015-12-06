@@ -6,19 +6,12 @@
 namespace murkyFramework {
 
 //using namespace std::literals;
-using namespace std::chrono;
+
 
 namespace system2
 {
-    f64 getPerformanceCounterFrequency()
-    {
-        LARGE_INTEGER  d;
-        QueryPerformanceFrequency(&d);
-        return static_cast<f64>(d.QuadPart);
-    }
+    
 
-    static f64 performanceCounterFrequency;
-    static const f64 appStartTime = readTimeSeconds();
     /*
     double getCurrentTime()
     {
@@ -39,24 +32,7 @@ namespace system2
         std::cout << "Time" << " " << std::fixed << s << "\n";
     }
 */
-    f64 readTimeSeconds()
-    {
-        static bool firstTime {true};
-        if (firstTime == true)
-        {
-            performanceCounterFrequency = getPerformanceCounterFrequency();
-            firstTime = false;
-        }
-        LARGE_INTEGER n, d;
-
-        QueryPerformanceCounter(&n);        
-        return static_cast<f64>(n.QuadPart) / performanceCounterFrequency;
-    }
-
-    f64 readTimeSecondsSinceAppStart()
-    {
-		return (readTimeSeconds() - appStartTime);
-    }
+   
 
     #include <stdint.h>
 

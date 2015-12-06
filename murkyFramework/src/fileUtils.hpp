@@ -12,7 +12,6 @@ public:
 
 	FilePathSplit(){}
 	FilePathSplit(std::wstring pathFileNameExt);
-
 };
 
 void visitAllFilesInDirectory(std::wstring startDir, void (*funct) (FilePathSplit), std::wregex &extensionName_regex);
@@ -27,20 +26,19 @@ u64 getFileModificationTime1601(std::wstring fileNameWithPath, bool *out_fileExi
 class FileDirectoryWalker
 {
 public:
-    // Constructors
     FileDirectoryWalker(const std::wstring &dirName, const std::wstring &filterRegex);
-    // Destructors
-    // Methods
-    bool findNext(std::wstring &outString);
-    // Data
+    
+    // methods
+    bool findNext();
+    // data
     int nFilesFound = 0;
+    WIN32_FIND_DATA	findData = { 0 };
 private:
-    // Constructors
+    // constructors
     FileDirectoryWalker() = delete;
-    // Destructors
-    // Methods
-    // Data
+    
     HANDLE fileHandle = nullptr;
+    std::wregex regex;
     std::wstring path;
 };
 }//namespace murkyFramework

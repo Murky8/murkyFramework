@@ -540,7 +540,6 @@ void GfxDeviceObj::drawBegin()
     const float clearColor[] = { 0.f, 0.f, 0.f, 1.0f };
 
     g_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-
 }
 
 void GfxDeviceObj::drawEnd()

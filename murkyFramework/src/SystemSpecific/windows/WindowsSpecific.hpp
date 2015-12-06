@@ -11,9 +11,13 @@ private:
     HINSTANCE	hInstance;	
     HWND		hWnd;	    
 
+    f64     performanceCounterFrequency;
+    f64     readTimeSeconds();
+    f64     readTimeSecondsSinceAppStart();
+    f64     getPerformanceCounterFrequency();
+    const f64 appStartTime;
 public:
     WindowsSpecific();
-    ~WindowsSpecific();
     void windowsLoopIteration();
     virtual bool createWindow(std::wstring title, int width, int height);    
     HGLRC		hRC;		
@@ -22,6 +26,9 @@ public:
     HGLRC gethRC() const { return hRC; }
     HINSTANCE gethInstance() const { return hInstance; }
     HWND gethWnd()  const { return hWnd; }
+
+protected:
+    ~WindowsSpecific();
 };
 }//namespace systemSpecific
 }//namespace murkyFramework
