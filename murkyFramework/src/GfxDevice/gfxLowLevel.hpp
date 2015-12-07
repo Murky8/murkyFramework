@@ -3,6 +3,7 @@
 // 2015 J. Coelho.
 #define TEX2
 #define SHA2
+#define DD3
 
 namespace murkyFramework {
 namespace GfxDevice 

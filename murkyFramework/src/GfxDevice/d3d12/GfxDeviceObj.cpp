@@ -1,9 +1,10 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// Platform: C++11. openGL4
+// Platform: C++11. d3d12
 #include <murkyFramework/src/pch.hpp>
 namespace murkyFramework {
     // todo:temp
+   
     void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)
     {
         *((mat4*)&this->projectionMat) = *(mat4*)pMat;
@@ -38,7 +39,6 @@ namespace murkyFramework {
 
     GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
     {
-
         g_appDebug->render->gfxDevice = this; // warning: see g_aapDebug usage notes: for development only, remove!
 
         // Create Direct3D device and swap chain 
@@ -216,8 +216,9 @@ namespace murkyFramework {
         ThrowIfFailed(m_device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(),
             IID_PPV_ARGS(&m_rootSignature)));
 
+#ifdef DD3
         GfxDevice::Shaders::initialise();
-
+#endif
         // Create the pipeline state, which includes compiling and loading shaders.m_pipelineState_pct
         {
 
@@ -612,6 +613,58 @@ namespace murkyFramework {
         }
     }
 
+    void GfxDeviceObj::loadShadersInDir(std::wstring directoryName)
+    {
+#ifdef _DEBUG
+            // Enable better shader debugging with the graphics debugging tools.
+            UINT compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+#else
+            UINT compileFlags = 0;
+#endif
+
+        FileDirectoryWalker fileWalker(directoryName, L"\\.hlsl$");
+
+        while (fileWalker.findNext())
+        {
+
+            debugLog << L"gfxDevice::loadShadersInDir loaded " << fileWalker.findData.cFileName << "\n";
+            FilePathSplit pathBits(std::wstring(fileWalker.findData.cFileName));
+
+            {
+                //std::wstring vsPath = directoryName + L"/" + pathBits.fileName + L".vsh";
+                HRESULT hr;
+                GfxDevice::ShaderWrapper newShader;
+
+                ID3DBlob* pErrorBlob = nullptr;
+                //std::wstring fileName = { L"src/GfxDevice/d3d12/shaders/posColTex.hlsl" };
+                std::wstring fileName = directoryName + L"/" + pathBits.fileName + L".hlsl";
+                hr = D3DCompileFromFile(fileName.c_str(), nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &newShader.vertexShader, &pErrorBlob);
+                if (FAILED(hr))
+                {
+                    if (pErrorBlob)
+                    {
+                        OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
+                        pErrorBlob->Release();
+                    }
+                    triggerBreakpoint();
+                }
+
+                pErrorBlob = nullptr;
+                hr = D3DCompileFromFile(fileName.c_str(), nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &newShader.pixelShader, &pErrorBlob);
+                if (FAILED(hr))
+                {
+                    if (pErrorBlob)
+                    {
+                        OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
+                        pErrorBlob->Release();
+                    }
+                    triggerBreakpoint();
+                }
+                if (pErrorBlob) pErrorBlob->Release();
+                shaderManager.add(pathBits.fileName, newShader);
+            }
+        }
+    }
     /*
     void GfxDeviceObj::loadShadersInDir(std::wstring directoryName)
     {

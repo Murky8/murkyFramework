@@ -26,7 +26,7 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
     gfxDevice = new GfxDeviceObj(initStruct);
     debugLog << L"RenderHi::initialise" << "\n";
 
-#ifndef USE_DIRECT3D12
+#ifndef DD3
     GfxDevice::Shaders::initialise();
 #endif
 

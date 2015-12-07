@@ -49,6 +49,8 @@ enum RootParameters : u32
         murkyFramework::CollectionNamed<GfxDevice::VertexBufferWrapper>	vertexBufferManager;
 
         void loadTexturesInDir(std::wstring directoryName);
+        void loadShadersInDir(std::wstring directoryName);
+
 
         GfxDeviceObj() = delete;
 

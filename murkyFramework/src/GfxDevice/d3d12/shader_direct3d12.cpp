@@ -17,6 +17,10 @@ namespace murkyFramework {
      
         void	Shaders::initialise()
         {
+
+        #ifdef DD3
+            deviceObj->loadShadersInDir(L"src/GfxDevice/d3d12/shaders");
+        #else
             //debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";                
             HRESULT hr;
 #ifdef _DEBUG
@@ -87,6 +91,7 @@ namespace murkyFramework {
                 if (pErrorBlob) pErrorBlob->Release();
                 deviceObj->shaderManager.add(L"posCol", newShader);
             }
+        #endif
         }
 
         void	Shaders::deinitialise()
