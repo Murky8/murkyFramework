@@ -9,7 +9,7 @@ namespace murkyFramework
 	class CollectionNamed
 	{
 	public:
-		CollectionNamed();
+        CollectionNamed();        
 		~CollectionNamed();
 		void add(const std::wstring &name, T rhs);
 		T get(const std::wstring &name);
@@ -20,7 +20,9 @@ namespace murkyFramework
 
 	template <typename T>
 	CollectionNamed<T>::CollectionNamed() : capacity(100)
-	{}
+	{
+        int i = 123;
+    }
 
 	template <typename T>
 	CollectionNamed<T>::~CollectionNamed()

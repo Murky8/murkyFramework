@@ -216,9 +216,8 @@ namespace murkyFramework {
         ThrowIfFailed(m_device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(),
             IID_PPV_ARGS(&m_rootSignature)));
 
-#ifdef DD3
-        GfxDevice::Shaders::initialise();
-#endif
+        GfxDevice::Shaders::initialise();// error!!! using uninitialised object? (shadermanager)?
+
         // Create the pipeline state, which includes compiling and loading shaders.m_pipelineState_pct
         {
 
@@ -487,6 +486,11 @@ namespace murkyFramework {
             m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
         }
         debugLog << L"finished success" << L"\n";
+    }
+
+    void GfxDeviceObj::initialise()
+    {
+        loadTexturesInDir(L"data");
     }
 
     GfxDeviceObj::~GfxDeviceObj()

@@ -24,13 +24,9 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
 {
     g_appDebug->render = this; // warning: see g_aapDebug usage notes: for development only, remove!
     gfxDevice = new GfxDeviceObj(initStruct);
+    gfxDevice->initialise();        
+
     debugLog << L"RenderHi::initialise" << "\n";
-
-#ifndef DD3
-    GfxDevice::Shaders::initialise();
-#endif
-
-    gfxDevice->loadTexturesInDir(L"data");
 
     deviceObj->vertexBufferManager.add(L"tris",
         GfxDevice::VertexBufferWrapper(
@@ -47,7 +43,6 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
             deviceObj->textureManager.get(L"font 4c"), 16 * 1024));
 
     textRenderer = new TextRender(deviceObj->textureManager.get(L"font 4c"));
-
 }
 
     RenderObj::~RenderObj()

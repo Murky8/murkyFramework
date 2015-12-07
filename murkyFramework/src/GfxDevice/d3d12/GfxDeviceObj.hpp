@@ -55,6 +55,7 @@ enum RootParameters : u32
         GfxDeviceObj() = delete;
 
         GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct);
+        void initialise();
         ~GfxDeviceObj();
 
         void drawBegin();

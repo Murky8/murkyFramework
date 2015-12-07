@@ -21,6 +21,7 @@ public:
     GfxDeviceObj() = delete;
 
     GfxDeviceObj(GfxDeviceObj_initStruct  *const initStruct);
+    void initialise();
     ~GfxDeviceObj();
 
     CollectionNamed<GfxDevice::ShaderWrapper>		shaderManager;

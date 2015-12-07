@@ -82,6 +82,12 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct) :
     glDisable(GL_CULL_FACE);
 }
 
+void GfxDeviceObj::initialise()
+{
+    GfxDevice::Shaders::initialise();
+    loadTexturesInDir(L"data");    
+}
+
 GfxDeviceObj::~GfxDeviceObj()
 {
 }
