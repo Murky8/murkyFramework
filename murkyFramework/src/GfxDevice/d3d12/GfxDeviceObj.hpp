@@ -86,8 +86,8 @@ enum RootParameters : u32
         // Pipeline objects.
 
         // App resources.	
-        ComPtr<ID3D12Resource> m_texture;
-        ComPtr<ID3D12Resource> m_texture2;
+        ComPtr<ID3D12Resource> m_texture[10];
+        
         // Synchronization objects.
         UINT m_frameIndex = 0;
         HANDLE m_fenceEvent;

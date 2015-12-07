@@ -9,7 +9,7 @@ namespace GfxDevice
     {
     public:
         u32 iTexture;
-        Microsoft::WRL::ComPtr<ID3D12Resource> deviceTexture;
+        //Microsoft::WRL::ComPtr<ID3D12Resource> deviceTexture;
     };
 }
 }//namespace murkyFramework

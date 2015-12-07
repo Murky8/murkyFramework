@@ -13,7 +13,7 @@ namespace GfxDevice
 {
     // forward declarations
     TextureWrapper		createTextureObjectFromFile(const std::wstring &dirName,
-        const				std::wstring &fileName, const std::wstring &extensionName);
+    const               std::wstring &fileName, const std::wstring &extensionName);
     TextureWrapper		createTestTextureObject();
     void                initilise_textureSystem();
     void                deinitilise_textureSystem();    
@@ -28,6 +28,9 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
 
 #ifdef USE_DIRECT3D12
 
+#ifdef TEX2
+    gfxDevice->loadTexturesInDir(L"data");
+#endif
     deviceObj->vertexBufferManager.add(L"tris",
         GfxDevice::VertexBufferWrapper(
             GfxDevice::VertexType::posColTex,
@@ -43,7 +46,7 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
             GfxDevice::PrimativeType::line,
             deviceObj->shaderManager.get(L"posCol"),
             GfxDevice::TextureWrapper(), 16 * 1024));
-
+    
     textRenderer = new TextRender(deviceObj->textureManager.get(L"font 4c"));
 
 #else

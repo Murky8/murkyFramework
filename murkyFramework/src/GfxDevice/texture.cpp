@@ -31,7 +31,6 @@ namespace GfxDevice
 
         boost::multi_array<u8, 3> t(boost::extents[subDiv][subDiv][4]);
 
-
         for (auto i = 0; i < subDiv; ++i)
             for (auto j = 0; j < subDiv; ++j)
             {                                     
