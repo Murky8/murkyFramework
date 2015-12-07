@@ -26,32 +26,9 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
     gfxDevice = new GfxDeviceObj(initStruct);
     debugLog << L"RenderHi::initialise" << "\n";
 
-#ifdef USE_DIRECT3D12
-
-#ifdef TEX2
-    gfxDevice->loadTexturesInDir(L"data");
-#endif
-    deviceObj->vertexBufferManager.add(L"tris",
-        GfxDevice::VertexBufferWrapper(
-            GfxDevice::VertexType::posColTex,
-            GfxDevice::PrimativeType::triangle,
-            //GfxDevice::shaderManager.get(std::wstring(L"posColTex")),
-            //newt, 1024));
-            GfxDevice::ShaderWrapper(),
-            deviceObj->textureManager.get(L"t0 4c"), 6));
-
-    deviceObj->vertexBufferManager.add(L"lines",
-        GfxDevice::VertexBufferWrapper(
-            GfxDevice::VertexType::posCol,
-            GfxDevice::PrimativeType::line,
-            deviceObj->shaderManager.get(L"posCol"),
-            GfxDevice::TextureWrapper(), 16 * 1024));
-    
-    textRenderer = new TextRender(deviceObj->textureManager.get(L"font 4c"));
-
-#else
-
+#ifndef USE_DIRECT3D12
     GfxDevice::Shaders::initialise();
+#endif
 
     gfxDevice->loadTexturesInDir(L"data");
 
@@ -71,7 +48,6 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
 
     textRenderer = new TextRender(deviceObj->textureManager.get(L"font 4c"));
 
-#endif  
 }
 
     RenderObj::~RenderObj()
