@@ -79,16 +79,12 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct) :
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     //glDepthFunc(GL_GREATER);
-
     glDisable(GL_CULL_FACE);
-
-
 }
 
 GfxDeviceObj::~GfxDeviceObj()
 {
 }
-
 
 void GfxDeviceObj::drawBegin()
 {
@@ -104,6 +100,22 @@ void GfxDeviceObj::drawEnd()
 {
     glFlush();
     SwapBuffers(g_appDebug->render->gfxDevice->hDC);
+}
+
+void GfxDeviceObj::loadTexturesInDir(std::wstring directoryName)
+{
+    FileDirectoryWalker fileWalker(directoryName, L"\\.png$");
+
+    while (fileWalker.findNext())
+    {
+        debugLog << L"RenderObj::loadTexturesInDir loaded " << fileWalker.findData.cFileName << "\n";
+        FilePathSplit pathBits(std::wstring(fileWalker.findData.cFileName));
+
+        GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
+            directoryName, pathBits.fileName, pathBits.extensionName);
+
+        textureManager.add(pathBits.fileName, newt);
+    }
 }
 
 namespace GfxDevice
@@ -132,5 +144,8 @@ namespace GfxDevice
         if (stop == true)
             triggerBreakpoint();
     }
+
+
+  
 }
 }//namespace murkyFramework

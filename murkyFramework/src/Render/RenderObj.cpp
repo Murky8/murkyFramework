@@ -50,7 +50,7 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
 
     GfxDevice::Shaders::initialise();
 
-    loadTexturesInDir(L"data");
+    gfxDevice->loadTexturesInDir(L"data");
 
     deviceObj->vertexBufferManager.add(L"tris",
         GfxDevice::VertexBufferWrapper(
@@ -80,22 +80,6 @@ RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
     }
 
     // methods
-    void RenderObj::loadTexturesInDir(std::wstring directoryName)
-    {                                                
-        FileDirectoryWalker fileWalker(directoryName, L"\\.png$");
-        
-        while (fileWalker.findNext())
-        {
-            debugLog << L"RenderObj::loadTexturesInDir loaded " << fileWalker.findData.cFileName << "\n";
-            FilePathSplit pathBits(std::wstring(fileWalker.findData.cFileName));
-
-            GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
-                directoryName, pathBits.fileName, pathBits.extensionName);
-
-            deviceObj->textureManager.add(pathBits.fileName, newt);
-
-        }
-    }
 
 }//namespace murkyFramework
 

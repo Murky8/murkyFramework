@@ -293,7 +293,7 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct)
     CD3DX12_CPU_DESCRIPTOR_HANDLE srvHandle(m_srvHeap->GetCPUDescriptorHandleForHeapStart());
     m_srvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-    ComPtr<ID3D12Resource> textureUploadHeap;   // kkep in scope until command list executed
+    ComPtr<ID3D12Resource> textureUploadHeap;   // kkep in scope until command list executed!
     ComPtr<ID3D12Resource> textureUploadHeap2;
     //textureUploadHeap.SetName
     {
@@ -592,6 +592,21 @@ void GfxDeviceObj::WaitForPreviousFrame()
     m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
 }
 
+void GfxDeviceObj::loadTexturesInDir(std::wstring directoryName)
+{
+    FileDirectoryWalker fileWalker(directoryName, L"\\.png$");
+
+    while (fileWalker.findNext())
+    {
+        debugLog << L"RenderObj::loadTexturesInDir loaded " << fileWalker.findData.cFileName << "\n";
+        FilePathSplit pathBits(std::wstring(fileWalker.findData.cFileName));
+
+        GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
+            directoryName, pathBits.fileName, pathBits.extensionName);
+
+        textureManager.add(pathBits.fileName, newt);
+    }
+}
 /*
 void WaitForCommandQueueFence()
 {

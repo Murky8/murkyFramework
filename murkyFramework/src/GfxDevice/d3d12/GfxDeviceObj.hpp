@@ -48,6 +48,8 @@ enum RootParameters : u32
         murkyFramework::CollectionNamed<GfxDevice::TextureWrapper>		textureManager;
         murkyFramework::CollectionNamed<GfxDevice::VertexBufferWrapper>	vertexBufferManager;
 
+        void loadTexturesInDir(std::wstring directoryName);
+
         GfxDeviceObj() = delete;
 
         GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct);

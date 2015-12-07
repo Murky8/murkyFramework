@@ -27,6 +27,7 @@ public:
     CollectionNamed<GfxDevice::TextureWrapper>		textureManager;
     CollectionNamed<GfxDevice::VertexBufferWrapper>	vertexBufferManager;
 
+    void loadTexturesInDir(std::wstring directoryName);
     mat4    projectionMat{ unit };
     void setUniform_projectionMatrix(const float *pMat);
 
