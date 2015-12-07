@@ -18,6 +18,7 @@ namespace GfxDevice
     {
         u32		uniforms_textureSamplerID;
         u32     uniformHandle_projectionMatrix;               		
+        ShaderWrapper createShaderObject(std::wstring sourceText);
     }
         
     bool checkUniform(s32 a)
@@ -28,12 +29,28 @@ namespace GfxDevice
         if (a == GL_INVALID_OPERATION)triggerBreakpoint();
         return true;
     }       
-
+   
     void	Shaders::initialise()
     {
         GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
         debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";
 
+#ifdef SHA2
+        deviceObj->loadShadersInDir(L"src/GfxDevice/openGL4/shaders");
+
+        {
+            u32 prog = deviceObj->shaderManager.get(L"posColTex").value;
+            uniforms_textureSamplerID = glGetUniformLocation(
+                prog,
+                "textureSamplerID");
+            onGfxDeviceErrorTriggerBreakpoint();
+
+            uniformHandle_projectionMatrix = glGetUniformLocation(
+                prog,
+                "projectionMatrix");
+            onGfxDeviceErrorTriggerBreakpoint();
+        }
+#else        
         {
             qdev::BinaryFileLoader vs_text_temp(L"src/GfxDevice/openGL4/shaders/posColTex.vsh");
             int nChars = vs_text_temp.getDataLength();
@@ -63,8 +80,7 @@ namespace GfxDevice
             checkUniform(uniformHandle_projectionMatrix);
             GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
         }
-
-        if(1)
+     
         {
             qdev::BinaryFileLoader vs_text_temp(L"src/GfxDevice/openGL4/shaders/posCol.vsh");
             int nChars = vs_text_temp.getDataLength();
@@ -91,6 +107,7 @@ namespace GfxDevice
             delete[] vs_text;
             GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
         }
+#endif
     }
             
     void	Shaders::deinitialise()

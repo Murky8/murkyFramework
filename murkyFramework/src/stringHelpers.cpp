@@ -3,6 +3,12 @@
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
 namespace murkyFramework {
+
+  /*  std::unique_ptr<char>   convertStringTo_pCharNullTerm(std::string str)
+    {
+        triggerBreakpoint();
+    }*/
+
 std::wstring s2ws(const std::string& str)
 {
     typedef std::codecvt_utf8<wchar_t> convert_typeX;

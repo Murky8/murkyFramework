@@ -118,6 +118,50 @@ void GfxDeviceObj::loadTexturesInDir(std::wstring directoryName)
     }
 }
 
+
+// temp forward dec
+namespace GfxDevice
+{
+u32 createShader(const char* sourceText, u32 type);
+u32	    createProgram(u32 vertexShader, u32 fragmentShader);
+}
+
+void GfxDeviceObj::loadShadersInDir(std::wstring directoryName)
+{
+    FileDirectoryWalker fileWalker(directoryName, L"\\.vsh$");
+
+    while (fileWalker.findNext())
+    {
+        debugLog << L"gfxDevice::loadShadersInDir loaded " << fileWalker.findData.cFileName << "\n";
+        FilePathSplit pathBits(std::wstring(fileWalker.findData.cFileName));
+
+        {
+            std::wstring vsPath = directoryName + L"/" +pathBits.fileName +L".vsh";
+            qdev::BinaryFileLoader vs_text_temp(vsPath);
+            int nChars = vs_text_temp.getDataLength();
+            char *vs_text = new char[nChars + 1];
+            memcpy(vs_text, vs_text_temp.data(), nChars);
+            vs_text[nChars] = 0;    // text needs to be null terminted
+
+            std::wstring fsPath = directoryName + L"/" + pathBits.fileName + L".fsh";
+            qdev::BinaryFileLoader fs_text_temp(fsPath);
+            int nCharsFs = fs_text_temp.getDataLength();
+            char *fs_text = new char[nCharsFs + 1];
+            memcpy(fs_text, fs_text_temp.data(), nCharsFs);
+            fs_text[nCharsFs] = 0;  // text needs to be null terminted
+
+            u32 vs = GfxDevice::createShader(vs_text, GL_VERTEX_SHADER);
+            u32 fs = GfxDevice::createShader(fs_text, GL_FRAGMENT_SHADER);
+
+            GLuint p = GfxDevice::createProgram(vs, fs);
+            shaderManager.add(pathBits.fileName, GfxDevice::ShaderWrapper{ p });
+
+            delete[] fs_text;
+            delete[] vs_text;            
+        }
+    }
+}
+
 namespace GfxDevice
 {
     void onGfxDeviceErrorTriggerBreakpoint()

@@ -611,6 +611,25 @@ namespace murkyFramework {
             textureManager.add(pathBits.fileName, newt);
         }
     }
+
+    /*
+    void GfxDeviceObj::loadShadersInDir(std::wstring directoryName)
+    {
+        FileDirectoryWalker fileWalker(directoryName, L"\\.png$");
+
+        while (fileWalker.findNext())
+        {
+            debugLog << L"RenderObj::loadTexturesInDir loaded " << fileWalker.findData.cFileName << "\n";
+            FilePathSplit pathBits(std::wstring(fileWalker.findData.cFileName));
+
+            GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
+                directoryName, pathBits.fileName, pathBits.extensionName);
+
+            textureManager.add(pathBits.fileName, newt);
+        }
+    }
+    */
+
     /*
     void WaitForCommandQueueFence()
     {
