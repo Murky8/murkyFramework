@@ -485,12 +485,12 @@ namespace murkyFramework {
 
             m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
         }
+        loadTexturesInDir(L"data");
         debugLog << L"finished success" << L"\n";
     }
 
     void GfxDeviceObj::initialise()
     {
-        loadTexturesInDir(L"data");
     }
 
     GfxDeviceObj::~GfxDeviceObj()

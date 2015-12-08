@@ -23,8 +23,7 @@ extern std::vector<Triangle_pct> gdeb_tris;
 RenderObj::RenderObj(GfxDeviceObj_initStruct  *const initStruct)
 {
     g_appDebug->render = this; // warning: see g_aapDebug usage notes: for development only, remove!
-    gfxDevice = new GfxDeviceObj(initStruct);
-    gfxDevice->initialise();        
+    gfxDevice = new GfxDeviceObj(initStruct);       
 
     debugLog << L"RenderHi::initialise" << "\n";
 

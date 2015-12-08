@@ -48,20 +48,28 @@ long int getFileModTime(const wchar_t *const fileName)
 
 namespace qdev
 {    
-    // current director starts at Z:\murkyDev\murkyFramework\build\Visual Studio 2013
+    // current director starts at Z:\murkyDev\murkyFramework\build\Visual Studio
     // but should be Z:\murkyDev\murkyFramework
-    const std::wstring baseDir(L"../../");
+    //const std::wstring baseDir(L"../../");
 
 #ifdef WINDOWS
     void setCurrentDirectoryToAppRoot()
     {        
-        wchar_t name[1024];
-        GetCurrentDirectoryW(1024, name);
-        debugLog << name << L"\n";
+        wchar_t pathTemp[1024];
+        {
+            GetCurrentDirectoryW(1024, pathTemp);
+            std::wstring    path{ pathTemp };
+            if (std::regex_search(path, std::wregex(L"Visual Studio$")) == true)
+                SetCurrentDirectory(L"../../");
+        }
 
-        int	res = SetCurrentDirectory( baseDir.c_str() );                
-        if(res == 0)
-            triggerBreakpoint(L"Directory problem");        
+        {
+            GetCurrentDirectoryW(1024, pathTemp);
+            std::wstring    path{ pathTemp };
+            if (std::regex_search(path, std::wregex(L"murkyFramework$")) != true)
+                triggerBreakpoint(L"please run .exe in 'murkyFramework' directory");                
+        }
+
     } 
 #endif
 #ifdef ANDROID

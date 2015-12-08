@@ -23,6 +23,7 @@ void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)
 GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct) :
     hDC(initStruct->windowsSpecific->gethDC())
 {
+    g_appDebug->render->gfxDevice = this; // warning: see g_aapDebug usage notes: for development only, remove!
     systemSpecific::WindowsSpecific *const windowsSpecific = initStruct->windowsSpecific;
 
     PIXELFORMATDESCRIPTOR pfd; // Create a new PIXELFORMATDESCRIPTOR (PFD)
@@ -80,12 +81,12 @@ GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct) :
     glDepthFunc(GL_LESS);
     //glDepthFunc(GL_GREATER);
     glDisable(GL_CULL_FACE);
+    GfxDevice::Shaders::initialise();
+    loadTexturesInDir(L"data");    
 }
 
 void GfxDeviceObj::initialise()
 {
-    GfxDevice::Shaders::initialise();
-    loadTexturesInDir(L"data");    
 }
 
 GfxDeviceObj::~GfxDeviceObj()

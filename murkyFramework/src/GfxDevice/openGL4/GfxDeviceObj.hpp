@@ -3,11 +3,10 @@
 // 2015 J. Coelho.
 // Platform: C++11. openGL4
 namespace murkyFramework {
-namespace GfxDevice
-{
-    void onGfxDeviceErrorTriggerBreakpoint();
-}
-
+    namespace GfxDevice
+    {
+        void onGfxDeviceErrorTriggerBreakpoint();
+    }
 struct GfxDeviceObj_initStruct
 {
     u32 screenWidth;
@@ -39,4 +38,5 @@ public:
     void drawBegin();
     void drawEnd();
 };
+//}//namespace 
 }//namespace murkyFramework
