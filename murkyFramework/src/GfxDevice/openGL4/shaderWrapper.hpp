@@ -5,13 +5,14 @@
 
 #ifdef USE_OPENGL
 namespace murkyFramework {
-namespace GfxDevice
-{
-	class ShaderWrapper
-	{
-	public:
-		GLuint value;
-	};
-}
+    namespace GfxDevice
+    {
+        class ShaderWrapper
+        {
+        public:
+            GLuint value;
+        };
+
+    }//namespace GfxDevice
 }//namespace murkyFramework
 #endif

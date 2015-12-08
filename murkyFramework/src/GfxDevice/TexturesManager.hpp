@@ -2,6 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 
+//todo: implement
 
 namespace murkyFramework {
 namespace GfxDevice {

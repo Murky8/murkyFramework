@@ -3,40 +3,39 @@
 // 2015 J. Coelho.
 // Platform: C++11. openGL4
 namespace murkyFramework {
-    namespace GfxDevice
-    {
+    namespace GfxDevice {
         void onGfxDeviceErrorTriggerBreakpoint();
-    }
-struct GfxDeviceObj_initStruct
-{
-    u32 screenWidth;
-    u32 screenHeight;
-    systemSpecific::WindowsSpecific* windowsSpecific;
-};
 
-class GfxDeviceObj
-{
-public:
-    GfxDeviceObj() = delete;
+        struct GfxDeviceObj_initStruct
+        {
+            u32 screenWidth;
+            u32 screenHeight;
+            systemSpecific::WindowsSpecific* windowsSpecific;
+        };
 
-    GfxDeviceObj(GfxDeviceObj_initStruct  *const initStruct);
-    void initialise();
-    ~GfxDeviceObj();
+        class GfxDeviceObj
+        {
+        public:
+            GfxDeviceObj() = delete;
 
-    CollectionNamed<GfxDevice::ShaderWrapper>		shaderManager;
-    CollectionNamed<GfxDevice::TextureWrapper>		textureManager;
-    CollectionNamed<GfxDevice::VertexBufferWrapper>	vertexBufferManager;
+            GfxDeviceObj(GfxDeviceObj_initStruct  *const initStruct);
+            void initialise();
+            ~GfxDeviceObj();
 
-    void loadTexturesInDir(std::wstring directoryName);
-    void loadShadersInDir(std::wstring directoryName);
+            CollectionNamed<GfxDevice::ShaderWrapper>		shaderManager;
+            CollectionNamed<GfxDevice::TextureWrapper>		textureManager;
+            CollectionNamed<GfxDevice::VertexBufferWrapper>	vertexBufferManager;
 
-    mat4    projectionMat{ unit };
-    void setUniform_projectionMatrix(const float *pMat);
+            void loadTexturesInDir(std::wstring directoryName);
+            void loadShadersInDir(std::wstring directoryName);
 
-    HDC const hDC;
+            mat4    projectionMat{ unit };
+            void setUniform_projectionMatrix(const float *pMat);
 
-    void drawBegin();
-    void drawEnd();
-};
-//}//namespace 
+            HDC const hDC;
+
+            void drawBegin();
+            void drawEnd();
+        };
+    }//namespace GfxDevice     
 }//namespace murkyFramework

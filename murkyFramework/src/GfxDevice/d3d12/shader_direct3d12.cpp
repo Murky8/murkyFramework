@@ -97,6 +97,6 @@ namespace murkyFramework {
         void	Shaders::deinitialise()
         {
         }
-    }
-
+    
+}//namespace GfxDevice
 }//namespace murkyFramework

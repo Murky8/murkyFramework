@@ -6,11 +6,12 @@
 #define DD3
 
 namespace murkyFramework {
-namespace GfxDevice 
-{
-    void onGfxDeviceErrorTriggerBreakpoint();
-    bool initialise_device(SystemSpecific * systemSpecific);    
-    void drawBegin();
-    void drawEnd();
-}
+    namespace GfxDevice
+    {
+        void onGfxDeviceErrorTriggerBreakpoint();
+        bool initialise_device(SystemSpecific * systemSpecific);
+        void drawBegin();
+        void drawEnd();
+
+    }//namespace GfxDevice
 }//namespace murkyFramework

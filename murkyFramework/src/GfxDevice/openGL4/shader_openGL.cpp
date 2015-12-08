@@ -5,170 +5,170 @@
 #define deviceObj  g_appDebug->render->gfxDevice
 
 namespace murkyFramework {
-namespace GfxDevice
-{    	    
-    // external forward declarations 
-    extern   void GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-    
-    // internal forward declarations
-    u32     createShader(const char* sourceText, u32 type);
-    u32	    createProgram(u32 vertexShader, u32 fragmentShader);   				
+    namespace GfxDevice
+    {
+        // external forward declarations 
+        extern   void GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
 
-    namespace Shaders
-    {
-        u32		uniforms_textureSamplerID;
-        u32     uniformHandle_projectionMatrix;               		
-        ShaderWrapper createShaderObject(std::wstring sourceText);
-    }
-        
-    bool checkUniform(s32 a)
-    {
-        if (a < 0)triggerBreakpoint();
-        if (a == GL_INVALID_VALUE)triggerBreakpoint();
-        if (a == GL_INVALID_OPERATION)triggerBreakpoint();
-        if (a == GL_INVALID_OPERATION)triggerBreakpoint();
-        return true;
-    }       
-   
-    void	Shaders::initialise()
-    {
-        GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-        debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";
+        // internal forward declarations
+        u32     createShader(const char* sourceText, u32 type);
+        u32	    createProgram(u32 vertexShader, u32 fragmentShader);
+
+        namespace Shaders
+        {
+            u32		uniforms_textureSamplerID;
+            u32     uniformHandle_projectionMatrix;
+            ShaderWrapper createShaderObject(std::wstring sourceText);
+        }
+
+        bool checkUniform(s32 a)
+        {
+            if (a < 0)triggerBreakpoint();
+            if (a == GL_INVALID_VALUE)triggerBreakpoint();
+            if (a == GL_INVALID_OPERATION)triggerBreakpoint();
+            if (a == GL_INVALID_OPERATION)triggerBreakpoint();
+            return true;
+        }
+
+        void	Shaders::initialise()
+        {
+            GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
+            debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";
 
 #ifdef SHA2
-        deviceObj->loadShadersInDir(L"src/GfxDevice/openGL4/shaders");
+            deviceObj->loadShadersInDir(L"src/GfxDevice/openGL4/shaders");
 
-        {
-            u32 prog = deviceObj->shaderManager.get(L"posColTex").value;
-            uniforms_textureSamplerID = glGetUniformLocation(
-                prog,
-                "textureSamplerID");
-            onGfxDeviceErrorTriggerBreakpoint();
+            {
+                u32 prog = deviceObj->shaderManager.get(L"posColTex").value;
+                uniforms_textureSamplerID = glGetUniformLocation(
+                    prog,
+                    "textureSamplerID");
+                onGfxDeviceErrorTriggerBreakpoint();
 
-            uniformHandle_projectionMatrix = glGetUniformLocation(
-                prog,
-                "projectionMatrix");
-            onGfxDeviceErrorTriggerBreakpoint();
-        }
+                uniformHandle_projectionMatrix = glGetUniformLocation(
+                    prog,
+                    "projectionMatrix");
+                onGfxDeviceErrorTriggerBreakpoint();
+            }
 #else        
-        {
-            qdev::BinaryFileLoader vs_text_temp(L"src/GfxDevice/openGL4/shaders/posColTex.vsh");
-            int nChars = vs_text_temp.getDataLength();
-            char *vs_text = new char[nChars + 1];
-            memcpy(vs_text, vs_text_temp.data(), nChars);
-            vs_text[nChars] = 0;    // text needs to be null terminted
-                        
-            qdev::BinaryFileLoader fs_text_temp(L"src/GfxDevice/openGL4/shaders/posColTex.fsh");
-            int nCharsFs = fs_text_temp.getDataLength();
-            char *fs_text = new char[nCharsFs + 1];
-            memcpy(fs_text, fs_text_temp.data(), nCharsFs);
-            fs_text[nCharsFs] = 0;  // text needs to be null terminted
+            {
+                qdev::BinaryFileLoader vs_text_temp(L"src/GfxDevice/openGL4/shaders/posColTex.vsh");
+                int nChars = vs_text_temp.getDataLength();
+                char *vs_text = new char[nChars + 1];
+                memcpy(vs_text, vs_text_temp.data(), nChars);
+                vs_text[nChars] = 0;    // text needs to be null terminted
 
-            u32 vs = GfxDevice::createShader(vs_text, GL_VERTEX_SHADER);
-            u32 fs = GfxDevice::createShader(fs_text, GL_FRAGMENT_SHADER);
+                qdev::BinaryFileLoader fs_text_temp(L"src/GfxDevice/openGL4/shaders/posColTex.fsh");
+                int nCharsFs = fs_text_temp.getDataLength();
+                char *fs_text = new char[nCharsFs + 1];
+                memcpy(fs_text, fs_text_temp.data(), nCharsFs);
+                fs_text[nCharsFs] = 0;  // text needs to be null terminted
 
-            GLuint p = GfxDevice::createProgram(vs, fs);
-            deviceObj->shaderManager.add(L"posColTex", ShaderWrapper{ p });
+                u32 vs = GfxDevice::createShader(vs_text, GL_VERTEX_SHADER);
+                u32 fs = GfxDevice::createShader(fs_text, GL_FRAGMENT_SHADER);
 
-            delete[] fs_text;
-            delete[] vs_text;
+                GLuint p = GfxDevice::createProgram(vs, fs);
+                deviceObj->shaderManager.add(L"posColTex", ShaderWrapper{ p });
 
-            uniforms_textureSamplerID = glGetUniformLocation(p, "textureSamplerID");
-            checkUniform(uniforms_textureSamplerID);
+                delete[] fs_text;
+                delete[] vs_text;
 
-            uniformHandle_projectionMatrix = glGetUniformLocation(p, "projectionMatrix");
-            checkUniform(uniformHandle_projectionMatrix);
-            GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-        }
-     
-        {
-            qdev::BinaryFileLoader vs_text_temp(L"src/GfxDevice/openGL4/shaders/posCol.vsh");
-            int nChars = vs_text_temp.getDataLength();
-            char *vs_text = new char[nChars + 1];
-            memcpy(vs_text, vs_text_temp.data(), nChars);
-            vs_text[nChars] = 0;    // text needs to be null terminted
+                uniforms_textureSamplerID = glGetUniformLocation(p, "textureSamplerID");
+                checkUniform(uniforms_textureSamplerID);
 
-            qdev::BinaryFileLoader fs_text_temp(L"src/GfxDevice/openGL4/shaders/posCol.fsh");
-            int nCharsFs = fs_text_temp.getDataLength();
-            char *fs_text = new char[nCharsFs + 1];
-            memcpy(fs_text, fs_text_temp.data(), nCharsFs);
-            fs_text[nCharsFs] = 0;  // text needs to be null terminted
+                uniformHandle_projectionMatrix = glGetUniformLocation(p, "projectionMatrix");
+                checkUniform(uniformHandle_projectionMatrix);
+                GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
+            }
 
-            u32 vs = GfxDevice::createShader(vs_text, GL_VERTEX_SHADER);
-            u32 fs = GfxDevice::createShader(fs_text, GL_FRAGMENT_SHADER);
+            {
+                qdev::BinaryFileLoader vs_text_temp(L"src/GfxDevice/openGL4/shaders/posCol.vsh");
+                int nChars = vs_text_temp.getDataLength();
+                char *vs_text = new char[nChars + 1];
+                memcpy(vs_text, vs_text_temp.data(), nChars);
+                vs_text[nChars] = 0;    // text needs to be null terminted
 
-            GLuint p = GfxDevice::createProgram(vs, fs);
-            deviceObj->shaderManager.add(L"posCol", ShaderWrapper{ p });
+                qdev::BinaryFileLoader fs_text_temp(L"src/GfxDevice/openGL4/shaders/posCol.fsh");
+                int nCharsFs = fs_text_temp.getDataLength();
+                char *fs_text = new char[nCharsFs + 1];
+                memcpy(fs_text, fs_text_temp.data(), nCharsFs);
+                fs_text[nCharsFs] = 0;  // text needs to be null terminted
 
-            //uniformHandle_projectionMatrix = glGetUniformLocation(p, "projectionMatrix");
-            //checkUniform(uniformHandle_projectionMatrix);
+                u32 vs = GfxDevice::createShader(vs_text, GL_VERTEX_SHADER);
+                u32 fs = GfxDevice::createShader(fs_text, GL_FRAGMENT_SHADER);
 
-            delete[] fs_text;
-            delete[] vs_text;
-            GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-        }
+                GLuint p = GfxDevice::createProgram(vs, fs);
+                deviceObj->shaderManager.add(L"posCol", ShaderWrapper{ p });
+
+                //uniformHandle_projectionMatrix = glGetUniformLocation(p, "projectionMatrix");
+                //checkUniform(uniformHandle_projectionMatrix);
+
+                delete[] fs_text;
+                delete[] vs_text;
+                GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
+            }
 #endif
-    }
-            
-    void	Shaders::deinitialise()
-    {
-    }
-
-    u32 createShader(const char* sourceText, u32 type)
-    {
-        GLuint	shader = glCreateShader(type);
-        glShaderSource(shader, 1, &sourceText, NULL);
-        glCompileShader(shader);
-
-        // Check shader     
-        GLint status;
-        glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-        if (status == GL_FALSE)
-        {
-            GLint infoLogLength;
-            glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
-
-            GLchar *strInfoLog = new GLchar[infoLogLength + 1];
-            glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
-
-            debugLog << L"Compile failure\n";
-            debugLog << strInfoLog << L"\n";
-            triggerBreakpoint();
-
-            delete[] strInfoLog;
         }
-        // Check shader   
-        GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-        return shader;
-    }
 
-    u32	createProgram(u32 vertexShader, u32 fragmentShader)
-    {
-        u32 program = glCreateProgram();
-        glAttachShader(program, fragmentShader);
-        glAttachShader(program, vertexShader);
-        glLinkProgram(program);
-
-        // check program
-        GLint status;
-        glGetProgramiv(program, GL_LINK_STATUS, &status);
-        if (status == GL_FALSE)
+        void	Shaders::deinitialise()
         {
-            GLint infoLogLength;
-            glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
-
-            GLchar *strInfoLog = new GLchar[infoLogLength + 1];
-            glGetProgramInfoLog(program, infoLogLength, NULL, strInfoLog);
-
-            debugLog << L"Compile failure making program\n";
-            debugLog << strInfoLog << L"\n";
-            delete[] strInfoLog;
-            triggerBreakpoint();
         }
-        // check program
-        GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-        return program;
-    }
-}
+
+        u32 createShader(const char* sourceText, u32 type)
+        {
+            GLuint	shader = glCreateShader(type);
+            glShaderSource(shader, 1, &sourceText, NULL);
+            glCompileShader(shader);
+
+            // Check shader     
+            GLint status;
+            glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+            if (status == GL_FALSE)
+            {
+                GLint infoLogLength;
+                glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
+
+                GLchar *strInfoLog = new GLchar[infoLogLength + 1];
+                glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
+
+                debugLog << L"Compile failure\n";
+                debugLog << strInfoLog << L"\n";
+                triggerBreakpoint();
+
+                delete[] strInfoLog;
+            }
+            // Check shader   
+            GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
+            return shader;
+        }
+
+        u32	createProgram(u32 vertexShader, u32 fragmentShader)
+        {
+            u32 program = glCreateProgram();
+            glAttachShader(program, fragmentShader);
+            glAttachShader(program, vertexShader);
+            glLinkProgram(program);
+
+            // check program
+            GLint status;
+            glGetProgramiv(program, GL_LINK_STATUS, &status);
+            if (status == GL_FALSE)
+            {
+                GLint infoLogLength;
+                glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
+
+                GLchar *strInfoLog = new GLchar[infoLogLength + 1];
+                glGetProgramInfoLog(program, infoLogLength, NULL, strInfoLog);
+
+                debugLog << L"Compile failure making program\n";
+                debugLog << strInfoLog << L"\n";
+                delete[] strInfoLog;
+                triggerBreakpoint();
+            }
+            // check program
+            GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
+            return program;
+        }
+    }//namespace GfxDevice
 }//namespace murkyFramework
 

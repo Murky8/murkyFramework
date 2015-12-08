@@ -8,14 +8,14 @@ class RenderObj
 public:
     // construction
     RenderObj() = delete;
-    RenderObj(GfxDeviceObj_initStruct  *const initStruct);
+    RenderObj(GfxDevice::GfxDeviceObj_initStruct  *const initStruct);
     // destruction
     ~RenderObj();
 
     // methods    
 
     // objects/components
-    GfxDeviceObj *gfxDevice;
+    GfxDevice::GfxDeviceObj *gfxDevice;
 
     // data
     //vec4 cursorPos{ 0, 0, -5.f };

@@ -42,5 +42,6 @@ namespace GfxDevice
     private:
         std::map< std::wstring, GfxDevice::TextureId> textures;
     };
-}
+
+}//namespace GfxDevice
 }//namespace murkyFramework

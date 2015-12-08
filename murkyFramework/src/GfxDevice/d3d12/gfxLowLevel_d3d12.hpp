@@ -9,5 +9,5 @@ namespace GfxDevice
     void deinitialise();
     void drawBegin();
     void drawEnd();
-}
+}//namespace GfxDevice
 }//namespace murkyFramework

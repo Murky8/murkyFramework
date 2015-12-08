@@ -2,81 +2,82 @@
 // 2015 J. Coelho.
 #include <murkyFramework/src/pch.hpp>
 namespace murkyFramework {
-namespace GfxDevice
-{
-    // forward declarations
-    TextureWrapper   createTextureObject(u8 * in_imageData, u32 width, u32 height);
-      
-    // functions
-	TextureWrapper   createTextureObjectFromFile(const std::wstring &dirName,
-        const std::wstring &fileName, const std::wstring &extensionName)
+    namespace GfxDevice
     {
-        std::vector<u8> textureRaw;
-        u32 width, height;
+        // forward declarations
+        TextureWrapper   createTextureObject(u8 * in_imageData, u32 width, u32 height);
 
-        loadTextureDataFromFile(textureRaw, dirName, fileName, extensionName,
-            width, height);
+        // functions
+        TextureWrapper   createTextureObjectFromFile(const std::wstring &dirName,
+            const std::wstring &fileName, const std::wstring &extensionName)
+        {
+            std::vector<u8> textureRaw;
+            u32 width, height;
 
-        TextureWrapper   t = createTextureObject(textureRaw.data(), width, height);
-        return t;
-    }
+            loadTextureDataFromFile(textureRaw, dirName, fileName, extensionName,
+                width, height);
 
-    TextureWrapper   createTestTextureObject()
-    {        
-        const auto subDiv = 256;
+            TextureWrapper   t = createTextureObject(textureRaw.data(), width, height);
+            return t;
+        }
 
-        //typedef boost::multi_array<u8, 3> array_type;
-        //typedef array_type::index index;
-        //array_type t(boost::extents[dim][dim][4]);
+        TextureWrapper   createTestTextureObject()
+        {
+            const auto subDiv = 256;
 
-        boost::multi_array<u8, 3> t(boost::extents[subDiv][subDiv][4]);
+            //typedef boost::multi_array<u8, 3> array_type;
+            //typedef array_type::index index;
+            //array_type t(boost::extents[dim][dim][4]);
 
-        for (auto i = 0; i < subDiv; ++i)
-            for (auto j = 0; j < subDiv; ++j)
-            {                                     
-                //f32 fi = (f32)i*256.f /subDiv;
-                //f32 fj = (f32)j*256.f /subDiv;
-                //double nulll;
-                //t[j][i][0] = 255.f * modf(modf(fi*fi, &nulll) + modf(fj*fj, &nulll), &nulll);
-                //t[j][i][1] =  i*i*2 + j*j*2;
-                //t[j][i][2] = 0;// i*i + j*j * 2;
-                t[j][i][0] = i*i + j*j;
-                t[j][i][1] =  i*i*2 + j*j*2;
-                t[j][i][2] =  30;
-            }
+            boost::multi_array<u8, 3> t(boost::extents[subDiv][subDiv][4]);
 
-        return createTextureObject((u8*)t.data(), subDiv, subDiv);
-    }
+            for (auto i = 0; i < subDiv; ++i)
+                for (auto j = 0; j < subDiv; ++j)
+                {
+                    //f32 fi = (f32)i*256.f /subDiv;
+                    //f32 fj = (f32)j*256.f /subDiv;
+                    //double nulll;
+                    //t[j][i][0] = 255.f * modf(modf(fi*fi, &nulll) + modf(fj*fj, &nulll), &nulll);
+                    //t[j][i][1] =  i*i*2 + j*j*2;
+                    //t[j][i][2] = 0;// i*i + j*j * 2;
+                    t[j][i][0] = i*i + j*j;
+                    t[j][i][1] = i*i * 2 + j*j * 2;
+                    t[j][i][2] = 30;
+                }
 
-    // loads trexture from file
-    bool loadTextureDataFromFile(std::vector<u8> &textureRawOut, const std::wstring &dirName,
-        const std::wstring &fileName, const std::wstring &extensionName,
-        u32 &widthOut, u32 &heightOut)
-    {
-        std::wstring fullPath = dirName + L"/" + fileName + L"." + extensionName;
+            return createTextureObject((u8*)t.data(), subDiv, subDiv);
+        }
 
-        if (extensionName != L"png")
-            return false;
+        // loads trexture from file
+        bool loadTextureDataFromFile(std::vector<u8> &textureRawOut, const std::wstring &dirName,
+            const std::wstring &fileName, const std::wstring &extensionName,
+            u32 &widthOut, u32 &heightOut)
+        {
+            std::wstring fullPath = dirName + L"/" + fileName + L"." + extensionName;
 
-        auto error = lodepng::decode(textureRawOut, widthOut, heightOut, ws2s(fullPath).c_str());
-        if (error != 0)
-            return false;
+            if (extensionName != L"png")
+                return false;
 
-        return true;
-    }
+            auto error = lodepng::decode(textureRawOut, widthOut, heightOut, ws2s(fullPath).c_str());
+            if (error != 0)
+                return false;
 
-    // loads textures in directory
-    struct loadTexturesInDirectoryToMemory_item
-    {
-        std::vector<u8> data;
-        int dimX;
-        int dimY;
-    };
+            return true;
+        }
 
-    void loadTexturesInDirectoryToMemory(const std::wstring &dirName, const std::wregex &regx)
-    {
+        // loads textures in directory
+        struct loadTexturesInDirectoryToMemory_item
+        {
+            std::vector<u8> data;
+            int dimX;
+            int dimY;
+        };
 
-    }
+        void loadTexturesInDirectoryToMemory(const std::wstring &dirName, const std::wregex &regx)
+        {
 
-}
+        }
+
+    }//namespace GfxDevice
+
 }//namespace murkyFramework

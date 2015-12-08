@@ -20,5 +20,5 @@ namespace GfxDevice
 
         return texture;
     }
-}
+}//namespace GfxDevice
 }//namespace murkyFramework

@@ -12,5 +12,6 @@ namespace GfxDevice
     }
     
     void setUniform_projectionMatrix(const float *pMat);
-}
+
+}//namespace GfxDevice
 }//namespace murkyFramework

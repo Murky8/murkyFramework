@@ -11,5 +11,6 @@ namespace GfxDevice {
     }
 
 
-}
+}//namespace GfxDevice
+
 }//namespace murkyFramework

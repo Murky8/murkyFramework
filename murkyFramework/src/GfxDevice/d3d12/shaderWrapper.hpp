@@ -11,5 +11,6 @@ namespace GfxDevice
 		Microsoft::WRL::ComPtr<ID3DBlob> vertexShader;
 		Microsoft::WRL::ComPtr<ID3DBlob> pixelShader;	
 	};
-}
+}//namespace GfxDevice
+
 }//namespace murkyFramework

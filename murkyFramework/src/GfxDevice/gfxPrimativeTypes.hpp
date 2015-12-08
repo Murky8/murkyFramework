@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 namespace murkyFramework {
-namespace GfxDevice
+namespace GfxDevice //todo: move
 {
     enum class VertexType{ posCol, posColTex };
     enum class PrimativeType{ triangle, line, point };

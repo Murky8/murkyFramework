@@ -325,7 +325,6 @@
     <ClCompile Include="..\..\src\GfxDevice\d3d12\vertexBuffer_direct3d12.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\GfxDevice.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\GfxDeviceCommon.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\gfxPrimativeTypes.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\openGL4\GfxDeviceObj.cpp">
@@ -408,8 +407,6 @@
     <ClInclude Include="..\..\src\GfxDevice\d3d12\vertexBufferWrapper.hpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\GfxDeviceCommon.hpp" />
-    <ClInclude Include="..\..\src\GfxDevice\GfxDeviceObjCommon.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\gfxLowLevel.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\gfxPrimativeTypes.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\openGL4\GfxDeviceObj.hpp">

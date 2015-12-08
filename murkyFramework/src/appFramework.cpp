@@ -63,7 +63,7 @@ AppFramework::AppFramework()
     if (!res)
         triggerBreakpoint(L"createWindow failed");    
     
-    GfxDeviceObj_initStruct initStruct;
+    GfxDevice::GfxDeviceObj_initStruct initStruct;
     initStruct.screenWidth = screenResX;
     initStruct.screenHeight = screenResY;
     initStruct.windowsSpecific = windowsSpecific;    
