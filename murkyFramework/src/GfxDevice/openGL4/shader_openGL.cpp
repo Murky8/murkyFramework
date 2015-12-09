@@ -35,7 +35,7 @@ namespace murkyFramework {
             GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
             debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";
 
-#ifdef SHA2
+
             deviceObj->loadShadersInDir(L"src/GfxDevice/openGL4/shaders");
 
             {
@@ -50,64 +50,6 @@ namespace murkyFramework {
                     "projectionMatrix");
                 onGfxDeviceErrorTriggerBreakpoint();
             }
-#else        
-            {
-                qdev::BinaryFileLoader vs_text_temp(L"src/GfxDevice/openGL4/shaders/posColTex.vsh");
-                int nChars = vs_text_temp.getDataLength();
-                char *vs_text = new char[nChars + 1];
-                memcpy(vs_text, vs_text_temp.data(), nChars);
-                vs_text[nChars] = 0;    // text needs to be null terminted
-
-                qdev::BinaryFileLoader fs_text_temp(L"src/GfxDevice/openGL4/shaders/posColTex.fsh");
-                int nCharsFs = fs_text_temp.getDataLength();
-                char *fs_text = new char[nCharsFs + 1];
-                memcpy(fs_text, fs_text_temp.data(), nCharsFs);
-                fs_text[nCharsFs] = 0;  // text needs to be null terminted
-
-                u32 vs = GfxDevice::createShader(vs_text, GL_VERTEX_SHADER);
-                u32 fs = GfxDevice::createShader(fs_text, GL_FRAGMENT_SHADER);
-
-                GLuint p = GfxDevice::createProgram(vs, fs);
-                deviceObj->shaderManager.add(L"posColTex", ShaderWrapper{ p });
-
-                delete[] fs_text;
-                delete[] vs_text;
-
-                uniforms_textureSamplerID = glGetUniformLocation(p, "textureSamplerID");
-                checkUniform(uniforms_textureSamplerID);
-
-                uniformHandle_projectionMatrix = glGetUniformLocation(p, "projectionMatrix");
-                checkUniform(uniformHandle_projectionMatrix);
-                GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-            }
-
-            {
-                qdev::BinaryFileLoader vs_text_temp(L"src/GfxDevice/openGL4/shaders/posCol.vsh");
-                int nChars = vs_text_temp.getDataLength();
-                char *vs_text = new char[nChars + 1];
-                memcpy(vs_text, vs_text_temp.data(), nChars);
-                vs_text[nChars] = 0;    // text needs to be null terminted
-
-                qdev::BinaryFileLoader fs_text_temp(L"src/GfxDevice/openGL4/shaders/posCol.fsh");
-                int nCharsFs = fs_text_temp.getDataLength();
-                char *fs_text = new char[nCharsFs + 1];
-                memcpy(fs_text, fs_text_temp.data(), nCharsFs);
-                fs_text[nCharsFs] = 0;  // text needs to be null terminted
-
-                u32 vs = GfxDevice::createShader(vs_text, GL_VERTEX_SHADER);
-                u32 fs = GfxDevice::createShader(fs_text, GL_FRAGMENT_SHADER);
-
-                GLuint p = GfxDevice::createProgram(vs, fs);
-                deviceObj->shaderManager.add(L"posCol", ShaderWrapper{ p });
-
-                //uniformHandle_projectionMatrix = glGetUniformLocation(p, "projectionMatrix");
-                //checkUniform(uniformHandle_projectionMatrix);
-
-                delete[] fs_text;
-                delete[] vs_text;
-                GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-            }
-#endif
         }
 
         void	Shaders::deinitialise()

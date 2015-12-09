@@ -39,6 +39,8 @@
 #include <murkyFramework/src/types.hpp>
 #include <murkyFramework/src/common.hpp>
 
+#include <murkyFramework/src/appFramework.hpp>
+
 #include <murkyFramework/src/SystemSpecific/systemSpecific.hpp>
 #include <murkyFramework/src/SystemSpecific/Windows/WindowsSpecific.hpp>
 
@@ -127,4 +129,5 @@
 #include <murkyFramework/src/Render/RenderObj.hpp>
 // render
 
-#include <murkyFramework/src/appFramework.hpp>
+
+

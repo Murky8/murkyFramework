@@ -121,9 +121,6 @@
     <ClCompile Include="..\..\src\mclass.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GfxDevice\GfxDeviceCommon.cpp">
-      <Filter>Source Files\GfxDevice</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\gfxPrimativeTypes.cpp">
       <Filter>Source Files\GfxDevice</Filter>
     </ClCompile>
@@ -188,9 +185,6 @@
     </ClInclude>
     <ClInclude Include="..\..\src\mclass.hpp">
       <Filter>Source Files\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GfxDevice\gfxLowLevel.hpp">
-      <Filter>Source Files\GfxDevice</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\gfxPrimativeTypes.hpp">
       <Filter>Source Files\GfxDevice</Filter>

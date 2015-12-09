@@ -6,8 +6,6 @@
 
 namespace murkyFramework {
 
-
-//extern AppFramework *g_appDebug;    // for debugging and development only.
 void triggerBreakpoint()
 {
     triggerBreakpoint(L"Error\n");    

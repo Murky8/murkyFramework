@@ -3,8 +3,9 @@
 // 2015 J. Coelho.
 // Platform: C++11
 namespace murkyFramework {
+    class AppFramework;
 namespace systemSpecific {
-class WindowsSpecific : public SystemSpecific
+class WindowsSpecific : public SystemSpecificObj
 {
 private:
     HDC			hDC;		 
@@ -19,6 +20,7 @@ private:
 public:
     WindowsSpecific();
     void windowsLoopIteration();
+    virtual void main2(class murkyFramework::AppFramework *const  app);
     virtual bool createWindow(std::wstring title, int width, int height);    
     HGLRC		hRC;		
     

@@ -52,13 +52,13 @@ AppFramework::AppFramework()
     }
     
     auto *windowsSpecific = new systemSpecific::WindowsSpecific();
-    systemSpecific = windowsSpecific;
+    system = windowsSpecific;
 
 #else
 #error WINDOWS only at the moment 
 #endif
 
-    bool res = systemSpecific->createWindow(title.c_str(), screenResX, screenResY);    
+    bool res = system->createWindow(title.c_str(), screenResX, screenResY);    
     // note: wndProc starts getting called after this point. createWindow creates hWnd
     if (!res)
         triggerBreakpoint(L"createWindow failed");    
@@ -67,7 +67,7 @@ AppFramework::AppFramework()
     initStruct.screenWidth = screenResX;
     initStruct.screenHeight = screenResY;
     initStruct.windowsSpecific = windowsSpecific;    
-    render = new RenderObj(&initStruct);
+    render = new Render::RenderObj(&initStruct);
     
     // mouse, keyboard, etc input
     inputDevices = new InputDevices(windowsSpecific); // todo: pass less
@@ -78,7 +78,7 @@ AppFramework::~AppFramework()
 { 
     delete  inputDevices;
     delete  render;
-    delete  systemSpecific;
+    delete  system;
 }
 //void AppFramework::resume()
 //{

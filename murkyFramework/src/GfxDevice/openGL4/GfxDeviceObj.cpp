@@ -2,6 +2,9 @@
 // 2015 J. Coelho.
 // Platform: C++11. openGL4
 #include <murkyFramework/src/pch.hpp>
+
+#include <ThirdParty/glew/src/glew.c>   // note! This is a cpp file, not hpp.
+
 namespace murkyFramework {
     namespace GfxDevice {
         void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)

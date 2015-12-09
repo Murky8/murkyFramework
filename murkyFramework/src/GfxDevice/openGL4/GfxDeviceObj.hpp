@@ -37,5 +37,7 @@ namespace murkyFramework {
             void drawBegin();
             void drawEnd();
         };
+
+        void onGfxDeviceErrorTriggerBreakpoint();
     }//namespace GfxDevice     
 }//namespace murkyFramework

@@ -16,7 +16,6 @@ namespace murkyFramework {
             texture.iTexture = nextTextureID;
             ++nextTextureID;
 
- #ifdef TEX2
             ComPtr<ID3D12Resource> textureUploadHeap;   // keep in scope until command list executed
 
             {//begin command list
@@ -90,8 +89,6 @@ namespace murkyFramework {
                 deviceObj->waitForGPUFinish();
             }//end command list
 
-
-#endif//TEX2
             return texture;
         }
 
