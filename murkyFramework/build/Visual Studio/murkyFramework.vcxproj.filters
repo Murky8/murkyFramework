@@ -44,9 +44,6 @@
     <Filter Include="Source Files\GfxDevice\openGL4\shaders">
       <UniqueIdentifier>{68c48d00-b5a0-4c48-b616-160383459f77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GfxDevice\vulkan">
-      <UniqueIdentifier>{b70420bf-ab9e-42de-9d75-ba6046cd71cc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\SystemSpecific">
       <UniqueIdentifier>{8352be6e-6f51-42d9-ae4d-53217777a9a2}</UniqueIdentifier>
     </Filter>
@@ -58,6 +55,9 @@
     </Filter>
     <Filter Include="Source Files\ThirdParty">
       <UniqueIdentifier>{37209219-d06f-472d-a02c-fed964642ab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GfxDevice\vulkan %3b%29">
+      <UniqueIdentifier>{b70420bf-ab9e-42de-9d75-ba6046cd71cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

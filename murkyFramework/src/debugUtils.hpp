@@ -38,25 +38,25 @@ void debug2Print(DebugLog2_dest dest, T v)
 	debugLog << L"\n";
 }
 
-template<typename T, typename... Args>
-void debug2Print(DebugLog2_dest dest, T first, Args... args)
-{
-	
-	debugLog << first;// << L" ";
-	debug2Print(args...);
-}
-
-template<typename T, typename... Args>
-void debug2Print_screen(T first, Args... args)
-{
-	debug2Print(DebugLog2_dest::screen, first, args);
-}
-
-template<typename T, typename... Args>
-void debug2Print_file(T first, Args... args)
-{
-	debug2Print(DebugLog2_dest::file, first, args);
-}
+//template<typename T, typename... Args>
+//void debug2Print(DebugLog2_dest dest, T first, Args... args)
+//{
+//	
+//	debugLog << first;// << L" ";
+//	debug2Print(args...);
+//}
+//
+//template<typename T, typename... Args>
+//void debug2Print_screen(T first, Args... args)
+//{
+//	debug2Print(DebugLog2_dest::screen, first, args);
+//}
+//
+//template<typename T, typename... Args>
+//void debug2Print_file(T first, Args... args)
+//{
+//	debug2Print(DebugLog2_dest::file, first, args);
+//}
 
 void debug2LogToFile(const std::wstring &textToAdd);
 void debug2ResetLogFile();

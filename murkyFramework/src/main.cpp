@@ -1,7 +1,4 @@
 //------------------------------------------------------------------------------
-//  ??????????????????
-//  ?  2015 J.Coelho ?
-//  ??????????????????
 
 #include <murkyFramework/src/pch.hpp>
 
@@ -15,7 +12,8 @@ namespace murkyFramework {
     // testing
     void skool();
 
-    void compileFBX(FilePathSplit pathSplit)
+    // compile if uncompiled file newer than compiled file
+    bool fileNeedsCompiling(FilePathSplit &pathSplit)
     {
         std::wstring binPath = makePathString(pathSplit.directoryPath, pathSplit.fileName, L"bin");
 
@@ -24,6 +22,16 @@ namespace murkyFramework {
         u64 binModTime = getFileModificationTime1601(binPath, &binExsists);
 
         if (fbxModTime > binModTime || binExsists == false)
+            return true;
+        else
+            return false;
+    }
+
+    void compileFBX(FilePathSplit pathSplit)
+    {
+        std::wstring binPath = makePathString(pathSplit.directoryPath, pathSplit.fileName, L"bin");
+
+        if(fileNeedsCompiling(pathSplit))
         {// compile to .bin
             debugLog << L"bin is not current. compiling \n";
             murkyFramework::loadFBX_tris(pathSplit.getJoinedFilePath(), gdeb_tris);
@@ -37,10 +45,7 @@ namespace murkyFramework {
     }
 
     void compileResources()
-    {
-        // scan directory	
-    //	visitAllFilesInDirectory(L"data", pr);
-    //	exit(0);
+    {        
         std::wregex regexp{ L"FBX" };
         visitAllFilesInDirectory(L"data", compileFBX, regexp);
 
@@ -53,10 +58,7 @@ namespace murkyFramework {
     int main() // can't be in a namespace :(
     {
         //skool();    
-        murkyFramework::AppFramework *const app = new murkyFramework::AppFramework;
-        murkyFramework::g_appDebug = app;
-
-        murkyFramework::compileResources();// move this!	            
+        murkyFramework::AppFramework *const app = new murkyFramework::AppFramework;        
 
 #ifdef WINDOWS
         murkyFramework::systemSpecific::WindowsSpecific* windowsSpecific{ 

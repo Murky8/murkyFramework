@@ -3,7 +3,7 @@
 // Platform: C++11. openGL4
 #include <murkyFramework/src/pch.hpp>
 
-#include <ThirdParty/glew/src/glew.c>   // note! This is a cpp file, not hpp.
+#include <ThirdParty/glew/src/glew.c>   // note! This is a cpp file, not hpp. included here as pch probs
 
 namespace murkyFramework {
     namespace GfxDevice {

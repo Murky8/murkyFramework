@@ -4,7 +4,8 @@
 #include <murkyFramework/src/pch.hpp>
 
 namespace murkyFramework {
-
+    // forward declartions
+    void compileResources();
 AppFramework::AppFramework()
 {    
     murkyFramework::g_appDebug = this; // warning: see g_aapDebug usage notes: for development only, remove!
@@ -36,6 +37,8 @@ AppFramework::AppFramework()
 #endif
     fullScreen = false;
 
+        compileResources();
+    
 #ifdef WINDOWS
     if(fullScreen)
     {

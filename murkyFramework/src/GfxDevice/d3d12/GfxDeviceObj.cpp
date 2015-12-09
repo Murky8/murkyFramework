@@ -365,6 +365,7 @@ namespace murkyFramework {
 
             // Set necessary state.
             g_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
+
             {
                 ConstantBufferGS constantBufferGS = {};
 
@@ -378,10 +379,10 @@ namespace murkyFramework {
             ID3D12DescriptorHeap* ppHeaps[] = { m_srvHeap.Get() };
             g_commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
-            // set current texture
-            CD3DX12_GPU_DESCRIPTOR_HANDLE srvGPUHandle(m_srvHeap->GetGPUDescriptorHandleForHeapStart());
-            srvGPUHandle.Offset(1, m_srvDescriptorSize);
-            g_commandList->SetGraphicsRootDescriptorTable(0, srvGPUHandle);
+            // set current texture// now done in vbdraw
+            //CD3DX12_GPU_DESCRIPTOR_HANDLE srvGPUHandle(m_srvHeap->GetGPUDescriptorHandleForHeapStart());
+            //srvGPUHandle.Offset(1, m_srvDescriptorSize);     //note offset!!!
+            //g_commandList->SetGraphicsRootDescriptorTable(RootParameterTexture, srvGPUHandle);
 
             g_commandList->RSSetViewports(1, &m_viewport);
             g_commandList->RSSetScissorRects(1, &m_scissorRect);
