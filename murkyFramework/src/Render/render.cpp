@@ -52,6 +52,7 @@ namespace Render
                 for (Triangle_pct &t : gdeb_tris)
                 {
                     drawCrosshair(vec3(t.v[0].pos.x, t.v[0].pos.y, -t.v[0].pos.z), vec3(1, 0, 0), 1.f);
+                    
                 }
                 deviceObj->vertexBufferManager.get(L"lines").draw(defaultLines.data(), defaultLines.size());
             }

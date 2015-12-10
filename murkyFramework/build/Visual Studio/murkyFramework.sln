@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "murkyFramework", "murkyFramework.vcxproj", "{595AF656-A50D-4C1F-A64D-2BD19BB586FB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project1", "..\..\..\Project1\build\Visual Studio\Project1.vcxproj", "{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,14 @@ Global
 		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Release|Win32.Build.0 = d3d11_debug|Win32
 		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Release|x64.ActiveCfg = ogl_debug|x64
 		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Release|x64.Build.0 = ogl_debug|x64
+		{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}.Debug|Win32.Build.0 = Debug|Win32
+		{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}.Debug|x64.ActiveCfg = Debug|x64
+		{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}.Debug|x64.Build.0 = Debug|x64
+		{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}.Release|Win32.ActiveCfg = Release|Win32
+		{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}.Release|Win32.Build.0 = Release|Win32
+		{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}.Release|x64.ActiveCfg = Release|x64
+		{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

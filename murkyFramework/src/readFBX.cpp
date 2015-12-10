@@ -141,6 +141,64 @@ namespace murkyFramework
 		done = true;		
 	}
 
+    void loadFBX_tris(const std::wstring &filePathName, std::vector<Vert_pct> &verts, std::vector<u16> &indexes )
+    {
+        std::unique_ptr<qdev::BinaryFileLoader> pBinaryFile(new qdev::BinaryFileLoader(filePathName));
+        if (pBinaryFile->pdata == nullptr)
+        {// unsuccessful
+            done = true;
+        }
+
+        std::string temp(pBinaryFile->pdata, pBinaryFile->getDataLength());
+        std::wstring text = s2ws(temp);
+
+        // parse text
+
+        // get num verts
+        auto it = text.cbegin();
+        if (findNextText_incIt(text, L"Vertices:", it) == false)
+        {
+            triggerBreakpoint();
+        }
+
+        int nVerts;
+        nVerts = getNextInt_incIt(it, text.end()) / 3;
+       
+        // read verts
+        for (int i = 0; i < nVerts; i++)
+        {
+            float x = getNextFloat_incIt(it, text.end());
+            float z = getNextFloat_incIt(it, text.end());
+            float y = getNextFloat_incIt(it, text.end());
+            verts.push_back
+                (
+                    Vert_pct{ vec3(x, y, z), vec3(1, 1, 1), vec2(1, 1) }
+            );
+            //debugLog << i << x << y << z << L"\n";
+        }
+        // get num faces
+        if (findNextText_incIt(text, L"PolygonVertexIndex:", it) == false)
+        {
+            triggerBreakpoint();
+        }
+        int nFaces = getNextInt_incIt(it, text.end()) / 3;
+
+        // get face indices
+        for (int i = 0; i < nFaces; i++)
+        {
+            int i0 = getNextInt_incIt(it, text.end());
+            int i1 = getNextInt_incIt(it, text.end());
+            int i2 = ~getNextInt_incIt(it, text.end()); // note: FBX weirdness -1
+
+            indexes.push_back(i0);
+            indexes.push_back(i1);
+            indexes.push_back(i2);
+        }
+
+        // parse text
+        done = true;
+    }
+
 	void serializeTris(const std::wstring &filePathName, std::vector<Triangle_pct> &tris)
 	{
 		std::fstream ofile;
