@@ -2,6 +2,7 @@
 // 2015 J. Coelho.
 // Platform: C++11
 #include <murkyFramework/src/pch.hpp>
+
 namespace murkyFramework {
 // called from windows loop in main.cpp
 void mainLoop_threadMain(AppFramework  *const app)
@@ -85,7 +86,7 @@ void mainLoop_threadMain(AppFramework  *const app)
     //state.cursorOri 
 
     //------------------------------------------------------------------------------
-    Render::drawAll();  
+    app->render->drawAll();  
     
     // unlimited frame rate
     if (app->frameRateLimit <= 0.f)

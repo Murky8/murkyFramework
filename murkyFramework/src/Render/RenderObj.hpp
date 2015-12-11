@@ -16,9 +16,12 @@ namespace murkyFramework {
             ~RenderObj();
 
             // methods    
+            void drawAll();
 
             // objects/components
             GfxDevice::GfxDeviceObj *gfxDevice;
+
+            TextRender              *textRenderer;            
 
             // data
             //vec4 cursorPos{ 0, 0, -5.f };
