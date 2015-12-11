@@ -63,16 +63,25 @@ namespace murkyFramework
 		return f;
 	}
 
-	bool findNextText_incIt(std::wstring &textToSearch, wchar_t *textToFind, std::wstring::const_iterator &it)
+	bool findNextText_incIt(std::wstring &strToFind, std::wstring::const_iterator &it, std::wstring::const_iterator  &end)
 	{
-		std::size_t foundAtIndex = textToSearch.find(textToFind);
-		if (foundAtIndex == std::string::npos)
-		{
-			return false;
-		}
+        std::wstring regex_string;
+        regex_string += L"[\\s]";
+        regex_string += strToFind;
+        std::wregex regx_text(regex_string);
+                                       
+        std::wsmatch match;
 
-		it = textToSearch.cbegin() + foundAtIndex;
-		return true;
+        if (std::regex_search(it, end, match, regx_text))
+        {
+            std::wstring substr(match[0].first, match[0].second);            
+            it = match[0].second;
+    		return true;
+        }
+        else
+        {
+            return false;
+        }
 	}
 		
 	void loadFBX_tris(const std::wstring &filePathName,	std::vector<Triangle_pct> &tris)
@@ -90,7 +99,7 @@ namespace murkyFramework
 
 		// get num verts
 		auto it = text.cbegin();
-		if (findNextText_incIt(text, L"Vertices:", it) == false)
+		if (findNextText_incIt(std::wstring(L"Vertices:"), it, text.end() ) == false)
 		{
 			triggerBreakpoint();
 		}
@@ -113,10 +122,9 @@ namespace murkyFramework
 			//debugLog << i << x << y << z << L"\n";
 		}
 		// get num faces
-		if (findNextText_incIt(text, L"PolygonVertexIndex:", it) == false)
-		{
+        if (findNextText_incIt(std::wstring(L"PolygonVertexIndex:"), it, text.end()) == false)		
 			triggerBreakpoint();
-		}
+		
 		int nFaces = getNextInt_incIt(it, text.end()) / 3;
 
 		// get face indices
@@ -129,7 +137,6 @@ namespace murkyFramework
 			tris.push_back(
 				Triangle_pct
 				(
-
 					verts[i0],
 					verts[i1],
 					verts[i2]
@@ -137,10 +144,47 @@ namespace murkyFramework
 					));
 		}
 
-		// parse text
+        // get UVs
+        std::vector<vec2> uvs;
+
+        if (findNextText_incIt(std::wstring(L"UV:"), it, text.end()) == false)
+            triggerBreakpoint();
+
+        int nUVs = getNextInt_incIt(it, text.end());
+
+        for (int i = 0; i < nUVs/2; i++)
+        {
+            vec2 v;
+            v.x = getNextFloat_incIt(it, text.end());
+            v.y = getNextFloat_incIt(it, text.end());
+
+            uvs.push_back(v);
+        }
+
+        if (findNextText_incIt(std::wstring(L"UVIndex:"), it, text.end()) == false)
+            triggerBreakpoint(L"meh");        
+        {
+            int nUVIndicies = getNextInt_incIt(it, text.end());
+            if(nUVIndicies!=nFaces*3)
+                triggerBreakpoint();
+        }
+
+        for (int i = 0; i < nFaces; i++)
+        {
+            int i0 = getNextInt_incIt(it, text.end());
+            int i1 = getNextInt_incIt(it, text.end());
+            int i2 = getNextInt_incIt(it, text.end()); // note: NOT FBX weirdness -1
+
+            tris[i].v[0].textCoords = uvs[i0];
+            tris[i].v[1].textCoords = uvs[i1];
+            tris[i].v[2].textCoords = uvs[i2];
+        }
+
+		// parse text todo: remove!!!
 		done = true;		
 	}
 
+    /*
     void loadFBX_tris(const std::wstring &filePathName, std::vector<Vert_pct> &verts, std::vector<u16> &indexes )
     {
         std::unique_ptr<qdev::BinaryFileLoader> pBinaryFile(new qdev::BinaryFileLoader(filePathName));
@@ -198,7 +242,7 @@ namespace murkyFramework
         // parse text
         done = true;
     }
-
+*/
 	void serializeTris(const std::wstring &filePathName, std::vector<Triangle_pct> &tris)
 	{
 		std::fstream ofile;
@@ -247,4 +291,4 @@ namespace murkyFramework
 		return true;
 	}
 */
-}
+}//namespace murkyFramework

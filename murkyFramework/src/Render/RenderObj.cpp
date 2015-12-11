@@ -31,7 +31,7 @@ namespace murkyFramework {
                     GfxDevice::VertexType::posColTex,
                     GfxDevice::PrimativeType::triangle,
                     deviceObj->shaderManager.get(L"posColTex"),
-                    deviceObj->textureManager.get(L"font 4c"), 1024));
+                    deviceObj->textureManager.get(L"t0 4c"), 16*1024));
 
             deviceObj->vertexBufferManager.add(L"lines",
                 GfxDevice::VertexBufferWrapper(
@@ -87,7 +87,7 @@ namespace murkyFramework {
 
                 g_appDebug->render->gfxDevice->setUniform_projectionMatrix(&proj.v[0][0]);
 
-                if (true)
+                if(0)
                 {
                     for (Triangle_pct &t : gdeb_tris)
                     {
@@ -97,6 +97,12 @@ namespace murkyFramework {
                     deviceObj->vertexBufferManager.get(L"lines").draw(
                         defaultLines.data(), 
                         defaultLines.size());
+                }
+                if (1)
+                {                    
+                    deviceObj->vertexBufferManager.get(L"tris").draw(
+                        gdeb_tris.data(),
+                        gdeb_tris.size());
                 }
             }
             // teapot

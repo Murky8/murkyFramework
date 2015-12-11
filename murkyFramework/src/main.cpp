@@ -21,10 +21,11 @@ namespace murkyFramework {
         u64 fbxModTime = getFileModificationTime1601(pathSplit.getJoinedFilePath());
         u64 binModTime = getFileModificationTime1601(binPath, &binExsists);
 
-        if (fbxModTime > binModTime || binExsists == false)
+        // todo: temp!!!!
+        //if (fbxModTime > binModTime || binExsists == false)
             return true;
-        else
-            return false;
+        //else
+            //return false;
     }
 
     void compileFBX(FilePathSplit pathSplit)
