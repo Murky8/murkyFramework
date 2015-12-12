@@ -15,12 +15,12 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Debug|Win32.ActiveCfg = d3d11_debug|Win32
-		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Debug|Win32.Build.0 = d3d11_debug|Win32
+		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Debug|Win32.ActiveCfg = d3d12_debug|Win32
+		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Debug|Win32.Build.0 = d3d12_debug|Win32
 		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Debug|x64.ActiveCfg = ogl_debug|x64
 		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Debug|x64.Build.0 = ogl_debug|x64
-		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Release|Win32.ActiveCfg = d3d11_debug|Win32
-		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Release|Win32.Build.0 = d3d11_debug|Win32
+		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Release|Win32.ActiveCfg = ogl_debug|Win32
+		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Release|Win32.Build.0 = ogl_debug|Win32
 		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Release|x64.ActiveCfg = ogl_debug|x64
 		{595AF656-A50D-4C1F-A64D-2BD19BB586FB}.Release|x64.Build.0 = ogl_debug|x64
 		{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}.Debug|Win32.ActiveCfg = Debug|Win32
