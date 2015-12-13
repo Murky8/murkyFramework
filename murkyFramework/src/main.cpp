@@ -22,10 +22,10 @@ namespace murkyFramework {
         u64 binModTime = getFileModificationTime1601(binPath, &binExsists);
 
         // todo: temp!!!!
-        //if (fbxModTime > binModTime || binExsists == false)
+        if (fbxModTime > binModTime || binExsists == false)
             return true;
-        //else
-            //return false;
+        else
+           return false;
     }
 
     void compileFBX(FilePathSplit pathSplit)
@@ -48,7 +48,7 @@ namespace murkyFramework {
     void compileResources()
     {        
         std::wregex regexp{ L"FBX" };
-        visitAllFilesInDirectory(L"data", compileFBX, regexp);
+        visitAllFilesInDirectory(L"murkyFramework/data", compileFBX, regexp);
 
         murkyFramework::done = true;
     }
@@ -56,7 +56,8 @@ namespace murkyFramework {
     // 
 }//namespace murkyFramework
 
-    int main() // can't be in a namespace :(
+#ifdef wdwdq
+    int main_old() // can't be in a namespace :(
     {
         //skool();    
         murkyFramework::AppFramework *const app = new murkyFramework::AppFramework;        
@@ -77,9 +78,10 @@ namespace murkyFramework {
 #endif
 
         murkyFramework::debugLog << L"Finished\n";
+        return 0;
     }
 
-
+#endif
           /*
           Severity	Code	Description	Project	File	Line
 Error	C2664	

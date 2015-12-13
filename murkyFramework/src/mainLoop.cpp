@@ -11,20 +11,20 @@ void mainLoop_threadMain(AppFramework  *const app)
     static f64 lastFrameClock = 0;
     f64 currentFrameClock = app->system->readTimeSecondsSinceAppStart();
 
-    f32 lastFrameDuration = static_cast<f32>(currentFrameClock - lastFrameClock);
+    app->lastFrameDuration = static_cast<f32>(currentFrameClock - lastFrameClock);
     //debugLog << L"d: " << (f32)lastFrameDuration << L"\n";
     lastFrameClock = currentFrameClock;
     
-    app->frameRate = static_cast<f32>(1.0/lastFrameDuration);
+    app->frameRate = static_cast<f32>(1.0/ app->lastFrameDuration);
     
     static f32 aveFR = 0.f;
     { // ave frame rate
         static f32 aveFRTimer = 0.5;
         static f32 acc = 0;
         static int nAcc = 0;
-        aveFRTimer -= lastFrameDuration;
+        aveFRTimer -= app->lastFrameDuration;
 
-        acc += lastFrameDuration;
+        acc += app->lastFrameDuration;
         nAcc++;
         if (aveFRTimer < 0)
         {
@@ -38,7 +38,7 @@ void mainLoop_threadMain(AppFramework  *const app)
     debugLogScreen << L"Framerate: " << aveFR << L"\n";    
     
     //------------------------------------------------------------------------------
-    f32 speed = lastFrameDuration*50.f;
+    f32 speed = app->lastFrameDuration*50.f;
     if (app->inputDevices->keyStatus(InputDevices::KeyCode::shift))
         speed *= 10.f;
 
@@ -95,8 +95,8 @@ void mainLoop_threadMain(AppFramework  *const app)
     else
     { // limit frame rate
         f32 frameTimeMax = 1.0f / app->frameRateLimit;
-        if (lastFrameDuration < frameTimeMax)
-           Sleep(static_cast<int>((frameTimeMax - lastFrameDuration)*1000.f));        
+        if (app->lastFrameDuration < frameTimeMax)
+           Sleep(static_cast<int>((frameTimeMax - app->lastFrameDuration)*1000.f));        
     }
     app->frameCounter++;      
 }

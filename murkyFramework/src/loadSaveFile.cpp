@@ -60,9 +60,11 @@ namespace qdev
             GetCurrentDirectoryW(1024, pathTemp);
             std::wstring    path{ pathTemp };
             if (std::regex_search(path, std::wregex(L"Visual Studio$")) == true)
-                SetCurrentDirectory(L"../../");
+                SetCurrentDirectory(L"../../..");   // set to solution directory
+                //SetCurrentDirectory(L"murkyFramework");
         }
 
+        if(0)
         {
             GetCurrentDirectoryW(1024, pathTemp);
             std::wstring    path{ pathTemp };

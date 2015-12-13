@@ -140,11 +140,11 @@ namespace murkyFramework {
             return true;
         }
 
-        struct WindowsSpecific_main2_parameters
+        /*struct WindowsSpecific_main2_parameters
         {
             bool exitWholeApp;
         };
-
+*/
         void WindowsSpecific::main2(class murkyFramework::AppFramework *const app)
         {
             while (app->exitWholeApp == false)
@@ -165,9 +165,14 @@ namespace murkyFramework {
                 else
                 {										// If There Are No Messages                                
                     mainLoop_threadMain(app);
+                    main_noGfx_parameters paras;
+                    paras.app = app;
+                    //paras.deltaTime = ?
+                    app->main_noGfx(&paras);
                 }
             }
         }
+
         WindowsSpecific::~WindowsSpecific()
         {
         }

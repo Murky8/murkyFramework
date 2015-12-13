@@ -6,10 +6,9 @@
 namespace murkyFramework {
     // forward declartions
     void compileResources();
-AppFramework::AppFramework()
+AppFramework::AppFramework( AppFramework_initStruct &appInit)
 {    
     murkyFramework::g_appDebug = this; // warning: see g_aapDebug usage notes: for development only, remove!
-
     qdev::setCurrentDirectoryToAppRoot();
     debug2ResetLogFile();    
     wchar_t wcstring[] = L"Murky8\n";
@@ -56,12 +55,14 @@ AppFramework::AppFramework()
     
     auto *windowsSpecific = new systemSpecific::WindowsSpecific();
     system = windowsSpecific;
-
+    //note: windows msg loop inactive until following is set. needed to pass info between 
+    
 #else
 #error WINDOWS only at the moment 
 #endif
 
-    bool res = system->createWindow(title.c_str(), screenResX, screenResY);    
+    bool res = system->createWindow(title.c_str(), screenResX, screenResY);  
+    SetWindowLongPtr(windowsSpecific->gethWnd(), GWLP_USERDATA, (LONG_PTR)this);
     // note: wndProc starts getting called after this point. createWindow creates hWnd
     if (!res)
         triggerBreakpoint(L"createWindow failed");    
@@ -75,6 +76,26 @@ AppFramework::AppFramework()
     // mouse, keyboard, etc input
     inputDevices = new InputDevices(windowsSpecific); // todo: pass less
     game = new Game();
+
+    main_noGfx = appInit.main_noGfx;
+    main_gfx = appInit.main_gfx;
+}
+
+void AppFramework::run()
+{    
+#ifdef WINDOWS
+        systemSpecific::WindowsSpecific* windowsSpecific{
+        dynamic_cast<murkyFramework::systemSpecific::WindowsSpecific*>(system) };
+
+        //std::thread()
+
+    windowsSpecific->main2(this);
+
+    while (exitWholeApp == false)
+    {
+
+    }
+#endif
 }
 
 AppFramework::~AppFramework()

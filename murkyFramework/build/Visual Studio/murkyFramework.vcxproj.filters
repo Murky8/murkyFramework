@@ -20,9 +20,6 @@
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{89a8eec5-89a3-4516-a0c3-5c2ccc637f84}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game\private">
-      <UniqueIdentifier>{2ecc17f0-436c-4f1f-8567-863fd2e33a7a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Game\public">
       <UniqueIdentifier>{8e025b3b-ff39-4ba8-ad50-bf1be24f84ab}</UniqueIdentifier>
     </Filter>
@@ -115,9 +112,6 @@
     <ClCompile Include="..\..\src\vectorMatrix_transform.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Game\private\Game.cpp">
-      <Filter>Source Files\Game\private</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\mclass.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
@@ -177,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\GfxDevice\openGL4\TexturesManager_ogl4.cpp">
       <Filter>Source Files\GfxDevice\openGL4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Game\Game.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -36,7 +36,7 @@ namespace murkyFramework {
             debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";
 
 
-            deviceObj->loadShadersInDir(L"src/GfxDevice/openGL4/shaders");
+            deviceObj->loadShadersInDir(L"murkyFramework/src/GfxDevice/openGL4/shaders");
 
             {
                 u32 prog = deviceObj->shaderManager.get(L"posColTex").value;

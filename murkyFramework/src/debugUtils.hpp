@@ -2,6 +2,10 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 namespace murkyFramework {
+
+    void triggerBreakpoint();
+    void triggerBreakpoint(const std::wstring &text);
+
 class DebObj
 {//dummy object to allow << operator to work on something
 };

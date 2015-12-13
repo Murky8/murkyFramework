@@ -16,7 +16,7 @@ namespace murkyFramework {
      
         void	Shaders::initialise()
         {      
-            deviceObj->loadShadersInDir(L"src/GfxDevice/d3d12/shaders");
+            deviceObj->loadShadersInDir(L"murkyFrameWork/src/GfxDevice/d3d12/shaders");
         }
 
         void	Shaders::deinitialise()

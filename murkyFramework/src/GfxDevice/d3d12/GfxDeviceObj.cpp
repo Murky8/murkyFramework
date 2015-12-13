@@ -337,7 +337,7 @@ namespace murkyFramework {
 
                 m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
             }
-            loadTexturesInDir(L"data");
+            loadTexturesInDir(L"murkyFramework/data");
             debugLog << L"finished success" << L"\n";
         }
 

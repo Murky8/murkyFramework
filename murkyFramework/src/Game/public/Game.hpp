@@ -6,7 +6,10 @@ namespace murkyFramework
     class Game
     {
     public:
-        vec4 cursorPos{ 0, 0, -5.f };
+        Game() {}
+        virtual ~Game() {};
+
+        vec4 cursorPos{ 0, 60, -150.f };
         mat3 cursorOri{ unit };
     };
 }//namespace murkyFramework

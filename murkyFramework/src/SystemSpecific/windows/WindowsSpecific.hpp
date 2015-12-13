@@ -2,7 +2,10 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
 // Platform: C++11
+#include <murkyFramework/src/SystemSpecific/systemSpecific.hpp>
+
 namespace murkyFramework {
+
     class AppFramework;
 namespace systemSpecific {
 class WindowsSpecific : public SystemSpecificObj
