@@ -145,7 +145,7 @@ namespace murkyFramework {
             bool exitWholeApp;
         };
 */
-        void WindowsSpecific::main2(class murkyFramework::AppFramework *const app)
+        void main2(class murkyFramework::AppFramework *const app)
         {
             while (app->exitWholeApp == false)
             {

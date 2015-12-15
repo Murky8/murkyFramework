@@ -24,7 +24,8 @@ namespace murkyFramework
     void  main_noGfx(struct main_noGfx_parameters* parameters)
     {
         myGame *game = dynamic_cast<myGame*>(parameters->app->game);
-        debugLogScreen << L"shit yay! \n";
+        
+
     }
 
     void  main_gfx(struct main_gfx_parameters* parameters)

@@ -63,6 +63,7 @@ namespace murkyFramework
         class   Render::RenderObj   *render;    // contains: gfxDevice object
         class   InputDevices    *inputDevices;
         class   Game            *game;
+        class   AudioObj        *audio;
 
         // threads
         void (*main_noGfx)(main_noGfx_parameters *const);

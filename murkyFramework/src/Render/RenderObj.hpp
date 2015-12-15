@@ -20,8 +20,12 @@ namespace murkyFramework {
 
             // objects/components
             GfxDevice::GfxDeviceObj *gfxDevice;
-
             TextRender              *textRenderer;            
+
+            // test
+            std::vector<Vert_pct> gdeb2_vertices;// todo: remove
+            std::vector<u16> gdeb2_indices;// todo: remove
+
 
             // data
             //vec4 cursorPos{ 0, 0, -5.f };

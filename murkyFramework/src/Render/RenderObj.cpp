@@ -6,9 +6,9 @@
 #define deviceObj  g_appDebug->render->gfxDevice
 
 namespace murkyFramework {
+        // forward declarations
         namespace GfxDevice
         {
-            // forward declarations
             TextureWrapper		createTextureObjectFromFile(const std::wstring &dirName,
                 const               std::wstring &fileName, const std::wstring &extensionName);
             TextureWrapper		createTestTextureObject();
@@ -103,6 +103,11 @@ namespace murkyFramework {
                     deviceObj->vertexBufferManager.get(L"tris").draw(
                         gdeb_tris.data(),
                         gdeb_tris.size());
+                }
+                if (1)
+                {
+                    std::vector<Triangle_pct> tris;
+
                 }
             }
             // teapot

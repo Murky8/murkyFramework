@@ -180,6 +180,7 @@
     </Bscmake>
     <Lib>
       <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Wicked Dev\dev c++\ThirdParty;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">
@@ -212,12 +213,14 @@
       <PreserveSbr>true</PreserveSbr>
     </Bscmake>
     <Lib>
-      <AdditionalDependencies>OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;fmod/fmodL_X64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Wicked Dev\dev c++\ThirdParty;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ThirdParty\lodepng.cpp" />
     <ClCompile Include="..\..\src\appFramework.cpp" />
+    <ClCompile Include="..\..\src\Audio\Audio.cpp" />
     <ClCompile Include="..\..\src\common.cpp" />
     <ClCompile Include="..\..\src\debugUtils.cpp" />
     <ClCompile Include="..\..\src\fileUtils.cpp" />
@@ -290,6 +293,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\ThirdParty\lodepng.h" />
     <ClInclude Include="..\..\src\appFramework.hpp" />
+    <ClInclude Include="..\..\src\Audio\Audio.hpp" />
     <ClInclude Include="..\..\src\collectionNamed.hpp" />
     <ClInclude Include="..\..\src\common.hpp" />
     <ClInclude Include="..\..\src\debugUtils.hpp" />

@@ -56,6 +56,9 @@
     <Filter Include="Source Files\GfxDevice\vulkan %3b%29">
       <UniqueIdentifier>{b70420bf-ab9e-42de-9d75-ba6046cd71cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{23e43ea2-0db6-4b55-83c6-bbcf2b951a24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Render\linesShapes.cpp">
@@ -174,6 +177,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Game\Game.cpp">
       <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Audio\Audio.cpp">
+      <Filter>Source Files\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,6 +326,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\GfxDevice\openGL4\TexturesManager_ogl4.hpp">
       <Filter>Source Files\GfxDevice\openGL4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Audio\Audio.hpp">
+      <Filter>Source Files\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

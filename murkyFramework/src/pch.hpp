@@ -30,10 +30,14 @@
 #include <thread>
 #include <vector>
 
+// third party
 #include <ThirdParty/boost/circular_buffer.hpp>
 #include <ThirdParty/boost/multi_array.hpp>
 #include <ThirdParty/lodepng.h>
+//#include <ThirdParty/fmod/fmod.hpp>
 #include "hidusage.h"
+// third party ^
+
 
 #include <murkyFramework/src/version.hpp>
 #include <murkyFramework/src/types.hpp>
@@ -51,6 +55,7 @@
 #include <murkyFramework/src/vectorMatrix.hpp>
 #include <murkyFramework/src/vectorMatrix_rotation.hpp>
 #include <murkyFramework/src/inputDevices.hpp>
+#include <murkyFramework/src/Audio/Audio.hpp>
 
 #include <murkyFramework/src/game/public/game.hpp>
 

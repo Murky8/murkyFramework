@@ -8,6 +8,8 @@ namespace murkyFramework {
 
     class AppFramework;
 namespace systemSpecific {
+    void main2(class murkyFramework::AppFramework *const app);
+
 class WindowsSpecific : public SystemSpecificObj
 {
 private:
@@ -22,8 +24,7 @@ private:
     const f64 appStartTime;
 public:
     WindowsSpecific();
-    void windowsLoopIteration();
-    virtual void main2(class murkyFramework::AppFramework *const  app);
+    void windowsLoopIteration();    
     virtual bool createWindow(std::wstring title, int width, int height);    
     HGLRC		hRC;		
     

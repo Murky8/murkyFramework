@@ -8,8 +8,7 @@ namespace murkyFramework {
         {
         public:
             SystemSpecificObj();
-            virtual ~SystemSpecificObj() {}
-            virtual void main2(class AppFramework *const  app) = 0;
+            virtual ~SystemSpecificObj() {}            
             virtual bool createWindow(std::wstring title, int width, int height) = 0;
             virtual f64 readTimeSecondsSinceAppStart() = 0;
         };

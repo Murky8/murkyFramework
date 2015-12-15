@@ -165,6 +165,8 @@ namespace murkyFramework {
                 rtvHandle.Offset(1, m_rtvDescriptorSize);
             }
 
+            // depth
+
             ThrowIfFailed(m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&m_commandAllocator)));
 
             // create constatnt buffer stuff
@@ -278,6 +280,8 @@ namespace murkyFramework {
                 psoDesc.RasterizerState = rasterDesc;
                 psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
                 psoDesc.DepthStencilState.DepthEnable = FALSE;
+                psoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+                psoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
                 psoDesc.DepthStencilState.StencilEnable = FALSE;
                 psoDesc.SampleMask = UINT_MAX;
                 psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
@@ -292,10 +296,7 @@ namespace murkyFramework {
 
             CD3DX12_CPU_DESCRIPTOR_HANDLE srvHandle(m_srvHeap->GetCPUDescriptorHandleForHeapStart());
             m_srvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-
-            ComPtr<ID3D12Resource> textureUploadHeap;   // kkep in scope until command list executed!
-            ComPtr<ID3D12Resource> textureUploadHeap2;
-
+            
             // Command lists are created in the recording state.		
             ThrowIfFailed(g_commandList->Close());
 
@@ -347,7 +348,6 @@ namespace murkyFramework {
 
         GfxDeviceObj::~GfxDeviceObj()
         {
-
         }
 
         void GfxDeviceObj::drawBegin()
