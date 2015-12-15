@@ -166,6 +166,32 @@ namespace murkyFramework {
             }
 
             // depth
+            {
+                D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc = {};
+                dsvHeapDesc.NumDescriptors = 1 + FrameCount * 1;
+                dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+                dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+                ThrowIfFailed(m_device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&m_dsvHeap)));
+                
+                //Creating the depth texture
+                    CD3DX12_RESOURCE_DESC depth_texture(D3D12_RESOURCE_DIMENSION_TEXTURE2D, 0,
+                        static_cast< UINT >(m_viewport.Width),
+                        static_cast< UINT >(m_viewport.Height), 1, 1,
+                        DXGI_FORMAT_D32_FLOAT, 1, 0, D3D12_TEXTURE_LAYOUT_UNKNOWN,
+                        D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL | D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE);
+
+                    D3D12_CLEAR_VALUE clear_value;
+                    clear_value.Format = DXGI_FORMAT_D32_FLOAT;
+                    clear_value.DepthStencil.Depth = 1.0f;
+                    clear_value.DepthStencil.Stencil = 0;
+
+                    ThrowIfFailed(m_device->CreateCommittedResource(&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+                        D3D12_HEAP_FLAG_NONE, &depth_texture, D3D12_RESOURCE_STATE_DEPTH_WRITE, &clear_value,
+                        IID_PPV_ARGS(&m_depthStencil)));
+                    
+                m_device->CreateDepthStencilView(m_depthStencil.Get(), nullptr, m_dsvHeap->GetCPUDescriptorHandleForHeapStart());                
+            }
+            // depth
 
             ThrowIfFailed(m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&m_commandAllocator)));
 
@@ -186,7 +212,6 @@ namespace murkyFramework {
             // create constatnt buffer stuff
 
             // Create a root signature.
-            // HELP0
             CD3DX12_DESCRIPTOR_RANGE ranges[1];
             ranges[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 
@@ -196,8 +221,8 @@ namespace murkyFramework {
 
             D3D12_STATIC_SAMPLER_DESC sampler = {};
             sampler.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
-            sampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
-            sampler.AddressV = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
+            sampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+            sampler.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
             sampler.AddressW = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
             sampler.MipLODBias = 0;
             sampler.MaxAnisotropy = 0;
@@ -245,12 +270,15 @@ namespace murkyFramework {
                 //psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
                 psoDesc.RasterizerState = rasterDesc;
                 psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-                psoDesc.DepthStencilState.DepthEnable = FALSE;
-                psoDesc.DepthStencilState.StencilEnable = FALSE;
+                psoDesc.DepthStencilState.DepthEnable = true;
+                psoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+                psoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
+                psoDesc.DepthStencilState.StencilEnable = FALSE;                
                 psoDesc.SampleMask = UINT_MAX;
                 psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
                 psoDesc.NumRenderTargets = 1;
                 psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+                psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
                 psoDesc.SampleDesc.Count = 1;
                 ThrowIfFailed(m_device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_pipelineState_pct)));
             }
@@ -279,14 +307,15 @@ namespace murkyFramework {
                 //psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
                 psoDesc.RasterizerState = rasterDesc;
                 psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-                psoDesc.DepthStencilState.DepthEnable = FALSE;
+                psoDesc.DepthStencilState.DepthEnable = true;
                 psoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
-                psoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+                psoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
                 psoDesc.DepthStencilState.StencilEnable = FALSE;
                 psoDesc.SampleMask = UINT_MAX;
                 psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
                 psoDesc.NumRenderTargets = 1;
                 psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+                psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
                 psoDesc.SampleDesc.Count = 1;
                 ThrowIfFailed(m_device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_pipelineState_pc)));
             }
@@ -392,7 +421,8 @@ namespace murkyFramework {
                 D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 
             CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart(), m_frameIndex, m_rtvDescriptorSize);
-            g_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
+            CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(m_dsvHeap->GetCPUDescriptorHandleForHeapStart());            
+            g_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
 
             //static auto nonk = 0.f;
             //nonk += 0.01f;
@@ -401,7 +431,10 @@ namespace murkyFramework {
 
             const float clearColor[] = { 0.f, 0.f, 0.f, 1.0f };
 
-            g_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+            g_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);      
+            g_commandList->ClearDepthStencilView(m_dsvHeap->GetCPUDescriptorHandleForHeapStart(),
+                D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
         }
 
         void GfxDeviceObj::drawEnd()

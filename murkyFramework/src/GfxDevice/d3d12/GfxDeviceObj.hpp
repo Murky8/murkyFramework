@@ -82,7 +82,8 @@ enum RootParameters : u32
         ComPtr<ID3D12RootSignature>		m_rootSignature;
         ComPtr<ID3D12DescriptorHeap>	m_rtvHeap;
         ComPtr<ID3D12DescriptorHeap>	m_srvHeap;
-
+        ComPtr<ID3D12DescriptorHeap>    m_dsvHeap;
+        ComPtr<ID3D12Resource>          m_depthStencil;
         ComPtr<ID3D12PipelineState>		m_pipelineState_pct;
         ComPtr<ID3D12PipelineState>		m_pipelineState_pc;
         ComPtr<ID3D12GraphicsCommandList>	g_commandList;
