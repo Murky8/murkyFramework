@@ -131,6 +131,7 @@
 #include <murkyFramework/src/Render/projectionMat.hpp>
 #include <murkyFramework/src/Render/render.hpp>
 #include <murkyFramework/src/Render/textRender.hpp>
+#include <murkyFramework/src/Render/model.hpp>
 #include <murkyFramework/src/Render/RenderObj.hpp>
 // render
 

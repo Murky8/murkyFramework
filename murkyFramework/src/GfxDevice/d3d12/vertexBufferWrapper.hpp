@@ -31,5 +31,35 @@ namespace murkyFramework {
         private:
         };
 
+        class VertexIndexBufferWrapper
+        {
+        public:
+            // Constructors		
+            // if not using a texture, pass '0'
+            // capacity measures in 		
+            VertexIndexBufferWrapper(
+                VertexType vertexType, PrimativeType primativeType,
+                ShaderWrapper shaderId, TextureWrapper texture,
+                u32 nVerts, u32 nIndicies);
+            // Methods		
+            
+            void	draw(void *vertices, u16 nVertices, u16 *indices, u32 nPrimatives);
+            s32 getVertexBufCapacityBytes() const;
+            s32 getIndexBufCapacityBytes() const;
+            // Data
+            //const u32			capacity?;
+            const VertexType		vertexType;
+            const PrimativeType		primativeType;
+            const ShaderWrapper		shaderId;
+            const TextureWrapper	texture;
+            Microsoft::WRL::ComPtr<ID3D12Resource> m_vertexBuffer;
+            D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView;
+            Microsoft::WRL::ComPtr<ID3D12Resource> m_indexBuffer;
+            D3D12_INDEX_BUFFER_VIEW m_indexBufferView;
+            u32   vertexBufElementCapacity;
+            u32   indexBufElementCapacity;
+        private:
+        };
+
     }//namespace GfxDevice
 }//namespace murkyFramework

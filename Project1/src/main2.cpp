@@ -18,14 +18,11 @@ namespace murkyFramework
     //void thread_mainGfx()
     class myGame : public Game
     {
-
     };
       
     void  main_noGfx(struct main_noGfx_parameters* parameters)
     {
-        myGame *game = dynamic_cast<myGame*>(parameters->app->game);
-        
-
+        myGame *game = dynamic_cast<myGame*>(parameters->app->game);        
     }
 
     void  main_gfx(struct main_gfx_parameters* parameters)

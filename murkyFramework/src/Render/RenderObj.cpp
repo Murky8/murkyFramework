@@ -41,6 +41,15 @@ namespace murkyFramework {
                     deviceObj->textureManager.get(L"font 4c"), 16 * 1024));
 
             textRenderer = new TextRender(deviceObj->textureManager.get(L"font 4c"));
+
+            vibuffer = new GfxDevice::VertexIndexBufferWrapper(
+                GfxDevice::VertexType::posColTex,
+                GfxDevice::PrimativeType::triangle,
+                deviceObj->shaderManager.get(L"posColTex"),
+                deviceObj->textureManager.get(L"t0 4c"), 
+                16*1024, 64*1024 
+                );                
+
         }
 
         RenderObj::~RenderObj()
@@ -98,16 +107,35 @@ namespace murkyFramework {
                         defaultLines.data(), 
                         defaultLines.size());
                 }
-                if (1)
+                if (0)
                 {                    
                     deviceObj->vertexBufferManager.get(L"tris").draw(
                         gdeb_tris.data(),
                         gdeb_tris.size());
                 }
+
                 if (1)
                 {
-                    std::vector<Triangle_pct> tris;
+                    if (0)
+                    {
+                        std::vector<Triangle_pct> tris;
+                        for (auto i = 0; i < gdeb2_indices.size();i += 3)
+                        {
+                            tris.push_back(Triangle_pct(
+                                gdeb2_vertices[gdeb2_indices[i + 0]],
+                                gdeb2_vertices[gdeb2_indices[i + 1]],
+                                gdeb2_vertices[gdeb2_indices[i + 2]]));
 
+                        }
+                        deviceObj->vertexBufferManager.get(L"tris").draw(
+                            tris.data(), tris.size());
+                    }
+                    else
+                    {
+                        this->vibuffer->draw(
+                            gdeb2_vertices.data(), gdeb2_vertices.size(),
+                            gdeb2_indices.data(), gdeb2_indices.size()/3);
+                    }
                 }
             }
             // teapot

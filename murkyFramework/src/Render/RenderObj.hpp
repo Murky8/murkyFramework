@@ -26,6 +26,7 @@ namespace murkyFramework {
             std::vector<Vert_pct> gdeb2_vertices;// todo: remove
             std::vector<u16> gdeb2_indices;// todo: remove
 
+            GfxDevice::VertexIndexBufferWrapper *vibuffer;
 
             // data
             //vec4 cursorPos{ 0, 0, -5.f };

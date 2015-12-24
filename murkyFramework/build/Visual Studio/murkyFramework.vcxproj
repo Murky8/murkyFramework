@@ -278,6 +278,7 @@
     <ClCompile Include="..\..\src\randomNumbers.cpp" />
     <ClCompile Include="..\..\src\readFBX.cpp" />
     <ClCompile Include="..\..\src\Render\linesShapes.cpp" />
+    <ClCompile Include="..\..\src\Render\model.cpp" />
     <ClCompile Include="..\..\src\Render\projectionMat.cpp" />
     <ClCompile Include="..\..\src\Render\render.cpp" />
     <ClCompile Include="..\..\src\Render\RenderObj.cpp" />
@@ -345,6 +346,7 @@
     <ClInclude Include="..\..\src\randomNumbers.hpp" />
     <ClInclude Include="..\..\src\readFBX.hpp" />
     <ClInclude Include="..\..\src\Render\linesShapes.hpp" />
+    <ClInclude Include="..\..\src\Render\model.hpp" />
     <ClInclude Include="..\..\src\Render\projectionMat.hpp" />
     <ClInclude Include="..\..\src\Render\render.hpp" />
     <ClInclude Include="..\..\src\Render\RenderObj.hpp" />

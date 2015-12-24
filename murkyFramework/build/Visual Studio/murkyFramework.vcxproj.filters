@@ -181,6 +181,9 @@
     <ClCompile Include="..\..\src\Audio\Audio.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Render\model.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Game\public\Game.hpp">
@@ -329,6 +332,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Audio\Audio.hpp">
       <Filter>Source Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Render\model.hpp">
+      <Filter>Source Files\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
