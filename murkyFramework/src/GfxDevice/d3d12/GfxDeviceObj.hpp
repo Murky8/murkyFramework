@@ -17,14 +17,15 @@ enum RootParameters : u32
     using namespace DirectX;
     using namespace Microsoft::WRL;
     
-    struct ConstantBufferGS
+    __declspec(align(256)) struct ConstantBufferGS
     {
-        XMMATRIX worldViewProjection;
-        XMMATRIX unused;
+        static const int nMatricies = 10;
+        XMMATRIX worldViewProjection;//[nMatricies];
 
         // Constant buffers are 256-byte aligned in GPU memory. Padding is added
         // for convenience when computing the struct's size.
-        float padding[32];
+        //static const int padSize = ((sizeof(worldViewProjection) / 256) + 1) * 256 - (sizeof(worldViewProjection));
+        //u8 padding[padSize];
     };
 
     inline void ThrowIfFailed(HRESULT hr)

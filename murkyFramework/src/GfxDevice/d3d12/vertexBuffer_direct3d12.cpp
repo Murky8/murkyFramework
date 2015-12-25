@@ -39,7 +39,6 @@ namespace murkyFramework {
             m_vertexBufferView.StrideInBytes = sizeVertex;
             m_vertexBufferView.SizeInBytes = sizeBytes;
         }
-
         
         // methods
         s32 VertexBufferWrapper::getCapacityBytes() const
