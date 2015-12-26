@@ -79,6 +79,7 @@ namespace murkyFramework {
 
 
             deviceObj->drawBegin();
+            deviceObj->setCurrentSlot(1);
 
             defaultLines.clear();
             // draw onscreen stuff
@@ -86,7 +87,6 @@ namespace murkyFramework {
                 debugLogScreen << L"Loading teapot!!!\n";
             debugLogScreen << g_appDebug->game->cursorPos << L"\n";
 
-            deviceObj->setCurrentSlot(1);
             textRenderer->drawText(debugLogScreen);
             // draw onscreen stuff        
 

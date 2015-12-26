@@ -28,7 +28,7 @@ namespace murkyFramework {
 
             *(
                 (mat4*)
-                (&this->constantBufferGS.worldViewProjection[slot])
+                (&this->constantBufferGS.matricies[slot])
                 ) = *(mat4*)pMat;
         }
 
@@ -37,7 +37,7 @@ namespace murkyFramework {
             currentSlot = in_slot;
             g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, 
                 m_constantBufferGS->GetGPUVirtualAddress() + m_frameIndex * sizeof(ConstantBufferGS)
-                + 0*in_slot*sizeof(mat4)
+                + in_slot*sizeof(MatrixContainer)
                 );
         }
 
@@ -433,7 +433,7 @@ namespace murkyFramework {
                 HRESULT hr = m_constantBufferGS->Map(0, NULL, reinterpret_cast<void**>(&pData));
 
                 UINT8* destination = pData + sizeConstantBuf * m_frameIndex;
-                memcpy(destination, &this->constantBufferGS.worldViewProjection[0], sizeConstantBuf);
+                memcpy(destination, &this->constantBufferGS.matricies[0], sizeConstantBuf);
                 m_constantBufferGS->Unmap(0, NULL);
                 //g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, m_constantBufferGS->GetGPUVirtualAddress() +m_frameIndex * sizeConstantBuf);
             }

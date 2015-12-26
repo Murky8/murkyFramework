@@ -16,12 +16,17 @@ enum RootParameters : u32
     using namespace Microsoft::WRL;
     
     //__declspec(align(256))
+    struct MatrixContainer
+    {
+        mat4 matrix;
+        u8 pad[256 - sizeof(mat4)];
+    };
+
     struct ConstantBufferGS
     {
         static const int nMatricies = 2;
-        mat4 worldViewProjection[nMatricies];
-
-        u8 pad[128];
+        MatrixContainer matricies[nMatricies];
+        
         // Constant buffers are 256-byte aligned in GPU memory. Padding is added
         // for convenience when computing the struct's size.
     };
