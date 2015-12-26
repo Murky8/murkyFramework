@@ -16,6 +16,10 @@ namespace murkyFramework {
         class GfxDeviceObj
         {
         public:
+
+            std::vector<mat4> projectionMatricies{mat4(unit),mat4(unit) , mat4(unit) };
+            void setCurrentSlot(int in_slot);
+
             GfxDeviceObj() = delete;
 
             GfxDeviceObj(GfxDeviceObj_initStruct  *const initStruct);
@@ -28,9 +32,8 @@ namespace murkyFramework {
 
             void loadTexturesInDir(std::wstring directoryName);
             void loadShadersInDir(std::wstring directoryName);
-
-            mat4    projectionMat{ unit };
-            void setUniform_projectionMatrix(const float *pMat);
+            
+            void setUniform_projectionMatrix(const float *pMat, int slot);
 
             HDC const hDC;
 

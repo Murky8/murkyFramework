@@ -7,21 +7,23 @@
 
 namespace murkyFramework {
     namespace GfxDevice {
-        void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)
+        void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat, int slot)
         {
             // note: OGL, this accepts row-major, pre-multiplying of verts and post-multi in vertex shader.
             // ie no need to transpose if post-multi (Mv) in vertex shader.
 
-            // note:: eeek!! 
+            projectionMatricies[slot] = *(mat4*)pMat;            
+        }
+
+        void GfxDeviceObj::setCurrentSlot(int in_slot)
+        {
             glUseProgram(shaderManager.get(L"posColTex").value);
-            glUniformMatrix4fv(GfxDevice::Shaders::uniformHandle_projectionMatrix, 1, false, pMat);
+            glUniformMatrix4fv(GfxDevice::Shaders::uniformHandle_projectionMatrix, 1, false, (f32*)&projectionMatricies[in_slot]);
             glUseProgram(0);
 
             glUseProgram(shaderManager.get(L"posCol").value);
-            glUniformMatrix4fv(GfxDevice::Shaders::uniformHandle_projectionMatrix, 1, false, pMat);
+            glUniformMatrix4fv(GfxDevice::Shaders::uniformHandle_projectionMatrix, 1, false, (f32*)&projectionMatricies[in_slot]);
             glUseProgram(0);
-
-            GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
         }
 
         GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct) :

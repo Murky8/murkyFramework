@@ -38,7 +38,7 @@ namespace murkyFramework {
             VertexIndexBufferWrapper(
                 VertexType vertexType, PrimativeType primativeType,
                 ShaderWrapper shaderId, TextureWrapper texture,
-                u32 nVerts);
+                u32 nVerts, u32 nIndicies);
             // methods		
             void	draw(void *vertices, u16 nVertices, u16 *indices, u32 nPrimatives);
 

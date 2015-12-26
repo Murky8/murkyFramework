@@ -115,7 +115,7 @@ namespace murkyFramework {
         VertexIndexBufferWrapper::VertexIndexBufferWrapper(
             VertexType vertexType, PrimativeType primativeType,
             ShaderWrapper shaderId, TextureWrapper texture,
-            u32 nVerts) :
+            u32 nVerts, u32 nIndicies) :
             vertexType(vertexType), primativeType(primativeType),
             shaderId(shaderId), texture(texture),
             capacity(nVerts)

@@ -12,20 +12,18 @@ enum RootParameters : u32
     RootParametersCount
 };
 
-//namespace GfxDevice
-//{
     using namespace DirectX;
     using namespace Microsoft::WRL;
     
-    __declspec(align(256)) struct ConstantBufferGS
+    //__declspec(align(256))
+    struct ConstantBufferGS
     {
-        static const int nMatricies = 10;
-        XMMATRIX worldViewProjection[nMatricies];
+        static const int nMatricies = 2;
+        mat4 worldViewProjection[nMatricies];
 
+        u8 pad[128];
         // Constant buffers are 256-byte aligned in GPU memory. Padding is added
         // for convenience when computing the struct's size.
-        //static const int padSize = ((sizeof(worldViewProjection) / 256) + 1) * 256 - (sizeof(worldViewProjection));
-        //u8 padding[padSize];
     };
 
     inline void ThrowIfFailed(HRESULT hr)
@@ -46,6 +44,8 @@ enum RootParameters : u32
     class GfxDeviceObj 
     {
     public:
+
+        std::vector<mat4> projectionMatricies{ mat4(unit),mat4(unit) , mat4(unit) };
 
         ConstantBufferGS constantBufferGS = {};
         void setUniform_projectionMatrix(const float *pMat, int slot=0);
@@ -102,7 +102,7 @@ enum RootParameters : u32
         UINT64 m_fenceValue;
 
         ComPtr<ID3D12Resource> m_constantBufferGS;  // projmat
-        UINT8* m_pConstantBufferGSData;  // projmat
+        //UINT8* m_pConstantBufferGSData;  // projmat
     };
     }//namespace GfxDevice
 }//namespace murkyFramework

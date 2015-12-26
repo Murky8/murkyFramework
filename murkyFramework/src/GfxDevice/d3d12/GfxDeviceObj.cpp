@@ -5,6 +5,24 @@
 namespace murkyFramework {
     namespace GfxDevice {
 
+        //void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat, int slot)
+        //{
+        //    // note: OGL, this accepts row-major, pre-multiplying of verts and post-multi in vertex shader.
+        //    // ie no need to transpose if post-multi (Mv) in vertex shader.
+
+        //    //// note:: eeek!! 
+        //    //glUseProgram(shaderManager.get(L"posColTex").value);
+        //    //glUniformMatrix4fv(GfxDevice::Shaders::uniformHandle_projectionMatrix, 1, false, pMat);
+        //    //glUseProgram(0);
+
+        //    //glUseProgram(shaderManager.get(L"posCol").value);
+        //    //glUniformMatrix4fv(GfxDevice::Shaders::uniformHandle_projectionMatrix, 1, false, pMat);
+        //    //glUseProgram(0);
+        //    projectionMatricies[slot] = *(mat4*)pMat;
+
+        //    GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
+        //}
+
         void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat, int slot)
         {
 
@@ -19,7 +37,7 @@ namespace murkyFramework {
             currentSlot = in_slot;
             g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, 
                 m_constantBufferGS->GetGPUVirtualAddress() + m_frameIndex * sizeof(ConstantBufferGS)
-                + in_slot*sizeof(mat4)
+                + 0*in_slot*sizeof(mat4)
                 );
         }
 
@@ -220,8 +238,8 @@ namespace murkyFramework {
                 IID_PPV_ARGS(&m_constantBufferGS)
                 ));
 
-            ThrowIfFailed(m_constantBufferGS->Map(0, nullptr, reinterpret_cast<void**>(&m_pConstantBufferGSData)));
-            ZeroMemory(m_pConstantBufferGSData, constantBufferGSSize);
+            /*ThrowIfFailed(m_constantBufferGS->Map(0, nullptr, reinterpret_cast<void**>(&m_pConstantBufferGSData)));
+            ZeroMemory(m_pConstantBufferGSData, constantBufferGSSize);*/
             // create constatnt buffer stuff
 
             // Create a root signature.
@@ -408,10 +426,16 @@ namespace murkyFramework {
             // Set necessary state.
             g_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
 
-            {                                
-                UINT8* destination = m_pConstantBufferGSData + sizeof(ConstantBufferGS) * m_frameIndex;
-                memcpy(destination, &this->constantBufferGS.worldViewProjection[0], sizeof(ConstantBufferGS));
-                g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, m_constantBufferGS->GetGPUVirtualAddress() + m_frameIndex * sizeof(ConstantBufferGS));
+            {         
+                int sizeConstantBuf = sizeof(ConstantBufferGS);
+                                
+                u8* pData;
+                HRESULT hr = m_constantBufferGS->Map(0, NULL, reinterpret_cast<void**>(&pData));
+
+                UINT8* destination = pData + sizeConstantBuf * m_frameIndex;
+                memcpy(destination, &this->constantBufferGS.worldViewProjection[0], sizeConstantBuf);
+                m_constantBufferGS->Unmap(0, NULL);
+                //g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, m_constantBufferGS->GetGPUVirtualAddress() +m_frameIndex * sizeConstantBuf);
             }
 
             ID3D12DescriptorHeap* ppHeaps[] = { m_srvHeap.Get() };
