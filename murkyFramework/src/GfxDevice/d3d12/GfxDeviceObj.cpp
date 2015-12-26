@@ -5,9 +5,22 @@
 namespace murkyFramework {
     namespace GfxDevice {
 
-        void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat)
+        void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat, int slot)
         {
-            *((mat4*)&this->projectionMat) = *(mat4*)pMat;
+
+            *(
+                (mat4*)
+                (&this->constantBufferGS.worldViewProjection[slot])
+                ) = *(mat4*)pMat;
+        }
+
+        void GfxDeviceObj::setCurrentSlot(int in_slot)
+        {
+            currentSlot = in_slot;
+            g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, 
+                m_constantBufferGS->GetGPUVirtualAddress() + m_frameIndex * sizeof(ConstantBufferGS)
+                + in_slot*sizeof(mat4)
+                );
         }
 
         void GetHardwareAdapter(_In_ IDXGIFactory4* pFactory, _Outptr_result_maybenull_ IDXGIAdapter1** ppAdapter)
@@ -395,13 +408,9 @@ namespace murkyFramework {
             // Set necessary state.
             g_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
 
-            {
-                ConstantBufferGS constantBufferGS = {};
-
-                *((mat4*)&constantBufferGS.worldViewProjection) = this->projectionMat;
-
+            {                                
                 UINT8* destination = m_pConstantBufferGSData + sizeof(ConstantBufferGS) * m_frameIndex;
-                memcpy(destination, &constantBufferGS, sizeof(ConstantBufferGS));
+                memcpy(destination, &this->constantBufferGS.worldViewProjection[0], sizeof(ConstantBufferGS));
                 g_commandList->SetGraphicsRootConstantBufferView(RootParameterConstantBuf, m_constantBufferGS->GetGPUVirtualAddress() + m_frameIndex * sizeof(ConstantBufferGS));
             }
 

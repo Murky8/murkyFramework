@@ -20,7 +20,7 @@ enum RootParameters : u32
     __declspec(align(256)) struct ConstantBufferGS
     {
         static const int nMatricies = 10;
-        XMMATRIX worldViewProjection;//[nMatricies];
+        XMMATRIX worldViewProjection[nMatricies];
 
         // Constant buffers are 256-byte aligned in GPU memory. Padding is added
         // for convenience when computing the struct's size.
@@ -47,6 +47,11 @@ enum RootParameters : u32
     {
     public:
 
+        ConstantBufferGS constantBufferGS = {};
+        void setUniform_projectionMatrix(const float *pMat, int slot=0);
+        int currentSlot = 0;
+        void setCurrentSlot(int slot);
+
         murkyFramework::CollectionNamed<GfxDevice::ShaderWrapper>		shaderManager;
         murkyFramework::CollectionNamed<GfxDevice::TextureWrapper>		textureManager;
         murkyFramework::CollectionNamed<GfxDevice::VertexBufferWrapper>	vertexBufferManager;
@@ -65,12 +70,7 @@ enum RootParameters : u32
         void drawEnd();
         void waitForGPUFinish();
         void WaitForPreviousFrame();        
-
-        mat4    projectionMat{ unit };
-        mat4    projectionMat2{ unit };
         
-        void setUniform_projectionMatrix(const float *pMat);
-        void setUniform_projectionMatrix2(const float *pMat, const float *pMat2);
                 
         D3D12_VIEWPORT				m_viewport;
         D3D12_RECT					m_scissorRect;

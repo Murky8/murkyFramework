@@ -64,13 +64,21 @@ namespace murkyFramework {
 
         void RenderObj::drawAll()
         {
-            deviceObj->drawBegin();
-
+            // set up ALL proj matrixies before begin
             mat4 cam = makeCameraMatrix(g_appDebug->game->cursorPos, g_appDebug->game->cursorOri);
             mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
             mat4 proj = cam*persp;
 
-            deviceObj->setUniform_projectionMatrix(&proj.v[0][0]);
+            deviceObj->setUniform_projectionMatrix(&proj.v[0][0], 0);
+
+            mat4  projectionMatrix;
+            projectionMatrix = makeProjectionMatrix_ortho(
+                0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
+
+            deviceObj->setUniform_projectionMatrix(&projectionMatrix.v[0][0], 1);
+
+
+            deviceObj->drawBegin();
 
             defaultLines.clear();
             // draw onscreen stuff
@@ -78,24 +86,14 @@ namespace murkyFramework {
                 debugLogScreen << L"Loading teapot!!!\n";
             debugLogScreen << g_appDebug->game->cursorPos << L"\n";
 
-            mat4  projectionMatrix;
-            projectionMatrix = makeProjectionMatrix_ortho(
-                0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
-
-            deviceObj->setUniform_projectionMatrix(&projectionMatrix.v[0][0]);
-
+            deviceObj->setCurrentSlot(1);
             textRenderer->drawText(debugLogScreen);
             // draw onscreen stuff        
 
             if (murkyFramework::done == true)
             {
-                // teapot
-                mat4 cam = makeCameraMatrix(g_appDebug->game->cursorPos, g_appDebug->game->cursorOri);
-                mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
-                mat4 proj = cam*persp;
-
-                g_appDebug->render->gfxDevice->setUniform_projectionMatrix(&proj.v[0][0]);
-
+                // teapot                
+                deviceObj->setCurrentSlot(0);
                 if(0)
                 {
                     for (Triangle_pct &t : gdeb_tris)
@@ -131,7 +129,7 @@ namespace murkyFramework {
                             tris.data(), tris.size());
                     }
                     else
-                    {
+                    {                        
                         this->vibuffer->draw(
                             gdeb2_vertices.data(), gdeb2_vertices.size(),
                             gdeb2_indices.data(), gdeb2_indices.size()/3);
