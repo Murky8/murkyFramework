@@ -9,15 +9,12 @@ namespace murkyFramework {
     AppFramework::AppFramework(AppFramework_initStruct &appInit)
     {
         murkyFramework::g_appDebug = this; // warning: see g_aapDebug usage notes: for development only, remove!
-        qdev::setCurrentDirectoryToAppRoot();
+        qdev::setCurrentDirectoryToAppRoot(); // // set to solution directory:'dev c++'
         debug2ResetLogFile();
         wchar_t wcstring[] = L"Murky8\n";
 
 #ifdef USE_OPENGL
         debugLog << L"Using openGL\n";    title += L"OpenGL 4  ";
-#endif
-#ifdef USE_DIRECT3D11
-        debugLog << L"Using D3d11 \n";    title += L"D3d11  ";
 #endif
 #ifdef USE_DIRECT3D12
         debugLog << L"Using D3d12 \n";	title += L"D3d12  ";
@@ -81,10 +78,9 @@ namespace murkyFramework {
         // sound
         audio = new AudioObj();
 
-        // resources
-        compileResources();
-        loadFBX(L"murkyFramework/data/tea.FBX", render->gdeb2_vertices, render->gdeb2_indices);
-
+        // resources 
+        render->loadResources();  //todo: thread
+        
         main_noGfx = appInit.main_noGfx;
         main_gfx = appInit.main_gfx;
     }
@@ -94,14 +90,7 @@ namespace murkyFramework {
 #ifdef WINDOWS
         systemSpecific::WindowsSpecific* windowsSpecific{
         dynamic_cast<murkyFramework::systemSpecific::WindowsSpecific*>(system) };
-
-        //std::thread blah(systemSpecific::main2, this);
-        //blah.join();
         systemSpecific::main2(this);
-
-        //while (exitWholeApp == false)
-        //{         
-        //}
 #endif
     }
 

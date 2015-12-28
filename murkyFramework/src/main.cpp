@@ -6,51 +6,14 @@ namespace murkyFramework {
     // external forward declarations
     // the only global. for debugging/development purposes.
     AppFramework *g_appDebug = nullptr;
-
-    std::vector<Triangle_pct> gdeb_tris;// todo: remove
-
-    // testing
-    void skool();
-
-    // compile if uncompiled file newer than compiled file
-    bool fileNeedsCompiling(FilePathSplit &pathSplit)
-    {
-        std::wstring binPath = makePathString(pathSplit.directoryPath, pathSplit.fileName, L"bin");
-
-        bool binExsists;
-        u64 fbxModTime = getFileModificationTime1601(pathSplit.getJoinedFilePath());
-        u64 binModTime = getFileModificationTime1601(binPath, &binExsists);
-
-        // todo: temp!!!!
-        if (fbxModTime > binModTime || binExsists == false)
-            return true;
-        else
-           return false;
-    }
-
-    void compileFBX(FilePathSplit pathSplit)
-    {
-        std::wstring binPath = makePathString(pathSplit.directoryPath, pathSplit.fileName, L"bin");
-
-        if(fileNeedsCompiling(pathSplit))
-        {// compile to .bin
-            debugLog << L"bin is not current. compiling \n";
-            murkyFramework::loadFBX_tris(pathSplit.getJoinedFilePath(), gdeb_tris);
-            murkyFramework::serializeTris(binPath, gdeb_tris);
-        }
-        else
-        {
-            debugLog << L"bin is current \n";
-            murkyFramework::deserializeTris(binPath, gdeb_tris);
-        }
-    }
+    
+    // teaching
+    void skool();   
 
     void compileResources()
     {        
         std::wregex regexp{ L"FBX" };
-        visitAllFilesInDirectory(L"murkyFramework/data", compileFBX, regexp);
-
-        murkyFramework::done = true;
+        visitAllFilesInDirectory(L"murkyFramework/data", compileFBX, regexp);        
     }
     //------------------------------------------------------------------------------
     // 

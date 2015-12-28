@@ -7,10 +7,11 @@ namespace murkyFramework {
         class Model
         {
         public:
-            std::vector<Triangle_pct> tris;
+            Model() {}
+            //Model(std::vector<Triangle_pct> tris, std::vector<u16> indicies, GfxDevice::TextureWrapper texture);
+            std::vector<Vert_pct> vertices;
             std::vector<u16> indicies;
-            GfxDevice::TextureWrapper texture;
-        };
-    
+            GfxDevice::TextureWrapper texture{ 0 };
+        };    
     }//namespace Render 
 }//namespace murkyFramework 

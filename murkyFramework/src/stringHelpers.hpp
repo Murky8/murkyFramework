@@ -23,6 +23,9 @@ std::wstring &operator << (std::wstring &lhs, vec4 v);
 std::wstring &operator << (std::wstring &lhs, mat3 m);
 
 std::wstring &operator << (std::wstring &lhs, mat4 m);
+
+
+
 }//namespace murkyFramework
 
 

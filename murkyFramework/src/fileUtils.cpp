@@ -156,7 +156,7 @@ FilePathSplit::FilePathSplit(std::wstring pathFileNameExt)
             return;
         }
 
-        // first match should be '.' (check this...). we ignore it.
+        // first match should be '.' (check this!!!). we ignore it.
         if (std::wstring(findData.cFileName) != L".")
             triggerBreakpoint();
     }
@@ -178,6 +178,97 @@ FilePathSplit::FilePathSplit(std::wstring pathFileNameExt)
                 continue;
             return true;
         }
+    }
+
+    int getNextPosInt_incIt(std::wstring::const_iterator &it, std::wstring::const_iterator  &end)
+    {
+        static std::wregex regx_int(L"[0-9]+");
+
+        int i{ 0 };
+        std::wsmatch match;
+
+        if (std::regex_search(it, end, match, regx_int))
+        {
+            std::wstring substr(match[0].first, match[0].second);
+            i = _wtoi(substr.c_str());
+
+            it = match[0].second;
+        }
+        return i;
+    }
+
+    int getNextInt_incIt(std::wstring::const_iterator &it, std::wstring::const_iterator  &end)
+    {
+        static std::wregex regx_int(L"[-\\+]?[0-9]+");
+
+        int i{ 0 };
+        std::wsmatch match;
+
+        if (std::regex_search(it, end, match, regx_int))
+        {
+            std::wstring substr(match[0].first, match[0].second);
+            i = _wtoi(substr.c_str());
+
+            it = match[0].second;
+        }
+
+        return i;
+    }
+
+    float getNextFloat_incIt(std::wstring::const_iterator &it, std::wstring::const_iterator  &end)
+    {
+        // "-+[0-9]+\\.+[0-9]+"
+        static std::wregex regx_float(L"[-\\+]?[0-9]*\\.?[0-9]+");
+
+        float f{ 0 };
+        std::wsmatch match;
+
+        if (std::regex_search(it, end, match, regx_float))
+        {
+            std::wstring substr(match[0].first, match[0].second);
+            f = (float)_wtof(substr.c_str());
+
+            it = match[0].second;
+        }
+
+        return f;
+    }
+
+    bool findNextText_incIt(std::wstring &strToFind, std::wstring::const_iterator &it, std::wstring::const_iterator  &end)
+    {
+        std::wstring regex_string;
+        regex_string += L"[\\s]";
+        regex_string += strToFind;
+        std::wregex regx_text(regex_string);
+
+        std::wsmatch match;
+
+        if (std::regex_search(it, end, match, regx_text))
+        {
+            std::wstring substr(match[0].first, match[0].second);
+            it = match[0].second;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // compile if uncompiled file newer than compiled file
+    bool fileNeedsCompiling(FilePathSplit &pathSplit)
+    {
+        std::wstring binPath = makePathString(pathSplit.directoryPath, pathSplit.fileName, L"bin");
+
+        bool binExsists;
+        u64 fbxModTime = getFileModificationTime1601(pathSplit.getJoinedFilePath());
+        u64 binModTime = getFileModificationTime1601(binPath, &binExsists);
+
+        // todo: temp!!!!
+        if (fbxModTime > binModTime || binExsists == false)
+            return true;
+        else
+            return false;
     }
 
     /*

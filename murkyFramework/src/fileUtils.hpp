@@ -41,4 +41,13 @@ private:
     std::wregex regex;
     std::wstring path;
 };
+
+int getNextPosInt_incIt(std::wstring::const_iterator &it, std::wstring::const_iterator  &end);
+int getNextInt_incIt(std::wstring::const_iterator &it, std::wstring::const_iterator  &end);
+float getNextFloat_incIt(std::wstring::const_iterator &it, std::wstring::const_iterator  &end);
+bool findNextText_incIt(std::wstring &strToFind, std::wstring::const_iterator &it, std::wstring::const_iterator  &end);
+
+// compile if uncompiled file newer than compiled file
+bool fileNeedsCompiling(FilePathSplit &pathSplit);
+
 }//namespace murkyFramework

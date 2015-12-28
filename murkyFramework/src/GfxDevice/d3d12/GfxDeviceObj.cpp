@@ -4,25 +4,7 @@
 #include <murkyFramework/src/pch.hpp>
 namespace murkyFramework {
     namespace GfxDevice {
-
-        //void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat, int slot)
-        //{
-        //    // note: OGL, this accepts row-major, pre-multiplying of verts and post-multi in vertex shader.
-        //    // ie no need to transpose if post-multi (Mv) in vertex shader.
-
-        //    //// note:: eeek!! 
-        //    //glUseProgram(shaderManager.get(L"posColTex").value);
-        //    //glUniformMatrix4fv(GfxDevice::Shaders::uniformHandle_projectionMatrix, 1, false, pMat);
-        //    //glUseProgram(0);
-
-        //    //glUseProgram(shaderManager.get(L"posCol").value);
-        //    //glUniformMatrix4fv(GfxDevice::Shaders::uniformHandle_projectionMatrix, 1, false, pMat);
-        //    //glUseProgram(0);
-        //    projectionMatricies[slot] = *(mat4*)pMat;
-
-        //    GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
-        //}
-
+   
         void GfxDeviceObj::setUniform_projectionMatrix(const float *pMat, int slot)
         {
 

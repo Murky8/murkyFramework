@@ -18,19 +18,19 @@ namespace murkyFramework {
             // methods    
             void drawAll();
 
+            void loadAllModels();
+            void loadResources();
+
             // objects/components
             GfxDevice::GfxDeviceObj *gfxDevice;
-            TextRender              *textRenderer;            
+            TextRender              *textRenderer;                        
+            CollectionNamed<Model> modelManager;
 
             // test
             std::vector<Vert_pct> gdeb2_vertices;// todo: remove
             std::vector<u16> gdeb2_indices;// todo: remove
-
-            GfxDevice::VertexIndexBufferWrapper *vibuffer;
-
-            // data
-            //vec4 cursorPos{ 0, 0, -5.f };
-            //mat3 cursorOri{ unit };
+            GfxDevice::VertexIndexBufferWrapper *vibuffer;// todo: remove
+            
         };
     }//namespace Render
 }//namespace murkyFramework

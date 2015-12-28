@@ -14,11 +14,12 @@ namespace murkyFramework {
             TextureWrapper		createTestTextureObject();
             void                initilise_textureSystem();
             void                deinitilise_textureSystem();
-        }
-        extern std::vector<Triangle_pct> gdeb_tris;// todo: remove
+        }        
     namespace Render {
 
         std::vector<Line_pc> defaultLines;
+
+        
         RenderObj::RenderObj(GfxDevice::GfxDeviceObj_initStruct  *const initStruct)
         {
             g_appDebug->render = this; // warning: see g_aapDebug usage notes: for development only, remove!
@@ -76,70 +77,69 @@ namespace murkyFramework {
                 0.f, 1.f, 1.f, 0.f, -1.f, 1.f);
 
             deviceObj->setUniform_projectionMatrix(&projectionMatrix.v[0][0], 1);
-
+            // set up ALL proj matrixies before begin
 
             deviceObj->drawBegin();
-            deviceObj->setCurrentSlot(1);
 
             defaultLines.clear();
             // draw onscreen stuff
-            if (murkyFramework::done == false)
-                debugLogScreen << L"Loading teapot!!!\n";
+            
             debugLogScreen << g_appDebug->game->cursorPos << L"\n";
 
+            deviceObj->setCurrentSlot(1);
             textRenderer->drawText(debugLogScreen);
-            // draw onscreen stuff        
+            // draw onscreen stuff ^
+            deviceObj->setCurrentSlot(0);
 
-            if (murkyFramework::done == true)
-            {
-                // teapot                
-                deviceObj->setCurrentSlot(0);
-                if(0)
-                {
-                    for (Triangle_pct &t : gdeb_tris)
-                    {
-                        drawCrosshair(vec3(t.v[0].pos.x, t.v[0].pos.y, -t.v[0].pos.z), vec3(1, 0, 0), 1.f, defaultLines);
+            drawCrosshair(vec3(0, 0, 0), vec3(1, 0, 0), 1.0f, defaultLines);
+            deviceObj->vertexBufferManager.get(L"lines").draw(defaultLines.data(), defaultLines.size());
 
-                    }
-                    deviceObj->vertexBufferManager.get(L"lines").draw(
-                        defaultLines.data(), 
-                        defaultLines.size());
-                }
-                if (0)
-                {                    
-                    deviceObj->vertexBufferManager.get(L"tris").draw(
-                        gdeb_tris.data(),
-                        gdeb_tris.size());
-                }
-
-                if (1)
-                {
-                    if (0)
-                    {
-                        std::vector<Triangle_pct> tris;
-                        for (auto i = 0; i < gdeb2_indices.size();i += 3)
-                        {
-                            tris.push_back(Triangle_pct(
-                                gdeb2_vertices[gdeb2_indices[i + 0]],
-                                gdeb2_vertices[gdeb2_indices[i + 1]],
-                                gdeb2_vertices[gdeb2_indices[i + 2]]));
-
-                        }
-                        deviceObj->vertexBufferManager.get(L"tris").draw(
-                            tris.data(), tris.size());
-                    }
-                    else
-                    {                        
-                        this->vibuffer->draw(
-                            gdeb2_vertices.data(), gdeb2_vertices.size(),
-                            gdeb2_indices.data(), gdeb2_indices.size()/3);
-                    }
-                }
-            }
-            // teapot
-
+            Model& model = modelManager.get(L"manta");
+            vibuffer->draw(
+                model.vertices.data(), model.vertices.size(),
+                model.indicies.data(), model.indicies.size() / 3);
+            
             g_appDebug->render->gfxDevice->drawEnd();
-        }     
+        }   
+
+        void RenderObj::loadResources()
+        {
+        /*    Model &newModel = modelManager.getNew(L"teamod");
+
+            loadFBX(L"murkyFramework/data/tea.FBX", newModel.vertices, newModel.indicies);
+            newModel.texture = this->gfxDevice->textureManager.get(L"t0 4c");*/
+        
+            std::wstring dir = { L"Project1/data/models" };
+            FileDirectoryWalker fileWalker(dir, L"\\.FBX$");
+
+            while (fileWalker.findNext())
+            {
+                std::wstring fileName;
+                fileName = dir + L"/" + (fileWalker.findData.cFileName);
+                FilePathSplit pathSplit(fileName);
+
+                std::wstring binPath = makePathString(pathSplit.directoryPath, pathSplit.fileName, L"bin");
+
+                if (fileNeedsCompiling(pathSplit))
+                {// compile to .bin
+                    debugLog << L"bin is not current. compiling \n";
+                    std::vector<Vert_pct> verts;
+                    std::vector<u16> indices;
+                    loadFBX(pathSplit.getJoinedFilePath(), verts, indices);
+                    serializeTris(binPath, verts, indices);
+                }
+                else
+                {
+                    debugLog << L"bin is current \n";
+                }
+                Model &newModel = modelManager.getNew(pathSplit.fileName);
+                deserializeTris(binPath, newModel.vertices, newModel.indicies);
+                newModel.texture = this->gfxDevice->textureManager.get(L"t0 4c");             
+            }        
+        }
+
+
+
     }//namespace Render
 }//namespace murkyFramework
 

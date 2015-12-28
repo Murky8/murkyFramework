@@ -13,6 +13,7 @@ namespace murkyFramework
 		~CollectionNamed();
 		void add(const std::wstring &name, T rhs);
 		T get(const std::wstring &name);
+        T& getNew(const std::wstring &name);
 	private:
 		std::map<std::wstring,T> data;
         const u32 capacity;
@@ -51,6 +52,18 @@ namespace murkyFramework
 			return it->second; // stop compiler warning			
 		}
 	}
+
+    template <typename T>
+    T& CollectionNamed<T>::getNew(const std::wstring &name)
+    {        
+        T t;
+
+        auto res = data.insert(std::pair<std::wstring, T>(name, t));
+        if (res.second == false)
+            triggerBreakpoint();
+
+        return res.first->second;
+    }
 
     template <typename T>
     class CollectionNamedIndirect
