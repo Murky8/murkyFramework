@@ -57,6 +57,8 @@ namespace murkyFramework
         bool    exitWholeApp = false;
         bool    initialised = false;
         std::wstring title{ L"Murky" };
+        std::wstring projectDirectory{ L"" };
+        std::wstring frameworkDirectory{ L"" };
 
         // objects/components    
         class   systemSpecific::SystemSpecificObj  *system;

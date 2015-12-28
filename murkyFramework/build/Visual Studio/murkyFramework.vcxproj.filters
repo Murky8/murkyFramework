@@ -20,9 +20,6 @@
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{89a8eec5-89a3-4516-a0c3-5c2ccc637f84}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game\public">
-      <UniqueIdentifier>{8e025b3b-ff39-4ba8-ad50-bf1be24f84ab}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GfxDevice">
       <UniqueIdentifier>{b4f79137-f453-4959-a515-fbdeff7516dd}</UniqueIdentifier>
     </Filter>
@@ -65,9 +62,6 @@
       <Filter>Source Files\Render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Render\projectionMat.cpp">
-      <Filter>Source Files\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Render\render.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Render\textRender.cpp">
@@ -175,20 +169,20 @@
     <ClCompile Include="..\..\src\GfxDevice\openGL4\TexturesManager_ogl4.cpp">
       <Filter>Source Files\GfxDevice\openGL4</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Game\Game.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Audio\Audio.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Render\model.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Game\EntityBase.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Game\Game.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\Game\public\Game.hpp">
-      <Filter>Source Files\Game\public</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\mclass.hpp">
       <Filter>Source Files\src</Filter>
     </ClInclude>
@@ -335,6 +329,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Render\model.hpp">
       <Filter>Source Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Game\EntityBase.hpp">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Game\Game.hpp">
+      <Filter>Source Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

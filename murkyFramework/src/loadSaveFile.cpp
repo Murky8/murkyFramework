@@ -60,18 +60,21 @@ namespace qdev
             GetCurrentDirectoryW(1024, pathTemp);
             std::wstring    path{ pathTemp };
             if (std::regex_search(path, std::wregex(L"Visual Studio$")) == true)
-                SetCurrentDirectory(L"../../..");   // set to solution directory
+                SetCurrentDirectory(L"../../");   
                 //SetCurrentDirectory(L"murkyFramework");
-        }
 
-        if(0)
-        {
+            // store project directory
             GetCurrentDirectoryW(1024, pathTemp);
-            std::wstring    path{ pathTemp };
-            if (std::regex_search(path, std::wregex(L"murkyFramework$")) != true)
-                triggerBreakpoint(L"please run .exe in 'murkyFramework' directory");                
-        }
+            g_appDebug->projectDirectory = std::wstring(pathTemp);
 
+            // store framework directory
+            SetCurrentDirectory(L"../murkyFramework");   
+            GetCurrentDirectoryW(1024, pathTemp);
+            g_appDebug->frameworkDirectory = std::wstring(pathTemp);
+
+            // set to solution directory
+            SetCurrentDirectory(L"../");   
+        }
     } 
 #endif
 #ifdef ANDROID

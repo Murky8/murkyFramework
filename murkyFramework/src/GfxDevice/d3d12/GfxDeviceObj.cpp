@@ -380,7 +380,7 @@ namespace murkyFramework {
 
                 m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
             }
-            loadTexturesInDir(L"murkyFramework/data");
+            loadTexturesInDir(g_appDebug->L"murkyFramework/data");            
             debugLog << L"finished success" << L"\n";
         }
 
@@ -570,23 +570,7 @@ namespace murkyFramework {
                 }
             }
         }
-        /*
-        void GfxDeviceObj::loadShadersInDir(std::wstring directoryName)
-        {
-            FileDirectoryWalker fileWalker(directoryName, L"\\.png$");
-
-            while (fileWalker.findNext())
-            {
-                debugLog << L"RenderObj::loadTexturesInDir loaded " << fileWalker.findData.cFileName << "\n";
-                FilePathSplit pathBits(std::wstring(fileWalker.findData.cFileName));
-
-                GfxDevice::TextureWrapper newt = GfxDevice::createTextureObjectFromFile(
-                    directoryName, pathBits.fileName, pathBits.extensionName);
-
-                textureManager.add(pathBits.fileName, newt);
-            }
-        }
-        */
+     
 
         /*
         void WaitForCommandQueueFence()

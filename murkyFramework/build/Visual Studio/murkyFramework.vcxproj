@@ -224,6 +224,7 @@
     <ClCompile Include="..\..\src\common.cpp" />
     <ClCompile Include="..\..\src\debugUtils.cpp" />
     <ClCompile Include="..\..\src\fileUtils.cpp" />
+    <ClCompile Include="..\..\src\Game\EntityBase.cpp" />
     <ClCompile Include="..\..\src\Game\Game.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\d3d12\GfxDeviceObj.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
@@ -280,7 +281,6 @@
     <ClCompile Include="..\..\src\Render\linesShapes.cpp" />
     <ClCompile Include="..\..\src\Render\model.cpp" />
     <ClCompile Include="..\..\src\Render\projectionMat.cpp" />
-    <ClCompile Include="..\..\src\Render\render.cpp" />
     <ClCompile Include="..\..\src\Render\RenderObj.cpp" />
     <ClCompile Include="..\..\src\Render\textRender.cpp" />
     <ClCompile Include="..\..\src\school.cpp" />
@@ -299,7 +299,8 @@
     <ClInclude Include="..\..\src\common.hpp" />
     <ClInclude Include="..\..\src\debugUtils.hpp" />
     <ClInclude Include="..\..\src\fileUtils.hpp" />
-    <ClInclude Include="..\..\src\Game\public\Game.hpp" />
+    <ClInclude Include="..\..\src\Game\EntityBase.hpp" />
+    <ClInclude Include="..\..\src\Game\Game.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\d3d12\GfxDeviceObj.hpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
     </ClInclude>

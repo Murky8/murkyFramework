@@ -6,9 +6,7 @@ namespace murkyFramework {
 namespace GfxDevice {
 
 
-    void TexturesManager::loadAndAddTexture(FilePathSplit filePath)
-    {
-    }
+
 
 
 }//namespace GfxDevice

@@ -11,7 +11,7 @@ namespace GfxDevice {
     public:
 
         CollectionNamed<TextureWrapper> textures;
-        virtual void loadAndAddTexture(FilePathSplit filePath) = 0;
+        //virtual void loadAndAddTexture(FilePathSplit filePath) = 0;
         virtual ~TexturesManager() {}
     };
 }//namespace GfxDevice

@@ -12,8 +12,6 @@ namespace murkyFramework {
             TextureWrapper		createTextureObjectFromFile(const std::wstring &dirName,
                 const               std::wstring &fileName, const std::wstring &extensionName);
             TextureWrapper		createTestTextureObject();
-            void                initilise_textureSystem();
-            void                deinitilise_textureSystem();
         }        
     namespace Render {
 
@@ -47,10 +45,9 @@ namespace murkyFramework {
                 GfxDevice::VertexType::posColTex,
                 GfxDevice::PrimativeType::triangle,
                 deviceObj->shaderManager.get(L"posColTex"),
-                deviceObj->textureManager.get(L"t0 4c"), 
+                deviceObj->textureManager.get(L"manta"), 
                 16*1024, 64*1024 
                 );                
-
         }
 
         RenderObj::~RenderObj()
@@ -134,7 +131,7 @@ namespace murkyFramework {
                 }
                 Model &newModel = modelManager.getNew(pathSplit.fileName);
                 deserializeTris(binPath, newModel.vertices, newModel.indicies);
-                newModel.texture = this->gfxDevice->textureManager.get(L"t0 4c");             
+                newModel.texture = this->gfxDevice->textureManager.get(L"manta");             
             }        
         }
 

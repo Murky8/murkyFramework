@@ -180,9 +180,9 @@ vec4::vec4(float in_x, float in_y, float in_z, float in_w)
     : x(in_x), y(in_y), z(in_z), w(in_w)
 {}
 
-vec4::vec4(float a)
-	: x(a), y(a), z(a), w(a)
-{}
+//vec4::vec4(float a)
+//	: x(a), y(a), z(a), w(a)
+//{}
 
 vec4::vec4(float const* const pFloat) 
 	:	x(pFloat[0]), y(pFloat[1]), z(pFloat[2]), w(pFloat[3])

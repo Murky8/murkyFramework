@@ -92,12 +92,6 @@ namespace murkyFramework {
             return texture;
         }
 
-        void initilise_textureSystem()
-        {
-        }
-
-        void deinitilise_textureSystem()
-        {
-        }    
+         
     }//namespace GfxDevice
 }//namespace murkyFramework

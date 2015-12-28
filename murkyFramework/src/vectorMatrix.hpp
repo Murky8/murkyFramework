@@ -92,7 +92,7 @@ public:
     // constructors            
     vec4(){}	//remove when c++11 compat
     vec4(float x, float y, float z, float w =0.f);
-    vec4(float a);    
+    //vec4(float a);    
 	vec4(float const * const pFloat);
     vec4(vec3);    
     vec4(TypeZero dummy);

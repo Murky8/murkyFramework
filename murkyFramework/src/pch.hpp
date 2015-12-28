@@ -21,6 +21,7 @@
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <list>
 #include <map>
 #include <memory>
 #include <mutex>
@@ -57,7 +58,8 @@
 #include <murkyFramework/src/inputDevices.hpp>
 #include <murkyFramework/src/Audio/Audio.hpp>
 
-#include <murkyFramework/src/game/public/game.hpp>
+#include <murkyFramework/src/Game/EntityBase.hpp>
+#include <murkyFramework/src/Game/Game.hpp>
 
 // gfxDevice
 #include <murkyFramework/src/GfxDevice/version_gfxDevice.hpp>

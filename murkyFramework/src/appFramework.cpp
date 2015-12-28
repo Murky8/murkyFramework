@@ -9,7 +9,9 @@ namespace murkyFramework {
     AppFramework::AppFramework(AppFramework_initStruct &appInit)
     {
         murkyFramework::g_appDebug = this; // warning: see g_aapDebug usage notes: for development only, remove!
+        
         qdev::setCurrentDirectoryToAppRoot(); // // set to solution directory:'dev c++'
+        
         debug2ResetLogFile();
         wchar_t wcstring[] = L"Murky8\n";
 
@@ -33,7 +35,6 @@ namespace murkyFramework {
 #endif
         fullScreen = false;
         
-
 #ifdef WINDOWS
         if (fullScreen)
         {

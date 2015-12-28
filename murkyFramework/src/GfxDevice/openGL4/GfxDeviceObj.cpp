@@ -88,7 +88,7 @@ namespace murkyFramework {
             //glDepthFunc(GL_GREATER);
             glDisable(GL_CULL_FACE);
             GfxDevice::Shaders::initialise();
-            loadTexturesInDir(L"murkyFramework/data");
+            loadTexturesInDir(g_appDebug->frameworkDirectory +L"/data");
         }
 
         void GfxDeviceObj::initialise()
