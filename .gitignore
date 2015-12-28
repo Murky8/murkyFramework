@@ -36,6 +36,7 @@ Thumbs.db
 obj/
 external/
 ipch/
+data/
 _ReSharper*/
 [Tt]est[Rr]esult*
 **/My Advisor XE*
