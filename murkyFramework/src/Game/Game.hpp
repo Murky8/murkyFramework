@@ -9,7 +9,10 @@ namespace murkyFramework
         Game() {}
         virtual ~Game() {}
         std::list<class EntityBase*> entities;
-        vec4 cursorPos{ 0, 60, -150.f };
-        mat3 cursorOri{ unit };
+
+        mat4 cursorPosOri = {unit};
+
+        //vec4 cursorPos{ 0, 60, -150.f };
+        //mat3 cursorOri{ unit };
     };
 }//namespace murkyFramework

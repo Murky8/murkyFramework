@@ -336,6 +336,9 @@
     <ClInclude Include="..\..\src\Game\Game.hpp">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\formula.hpp">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\GfxDevice\openGL4\shaders\posColTex.fsh">

@@ -41,43 +41,49 @@ void mainLoop_threadMain(AppFramework  *const app)
     f32 speed = app->lastFrameDuration*50.f;
     if (app->inputDevices->keyStatus(InputDevices::KeyCode::shift))
         speed *= 10.f;
+    
+    mat4 transRot = app->game->cursorPosOri;
+    vec4 pos = transRot.get_t();
 
     if (app->inputDevices->keyStatus(InputDevices::KeyCode::d))
-        app->game->cursorPos += app->game->cursorOri.get_r() * speed;
+        pos += transRot.get_r() * speed;
     
     if (app->inputDevices->keyStatus(InputDevices::KeyCode::a))
-        app->game->cursorPos -= app->game->cursorOri.get_r() * speed;
+        pos -= transRot.get_r() * speed;
 
     if (app->inputDevices->keyStatus(InputDevices::KeyCode::w))
-        app->game->cursorPos += app->game->cursorOri.get_f() * speed;
+        pos += transRot.get_f() * speed;
     
     if (app->inputDevices->keyStatus(InputDevices::KeyCode::s))
-        app->game->cursorPos -= app->game->cursorOri.get_f() * speed;
+        pos -= transRot.get_f() * speed;
 
     if (app->inputDevices->keyStatus(InputDevices::KeyCode::e))
-        app->game->cursorPos += vec::up * speed;
+        pos += vec::up * speed;
 
     if (app->inputDevices->keyStatus(InputDevices::KeyCode::q))
-        app->game->cursorPos -= vec::up * speed;
-        
+        pos -= vec::up * speed;
+
+    app->game->cursorPosOri.set_t(pos);
+
     // free look
-    vec rv(zero);	
-    int mx, my;
+    vec rv3c(zero);	
+    int mx, my;         
     app->inputDevices->consumeAllMouseDx(mx);
     app->inputDevices->consumeAllMouseDy(my);
-
    
     // rotate l/r
-    rv.y	+= -0.001f*(float)mx;
-    mat3 rmat = makeRotationMatrix3c(rv);
-    app->game->cursorOri = app->game->cursorOri*rmat;
+    rv3c.y	+= -0.001f*(float)mx;
+    mat4 rmat = makeRotationMatrix_from3c(rv3c);
+    
+    app->game->cursorPosOri.set_ruf(app->game->cursorPosOri.get_ruf()*rmat.get_ruf());
+    
     // rotate l/r
     
     // rotate u/d
-    rv = vec(zero);
-    rv = app->game->cursorOri.get_r()*-0.001f*(float)my;
-    rmat = makeRotationMatrix3c(rv);
-    app->game->cursorOri = app->game->cursorOri*rmat;
+    rv3c = vec(zero);
+    rv3c = app->game->cursorPosOri.get_r()*-0.001f*(float)my;
+    rmat = makeRotationMatrix_from3c(rv3c);        
+    app->game->cursorPosOri.set_ruf(app->game->cursorPosOri.get_ruf()*rmat.get_ruf());
     // rotate u/d
     // free look
 

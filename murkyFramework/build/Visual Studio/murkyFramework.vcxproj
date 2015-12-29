@@ -299,6 +299,7 @@
     <ClInclude Include="..\..\src\common.hpp" />
     <ClInclude Include="..\..\src\debugUtils.hpp" />
     <ClInclude Include="..\..\src\fileUtils.hpp" />
+    <ClInclude Include="..\..\src\formula.hpp" />
     <ClInclude Include="..\..\src\Game\EntityBase.hpp" />
     <ClInclude Include="..\..\src\Game\Game.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\d3d12\GfxDeviceObj.hpp">

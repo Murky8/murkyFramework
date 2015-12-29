@@ -63,7 +63,7 @@ namespace murkyFramework {
         void RenderObj::drawAll()
         {
             // set up ALL proj matrixies before begin
-            mat4 cam = makeCameraMatrix(g_appDebug->game->cursorPos, g_appDebug->game->cursorOri);
+            mat4 cam = makeCameraMatrix(g_appDebug->game->cursorPosOri);
             mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
             mat4 proj = cam*persp;
 
@@ -81,7 +81,7 @@ namespace murkyFramework {
             defaultLines.clear();
             // draw onscreen stuff
             
-            debugLogScreen << g_appDebug->game->cursorPos << L"\n";
+            debugLogScreen << g_appDebug->game->cursorPosOri << L"\n";
 
             deviceObj->setCurrentSlot(1);
             textRenderer->drawText(debugLogScreen);

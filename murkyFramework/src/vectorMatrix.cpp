@@ -296,19 +296,20 @@ vec4 vec4::unitDir() const
     return v;
 }
 
-bool vec4::split(vec4 &dir, f32 &len)
+bool vec4::split_3c(vec4 &dir, f32 &len) const
 {
 	len = sqrtf(dot(*this, *this));	
 
-	if (len == 0.000000f) // todo: fix
+	if (len <= 0.00000001f) // todo: fix!!!
 	{
-		dir = vec4(zero);		
+		dir = vec4(zero);	
+        len = 0.f;
 		return false;
 	}
 	else
 	{
 		dir = *this / len;
-		dir.w = 0;
+		dir.w = 0.f;
 		return true;
 	}	
 }
@@ -331,6 +332,21 @@ mat3::mat3(TypeZero dummy)
         for (auto i = 0; i < nDimI; ++i)
             v[j][i] = 0.f;
 }
+
+mat3::mat3(f32 m[nDimJ][nDimI])
+{
+    for (auto j = 0; j < nDimJ; ++j)
+        for (auto i = 0; i < nDimI; ++i)
+            v[j][i] = m[j][i];
+}
+
+mat3::mat3(const mat4& rhs)
+{   
+    for (auto j = 0; j < nDimJ; ++j)
+        for (auto i = 0; i < nDimI; ++i)
+            v[j][i] = rhs.v[j][i];
+}
+
 
 vec3 mat3::get_r() const
 {
@@ -369,13 +385,6 @@ void mat3::set_f(vec4 in)
 	set_v(in, 2);
 }
 
-mat3::mat3(f32 m[nDimJ][nDimI])
-{
-    for (auto j = 0; j < nDimJ; ++j)
-        for (auto i = 0; i < nDimI; ++i)
-            v[j][i] = m[j][i];
-}
-
 mat3 operator *(const mat3 &m0, const mat3 &m1)
 {
 	mat3 res;
@@ -386,8 +395,34 @@ mat3 operator *(const mat3 &m0, const mat3 &m1)
 		}
 	return res;
 }
+
+mat3    mat4::get_ruf() const
+{
+    mat3 out;
+    for (int j = 0;j<mat3::nDimJ;j++)
+        for (int i = 0;i < mat3::nDimI;i++)
+        {
+            out.v[j][i] = this->v[j][i];
+        }
+    return out;
+}
+
+void    mat4::set_ruf(const mat3 &m)
+{
+    for (int j = 0;j<mat3::nDimJ;j++)
+        for (int i = 0;i < mat3::nDimI;i++)
+        {
+            this->v[j][i] = m.v[j][i];
+        }
+}
+
 #pragma endregion mat3
 
+
+//------------------------------------------------------------------------------
+#pragma region mat43
+
+#pragma endregion
 
 //------------------------------------------------------------------------------
 #pragma region mat4
@@ -398,13 +433,6 @@ mat3 mat3::transpose() const
 		for (auto i = 0; i < nDimI; ++i)
 			r.v[j][i] = v[i][j];
 	return r;
-}
-
-mat4::mat4(const mat3 &rhs)
-{
-    for (auto j = 0; j < rhs.nDimJ; ++j)
-        for (auto i = 0; i < rhs.nDimI; ++i)
-            v[j][i] = rhs.v[j][i];
 }
 
 mat4::mat4(f32 m[nDimJ][nDimI])
@@ -435,6 +463,16 @@ mat4::mat4(float const* inData)
 	set_f(vec4(inData + 8));
 	set_t(vec4(inData + 12));	
 }
+
+mat4::mat4(const mat3 &rhs)
+{
+    *this = mat4{ unit };
+
+    for (auto j = 0; j < nDimJ-1; ++j)
+        for (auto i = 0; i < nDimI-1; ++i)
+            v[j][i] = rhs.v[j][i];
+}
+
 
 vec4 mat4::get_r() const
 {	return vec4(v[0]);}
@@ -468,22 +506,35 @@ void mat4::set_f(vec4 in)
 void mat4::set_t(vec4 in)
 {	set_v(in, 3);}
 
-void mat4::set_ori(const mat3& rhs)
-{
-	for (auto j = 0; j < mat3::nDimJ; ++j)
-		for (auto i = 0; i < mat3::nDimI; ++i)
-		{
-			v[j][i] = rhs.v[j][i];
-		}
-}
 
-mat4 mat4::transpose() const 
+
+mat4 mat4::transposed() const 
 {
     mat4 r;
     for (auto j = 0; j < nDimJ; ++j)
         for (auto i = 0; i < nDimI; ++i)
             r.v[j][i] = v[i][j];
     return r;
+}
+
+mat4 mat4::transposedOri() const
+{
+    mat4 res{unit};
+    for (auto j = 0; j < nDimJ-1; ++j)
+        for (auto i = 0; i < nDimI-1; ++i)
+            res.v[j][i] = v[i][j];
+    return res;
+}
+
+void    mat4::splitToTransOri(mat4 &out_trans, mat4 &out_ori) const
+{
+    out_trans = out_ori = mat4{ unit };
+
+    for (auto j = 0; j < nDimJ-1; ++j)
+        for (auto i = 0; i < nDimI-1; ++i)
+            out_ori.v[i][j] = this->v[i][j];
+
+    out_trans.set_t(this->get_t());
 }
 
 mat4 operator *(const mat4 &m0, const mat4 &m1)
@@ -496,6 +547,11 @@ mat4 operator *(const mat4 &m0, const mat4 &m1)
 				+ m0.v[y][2]*m1.v[2][x] + m0.v[y][3] * m1.v[3][x];
 		}
 	return res;
+}
+
+mat4 operator *=(mat4 &ml, const mat4 &mr)
+{
+    return ml = ml*mr;
 }
 
 vec4 operator*(const vec4& v, const mat4& m)
@@ -519,7 +575,21 @@ vec4 operator*(const mat4& m, const vec4& v)
 	return t;
 }
 
+mat4 multiplyRUFs(const mat4& m0, const mat4& m1)
+{
+    // w components must be 0.
+    mat4 mr{ unit };
+    mr.set_ruf(m1.get_ruf());
 
+    mr = mr.transposed();
+    mat4 res;
+
+    for (auto j = 0; j < 3 ; ++j)
+        for (auto i = 0; i < 3; ++i)
+            res.v[j][i] = dot(m0.v[j], mr.v[i]);
+
+    return res;
+}
 /*
 inline vec	operator *(const mat &m, const vec &v)
 {

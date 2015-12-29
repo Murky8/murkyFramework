@@ -7,6 +7,9 @@ namespace murkyFramework {
     public:
 
         EntityBase() {}
+        EntityBase(const mat4 &transform) : transform(transform)
+        {}
+
         virtual ~EntityBase(){}
         mat4 transform = {unit};
         vec4 velocity = {zero};

@@ -3,6 +3,14 @@
 // 2015 J. Coelho.
 // Platform: C++11
 namespace murkyFramework {
+
+#if 0
+    rrr0
+    uuu0
+    fff0
+    ttt1
+#endif
+  
 class TypeUnit
 {
     const u8 dummyVal= 0;
@@ -15,6 +23,7 @@ public:
     const u8 dummyVal= 0;
 };
 extern TypeZero zero;
+
 
 
 //------------------------------------------------------------------------------
@@ -70,19 +79,7 @@ public:
 private:    
 };
 
-class vec3p
-{
-	static const auto nDim = 3;
-	// data
-	union
-	{
-		struct
-		{
-			float x, y, z, p; //p=padding
-		};
-		float s[nDim];
-	};
-};
+
 //------------------------------------------------------------------------------
 // Main vector class
 class vec4
@@ -99,11 +96,10 @@ public:
     vec4(TypeUnit dummy);
 
     // methods
-    vec4   unitDir() const;
-    float  length() const;
-    void   split(vec4 &dir, float &len) const;    
-	bool split(vec4 &, f32 &);	
-    friend std::wostream &operator<<(std::wostream &st, const vec4 &v);
+    vec4    unitDir() const;
+    float   length() const;
+    bool    split_3c(vec4 &dir, float &len) const;    	
+    friend  std::wostream &operator<<(std::wostream &st, const vec4 &v);
 
     // data
     static const vec4 right;
@@ -132,8 +128,8 @@ public:
     mat3(){}
     mat3(f32 m_[nDimJ][nDimI] );
     mat3(TypeUnit);
-    mat3(TypeZero);	
-
+    mat3(TypeZero);	    
+    explicit mat3(const class mat4& rhs);
     mat3(const std::vector<u8> &inData);    
     // methods
         vec3    get_r() const;
@@ -153,6 +149,24 @@ public:
 private:    
 };
 
+class mat43
+{
+public:
+    static const auto nDimI = 4;
+    static const auto nDimJ = 3;    
+
+    mat43(TypeUnit);
+    mat43(TypeZero);
+    mat43(const mat3& rhs);
+    vec4    get_r() const;
+    vec4    get_u() const;
+    vec4    get_f() const;
+
+    void    set_r(vec4);
+    void    set_u(vec4);
+    void    set_f(vec4);
+};
+
 //------------------------------------------------------------------------------
 class mat4
 {
@@ -170,15 +184,19 @@ public:
     vec4    get_r() const;
     vec4    get_u() const;
     vec4    get_f() const;
-	vec4    get_t() const;
+	vec4    get_t() const;  
+    mat3    get_ruf() const;
 	void	set_v(vec4 in, int index);
 	void    set_r(vec4);
     void    set_u(vec4);
 	void    set_f(vec4);
 	void    set_t(vec4);
-	void	set_ori(const mat3 &rhs);
-    //mat4    inverse() const;
-    mat4    transpose() const;
+    void    set_ruf(const mat3 &rhs);	
+    
+    
+    mat4    transposed() const;
+    mat4    transposedOri() const;
+    void    splitToTransOri(mat4 &out_trans, mat4 &out_ori) const;
 
     void    serialize(std::vector<u8> &outData) const;
     friend  std::wostream &operator<<(std::wostream &st, const mat4 &v);
@@ -257,6 +275,9 @@ vec4 operator *(const mat4 &m, const vec4 &v);
 vec4 operator *(const vec4 &v, const mat4 &m);
 mat4 operator *(const mat4 &m, const float &s);
 mat4 operator *=(mat4 &m, const float &s);
+mat4 operator *=(mat4 &ml, const mat4 &mr);
 mat4 operator *(const mat4 &ma, const mat4 &mb);
+
+void multiplyRUFs(mat4& out_res, const mat4& m0, const mat4& m1);
 
 }//namespace murkyFramework

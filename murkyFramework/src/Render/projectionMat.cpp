@@ -6,16 +6,26 @@ namespace murkyFramework {
 namespace Render
 {
     // see: 3d projection maths.doc/note:12
-    mat4 makeCameraMatrix(vec in_pos, mat3 in_ori)
+    mat4 makeCameraMatrix(mat4 in_transOri)
     {
-        mat4 m(unit);
-        m.set_ori(in_ori.transpose());
+        /*mat4 m;
+        m = in_ori.transpose();
 
         vec t = -1.f*(in_pos*m);
+
         m.set_t(t);
 
         m.v[3][3] = 1.f;
-        return m;
+        return m;*/
+        mat4 trans;
+        mat4 ori;
+        in_transOri.splitToTransOri(trans, ori);
+        
+        ori = ori.transposed();
+        ori.set_t(-1.f*(trans.get_t()*ori));        
+
+        ori.v[3][3] = 1.f; ///!!!
+        return ori;
     }
 
     // coord origin is lower -left

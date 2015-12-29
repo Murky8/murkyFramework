@@ -57,6 +57,7 @@
 #include <murkyFramework/src/vectorMatrix_rotation.hpp>
 #include <murkyFramework/src/inputDevices.hpp>
 #include <murkyFramework/src/Audio/Audio.hpp>
+#include <murkyFramework/src/formula.hpp>
 
 #include <murkyFramework/src/Game/EntityBase.hpp>
 #include <murkyFramework/src/Game/Game.hpp>

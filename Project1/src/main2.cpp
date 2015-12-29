@@ -25,10 +25,20 @@ namespace murkyFramework
     void  main_noGfx(struct main_noGfx_parameters* parameters)
     {
         myGame *game = dynamic_cast<myGame*>(parameters->app->game);        
+
+        for (auto &entity : parameters->app->game->entities)
+        {
+            // do physics
+
+        }        
     }
 
     void  main_gfx(struct main_gfx_parameters* parameters)
-    {        
+    {   
+        for (auto &entity : parameters->app->game->entities)
+        {
+            // display
+        }
     }
 }
 
@@ -36,6 +46,10 @@ using namespace murkyFramework;
 
 class Monk : public EntityBase
 {
+public:
+    Monk(const mat4& transform) : EntityBase(transform)
+    {
+    }
 
 };
 
@@ -47,7 +61,7 @@ int main() // can't be in a namespace :(
     appInit.game = new myGame();
 
     AppFramework *const app = new AppFramework(appInit);
-    app->game->entities.push_back(new Monk());
+    app->game->entities.push_back(new Monk(mat4(unit)));
 
     app->run();
 
