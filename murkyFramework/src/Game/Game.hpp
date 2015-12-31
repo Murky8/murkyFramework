@@ -6,11 +6,14 @@ namespace murkyFramework
     class Game
     {
     public:
-        Game() {}
+        mat4 cursorPosOri = {unit};
+        Game()
+        {
+            cursorPosOri.set_t(vec4(0.f, 30.f, -100.f));
+        }
         virtual ~Game() {}
         std::list<class EntityBase*> entities;
 
-        mat4 cursorPosOri = {unit};
 
         //vec4 cursorPos{ 0, 60, -150.f };
         //mat3 cursorOri{ unit };

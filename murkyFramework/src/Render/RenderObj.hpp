@@ -22,14 +22,16 @@ namespace murkyFramework {
             void loadResources();
 
             // objects/components
+            mat4 cameraPosOri = { unit };
             GfxDevice::GfxDeviceObj *gfxDevice;
             TextRender              *textRenderer;                        
             CollectionNamed<Model> modelManager;
 
+            std::vector<Line_pc> defaultLines;
             // test
-            std::vector<Vert_pct> gdeb2_vertices;// todo: remove
-            std::vector<u16> gdeb2_indices;// todo: remove
-            GfxDevice::VertexIndexBufferWrapper *vibuffer;// todo: remove
+            //std::vector<Vert_pct> gdeb2_vertices;// todo: remove
+            //std::vector<u16> gdeb2_indices;// todo: remove
+            GfxDevice::VertexIndexBufferWrapper *vibuffer; //use collection map
             
         };
     }//namespace Render

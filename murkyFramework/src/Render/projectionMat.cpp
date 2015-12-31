@@ -5,6 +5,18 @@
 namespace murkyFramework {
 namespace Render
 {
+
+    mat4    makeLookAtPosOri(vec4 cameraPos, vec4 subjectPos)
+    {
+        mat4 res;
+        res.f = (subjectPos - cameraPos).unitDir();
+        res.r = cross(res.f, vec4(0.f, 1.f, 0.f)).unitDir();
+        res.u = cross(res.f, res.r);
+        res.trans = cameraPos;
+
+        return res;
+    }
+
     // see: 3d projection maths.doc/note:12
     mat4 makeCameraMatrix(mat4 in_transOri)
     {
@@ -24,7 +36,7 @@ namespace Render
         ori = ori.transposed();
         ori.set_t(-1.f*(trans.get_t()*ori));        
 
-        ori.v[3][3] = 1.f; ///!!!
+        ori.v[3][3] = 1.f; // necessary?
         return ori;
     }
 

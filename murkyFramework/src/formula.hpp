@@ -3,7 +3,7 @@
 // 2015 J. Coelho.
 
 namespace murkyFramework {    
-    inline mat4 makeRotationMatrix_from4c(vec4 v)
+    inline mat43 makeRotationMatrix_from4c(vec4 v)
     {
         // create rotation matrix from a unit vector (v.xyz) and rotation scalar (v.w)
         // rotates clockwise along rotation axis (left handed coordsys).
@@ -12,7 +12,7 @@ namespace murkyFramework {
         f32 cwxy, cwxz, cwyz;
         f32 swx, swy, swz;
         f32 cwxx, cwyy, cwzz;
-        mat4 m{unit};
+        mat43 m{unit};
 
         cw = cosf(v.w);	// inf 1
         sw = sinf(v.w);	//	inf w
@@ -52,12 +52,12 @@ namespace murkyFramework {
         return m;
     }
 
-    inline mat4 makeRotationMatrix_from3c(vec4 v)
+    inline mat43 makeRotationMatrix_from3c(vec4 v)
     {
         // separate vector into , unit, length
         f32 len;
         vec4 dir;
-        mat4 m;
+        mat43 m;
         
         if (v.split_3c(dir, len))
         {
@@ -65,7 +65,7 @@ namespace murkyFramework {
         }
         else
         {
-            m = mat4(unit);                    
+            m = mat43(unit);                    
         }
         return	m;
     }

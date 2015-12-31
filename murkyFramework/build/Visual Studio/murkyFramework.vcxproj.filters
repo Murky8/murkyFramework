@@ -56,6 +56,9 @@
     <Filter Include="Source Files\Audio">
       <UniqueIdentifier>{23e43ea2-0db6-4b55-83c6-bbcf2b951a24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Containers">
+      <UniqueIdentifier>{91ccc0df-b5df-4412-86b1-84d1787584cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Render\linesShapes.cpp">

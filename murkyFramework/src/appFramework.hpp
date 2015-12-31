@@ -13,22 +13,10 @@ namespace murkyFramework
         class RenderObj;
     }
 
-    struct main_noGfx_parameters
-    {
-        class AppFramework *app;
-        f32 deltaTime;
-    };
-    
-    struct main_gfx_parameters
-    {
-        class AppFramework *app;
-        f32 deltaTime;
-    };
-
     struct AppFramework_initStruct
     {
-        void(*main_noGfx)(main_noGfx_parameters* parmeters);
-        void(*main_gfx)(main_gfx_parameters* parmeters);
+        void(*main_noGfx)();
+        void(*main_gfx)();
         class Game *game;
     };
 
@@ -53,6 +41,7 @@ namespace murkyFramework
         u32     frameCounter = 0;
         float   frameRateLimit = 0; // 0= inf 
         float   frameRate;
+        bool    flyCameraMode = { false };
         float   lastFrameDuration = 0;
         bool    exitWholeApp = false;
         bool    initialised = false;
@@ -68,8 +57,8 @@ namespace murkyFramework
         class   AudioObj        *audio;
 
         // threads
-        void (*main_noGfx)(main_noGfx_parameters *const);
-        void (*main_gfx)(main_gfx_parameters *const);
+        void (*main_noGfx)();
+        void (*main_gfx)();
 
     private:
 

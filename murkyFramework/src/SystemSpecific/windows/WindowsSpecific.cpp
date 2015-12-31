@@ -164,11 +164,8 @@ namespace murkyFramework {
                 }
                 else
                 {										// If There Are No Messages                                
-                    mainLoop_threadMain(app);
-                    main_noGfx_parameters paras;
-                    paras.app = app;
-                    //paras.deltaTime = ?
-                    app->main_noGfx(&paras);
+                    mainLoop_threadMain(app);                    
+                    app->main_noGfx();
                 }
             }
         }

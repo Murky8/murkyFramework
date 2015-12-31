@@ -14,10 +14,7 @@ namespace murkyFramework {
             TextureWrapper		createTestTextureObject();
         }        
     namespace Render {
-
-        std::vector<Line_pc> defaultLines;
-
-        
+                
         RenderObj::RenderObj(GfxDevice::GfxDeviceObj_initStruct  *const initStruct)
         {
             g_appDebug->render = this; // warning: see g_aapDebug usage notes: for development only, remove!
@@ -62,8 +59,10 @@ namespace murkyFramework {
 
         void RenderObj::drawAll()
         {
+            defaultLines.clear();
+
             // set up ALL proj matrixies before begin
-            mat4 cam = makeCameraMatrix(g_appDebug->game->cursorPosOri);
+            mat4 cam = makeCameraMatrix(cameraPosOri);
             mat4 persp = Render::makeProjectionMatrix_perspective(1.74f, 0.1f, 1000.f, 1.f);
             mat4 proj = cam*persp;
 
@@ -78,10 +77,9 @@ namespace murkyFramework {
 
             deviceObj->drawBegin();
 
-            defaultLines.clear();
             // draw onscreen stuff
             
-            debugLogScreen << g_appDebug->game->cursorPosOri << L"\n";
+            //debugLogScreen << g_appDebug->game->cursorPosOri << L"\n";
 
             deviceObj->setCurrentSlot(1);
             textRenderer->drawText(debugLogScreen);
@@ -89,12 +87,15 @@ namespace murkyFramework {
             deviceObj->setCurrentSlot(0);
 
             drawCrosshair(vec3(0, 0, 0), vec3(1, 0, 0), 1.0f, defaultLines);
+                        
+            g_appDebug->main_gfx();
+
             deviceObj->vertexBufferManager.get(L"lines").draw(defaultLines.data(), defaultLines.size());
 
-            Model& model = modelManager.get(L"manta");
-            vibuffer->draw(
-                model.vertices.data(), model.vertices.size(),
-                model.indicies.data(), model.indicies.size() / 3);
+            //Model& model = modelManager.get(L"manta");
+            //vibuffer->draw(
+            //    model.vertices.data(), model.vertices.size(),
+            //    model.indicies.data(), model.indicies.size() / 3);
             
             g_appDebug->render->gfxDevice->drawEnd();
         }   

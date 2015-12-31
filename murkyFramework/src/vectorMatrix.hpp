@@ -116,6 +116,7 @@ public:
 private:    
 };
 
+
 typedef vec4 vec;
 
 //------------------------------------------------------------------------------
@@ -149,23 +150,40 @@ public:
 private:    
 };
 
+
+//------------------------------------------------------------------------------
+#pragma region mat43
 class mat43
 {
+    // w component not used
 public:
     static const auto nDimI = 4;
     static const auto nDimJ = 3;    
 
+    mat43() {};
     mat43(TypeUnit);
     mat43(TypeZero);
     mat43(const mat3& rhs);
-    vec4    get_r() const;
-    vec4    get_u() const;
-    vec4    get_f() const;
 
-    void    set_r(vec4);
-    void    set_u(vec4);
-    void    set_f(vec4);
+    mat43 transposed() const ;
+    
+    union
+    {
+        f32  v[nDimJ][nDimI];
+        vec4 row[nDimJ];
+        struct
+        {
+            vec4 r;
+            vec4 u;
+            vec4 f;
+        };
+    };
 };
+
+mat43 operator *(const mat43 &ml, const mat43 &mr);
+vec4 operator *(const vec4 &v, const mat43 &m);
+
+#pragma endregion
 
 //------------------------------------------------------------------------------
 class mat4
@@ -176,6 +194,7 @@ public:
     // constructors
     mat4(){}
     explicit mat4(const mat3 &rhs);
+    mat4(const mat43 &m, const vec4 &v);
     mat4(f32 m[nDimJ][nDimI]);
     mat4(TypeUnit);
     mat4(TypeZero);
@@ -204,6 +223,17 @@ public:
     union
     {
         f32 v[nDimJ][nDimI];
+        struct
+        {
+            vec4 r;
+            vec4 u;
+            vec4 f;          
+        };
+        struct
+        {
+            mat43 ruf;
+            vec4 trans;
+        };
         //f32 m[nDimJ*nDimI];
     };
 
@@ -277,7 +307,5 @@ mat4 operator *(const mat4 &m, const float &s);
 mat4 operator *=(mat4 &m, const float &s);
 mat4 operator *=(mat4 &ml, const mat4 &mr);
 mat4 operator *(const mat4 &ma, const mat4 &mb);
-
-void multiplyRUFs(mat4& out_res, const mat4& m0, const mat4& m1);
 
 }//namespace murkyFramework

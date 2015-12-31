@@ -421,6 +421,57 @@ void    mat4::set_ruf(const mat3 &m)
 
 //------------------------------------------------------------------------------
 #pragma region mat43
+mat43::mat43(TypeUnit dummmyVal)
+{
+    r = vec4(1.0f, 0.f, 0.f);
+    u = vec4(0.0f, 1.f, 0.f);
+    f = vec4(0.0f, 0.f, 1.f);
+}
+
+mat43::mat43(TypeZero dummmyVal)
+{
+    r = vec4(0.0f);
+    u = vec4(0.0f);
+    f = vec4(0.0f);
+}
+mat43   mat43::transposed() const
+{
+    mat43 r;
+    for (auto j = 0; j < nDimJ; ++j)
+        for (auto i = 0; i < nDimJ; ++i)
+            r.v[j][i] = v[i][j];
+    return r;
+}
+
+mat43 operator *(const mat43 &ml, const mat43 &mr)
+{
+    //note: check
+    mat43 mrt = mr.transposed();
+    mat43 res;
+
+    for (auto j = 0; j < mat43::nDimJ; ++j)
+        for (auto i = 0; i < mat43::nDimJ; ++i)
+            res.v[j][i] = dot(ml.row[j], mrt.row[i]);
+
+    //paranoid
+    res.v[0][3] = 0;
+    res.v[1][3] = 0;
+    res.v[2][3] = 0;
+
+    return res;
+}
+
+vec4 operator *(const vec4 &v, const mat43 &m)
+{
+    mat43 mt = m.transposed();
+    vec4 res;
+    res.x = dot(v, mt.r);
+    res.y = dot(v, mt.u);
+    res.z = dot(v, mt.f);
+    res.w = 0.f;//paranoid
+    return res;
+}
+
 
 #pragma endregion
 
@@ -433,6 +484,10 @@ mat3 mat3::transpose() const
 		for (auto i = 0; i < nDimI; ++i)
 			r.v[j][i] = v[i][j];
 	return r;
+}
+
+mat4::mat4(const mat43 &m, const vec4 &v) : ruf(m), trans(v)
+{
 }
 
 mat4::mat4(f32 m[nDimJ][nDimI])
@@ -575,21 +630,6 @@ vec4 operator*(const mat4& m, const vec4& v)
 	return t;
 }
 
-mat4 multiplyRUFs(const mat4& m0, const mat4& m1)
-{
-    // w components must be 0.
-    mat4 mr{ unit };
-    mr.set_ruf(m1.get_ruf());
-
-    mr = mr.transposed();
-    mat4 res;
-
-    for (auto j = 0; j < 3 ; ++j)
-        for (auto i = 0; i < 3; ++i)
-            res.v[j][i] = dot(m0.v[j], mr.v[i]);
-
-    return res;
-}
 /*
 inline vec	operator *(const mat &m, const vec &v)
 {
