@@ -32,7 +32,6 @@ namespace murkyFramework
 
     };
 
-
     void  main_noGfx()
     {           
         EntityBase* player = *g_appDebug->game->entities.begin();
@@ -57,12 +56,12 @@ namespace murkyFramework
 
         if (g_appDebug->inputDevices->keyStatus(InputDevices::KeyCode::p))
         {
-            player->vel.x = 12.f;
+            player->vel.x = 22.f;
         }
 
         if (g_appDebug->inputDevices->keyStatus(InputDevices::KeyCode::o))
         {
-            player->vel.x = -12.f;
+            player->vel.x = -22.f;
         }
 
         for (auto *ent : g_appDebug->game->entities)
@@ -85,7 +84,7 @@ namespace murkyFramework
             // do physics
         }        
 
-        // if player  reached new lane stop lat vel
+        // if player reached new lane stop lat vel
         if ((int)(player->transform.trans.x/3.f) != (int)(oldPosPlayer.x/3.f))
             player->vel.x = 0;
     }
@@ -102,9 +101,10 @@ namespace murkyFramework
         if (!g_appDebug->flyCameraMode)
         {
      
-        g_appDebug->render->cameraPosOri = Render::makeLookAtPosOri(
-            //vec4(15, 20, -10), vec4(15, 0, 0));
-        player->transform.trans+vec4(0, 20, -10), player->transform.trans+vec4(0, 0, 0));
+                f32 speedOffset = -player->vel.z*0.f;
+            g_appDebug->render->cameraPosOri = Render::makeLookAtPosOri(
+                //vec4(15, 20, -10), vec4(15, 0, 0));
+        player->transform.trans+vec4(0, 20, -10.f +speedOffset), player->transform.trans+vec4(0, 0, speedOffset));
         }
        
         for (auto *ent : g_appDebug->game->entities)
@@ -158,15 +158,15 @@ int main() // can't be in a namespace :(
     AppFramework *const app = new AppFramework(appInit);
     for (int j = 0;j < 10;++j)
     {
-        auto speed = vec4(0, 0, qmaths::randInt(0, (j<5)?10:-10));
+        //auto speed = vec4(0, 0, qmaths::randInt(0, (j<5)?10:-10));
+            auto speed = vec4(0, 0, j * 2);
+        //auto speed = vec4(0, 0, qmaths::randInt(0, 30));
 
         for (int i = 0;i < 10;++i)
         {
             app->game->entities.push_back(new Monk(
-                mat4(mat43(unit), 
-                    vec4(j*3.f, 0, qmaths::randInt(0, 80))),
-                speed,vec4(0.f)
-                    ));
+                mat4(mat43(unit), vec4(j*3.f, 0, qmaths::randInt(0, 80))), speed,vec4(0.f)
+                    ));            
         }
     }
                                                                                          

@@ -198,6 +198,7 @@
       <PreprocessToFile>false</PreprocessToFile>
       <PrecompiledHeaderFile>murkyFramework/src/pch.hpp</PrecompiledHeaderFile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

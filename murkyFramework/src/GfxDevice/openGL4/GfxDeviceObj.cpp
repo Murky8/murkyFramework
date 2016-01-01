@@ -106,6 +106,27 @@ namespace murkyFramework {
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
+            /*
+            // pixella moof test
+            glBindTexture(GL_TEXTURE_2D, textureManager.get(L"font 4c").value);
+
+            const auto subDiv = 256;            
+            boost::multi_array<u8, 3> t(boost::extents[subDiv][subDiv][4]);
+
+            for (auto i = 0; i < subDiv; ++i)
+            for (auto j = 0; j < subDiv; ++j)
+            {
+            
+            t[j][i][0] = i*i + j*j;
+            t[j][i][1] = i*i * 2 + j*j * 2;
+            t[j][i][2] = 30;
+            }
+            
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, (void*)t.data());
+            onGfxDeviceErrorTriggerBreakpoint();
+            
+            glBindTexture(GL_TEXTURE_2D, 0);              
+            */
             GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
         }
 
