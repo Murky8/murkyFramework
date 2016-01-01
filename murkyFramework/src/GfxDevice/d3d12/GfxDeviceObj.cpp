@@ -151,7 +151,7 @@ namespace murkyFramework {
 
             // Describe and create a shader resource view (SRV) heap for the textures.
             D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
-            srvHeapDesc.NumDescriptors = 2;
+            srvHeapDesc.NumDescriptors = 10;
             srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
             srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
             ThrowIfFailed(m_device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&m_srvHeap)));
@@ -380,7 +380,7 @@ namespace murkyFramework {
 
                 m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
             }
-            loadTexturesInDir(g_appDebug->L"murkyFramework/data");            
+            loadTexturesInDir(L"murkyFramework/data");            
             debugLog << L"finished success" << L"\n";
         }
 

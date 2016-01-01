@@ -40,9 +40,9 @@ namespace murkyFramework
         int     screenResX;
         u32     frameCounter = 0;
         float   frameRateLimit = 0; // 0= inf 
-        float   frameRate;
+        float   frameRate;        
         bool    flyCameraMode = { false };
-        float   lastFrameDuration = 0;
+        float   lastFrameDuration = 0.1f;
         bool    exitWholeApp = false;
         bool    initialised = false;
         std::wstring title{ L"Murky" };

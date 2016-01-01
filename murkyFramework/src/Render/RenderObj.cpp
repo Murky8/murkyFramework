@@ -22,13 +22,6 @@ namespace murkyFramework {
 
             debugLog << L"RenderHi::initialise" << "\n";
 
-            deviceObj->vertexBufferManager.add(L"tris",
-                GfxDevice::VertexBufferWrapper(
-                    GfxDevice::VertexType::posColTex,
-                    GfxDevice::PrimativeType::triangle,
-                    deviceObj->shaderManager.get(L"posColTex"),
-                    deviceObj->textureManager.get(L"t0 4c"), 16*1024));
-
             deviceObj->vertexBufferManager.add(L"lines",
                 GfxDevice::VertexBufferWrapper(
                     GfxDevice::VertexType::posCol,

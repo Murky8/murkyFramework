@@ -11,7 +11,7 @@ namespace Render
         mat4 res;
         res.f = (subjectPos - cameraPos).unitDir();
         res.r = cross(res.f, vec4(0.f, 1.f, 0.f)).unitDir();
-        res.u = cross(res.f, res.r);
+        res.u = cross(res.r, res.f);
         res.trans = cameraPos;
 
         return res;
