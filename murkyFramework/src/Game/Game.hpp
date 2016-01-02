@@ -9,7 +9,7 @@ namespace murkyFramework
         mat4 cursorPosOri = {unit};
         Game()
         {
-            cursorPosOri.set_t(vec4(0.f, 30.f, -100.f));
+            cursorPosOri.set_t(vec4(0.f, 0.f, -1.f));
         }
         virtual ~Game() {}
         std::list<class EntityBase*> entities;

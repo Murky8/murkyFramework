@@ -41,7 +41,7 @@ namespace murkyFramework
         u32     frameCounter = 0;
         float   frameRateLimit = 0; // 0= inf 
         float   frameRate;        
-        bool    flyCameraMode = { false };
+        bool    flyCameraMode = { true };
         float   lastFrameDuration = 0.1f;
         bool    exitWholeApp = false;
         bool    initialised = false;
