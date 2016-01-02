@@ -34,9 +34,10 @@ namespace murkyFramework {
             void loadShadersInDir(std::wstring directoryName);
             
             void setUniform_projectionMatrix(const float *pMat, int slot);
-
+            
             HDC const hDC;
-
+            
+            void uploadDynamicTexture(void* p);
             void drawBegin();
             void drawEnd();
         };

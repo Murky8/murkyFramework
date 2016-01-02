@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project1", "..\..\..\Projec
 		{595AF656-A50D-4C1F-A64D-2BD19BB586FB} = {595AF656-A50D-4C1F-A64D-2BD19BB586FB}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pixella", "..\..\..\pixella\build\Visual Studio\pixella.vcxproj", "{2B8B0739-A23D-407B-B20D-76026C9969C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -34,6 +36,14 @@ Global
 		{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}.Release|Win32.Build.0 = Release|Win32
 		{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}.Release|x64.ActiveCfg = Release|x64
 		{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}.Release|x64.Build.0 = Release|x64
+		{2B8B0739-A23D-407B-B20D-76026C9969C5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2B8B0739-A23D-407B-B20D-76026C9969C5}.Debug|Win32.Build.0 = Debug|Win32
+		{2B8B0739-A23D-407B-B20D-76026C9969C5}.Debug|x64.ActiveCfg = Debug|x64
+		{2B8B0739-A23D-407B-B20D-76026C9969C5}.Debug|x64.Build.0 = Debug|x64
+		{2B8B0739-A23D-407B-B20D-76026C9969C5}.Release|Win32.ActiveCfg = Release|Win32
+		{2B8B0739-A23D-407B-B20D-76026C9969C5}.Release|Win32.Build.0 = Release|Win32
+		{2B8B0739-A23D-407B-B20D-76026C9969C5}.Release|x64.ActiveCfg = Release|x64
+		{2B8B0739-A23D-407B-B20D-76026C9969C5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

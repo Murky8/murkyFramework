@@ -88,6 +88,20 @@ namespace murkyFramework {
             //glDepthFunc(GL_GREATER);
             glDisable(GL_CULL_FACE);
             GfxDevice::Shaders::initialise();
+
+            // dynamicTexture
+            TextureWrapper   &newTexture = textureManager.getNew(L"dynamic");
+            glGenTextures(1, &newTexture.value);
+            glBindTexture(GL_TEXTURE_2D, newTexture.value);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+            onGfxDeviceErrorTriggerBreakpoint();
+
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glBindTexture(GL_TEXTURE_2D, 0);
+            onGfxDeviceErrorTriggerBreakpoint();
+            // dynamicTexture
+
             loadTexturesInDir(g_appDebug->frameworkDirectory +L"/data");
         }
 
@@ -216,6 +230,14 @@ namespace murkyFramework {
 
             if (stop == true)
                 triggerBreakpoint();
+        }
+   
+        void GfxDeviceObj::uploadDynamicTexture(void* p)
+        {
+            glBindTexture(GL_TEXTURE_2D, textureManager.get(L"dynamic").value);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, p);
+            onGfxDeviceErrorTriggerBreakpoint();            
+            glBindTexture(GL_TEXTURE_2D, 0);            
         }
     }//namespace GfxDevice 
 }//namespace murkyFramework
