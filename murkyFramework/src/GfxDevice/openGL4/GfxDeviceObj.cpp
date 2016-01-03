@@ -93,7 +93,7 @@ namespace murkyFramework {
             TextureWrapper   &newTexture = textureManager.getNew(L"dynamic");
             glGenTextures(1, &newTexture.value);
             glBindTexture(GL_TEXTURE_2D, newTexture.value);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1024, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
             onGfxDeviceErrorTriggerBreakpoint();
 
             glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -235,7 +235,7 @@ namespace murkyFramework {
         void GfxDeviceObj::uploadDynamicTexture(void* p)
         {
             glBindTexture(GL_TEXTURE_2D, textureManager.get(L"dynamic").value);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, p);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1024, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE, p);
             onGfxDeviceErrorTriggerBreakpoint();            
             glBindTexture(GL_TEXTURE_2D, 0);            
         }

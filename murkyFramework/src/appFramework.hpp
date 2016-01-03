@@ -39,7 +39,7 @@ namespace murkyFramework
         int     screenResY;
         int     screenResX;
         u32     frameCounter = 0;
-        float   frameRateLimit = 0; // 0= inf 
+        float   frameRateLimit = 60; // 0= inf 
         float   frameRate;        
         bool    flyCameraMode = { true };
         float   lastFrameDuration = 0.1f;
