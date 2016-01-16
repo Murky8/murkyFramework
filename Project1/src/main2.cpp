@@ -160,6 +160,7 @@ int main() // can't be in a namespace :(
     {
         //auto speed = vec4(0, 0, qmaths::randInt(0, (j<5)?10:-10));
             auto speed = vec4(0, 0, j * 2);
+            if (j > 5)speed = speed*-1.f;
         //auto speed = vec4(0, 0, qmaths::randInt(0, 30));
 
         for (int i = 0;i < 10;++i)

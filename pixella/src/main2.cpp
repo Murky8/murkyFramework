@@ -14,11 +14,11 @@ namespace murkyFramework
         s32 x, y;
         s32 vx = 1;
         s32 vy = 1;
+        u32 col = 0x808080;
         Moof() {}
         Moof(s32 x, s32 y, s32 vx, s32 vy) : x(x), y(y), vx(vx), vy(vy)
         {}
     };
-
 
     const s32 dimX = 1024;
     const s32 maskX = dimX - 1;
@@ -42,6 +42,40 @@ namespace murkyFramework
     {           
     }
 
+    //alpha bits:   
+    enum eType
+    {
+        empty,
+        wall,
+        moof
+    };
+
+    bool isWall(u32 pixy)
+    {
+        u8 alpha = pixy >> 24;
+        if ((alpha & 0b11) == eType::wall)
+            return true;
+        else
+            return false;
+    }
+    
+    bool isMoof(u32 pixy)
+    {           
+        u8 alpha = pixy >> 24;
+        if ((alpha & 0b11) == eType::moof)
+            return true;
+        else
+            return false;        
+    }
+
+    bool isBounceoffable(u32 pixy)
+    {
+        u8 alpha = pixy >> 24;
+        if ((alpha & 0b11) != eType::empty)
+            return true;
+        else
+            return false;
+    }
 
     void  main_gfx()
     {
@@ -60,11 +94,12 @@ namespace murkyFramework
         // bounce 
         for (Moof &moof : moofs)
         {
-            if (getMoofLandPixel(moof.x, moof.y) != 0xffffff)
-                setMoofLandPixel(moof.x, moof.y, 0x0);
+            if (isMoof(getMoofLandPixel(moof.x, moof.y)))
+                //setMoofLandPixel(moof.x, moof.y, moof.col + (eType::empty << 24));
+            setMoofLandPixel(moof.x, moof.y, 0x000000 +(eType::empty<<24));
 
              // moof-moof
-            if (getMoofLandPixel(moof.x + moof.vx, moof.y + moof.vy) == 0xff00ff)
+            if (isMoof(getMoofLandPixel(moof.x + moof.vx, moof.y + moof.vy)))
             {            
                 u32 a = randInt(0, 8);
                 moof.vx = directionsX[a];
@@ -72,22 +107,24 @@ namespace murkyFramework
             }
 
             if(std::abs(moof.vy*moof.vx)>0) //horaz==0
-            {// diagonal movement
-                bool hitX=false, hitY=false;
-                if (getMoofLandPixel(moof.x, moof.y + moof.vy) == 0xffffff)
+            {// diagonal movement                
+                u32 pixl = getMoofLandPixel(moof.x, moof.y + moof.vy);
+                u32 pixs = getMoofLandPixel(moof.x + moof.vx, moof.y + moof.vy);
+                u32 pixr = getMoofLandPixel(moof.x + moof.vx, moof.y);
+
+                if(isBounceoffable(pixl))
                 {
-                    moof.vy *= -1;
-                    hitY = true;
+                    moof.vy *= -1;                    
                 }
 
-                if (getMoofLandPixel(moof.x + moof.vx, moof.y) == 0xffffff)
+                if(isBounceoffable(pixr))
                 {
-                    moof.vx *= -1;
-                    hitX = true;
+                    moof.vx *= -1;                    
                 }
 
-                if((hitX==false)&&(hitY==false))
-                    if (getMoofLandPixel(moof.x + moof.vx, moof.y+moof.vy) == 0xffffff)
+                // outer corner case
+                if((isBounceoffable(pixl)==false) && (isBounceoffable(pixr) == false))
+                if (isBounceoffable(pixs) == true)
                     {
                         if( randInt(0, 100)>50)
                             moof.vx *= -1;
@@ -100,11 +137,15 @@ namespace murkyFramework
             {// ortho movement
                 bool resl, ress, resr;
 
+
                 if (moof.vx == 0)// vertical
                 {
-                    resl = getMoofLandPixel(moof.x -1, moof.y ) == 0xffffff;
-                    ress = getMoofLandPixel(moof.x,    moof.y +moof.vy) == 0xffffff;
-                    resr = getMoofLandPixel(moof.x +1, moof.y ) == 0xffffff;
+                u32 pixl = getMoofLandPixel(moof.x - 1, moof.y);
+                u32 pixs = getMoofLandPixel(moof.x, moof.y +moof.vy);
+                u32 pixr = getMoofLandPixel(moof.x + 1, moof.y);
+                resl = isBounceoffable(pixl);
+                ress = isBounceoffable(pixs);
+                resr = isBounceoffable(pixr);
 
                     if(resl==true && ress==true && resr==false)
                     {
@@ -125,9 +166,13 @@ namespace murkyFramework
                 }
                 else
                 {
-                    resl = getMoofLandPixel(moof.x,          moof.y -1) == 0xffffff;
-                    ress = getMoofLandPixel(moof.x +moof.vx, moof.y   ) == 0xffffff;
-                    resr = getMoofLandPixel(moof.x,          moof.y +1) == 0xffffff;
+                    u32 pixl = getMoofLandPixel(moof.x, moof.y - 1);
+                    u32 pixs = getMoofLandPixel(moof.x +moof.vx, moof.y);
+                    u32 pixr = getMoofLandPixel(moof.x, moof.y +1);
+
+                    resl = isBounceoffable(pixl);
+                    ress = isBounceoffable(pixs);
+                    resr = isBounceoffable(pixr);
 
                     if (resl == true && ress == true && resr == false)
                     {
@@ -158,8 +203,8 @@ namespace murkyFramework
             moof.x += moof.vx;
             moof.y += moof.vy;
 
-            if(getMoofLandPixel(moof.x, moof.y)!=0xffffff)
-                setMoofLandPixel(moof.x, moof.y, 0xff00ff);
+            if(!isBounceoffable(getMoofLandPixel(moof.x, moof.y)))          
+                setMoofLandPixel(moof.x, moof.y, moof.col + (eType::moof << 24));            
         }
         // Do Moofs!
 
@@ -194,6 +239,22 @@ namespace murkyFramework
 
 using namespace murkyFramework;
 
+void drawBox(s32 botlx, s32 botly, s32 toprx, s32 topry, u32 col)
+{
+    for (int y = botly; y < topry;++y)
+        for (int x = botlx; x < toprx;++x)
+            setMoofLandPixel(x, y, col);
+
+}
+
+void drawBox45(s32 xmin, s32 xmax, s32 ymin, s32 ymax, u32 col)
+{
+    //for (int y = botly; y < topry;++y)
+        //for (int x = botlx; x < toprx;++x)
+            //setMoofLandPixel(x, y, col);
+
+}
+
 int main() // can't be in a namespace :(
 {
 
@@ -212,7 +273,8 @@ int main() // can't be in a namespace :(
             g_appDebug->render->gfxDevice->textureManager.get(L"dynamic"), 16));
 
     // moof land genesis
-    for (int i = 0;i < 100;i++)
+    if(0)
+    for (int i = 0;i < 1000;i++)
     {
 /*
         if(1)
@@ -257,6 +319,7 @@ int main() // can't be in a namespace :(
             //didagonal            
         }
   */
+        // lines
         s32 x = randInt(0, maskY);
         s32 y = randInt(0, maskX);
         s32 vx = 0;
@@ -277,14 +340,58 @@ int main() // can't be in a namespace :(
             x += vx;
             y += vy;
         }
-
-
+        // lines        
     }
+
+    // boxes
+    drawBox(0, 0, maskX, maskY, 0xffffff + (eType::wall << 24));
+    for (int i = 0 ; i < 400 ; i++)
+    {        
+        s32 botlx;
+        s32 botly;
+        s32 toprx;
+        s32 topry;
+
+        if (randInt(0, 150) > 80)
+        {   // walls
+            s32 w = randInt(4, 30);
+            s32 h = 34 -w;
+
+            botlx = randInt(0, 1000);
+            toprx = botlx + w;
+
+            botly = randInt(0, 1000);
+            topry = botly + h;
+            drawBox(botlx, botly, toprx, topry, 0x909090+(eType::wall<<24));
+
+        }
+        else
+        {   // space
+            s32 w = randInt(4, 200);
+            s32 h = 204 - w;
+
+            botlx = randInt(0, 1000);
+            toprx = botlx + w;
+
+            botly = randInt(0, 1000);
+            topry = botly + h;
+            drawBox(botlx, botly, toprx, topry, 0x000000 + (eType::empty << 24));
+        }
+
+        
+        /*botlx += 2;
+        botly += 2;
+        toprx -= 2;
+        topry -= 2;
+
+        drawBox(botlx, botly, toprx, topry, 0);*/
+    }
+    // boxes
+
     // moof land genesis
 
     
-
-    for (int i = 0;i < 10000;i++)
+    for (int i = 0;i < 20000;i++)
     {
         Moof moof = { 
              randInt(0,100),
@@ -292,7 +399,12 @@ int main() // can't be in a namespace :(
              randInt(-1,1),
              randInt(-1,1)
         };
-                
+        
+        /*Moof moof = {
+            i*2, i*2, 1, 1
+        };
+*/
+        moof.col = randInt(0, 0xffffff);
         moofs.push_back(moof);
     }
 

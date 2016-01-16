@@ -344,7 +344,6 @@
     <ClInclude Include="..\..\src\loadSaveFile.hpp" />
     <ClInclude Include="..\..\src\maths.hpp" />
     <ClInclude Include="..\..\src\mclass.hpp" />
-    <ClInclude Include="..\..\src\octree.hpp" />
     <ClInclude Include="..\..\src\pch.hpp" />
     <ClInclude Include="..\..\src\randomNumbers.hpp" />
     <ClInclude Include="..\..\src\readFBX.hpp" />

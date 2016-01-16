@@ -308,4 +308,15 @@ mat4 operator *=(mat4 &m, const float &s);
 mat4 operator *=(mat4 &ml, const mat4 &mr);
 mat4 operator *(const mat4 &ma, const mat4 &mb);
 
+struct veci_u32
+{
+    u32 ix, iy, iz, iw;
+};
+
+struct veci_u16
+{
+    u16 ix, iy, iz, iw;
+};
+
+
 }//namespace murkyFramework
