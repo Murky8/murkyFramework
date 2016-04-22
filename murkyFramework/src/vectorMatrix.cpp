@@ -249,6 +249,7 @@ vec4 operator*=(vec4 &a, const float &m)
     return (a = a*m);
 }
 
+
 vec4 operator/(const vec4 &a, const float &d)
 {
     return{

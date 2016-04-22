@@ -12,6 +12,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "street racer", "..\..\..\Pr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pixella", "..\..\..\pixella\build\Visual Studio\pixella.vcxproj", "{2B8B0739-A23D-407B-B20D-76026C9969C5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hfe", "..\..\..\hfe\build\Visual Studio\hfe.vcxproj", "{7128BFC2-D6D5-4002-B188-D179931DFD7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -44,6 +46,14 @@ Global
 		{2B8B0739-A23D-407B-B20D-76026C9969C5}.Release|Win32.Build.0 = Debug|Win32
 		{2B8B0739-A23D-407B-B20D-76026C9969C5}.Release|x64.ActiveCfg = Debug|x64
 		{2B8B0739-A23D-407B-B20D-76026C9969C5}.Release|x64.Build.0 = Debug|x64
+		{7128BFC2-D6D5-4002-B188-D179931DFD7C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7128BFC2-D6D5-4002-B188-D179931DFD7C}.Debug|Win32.Build.0 = Debug|Win32
+		{7128BFC2-D6D5-4002-B188-D179931DFD7C}.Debug|x64.ActiveCfg = Debug|x64
+		{7128BFC2-D6D5-4002-B188-D179931DFD7C}.Debug|x64.Build.0 = Debug|x64
+		{7128BFC2-D6D5-4002-B188-D179931DFD7C}.Release|Win32.ActiveCfg = Release|Win32
+		{7128BFC2-D6D5-4002-B188-D179931DFD7C}.Release|Win32.Build.0 = Release|Win32
+		{7128BFC2-D6D5-4002-B188-D179931DFD7C}.Release|x64.ActiveCfg = Release|x64
+		{7128BFC2-D6D5-4002-B188-D179931DFD7C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

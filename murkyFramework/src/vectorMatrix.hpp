@@ -285,7 +285,8 @@ vec4 operator -=(vec4 &a, const vec4 &b);
 vec4 operator *(const vec4 &a, const float &m);
 vec4 operator *(const float &m, const vec4 &a);
 vec4 operator *=(vec4 &a, const vec4 &m);
-
+vec4 operator *=(vec4 &a, const float &m);
+                                         
 vec4 operator /(const vec4 &a, const float &d);
 vec4 operator /=(vec4 &a, const vec4 &d);
 

@@ -1,5 +1,7 @@
 #include <murkyFramework/src/pch.hpp>
-
+#define _USE_MATH_DEFINES
+#include <math.h>
+          
 namespace murkyFramework
 {
     //void thread_mainGfx()
@@ -11,7 +13,6 @@ namespace murkyFramework
     {
     public:
         f32 desiredVel = { 0 };
-
         void doFrame()
         {
             f32 deltaTime = g_appDebug->lastFrameDuration;
@@ -29,7 +30,6 @@ namespace murkyFramework
         Monk(const mat4& transform, vec4 v, vec4 w) : EntityBase(transform,v,w)
         {            
         }
-
     };
 
     void  main_noGfx()
@@ -91,7 +91,6 @@ namespace murkyFramework
 
     void  main_gfx()
     {
-
         EntityBase* player = *g_appDebug->game->entities.begin();
 
         //focus on enitiyty
@@ -100,44 +99,132 @@ namespace murkyFramework
 
         if (!g_appDebug->flyCameraMode)
         {
-     
-                f32 speedOffset = -player->vel.z*0.f;
+
+            f32 speedOffset = -player->vel.z*0.f;
             g_appDebug->render->cameraPosOri = Render::makeLookAtPosOri(
                 //vec4(15, 20, -10), vec4(15, 0, 0));
-        player->transform.trans+vec4(0, 20, -10.f +speedOffset), player->transform.trans+vec4(0, 0, speedOffset));
+                player->transform.trans + vec4(0, 20, -10.f + speedOffset), player->transform.trans + vec4(0, 0, speedOffset));
         }
-       
-        for (auto *ent : g_appDebug->game->entities)
+
+
+        auto &lines = g_appDebug->render->defaultLines;
+        //for (auto *ent : g_appDebug->game->entities)
+        //{
+        //    // display
+        //    vec verts[4] = { vec{1, 0, 2}, vec{1, 0, -2},vec{-1, 0, -2},vec{-1, 0, 2} };
+
+        //    for (int i = 0;i < 4;i++)
+        //    {
+        //        verts[i] = verts[i] * ent->transform.ruf +ent->transform.trans;
+        //    }
+
+        //    lines.push_back(Line_pc(
+        //        Vert_pc((vec3)verts[0], vec3(1, 1, 1)),
+        //        Vert_pc((vec3)verts[1], vec3(1, 1, 1))
+        //        ));
+
+        //    lines.push_back(Line_pc(
+        //        Vert_pc((vec3)verts[1], vec3(1, 1, 1)),
+        //        Vert_pc((vec3)verts[2], vec3(1, 1, 1))
+        //        ));
+
+        //    lines.push_back(Line_pc(
+        //        Vert_pc((vec3)verts[2], vec3(1, 1, 1)),
+        //        Vert_pc((vec3)verts[3], vec3(1, 1, 1))
+        //        ));
+
+        //    lines.push_back(Line_pc(
+        //        Vert_pc((vec3)verts[3], vec3(1, 1, 1)),
+        //        Vert_pc((vec3)verts[0], vec3(1, 1, 1))
+        //        ));
+        //}
+
+        // make  helfire rotor
+        f32 rMajor = 25.0f;
+        f32 rMinor = 5.0f;
+        f32 r = rMajor + rMinor;
+        int nMajorSegments = 20;
+        int nMinorSegments = 20;
+
+        static f32 phase = 0.0f;
+        phase += 0.001f;
+        f32 theta;
+
+        // create minor verts
+        vec basisX = { cos(phase), sin(phase), 0 };
+        vec basisY = { -sin(phase), cos(phase), 0 };
+
+        float dtheta = 3.141f*0.5f / ((f32)nMinorSegments);
+
+        std::vector<vec4> verts;
+        
+        // right minor
+        theta = 0;
+        for (int i = 0; i < nMinorSegments; ++i)
         {
-            // display
-            vec verts[4] = { vec{1, 0, 2}, vec{1, 0, -2},vec{-1, 0, -2},vec{-1, 0, 2} };
+            vec vert = { 0,0,0 };
+            vec offset = { r*0.5f -rMinor, r*0.5f - rMinor, 0.0f };
+            f32 x = rMinor*sin(theta);
+            f32 y = rMinor*cos(theta);
 
-            for (int i = 0;i < 4;i++)
-            {
-                verts[i] = verts[i] * ent->transform.ruf +ent->transform.trans;
-            }
-
-            auto &lines = g_appDebug->render->defaultLines;
-            lines.push_back(Line_pc(
-                Vert_pc((vec3)verts[0], vec3(1, 1, 1)),
-                Vert_pc((vec3)verts[1], vec3(1, 1, 1))
-                ));
-
-            lines.push_back(Line_pc(
-                Vert_pc((vec3)verts[1], vec3(1, 1, 1)),
-                Vert_pc((vec3)verts[2], vec3(1, 1, 1))
-                ));
-
-            lines.push_back(Line_pc(
-                Vert_pc((vec3)verts[2], vec3(1, 1, 1)),
-                Vert_pc((vec3)verts[3], vec3(1, 1, 1))
-                ));
-
-            lines.push_back(Line_pc(
-                Vert_pc((vec3)verts[3], vec3(1, 1, 1)),
-                Vert_pc((vec3)verts[0], vec3(1, 1, 1))
-                ));
+            vert = basisX*x + basisY*y + basisX*offset.x +basisY*offset.y;
+                        
+            theta += dtheta;
+            verts.push_back(vert);
         }
+
+        // left minor
+        theta = 0;
+        for (int i = 0; i < nMinorSegments; ++i)
+        {
+            vec vert = { 0,0,0 };
+            vec offset = { r*0.5f - rMinor, r*0.5f - rMinor, 0.0f };            
+            f32 x = rMinor*sin(theta+ M_PI);
+            f32 y = rMinor*cos(theta+ M_PI);
+
+            vert = basisX*x + basisY*y -basisX*offset.x -basisY*offset.y;
+                                       
+            theta += dtheta;
+            verts.push_back(vert);
+        }
+
+        // top major
+        theta = 0;
+        for (int i = 0; i < nMinorSegments; ++i)
+        {
+            vec vert = { 0,0,0 };
+            vec offset = { rMajor -0.5f*r, -1.0f*(rMajor - 0.5f*r), 0.0f };
+            f32 x = rMajor*sin(theta -M_PI_2);
+            f32 y = rMajor*cos(theta -M_PI_2);
+
+            vert = basisX*x + basisY*y + basisX*offset.x + basisY*offset.y;
+
+            theta += dtheta;
+            verts.push_back(vert);
+        }
+
+        // bottom major
+        theta = 0;
+        for (int i = 0; i < nMinorSegments; ++i)
+        {
+            vec vert = { 0,0,0 };
+            vec offset = { -1.0f*(rMajor - 0.5f*r), 1.0f*(rMajor - 0.5f*r), 0.0f };
+            f32 x = rMajor*sin(theta +M_PI_2);
+            f32 y = rMajor*cos(theta +M_PI_2);
+
+            vert = basisX*x + basisY*y + basisX*offset.x + basisY*offset.y;
+
+            theta += dtheta;
+            verts.push_back(vert);
+        }
+
+
+
+        for each (vec v in verts)
+        {
+            Render::drawCrosshair(vec3(v.x, v.y, 0), vec3(1, 1, 1), 0.1f, lines);
+        }
+            
     }  
 }// namespace murkyFramework
 
@@ -145,9 +232,8 @@ using namespace murkyFramework;
 
 int main() // can't be in a namespace :(
 {
-
-   /* for (int j = 0;j < 1000;++j)
-        debugLog << (int)qmaths::randInt(4, 30);*/
+    
+    //     
 
     //skool();    
     AppFramework_initStruct appInit;
@@ -172,6 +258,6 @@ int main() // can't be in a namespace :(
     }
                                                                                          
     app->run();
-
     murkyFramework::debugLog << L"Finished\n";
+     
 }
