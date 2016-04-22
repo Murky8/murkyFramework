@@ -391,7 +391,7 @@ int main() // can't be in a namespace :(
     // moof land genesis
 
     
-    for (int i = 0;i < 20000;i++)
+    for (int i = 0;i < 10000;i++)
     {
         Moof moof = { 
              randInt(0,100),

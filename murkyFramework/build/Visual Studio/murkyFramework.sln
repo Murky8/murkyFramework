@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "murkyFramework", "murkyFramework.vcxproj", "{595AF656-A50D-4C1F-A64D-2BD19BB586FB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project1", "..\..\..\Project1\build\Visual Studio\Project1.vcxproj", "{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "street racer", "..\..\..\Project1\build\Visual Studio\Project1.vcxproj", "{BB06BB2C-FEB3-4C96-9D34-2D2C452A497C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{595AF656-A50D-4C1F-A64D-2BD19BB586FB} = {595AF656-A50D-4C1F-A64D-2BD19BB586FB}
 	EndProjectSection
