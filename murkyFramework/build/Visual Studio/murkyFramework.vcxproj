@@ -267,6 +267,9 @@
     <ClCompile Include="..\..\src\GfxDevice\texture.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\TexturesManager.cpp" />
     <ClCompile Include="..\..\src\GfxDevice\vertexBufferHelpers.cpp" />
+    <ClCompile Include="..\..\src\GfxDevice\vulkan\GfxDeviceObj.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ogl_debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\src\inputDevices.cpp" />
     <ClCompile Include="..\..\src\loadSaveFile.cpp" />
     <ClCompile Include="..\..\src\mainLoop.cpp" />
@@ -339,6 +342,7 @@
     <ClInclude Include="..\..\src\GfxDevice\TexturesManager.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\version_gfxDevice.hpp" />
     <ClInclude Include="..\..\src\GfxDevice\vertexBufferHelpers.hpp" />
+    <ClInclude Include="..\..\src\GfxDevice\vulkan\GfxDeviceObj.hpp" />
     <ClInclude Include="..\..\src\hidusage.h" />
     <ClInclude Include="..\..\src\inputDevices.hpp" />
     <ClInclude Include="..\..\src\loadSaveFile.hpp" />

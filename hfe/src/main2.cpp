@@ -139,6 +139,7 @@ namespace murkyFramework
         //        ));
         //}
 
+        //void hfe_createLayerVerts(std::vector<vec4> &verts, f32 rMajor, f32 rMinor, f32 phase, f32 z)
         // make  helfire rotor
         f32 rMajor = 25.0f;
         f32 rMinor = 5.0f;
@@ -147,8 +148,7 @@ namespace murkyFramework
         int nMinorSegments = 20;
 
         static f32 phase = 0.0f;
-        phase += 0.001f;
-        f32 theta;
+        phase += 0.001f;        
 
         // create minor verts
         vec basisX = { cos(phase), sin(phase), 0 };
@@ -156,68 +156,62 @@ namespace murkyFramework
 
         float dtheta = 3.141f*0.5f / ((f32)nMinorSegments);
 
-        std::vector<vec4> verts;
+        std::vector<vec4> verts;        
         
-        // right minor
-        theta = 0;
-        for (int i = 0; i < nMinorSegments; ++i)
+        f32 theta;
+        int i;
+
+        // right minor        
+        for (theta = 0, i = 0; i < nMinorSegments; ++i)
         {
-            vec vert = { 0,0,0 };
             vec offset = { r*0.5f -rMinor, r*0.5f - rMinor, 0.0f };
             f32 x = rMinor*sin(theta);
             f32 y = rMinor*cos(theta);
-
-            vert = basisX*x + basisY*y + basisX*offset.x +basisY*offset.y;
+            
+            vec vert = basisX*(x+offset.x) + basisY*(y+offset.y);
                         
             theta += dtheta;
             verts.push_back(vert);
         }
 
-        // left minor
-        theta = 0;
-        for (int i = 0; i < nMinorSegments; ++i)
-        {
-            vec vert = { 0,0,0 };
-            vec offset = { r*0.5f - rMinor, r*0.5f - rMinor, 0.0f };            
+        // left minor        
+        for (theta = 0,i = 0; i < nMinorSegments; ++i)
+        {            
+            vec offset = { -1.0f*(r*0.5f - rMinor), -1.0f*(r*0.5f - rMinor), 0.0f };            
             f32 x = rMinor*sin(theta+ M_PI);
             f32 y = rMinor*cos(theta+ M_PI);
 
-            vert = basisX*x + basisY*y -basisX*offset.x -basisY*offset.y;
-                                       
+            vec vert = basisX*(x + offset.x) + basisY*(y + offset.y);
+
             theta += dtheta;
             verts.push_back(vert);
         }
 
-        // top major
-        theta = 0;
-        for (int i = 0; i < nMinorSegments; ++i)
-        {
-            vec vert = { 0,0,0 };
+        // top major        
+        for (theta = 0,i = 0; i < nMinorSegments; ++i)
+        {         
             vec offset = { rMajor -0.5f*r, -1.0f*(rMajor - 0.5f*r), 0.0f };
             f32 x = rMajor*sin(theta -M_PI_2);
             f32 y = rMajor*cos(theta -M_PI_2);
 
-            vert = basisX*x + basisY*y + basisX*offset.x + basisY*offset.y;
+            vec vert = basisX*(x + offset.x) + basisY*(y + offset.y);
 
             theta += dtheta;
             verts.push_back(vert);
         }
 
-        // bottom major
-        theta = 0;
-        for (int i = 0; i < nMinorSegments; ++i)
-        {
-            vec vert = { 0,0,0 };
+        // bottom major        
+        for (theta = 0,i = 0; i < nMinorSegments; ++i)
+        {         
             vec offset = { -1.0f*(rMajor - 0.5f*r), 1.0f*(rMajor - 0.5f*r), 0.0f };
             f32 x = rMajor*sin(theta +M_PI_2);
             f32 y = rMajor*cos(theta +M_PI_2);
 
-            vert = basisX*x + basisY*y + basisX*offset.x + basisY*offset.y;
+            vec vert = basisX*(x + offset.x) + basisY*(y + offset.y);
 
             theta += dtheta;
             verts.push_back(vert);
         }
-
 
 
         for each (vec v in verts)

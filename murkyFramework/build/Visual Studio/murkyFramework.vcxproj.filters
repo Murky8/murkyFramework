@@ -50,14 +50,14 @@
     <Filter Include="Source Files\ThirdParty">
       <UniqueIdentifier>{37209219-d06f-472d-a02c-fed964642ab1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GfxDevice\vulkan %3b%29">
-      <UniqueIdentifier>{b70420bf-ab9e-42de-9d75-ba6046cd71cc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Audio">
       <UniqueIdentifier>{23e43ea2-0db6-4b55-83c6-bbcf2b951a24}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Containers">
       <UniqueIdentifier>{91ccc0df-b5df-4412-86b1-84d1787584cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GfxDevice\vulkan">
+      <UniqueIdentifier>{b70420bf-ab9e-42de-9d75-ba6046cd71cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +183,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Game\Game.cpp">
       <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\vulkan\GfxDeviceObj.cpp">
+      <Filter>Source Files\GfxDevice\vulkan</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -338,6 +341,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\formula.hpp">
       <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\vulkan\GfxDeviceObj.hpp">
+      <Filter>Source Files\GfxDevice\vulkan</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
