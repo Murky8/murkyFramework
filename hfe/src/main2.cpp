@@ -36,6 +36,20 @@ namespace murkyFramework
             *verts = vert;
             verts++;
         }
+        // bottom major        
+        for (theta = 0, i = 0; i < nMajorSegments; ++i)
+        {
+            vec offset = { -1.0f*(rMajor - 0.5f*r), 1.0f*(rMajor - 0.5f*r), 0.0f };
+            f32 x = rMajor*sin(theta + M_PI_2);
+            f32 y = rMajor*cos(theta + M_PI_2);
+
+            vec vert = basisX*(x + offset.x) + basisY*(y + offset.y);
+            vert.z = z;
+
+            theta += dtheta;            
+            *verts = vert;
+            verts++;
+        }
 
         // left minor        
         for (theta = 0, i = 0; i < nMinorSegments; ++i)
@@ -67,20 +81,6 @@ namespace murkyFramework
             verts++;            
         }
 
-        // bottom major        
-        for (theta = 0, i = 0; i < nMajorSegments; ++i)
-        {
-            vec offset = { -1.0f*(rMajor - 0.5f*r), 1.0f*(rMajor - 0.5f*r), 0.0f };
-            f32 x = rMajor*sin(theta + M_PI_2);
-            f32 y = rMajor*cos(theta + M_PI_2);
-
-            vec vert = basisX*(x + offset.x) + basisY*(y + offset.y);
-            vert.z = z;
-
-            theta += dtheta;            
-            *verts = vert;
-            verts++;
-        }
     }
     
     void  main_gfx()
@@ -104,19 +104,26 @@ namespace murkyFramework
 
         boost::multi_array<vec4, 2> verts(boost::extents[nSlices][nSliceVerts]);
 
-        for (int z = 0;z < 10;z++)
-        {                    
+        for (int z = 0;z < nSlices;z++)
+        {
             hfe_createLayerVerts(&(verts[z][0]), rMajor, rMinor, tphase, (f32)z*1.1f,
-                nMajorSegments, nMinorSegments);
-        
+                nSliceVerts/4, nSliceVerts/4);
 
-             for (int i = 0;i<nSliceVerts;i++)
-
-                   Render::drawCrosshair(verts[z][i], vec3(1, 1, 1), 0.1f, lines);
-            
             tphase += 0.1f;
         }
+
+        for (int z = 0;z < nSlices;z++)
+        {                            
+            for (int i = 0;i < nSliceVerts;i++)
+            {
+                //Render::drawCrosshair(verts[z][i], vec3(1, 1, 1), 0.1f, lines);
+                Render::drawLine(
+                    Vert_pc{ verts[z][i], vec3(1, 1, 1) }, 
+                    Vert_pc{ verts[z][(i+1)%nSliceVerts], vec3(1, 1, 1) }, 
+                    lines);
+            }
             
+        }            
     }  
 }// namespace murkyFramework
 
