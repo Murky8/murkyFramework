@@ -88,8 +88,8 @@ namespace murkyFramework
         auto &lines = g_appDebug->render->defaultLines;
         // make  helfire rotor
 
-        f32 rMajor = 25.0f;
-        f32 rMinor = 0.0f;
+        f32 rMajor = 15.0f;
+        f32 rMinor = 15.0f;
         //f32 r = rMajor + rMinor;
         int nMajorSegments = 10;
         int nMinorSegments = 10;
@@ -100,18 +100,28 @@ namespace murkyFramework
         f32 tphase = phase;
         
         const int nSliceVerts = 100;
-        const int nSlices = 10;
+        const int nSlices = 20;
 
         boost::multi_array<vec4, 2> verts(boost::extents[nSlices][nSliceVerts]);
 
+        //create
+        f32 dr = (f32)rMinor / (nSlices-1);
+        dr *= 0.99f; // to avoid singulatrity
+
         for (int z = 0;z < nSlices;z++)
         {
+            if (rMajor == 0)triggerBreakpoint(L"singulatity");
+            if (rMinor == 0)triggerBreakpoint(L"singulatity");
+
             hfe_createLayerVerts(&(verts[z][0]), rMajor, rMinor, tphase, (f32)z*1.1f,
                 nSliceVerts/4, nSliceVerts/4);
-
-            tphase += 0.1f;
+            
+            //tphase += 0.1f;
+            rMajor += dr;
+            rMinor -= dr;
         }
 
+        // display
         for (int z = 0;z < nSlices;z++)
         {                            
             for (int i = 0;i < nSliceVerts;i++)
@@ -123,8 +133,83 @@ namespace murkyFramework
                     lines);
             }
             
-        }            
-    }  
+        }
+
+        //save .STL
+        /*
+        solid Object01
+            facet normal 9.848077e-001 - 1.736483e-001 8.225585e-007
+            outer loop
+            vertex 5.876782e+001 2.518892e+000 0.000000e+000
+            vertex 5.590727e+001 - 1.370409e+001 0.000000e+000
+            vertex 5.590728e+001 - 1.370409e+001 - 9.571788e+000
+            endloop
+            endfacet
+            ...
+            endsolid Object01
+            */
+        std::ofstream text;
+        text.open(L"asdfg.STL");
+
+        text.setf(std::ios::scientific);
+        text << "solid Object01" << std::endl;
+ 
+        for (int z = 0;z < nSlices-1;z++)
+        {
+            for (int i = 0;i < nSliceVerts;i++)
+            {
+                vec3 q[4] =
+                {
+                    verts[z][i],
+                    verts[z][(i + 1) % nSliceVerts],
+                    verts[z + 1][i],
+                    verts[z + 1][(i + 1) % nSliceVerts]
+                };
+
+                //int it = 0;
+                for(int it=0;it<=1;it++)
+                {
+                    vec3 t[3];
+                    if (it == 0)
+                    {
+                        t[0] = q[0];
+                        t[1] = q[2];
+                        t[2] = q[1];
+                    }
+                    else
+                    {
+                        t[0] = q[3];
+                        t[1] = q[1];
+                        t[2] = q[2];
+                    }
+
+                    vec normal = (cross(t[0] - t[2], t[0] - t[1])).unitDir();
+
+                    //text << "\tfacet normal 0.000000e+000 0.000000e+000 0.000000e+000" << std::endl;
+                    text << "  facet normal " << 
+                        normal.x << " " <<
+                        normal.y << " " <<
+                        normal.z << " " <<
+                        std::endl;
+
+                    text << "    outer loop" << std::endl;
+                
+                    text << "      vertex " << t[0].x << " " << t[0].y << " " << t[0].z << std::endl;
+                    text << "      vertex " << t[1].x << " " << t[1].y << " " << t[1].z << std::endl;
+                    text << "      vertex " << t[2].x << " " << t[2].y << " " << t[2].z << std::endl;                
+                
+                    text << "    endloop" << std::endl;
+                    text << "  endfacet" << std::endl;                
+                }
+            }
+        }
+        text << "endsolid Object01" << std::endl;
+
+
+        text.close();        
+        exit(0);
+    } 
+    
 }// namespace murkyFramework
 
 using namespace murkyFramework;
