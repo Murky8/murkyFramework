@@ -225,16 +225,11 @@ namespace murkyFramework
 using namespace murkyFramework;
 
 int main() // can't be in a namespace :(
-{
-
-	//     
-
-	//skool();    
+{		
 	AppFramework_initStruct appInit;
 	appInit.main_noGfx = main_noGfx;
 	appInit.main_gfx = main_gfx;
-
-
+	
 	AppFramework *const app = new AppFramework(appInit);
 
 	// initialise
@@ -243,5 +238,4 @@ int main() // can't be in a namespace :(
 
 	app->run();
 	murkyFramework::debugLog << L"Finished\n";
-
 }

@@ -19,13 +19,13 @@ namespace murkyFramework {
 
         xx = v.x*v.x;
         yy = v.y*v.y;
-        zz = v.z*v.z;  //1-yy-xx
+        zz = v.z*v.z;  //1-yy-xx]
 
         xy = v.x*v.y;
         yz = v.y*v.z;
         xz = v.z*v.x;
 
-        swx = sw*v.x;
+		swx = sw*v.x;
         swy = sw*v.y;
         swz = sw*v.z;
 

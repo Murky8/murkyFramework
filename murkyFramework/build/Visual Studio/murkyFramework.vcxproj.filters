@@ -59,6 +59,9 @@
     <Filter Include="Source Files\GfxDevice\vulkan">
       <UniqueIdentifier>{b70420bf-ab9e-42de-9d75-ba6046cd71cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\VR">
+      <UniqueIdentifier>{c91dd176-8c6e-4c0f-8f50-9850b2ca8004}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Render\linesShapes.cpp">
@@ -183,6 +186,21 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Game\Game.cpp">
       <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\vulkan\texture_vulkan.cpp">
+      <Filter>Source Files\GfxDevice\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\vulkan\TexturesManager_vulkan.cpp">
+      <Filter>Source Files\GfxDevice\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\vulkan\vertexBuffer_vulkan.cpp">
+      <Filter>Source Files\GfxDevice\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\vulkan\GfxDeviceObj.cpp">
+      <Filter>Source Files\GfxDevice\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GfxDevice\vulkan\shader_vulkan.cpp">
+      <Filter>Source Files\GfxDevice\vulkan</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -338,6 +356,21 @@
     </ClInclude>
     <ClInclude Include="..\..\src\formula.hpp">
       <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\vulkan\GfxDeviceObj.hpp">
+      <Filter>Source Files\GfxDevice\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\vulkan\shaderWrapper.hpp">
+      <Filter>Source Files\GfxDevice\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\vulkan\TexturesManager_vulkan.hpp">
+      <Filter>Source Files\GfxDevice\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\vulkan\textureWrapper.hpp">
+      <Filter>Source Files\GfxDevice\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GfxDevice\vulkan\vertexBufferWrapper.hpp">
+      <Filter>Source Files\GfxDevice\vulkan</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

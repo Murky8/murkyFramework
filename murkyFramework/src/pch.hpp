@@ -83,13 +83,22 @@
     #include <ThirdParty/glm/vec3.hpp>
     #include <ThirdParty/glm/vec4.hpp>
     #include <ThirdParty/glm/mat4x4.hpp>
-    #include <ThirdParty/glm/gtc/matrix_transform.hpp>    
+	#include <ThirdParty/glm/gtc/matrix_transform.hpp>    
 
     #include <murkyFramework/src/GfxDevice/openGL4/shaderWrapper.hpp>
     #include <murkyFramework/src/GfxDevice/openGL4/textureWrapper.hpp>
     #include <murkyFramework/src/GfxDevice/openGL4/vertexBufferWrapper.hpp>
     #include <murkyFramework/src/GfxDevice/openGL4/GfxDeviceObj.hpp>
 #endif
+
+#ifdef USE_VULKAN //todo: separate pch?
+#include <murkyFramework/src/GfxDevice/vulkan/shaderWrapper.hpp>
+#include <murkyFramework/src/GfxDevice/vulkan/textureWrapper.hpp>
+#include <murkyFramework/src/GfxDevice/vulkan/vertexBufferWrapper.hpp>
+#include <murkyFramework/src/GfxDevice/vulkan/GfxDeviceObj.hpp>
+#endif
+
+#define GLM_FORCE_RADIANS
 
 #ifdef USE_DIRECT3D12 //todo: separate pch?
     #include <d3d12.h>
@@ -117,6 +126,10 @@
 
 #ifdef USE_OPENGL //todo: separate pch?
     #include <murkyFramework/src/GfxDevice/openGL4/TexturesManager_ogl4.hpp>
+#endif
+
+#ifdef USE_VULKAN
+#include <murkyFramework/src/GfxDevice/vulkan/TexturesManager_vulkan.hpp>
 #endif
 
 #ifdef USE_DIRECT3D12 //todo: separate pch?

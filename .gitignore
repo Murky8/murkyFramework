@@ -41,3 +41,9 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 **/My Advisor XE*
 murkyFramework/build/Visual Studio/ipch/MURKYFRAMEWORK-a6b82316/MURKYFRAMEWORK-63427170.ipch
+*.db
+*.VC.db
+*.opendb
+*.bsc
+
+murkyFramework/build/Visual Studio/murkyFramework.VC.db

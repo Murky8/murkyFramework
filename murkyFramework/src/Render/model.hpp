@@ -11,7 +11,7 @@ namespace murkyFramework {
             //Model(std::vector<Triangle_pct> tris, std::vector<u16> indicies, GfxDevice::TextureWrapper texture);
             std::vector<Vert_pct> vertices;
             std::vector<u16> indicies;
-            GfxDevice::TextureWrapper texture{ 0 };
+            GfxDevice::TextureWrapper texture{};
         };    
     }//namespace Render 
 }//namespace murkyFramework 

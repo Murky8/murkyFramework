@@ -16,7 +16,7 @@ namespace murkyFramework {
         class GfxDeviceObj
         {
         public:
-
+			
             std::vector<mat4> projectionMatricies{mat4(unit),mat4(unit) , mat4(unit) };
             void setCurrentSlot(int in_slot);
 
