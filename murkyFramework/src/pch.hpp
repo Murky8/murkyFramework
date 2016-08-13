@@ -65,7 +65,6 @@
 //#include <murkyFramework/src/octree.hpp>
 
 // gfxDevice
-#include <murkyFramework/src/GfxDevice/version_gfxDevice.hpp>
 #include <murkyFramework/src/GfxDevice/GfxDeviceCommon.hpp>
 #include <murkyFramework/src/GfxDevice/GfxDeviceObjCommon.hpp>
 #include <murkyFramework/src/GfxDevice/gfxLowLevel.hpp>
@@ -92,6 +91,13 @@
 #endif
 
 #ifdef USE_VULKAN //todo: separate pch?
+#include <ThirdParty/glm/glm.hpp>
+#include <ThirdParty/glm/vec2.hpp>
+#include <ThirdParty/glm/vec3.hpp>
+#include <ThirdParty/glm/vec4.hpp>
+#include <ThirdParty/glm/mat4x4.hpp>
+#include <ThirdParty/glm/gtc/matrix_transform.hpp>    
+#include <murkyFramework/src/GfxDevice/vulkan/external/vulkan.h>
 #include <murkyFramework/src/GfxDevice/vulkan/shaderWrapper.hpp>
 #include <murkyFramework/src/GfxDevice/vulkan/textureWrapper.hpp>
 #include <murkyFramework/src/GfxDevice/vulkan/vertexBufferWrapper.hpp>

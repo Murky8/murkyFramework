@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 // 2015 J. Coelho.
-// Platform: C++11. openGL4
+// Platform: C++11. vulkan
 #include <murkyFramework/src/pch.hpp>
 
 namespace murkyFramework {
@@ -28,79 +28,82 @@ namespace murkyFramework {
             hDC(initStruct->windowsSpecific->gethDC())
         {
             g_appDebug->render->gfxDevice = this; // warning: see g_aapDebug usage notes: for development only, remove!
-            systemSpecific::WindowsSpecific *const windowsSpecific = initStruct->windowsSpecific;
 
-            //PIXELFORMATDESCRIPTOR pfd; // Create a new PIXELFORMATDESCRIPTOR (PFD)
-            //memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR)); // Clear our  PFD
-            //pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR); // Set the size of the PFD to the size of the class
-            //pfd.dwFlags = PFD_DOUBLEBUFFER | PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW; // Enable double buffering, opengl support and drawing to a window
-            //pfd.iPixelType = PFD_TYPE_RGBA; // Set our application to use RGBA pixels
-            //pfd.cColorBits = 32; // Give us 32 bits of color information (the higher, the more colors)
-            //pfd.cDepthBits = 32; // Give us 32 bits of depth information (the higher, the more depth levels)
-            //pfd.iLayerType = PFD_MAIN_PLANE; // Set the layer of the PFD
+			VkResult res;
+			bool enableValidation = false;
+			systemSpecific::WindowsSpecific *const windowsSpecific = initStruct->windowsSpecific;
 
-            //int nPixelFormat = ChoosePixelFormat(windowsSpecific->gethDC(), &pfd); // Check if our PFD is valid and get a pixel format back
-            //if (nPixelFormat == 0)
-            //    triggerBreakpoint(L"opengl error: GfxDeviceObj::GfxDeviceObj()");
+			VkApplicationInfo applicationInfo = {};
+			applicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+			applicationInfo.pApplicationName = "vulkan murky";
+			applicationInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+			applicationInfo.pEngineName = "vulkan murky";
+			applicationInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+			applicationInfo.apiVersion = VK_MAKE_VERSION(1, 0, 0);
 
-            //bool bResult = (bool)SetPixelFormat(windowsSpecific->gethDC(), nPixelFormat, &pfd); // Try and set the pixel format based on our PFD
-            //if (!bResult) // If it fails
-            //    triggerBreakpoint(L"opengl error: GfxDeviceObj::GfxDeviceObj()");
-            //HGLRC tempOpenGLContext = wglCreateContext(windowsSpecific->gethDC()); // Create an OpenGL 2.1 context for our device context
-            //wglMakeCurrent(windowsSpecific->gethDC(), tempOpenGLContext); // Make the OpenGL 2.1 context current and active
+			std::vector<const char*> enabledExtensions = { VK_KHR_SURFACE_EXTENSION_NAME };
+#if defined(_WIN32)
+			enabledExtensions.push_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
+#endif
 
-            //glewExperimental = GL_TRUE;
-            //GLenum error = glewInit(); // Enable GLEW
-            //if (error != GLEW_OK) // If GLEW fails
-            //    triggerBreakpoint(L"opengl error: GfxDeviceObj::GfxDeviceObj()");
+			VkInstanceCreateInfo instanceCreateInfo = {};
+			instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+			instanceCreateInfo.pNext = nullptr;
+			instanceCreateInfo.flags = 0;
+			instanceCreateInfo.pApplicationInfo = &applicationInfo;
+			instanceCreateInfo.enabledLayerCount = 0;
+			instanceCreateInfo.ppEnabledLayerNames = nullptr;
+			instanceCreateInfo.enabledExtensionCount = enabledExtensions.size();
+			instanceCreateInfo.ppEnabledExtensionNames = enabledExtensions.data();
 
-            //int attributes[] =
-            //{
-            //    WGL_CONTEXT_MAJOR_VERSION_ARB, 4, // Set the MAJOR version of OpenGL to 4
-            //    WGL_CONTEXT_MINOR_VERSION_ARB, 0, // Set the MINOR version of OpenGL to 0
-            //    WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB, // Set our OpenGL context to be forward compatible
-            //    0
-            //};
+			if (enableValidation)
+			{
+				enabledExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);				
+				//instanceCreateInfo.enabledLayerCount = vkDebug::validationLayerCount;
+				//instanceCreateInfo.ppEnabledLayerNames = vkDebug::validationLayerNames;
+			}
 
-            //if (wglewIsSupported("WGL_ARB_create_context") == 1)
-            //{ // If the OpenGL 3.x context creation extension is available
-            //    windowsSpecific->hRC = wglCreateContextAttribsARB(windowsSpecific->gethDC(), NULL, attributes); // Create and OpenGL 3.x context based on the given attributes
-            //    wglMakeCurrent(NULL, NULL); // Remove the temporary context from being active
-            //    wglDeleteContext(tempOpenGLContext); // Delete the temporary OpenGL 2.1 context
-            //    wglMakeCurrent(windowsSpecific->gethDC(), windowsSpecific->gethRC()); // Make our OpenGL 3.0 context current
-            //}
-            //else
-            //{
-            //    windowsSpecific->hRC = tempOpenGLContext; // If we didn't have support for OpenGL 3.x and up, use the OpenGL 2.1 context
-            //    triggerBreakpoint();
-            //}
+			VkInstance instance;
+			res = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
+			if (res == VK_ERROR_INCOMPATIBLE_DRIVER)
+			{
+				triggerBreakpoint(L"Cannot find a compatible Vulkan installable client driver \
+					(ICD).\n\nPlease look at the Getting Started guide for \
+					additional information.\n \
+					vkCreateInstance Failure");
+			}
 
-            //int glVersion[2] = { -1, -1 }; // Set some default values for the version
-            //glGetIntegerv(GL_MAJOR_VERSION, &glVersion[0]); // Get back the OpenGL MAJOR version we are using
-            //glGetIntegerv(GL_MINOR_VERSION, &glVersion[1]); // Get back the OpenGL MAJOR version we are using
-            //debugLog << L"Using OpenGL: " << glVersion[0] << "." << glVersion[1] << "\n"; // Output which version of OpenGL we are using
+			if (res == VK_ERROR_EXTENSION_NOT_PRESENT) 
+			{
+				triggerBreakpoint(L"Cannot find a specified extension library \
+					.\nMake sure your layers path is set appropriately\n \
+					vkCreateInstance Failure");
+			}
+			
+			if (res) 
+			{
+				triggerBreakpoint(L"vkCreateInstance failed.\n\nDo you have a compatible Vulkan \
+					installable client driver (ICD) installed?\nPlease look at \
+					the Getting Started guide for additional information.\n \
+					vkCreateInstance Failure");
+			}
 
-            //                                                                              // state
-            //glEnable(GL_DEPTH_TEST);
-            //glDepthFunc(GL_LESS);
-            ////glDepthFunc(GL_GREATER);
-            //glDisable(GL_CULL_FACE);
-            //GfxDevice::Shaders::initialise();
+			uint32_t gpu_count;
+			res = vkEnumeratePhysicalDevices(instance, &gpu_count, NULL);
+			if (gpu_count == 0)
+				triggerBreakpoint();
 
-            //// dynamicTexture
-            //TextureWrapper   &newTexture = textureManager.getNew(L"dynamic");
-            //glGenTextures(1, &newTexture.value);
-            //glBindTexture(GL_TEXTURE_2D, newTexture.value);
-            //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1024, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-            //onGfxDeviceErrorTriggerBreakpoint();
 
-            //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            //glBindTexture(GL_TEXTURE_2D, 0);
-            //onGfxDeviceErrorTriggerBreakpoint();
-            //// dynamicTexture
+			VkPhysicalDevice *physical_devices = (VkPhysicalDevice*)malloc(sizeof(VkPhysicalDevice) * gpu_count);
 
-            //loadTexturesInDir(g_appDebug->frameworkDirectory +L"/data");
+			res = vkEnumeratePhysicalDevices(instance, &gpu_count, physical_devices);
+			if (res)
+				triggerBreakpoint();
+
+			/* For tri demo we just grab the first physical device */
+			//demo->gpu = physical_devices[0];
+			free(physical_devices);
+
         }
 
         void GfxDeviceObj::initialise()

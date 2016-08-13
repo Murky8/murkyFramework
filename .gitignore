@@ -45,5 +45,5 @@ murkyFramework/build/Visual Studio/ipch/MURKYFRAMEWORK-a6b82316/MURKYFRAMEWORK-6
 *.VC.db
 *.opendb
 *.bsc
-
 murkyFramework/build/Visual Studio/murkyFramework.VC.db
+lib/murkyFramework.bsc

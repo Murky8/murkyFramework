@@ -291,7 +291,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;USE_VULKAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;USE_VULKAN;VK_USE_PLATFORM_WIN32_KHR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
       <EnablePREfast>false</EnablePREfast>
       <AdditionalIncludeDirectories>../../../ThirdParty;../../../</AdditionalIncludeDirectories>
