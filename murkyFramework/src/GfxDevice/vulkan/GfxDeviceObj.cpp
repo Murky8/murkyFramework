@@ -53,6 +53,13 @@ namespace murkyFramework {
 			glUseProgram(0);*/
 		}
 
+		struct SwapchainBuffers
+		{
+			VkImage image;
+			VkCommandBuffer cmd;
+			VkImageView view;
+		};
+
 		struct Gfxinfo
 		{
 			VkInstance			inst = {};
@@ -91,10 +98,127 @@ namespace murkyFramework {
 			uint32_t		graphics_queue_node_index;
 			VkQueue			queue;
 
+			int width, height;
 			VkFormat format;
 			VkColorSpaceKHR color_space;
 			VkPhysicalDeviceMemoryProperties memory_properties;
+
+			VkCommandPool cmd_pool;
+			uint32_t swapchainImageCount;
+			VkSwapchainKHR swapchain;
+			SwapchainBuffers *buffers;
+			uint32_t current_buffer;
+
+			struct 
+			{
+				VkFormat format;
+
+				VkImage image;
+				VkMemoryAllocateInfo mem_alloc;
+				VkDeviceMemory mem;
+				VkImageView view;
+			} depth;
+
+			VkCommandBuffer cmd; // Buffer for initialization commands
 		}gfxinfo;
+		
+		typedef  Gfxinfo Demo;
+		
+		bool memory_type_from_properties(Demo *demo, uint32_t typeBits,
+			VkFlags requirements_mask,
+			uint32_t *typeIndex)
+		{
+			// Search memtypes to find first index with those properties
+			for (uint32_t i = 0; i < VK_MAX_MEMORY_TYPES; i++)
+			{
+				if ((typeBits & 1) == 1)
+				{
+					// Type is available, does it match user properties?
+					if ((demo->memory_properties.memoryTypes[i].propertyFlags &
+						requirements_mask) == requirements_mask)
+					{
+						*typeIndex = i;
+						return true;
+					}
+				}
+				typeBits >>= 1;
+			}
+			// No memory types matched, return failure
+			return false;
+		}
+
+		void demo_set_image_layout(Demo *demo, VkImage image,
+			VkImageAspectFlags aspectMask,
+			VkImageLayout old_image_layout,
+			VkImageLayout new_image_layout,
+			VkAccessFlagBits srcAccessMask)
+		{
+			VkResult err;
+
+			if (demo->cmd == VK_NULL_HANDLE)
+			{
+				VkCommandBufferAllocateInfo cmd = {};
+				cmd.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+				cmd.pNext = NULL;
+				cmd.commandPool = demo->cmd_pool;
+				cmd.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+				cmd.commandBufferCount = 1;
+
+				err = vkAllocateCommandBuffers(demo->device, &cmd, &demo->cmd);
+				assert(!err);
+				VkCommandBufferBeginInfo cmd_buf_info = {};
+				cmd_buf_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+				cmd_buf_info.pNext = NULL;
+				cmd_buf_info.flags = 0;
+				cmd_buf_info.pInheritanceInfo = NULL;
+
+				err = vkBeginCommandBuffer(demo->cmd, &cmd_buf_info);
+				assert(!err);
+			}
+
+			VkImageMemoryBarrier image_memory_barrier = {};
+			image_memory_barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+			image_memory_barrier.pNext = NULL;
+			image_memory_barrier.srcAccessMask = srcAccessMask;
+			image_memory_barrier.dstAccessMask = 0;
+			image_memory_barrier.oldLayout = old_image_layout;
+			image_memory_barrier.newLayout = new_image_layout;
+			image_memory_barrier.image = image;
+			image_memory_barrier.subresourceRange = { aspectMask, 0, 1, 0, 1 };
+			if (new_image_layout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL)
+			{
+				/* Make sure anything that was copying from this image has completed */
+				image_memory_barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+			}
+
+			if (new_image_layout == VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL)
+			{
+				image_memory_barrier.dstAccessMask =
+					VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+			}
+
+			if (new_image_layout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL)
+			{
+				image_memory_barrier.dstAccessMask =
+					VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+			}
+
+			if (new_image_layout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
+			{
+				/* Make sure any Copy or CPU writes to image are flushed */
+				image_memory_barrier.dstAccessMask =
+					VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_INPUT_ATTACHMENT_READ_BIT;
+			}
+
+			VkImageMemoryBarrier *pmemory_barrier = &image_memory_barrier;
+
+			VkPipelineStageFlags src_stages = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+			VkPipelineStageFlags dest_stages = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+
+			vkCmdPipelineBarrier(demo->cmd, src_stages, dest_stages, 0, 0, NULL, 0,
+				NULL, 1, pmemory_barrier);
+		}
+		
 
 		VKAPI_ATTR VkBool32 VKAPI_CALL
 			BreakCallback(VkFlags msgFlags, VkDebugReportObjectTypeEXT objType,
@@ -181,6 +305,255 @@ namespace murkyFramework {
 			}
 			return 1;
 		}
+
+		void demo_prepare_buffers(Demo *demo)
+		{
+			VkResult err;
+			VkSwapchainKHR oldSwapchain = demo->swapchain;
+
+			// Check the surface capabilities and formats
+			VkSurfaceCapabilitiesKHR surfCapabilities;
+			err = demo->fpGetPhysicalDeviceSurfaceCapabilitiesKHR(
+				demo->gpu, demo->surface, &surfCapabilities);
+			assert(!err);
+
+			uint32_t presentModeCount;
+			err = demo->fpGetPhysicalDeviceSurfacePresentModesKHR(
+				demo->gpu, demo->surface, &presentModeCount, NULL);
+			assert(!err);
+			VkPresentModeKHR *presentModes =
+				(VkPresentModeKHR *)malloc(presentModeCount * sizeof(VkPresentModeKHR));
+			assert(presentModes);
+			err = demo->fpGetPhysicalDeviceSurfacePresentModesKHR(
+				demo->gpu, demo->surface, &presentModeCount, presentModes);
+			assert(!err);
+
+			VkExtent2D swapchainExtent;
+			// width and height are either both -1, or both not -1.
+			if (surfCapabilities.currentExtent.width == (uint32_t)-1)
+			{
+				// If the surface size is undefined, the size is set to
+				// the size of the images requested.
+				swapchainExtent.width = demo->width;
+				swapchainExtent.height = demo->height;
+			}
+			else
+			{
+				// If the surface size is defined, the swap chain size must match
+				swapchainExtent = surfCapabilities.currentExtent;
+				demo->width = surfCapabilities.currentExtent.width;
+				demo->height = surfCapabilities.currentExtent.height;
+			}
+
+			// If mailbox mode is available, use it, as is the lowest-latency non-
+			// tearing mode.  If not, try IMMEDIATE which will usually be available,
+			// and is fastest (though it tears).  If not, fall back to FIFO which is
+			// always available.
+			VkPresentModeKHR swapchainPresentMode = VK_PRESENT_MODE_FIFO_KHR;
+			for (size_t i = 0; i < presentModeCount; i++)
+			{
+				if (presentModes[i] == VK_PRESENT_MODE_MAILBOX_KHR)
+				{
+					swapchainPresentMode = VK_PRESENT_MODE_MAILBOX_KHR;
+					break;
+				}
+				if ((swapchainPresentMode != VK_PRESENT_MODE_MAILBOX_KHR) &&
+					(presentModes[i] == VK_PRESENT_MODE_IMMEDIATE_KHR))
+				{
+					swapchainPresentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
+				}
+			}
+
+			// Determine the number of VkImage's to use in the swap chain (we desire to
+			// own only 1 image at a time, besides the images being displayed and
+			// queued for display):
+			uint32_t desiredNumberOfSwapchainImages =
+				surfCapabilities.minImageCount + 1;
+			if ((surfCapabilities.maxImageCount > 0) &&
+				(desiredNumberOfSwapchainImages > surfCapabilities.maxImageCount))
+			{
+				// Application must settle for fewer images than desired:
+				desiredNumberOfSwapchainImages = surfCapabilities.maxImageCount;
+			}
+
+			VkSurfaceTransformFlagsKHR preTransform;
+			if (surfCapabilities.supportedTransforms &
+				VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR)
+			{
+				preTransform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
+			}
+			else
+			{
+				preTransform = surfCapabilities.currentTransform;
+			}
+
+			VkSwapchainCreateInfoKHR swapchain = {};
+			swapchain.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
+			swapchain.pNext = NULL,
+			swapchain.surface = demo->surface,
+			swapchain.minImageCount = desiredNumberOfSwapchainImages,
+			swapchain.imageFormat = demo->format,
+			swapchain.imageColorSpace = demo->color_space,
+			swapchain.imageExtent = {};
+			swapchain.imageExtent.width = swapchainExtent.width;
+			swapchain.imageExtent.height = swapchainExtent.height;
+			swapchain.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+			swapchain.preTransform = (VkSurfaceTransformFlagBitsKHR)preTransform; //NOTE: check (24/8/2016)
+			swapchain.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+			swapchain.imageArrayLayers = 1;
+			swapchain.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+			swapchain.queueFamilyIndexCount = 0;
+			swapchain.pQueueFamilyIndices = NULL;
+			swapchain.presentMode = swapchainPresentMode;
+			swapchain.oldSwapchain = oldSwapchain;
+			swapchain.clipped = true;
+			
+			uint32_t i;
+
+			err = demo->fpCreateSwapchainKHR(demo->device, &swapchain, NULL,
+				&demo->swapchain);
+			assert(!err);
+
+			// If we just re-created an existing swapchain, we should destroy the old
+			// swapchain at this point.
+			// Note: destroying the swapchain also cleans up all its associated
+			// presentable images once the platform is done with them.
+			if (oldSwapchain != VK_NULL_HANDLE)
+			{
+				demo->fpDestroySwapchainKHR(demo->device, oldSwapchain, NULL);
+			}
+
+			err = demo->fpGetSwapchainImagesKHR(demo->device, demo->swapchain,
+				&demo->swapchainImageCount, NULL);
+			assert(!err);
+
+			VkImage *swapchainImages =
+				(VkImage *)malloc(demo->swapchainImageCount * sizeof(VkImage));
+			assert(swapchainImages);
+			err = demo->fpGetSwapchainImagesKHR(demo->device, demo->swapchain,
+				&demo->swapchainImageCount,
+				swapchainImages);
+			assert(!err);
+
+			demo->buffers = (SwapchainBuffers *)malloc(sizeof(SwapchainBuffers) *
+				demo->swapchainImageCount);
+			assert(demo->buffers);
+
+			for (i = 0; i < demo->swapchainImageCount; i++)
+			{
+				VkImageViewCreateInfo color_image_view = {};
+				color_image_view.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
+				color_image_view.pNext = NULL,
+				color_image_view.format = demo->format,
+				
+				color_image_view.components = {};
+				color_image_view.components.r = VK_COMPONENT_SWIZZLE_R;
+				color_image_view.components.g = VK_COMPONENT_SWIZZLE_G;
+				color_image_view.components.b = VK_COMPONENT_SWIZZLE_B;
+				color_image_view.components.a = VK_COMPONENT_SWIZZLE_A;
+
+				color_image_view.subresourceRange = {};
+				color_image_view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+				color_image_view.subresourceRange.baseMipLevel = 0;
+				color_image_view.subresourceRange.levelCount = 1;
+				color_image_view.subresourceRange.baseArrayLayer = 0;
+				color_image_view.subresourceRange.layerCount = 1;
+				color_image_view.viewType = VK_IMAGE_VIEW_TYPE_2D;
+				color_image_view.flags = 0;
+				
+				demo->buffers[i].image = swapchainImages[i];
+
+				color_image_view.image = demo->buffers[i].image;
+
+				err = vkCreateImageView(demo->device, &color_image_view, NULL,
+					&demo->buffers[i].view);
+				assert(!err);
+			}
+			
+			if (NULL != presentModes)
+			{
+				free(presentModes);
+			}
+		}
+
+		void demo_prepare_depth(Demo *demo)
+		{
+			const VkFormat depth_format = VK_FORMAT_D16_UNORM;
+			VkImageCreateInfo image = {};
+			image.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+			image.pNext = NULL;
+			image.imageType = VK_IMAGE_TYPE_2D;
+			image.format = depth_format;
+			image.extent = {};
+			image.extent.width = demo->width;
+			image.extent.height = demo->height;
+			image.extent.depth = 1;
+		
+			image.mipLevels = 1;
+			image.arrayLayers = 1;
+			image.samples = VK_SAMPLE_COUNT_1_BIT;
+			image.tiling = VK_IMAGE_TILING_OPTIMAL;
+			image.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+			image.flags = 0;
+			
+			VkImageViewCreateInfo view = {};
+			view.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+			view.pNext = NULL;
+			view.image = VK_NULL_HANDLE;
+			view.format = depth_format;
+			view.subresourceRange = {};
+			view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
+			view.subresourceRange.baseMipLevel = 0;
+			view.subresourceRange.levelCount = 1;
+			view.subresourceRange.baseArrayLayer = 0;
+			view.subresourceRange.layerCount = 1;
+			view.flags = 0;
+			view.viewType = VK_IMAGE_VIEW_TYPE_2D;
+			
+			VkMemoryRequirements mem_reqs;
+			VkResult err;
+			bool pass;
+
+			demo->depth.format = depth_format;
+
+			/* create image */
+			err = vkCreateImage(demo->device, &image, NULL, &demo->depth.image);
+			assert(!err);
+
+			vkGetImageMemoryRequirements(demo->device, demo->depth.image, &mem_reqs);
+			assert(!err);
+
+			demo->depth.mem_alloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+			demo->depth.mem_alloc.pNext = NULL;
+			demo->depth.mem_alloc.allocationSize = mem_reqs.size;
+			demo->depth.mem_alloc.memoryTypeIndex = 0;
+
+			pass = memory_type_from_properties(demo, mem_reqs.memoryTypeBits,
+				0, /* No requirements */
+				&demo->depth.mem_alloc.memoryTypeIndex);
+			assert(pass);
+
+			/* allocate memory */
+			err = vkAllocateMemory(demo->device, &demo->depth.mem_alloc, NULL,
+				&demo->depth.mem);
+			assert(!err);
+
+			/* bind memory */
+			err =
+				vkBindImageMemory(demo->device, demo->depth.image, demo->depth.mem, 0);
+			assert(!err);
+
+			demo_set_image_layout(demo, demo->depth.image, VK_IMAGE_ASPECT_DEPTH_BIT,
+				VK_IMAGE_LAYOUT_UNDEFINED,
+				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+				(VkAccessFlagBits)0);
+
+			/* create image view */
+			view.image = demo->depth.image;
+			err = vkCreateImageView(demo->device, &view, NULL, &demo->depth.view);
+			assert(!err);
+		}
+
 
 		GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct) :
 			hDC(initStruct->windowsSpecific->gethDC())
@@ -754,8 +1127,7 @@ namespace murkyFramework {
 			}
 
 			demo->graphics_queue_node_index = graphicsQueueNodeIndex;
-
-			//demo_create_device(demo);
+			
 			//start of cube.c/demo_create_device(demo);
 			float queue_priorities[1] = { 0.0 };
 			VkDeviceQueueCreateInfo queue = {};
@@ -777,8 +1149,7 @@ namespace murkyFramework {
 			deviceinfo.pEnabledFeatures = NULL; // If specific features are required, pass them in here
 
 			err = vkCreateDevice(demo->gpu, &deviceinfo, NULL, &demo->device);
-			assert(!err);
-			
+			assert(!err);			
 			//end of cube.c/demo_create_device(demo);
 
 			GET_DEVICE_PROC_ADDR(demo->device, CreateSwapchainKHR);
@@ -821,12 +1192,65 @@ namespace murkyFramework {
 			vkGetPhysicalDeviceMemoryProperties(demo->gpu, &demo->memory_properties);
 			// end of cube.c/demo_init_vk_swapchain(&demo);
 
-			// start of cube.c/demo_prepare(&demo);
-			// end of cube.c/demo_prepare(&demo);
+//crt st		// start of cube.c/demo_prepare(&demo);
+			VkCommandPoolCreateInfo cmd_pool_info = {};
+			cmd_pool_info.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+			cmd_pool_info.pNext = NULL;
+			cmd_pool_info.queueFamilyIndex = demo->graphics_queue_node_index;
+			cmd_pool_info.flags = 0;
+			
+			err = vkCreateCommandPool(demo->device, &cmd_pool_info, NULL,
+				&demo->cmd_pool);
+			assert(!err);
+
+			VkCommandBufferAllocateInfo cmd = {};
+			cmd.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+			cmd.pNext = NULL;
+			cmd.commandPool = demo->cmd_pool;
+			cmd.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+			cmd.commandBufferCount = 1;
+			
+			demo_prepare_buffers(demo);
+			demo_prepare_depth(demo);
+			//crt
+			/*
+			demo_prepare_textures(demo);
+			demo_prepare_cube_data_buffer(demo);
+
+			demo_prepare_descriptor_layout(demo);
+			demo_prepare_render_pass(demo);
+			demo_prepare_pipeline(demo);
+
+			for (uint32_t i = 0; i < demo->swapchainImageCount; i++)
+			{
+				err =
+					vkAllocateCommandBuffers(demo->device, &cmd, &demo->buffers[i].cmd);
+				assert(!err);
+			}
+
+			demo_prepare_descriptor_pool(demo);
+			demo_prepare_descriptor_set(demo);
+
+			demo_prepare_framebuffers(demo);
+
+			for (uint32_t i = 0; i < demo->swapchainImageCount; i++)
+			{
+				demo->current_buffer = i;
+				demo_draw_build_cmd(demo, demo->buffers[i].cmd);
+			}
+
+			
+			// Prepare functions above may generate pipeline commands
+			// that need to be flushed before beginning the render loop.
+			
+			demo_flush_init_cmd(demo);
+
+			demo->current_buffer = 0;
+			demo->prepared = true;
+			*/
+//crt end			// end of cube.c/demo_prepare(&demo);
 				
-
 			// new stuff^
-
 		}
 
 		void GfxDeviceObj::initialise()
