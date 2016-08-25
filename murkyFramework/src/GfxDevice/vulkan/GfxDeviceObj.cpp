@@ -3,6 +3,8 @@
 // Platform: C++11. vulkan
 #include <murkyFramework/src/pch.hpp>
 
+#define DEMO_TEXTURE_COUNT 1
+static char *tex_files[] = { "murkyFramework/data/lunarg.ppm" };
 
 #define ERR_EXIT(err_msg, err_class) \
     triggerBreakpoint();
@@ -58,6 +60,19 @@ namespace murkyFramework {
 			VkImage image;
 			VkCommandBuffer cmd;
 			VkImageView view;
+		};
+
+		struct texture_object 
+		{
+			VkSampler sampler;
+
+			VkImage image;
+			VkImageLayout imageLayout;
+
+			VkMemoryAllocateInfo mem_alloc;
+			VkDeviceMemory mem;
+			VkImageView view;
+			int32_t tex_width, tex_height;
 		};
 
 		struct Gfxinfo
@@ -119,14 +134,277 @@ namespace murkyFramework {
 				VkImageView view;
 			} depth;
 
-			VkCommandBuffer cmd; // Buffer for initialization commands
+			struct texture_object textures[DEMO_TEXTURE_COUNT];
+
+			VkCommandBuffer cmd = VK_NULL_HANDLE; // Buffer for initialization commands
+
+			bool use_staging_buffer  = false;
+
+			mat4x4 projection_matrix;
+			mat4x4 view_matrix;
+			mat4x4 model_matrix;
+			struct 
+			{
+				VkBuffer buf;
+				VkMemoryAllocateInfo mem_alloc;
+				VkDeviceMemory mem;
+				VkDescriptorBufferInfo buffer_info;
+			} uniform_data;
+			VkPipelineLayout		pipeline_layout;
+			VkDescriptorSetLayout	desc_layout;
+			VkRenderPass render_pass;
+			VkPipelineCache pipelineCache;
+			VkShaderModule vert_shader_module;
+			VkShaderModule frag_shader_module;
+			VkPipeline pipeline;
 		}gfxinfo;
 		
 		typedef  Gfxinfo Demo;
+
+		static const float g_vertex_buffer_data[] = {
+			-1.0f,-1.0f,-1.0f,  // -X side
+			-1.0f,-1.0f, 1.0f,
+			-1.0f, 1.0f, 1.0f,
+			-1.0f, 1.0f, 1.0f,
+			-1.0f, 1.0f,-1.0f,
+			-1.0f,-1.0f,-1.0f,
+
+			-1.0f,-1.0f,-1.0f,  // -Z side
+			1.0f, 1.0f,-1.0f,
+			1.0f,-1.0f,-1.0f,
+			-1.0f,-1.0f,-1.0f,
+			-1.0f, 1.0f,-1.0f,
+			1.0f, 1.0f,-1.0f,
+
+			-1.0f,-1.0f,-1.0f,  // -Y side
+			1.0f,-1.0f,-1.0f,
+			1.0f,-1.0f, 1.0f,
+			-1.0f,-1.0f,-1.0f,
+			1.0f,-1.0f, 1.0f,
+			-1.0f,-1.0f, 1.0f,
+
+			-1.0f, 1.0f,-1.0f,  // +Y side
+			-1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			-1.0f, 1.0f,-1.0f,
+			1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f,-1.0f,
+
+			1.0f, 1.0f,-1.0f,  // +X side
+			1.0f, 1.0f, 1.0f,
+			1.0f,-1.0f, 1.0f,
+			1.0f,-1.0f, 1.0f,
+			1.0f,-1.0f,-1.0f,
+			1.0f, 1.0f,-1.0f,
+
+			-1.0f, 1.0f, 1.0f,  // +Z side
+			-1.0f,-1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			-1.0f,-1.0f, 1.0f,
+			1.0f,-1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+		};
+		static const float g_uv_buffer_data[] = {
+			0.0f, 0.0f,  // -X side
+			1.0f, 0.0f,
+			1.0f, 1.0f,
+			1.0f, 1.0f,
+			0.0f, 1.0f,
+			0.0f, 0.0f,
+
+			1.0f, 0.0f,  // -Z side
+			0.0f, 1.0f,
+			0.0f, 0.0f,
+			1.0f, 0.0f,
+			1.0f, 1.0f,
+			0.0f, 1.0f,
+
+			1.0f, 1.0f,  // -Y side
+			1.0f, 0.0f,
+			0.0f, 0.0f,
+			1.0f, 1.0f,
+			0.0f, 0.0f,
+			0.0f, 1.0f,
+
+			1.0f, 1.0f,  // +Y side
+			0.0f, 1.0f,
+			0.0f, 0.0f,
+			1.0f, 1.0f,
+			0.0f, 0.0f,
+			1.0f, 0.0f,
+
+			1.0f, 1.0f,  // +X side
+			0.0f, 1.0f,
+			0.0f, 0.0f,
+			0.0f, 0.0f,
+			1.0f, 0.0f,
+			1.0f, 1.0f,
+
+			0.0f, 1.0f,  // +Z side
+			0.0f, 0.0f,
+			1.0f, 1.0f,
+			0.0f, 0.0f,
+			1.0f, 0.0f,
+			1.0f, 1.0f,
+		};
+		struct vktexcube_vs_uniform 
+		{
+			// Must start with MVP
+			float mvp[4][4];
+			float position[12 * 3][4];
+			float attr[12 * 3][4];
+		};
+
+		//TODO: Merge shader reading
+#ifndef __ANDROID__
+		static VkShaderModule
+			demo_prepare_shader_module(Demo *demo, const void *code, size_t size)
+		{
+			VkShaderModule module;
+			VkShaderModuleCreateInfo moduleCreateInfo;
+			VkResult err;
+
+			moduleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+			moduleCreateInfo.pNext = NULL;
+
+			moduleCreateInfo.codeSize = size;
+			moduleCreateInfo.pCode = (const uint32_t*)code;
+			moduleCreateInfo.flags = 0;
+			err = vkCreateShaderModule(demo->device, &moduleCreateInfo, NULL, &module);
+			assert(!err);
+
+			return module;
+		}
+
+		char *demo_read_spv(const char *filename, size_t *psize)
+		{
+			long int size;
+			size_t retval;
+			void *shader_code;
+
+			FILE *fp = fopen(filename, "rb");
+			if (!fp)
+				return NULL;
+
+			fseek(fp, 0L, SEEK_END);
+			size = ftell(fp);
+
+			fseek(fp, 0L, SEEK_SET);
+
+			shader_code = malloc(size);
+			retval = fread(shader_code, size, 1, fp);
+			assert(retval == 1);
+
+			*psize = size;
+
+			fclose(fp);
+			return (char*)shader_code;
+		}
+#endif
+
+
+		void demo_prepare_render_pass(Demo *demo)
+		{
+			VkAttachmentDescription attachments[2] = {};
+
+			attachments[0].format = demo->format;
+			attachments[0].samples = VK_SAMPLE_COUNT_1_BIT;
+			attachments[0].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+			attachments[0].storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+			attachments[0].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+			attachments[0].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+			attachments[0].initialLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+			attachments[0].finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+			attachments[1].format = demo->depth.format;
+			attachments[1].samples = VK_SAMPLE_COUNT_1_BIT;
+			attachments[1].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+			attachments[1].storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+			attachments[1].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+			attachments[1].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+			attachments[1].initialLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+			attachments[1].finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+						
+			VkAttachmentReference color_reference = {};
+			color_reference.attachment = 0;
+			color_reference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+			
+			VkAttachmentReference depth_reference = {};
+			depth_reference.attachment = 1;
+			depth_reference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+			
+			VkSubpassDescription subpass = {};
+			subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+				subpass.flags = 0;
+				subpass.inputAttachmentCount = 0;
+				subpass.pInputAttachments = NULL;
+				subpass.colorAttachmentCount = 1;
+				subpass.pColorAttachments = &color_reference;
+				subpass.pResolveAttachments = NULL;
+				subpass.pDepthStencilAttachment = &depth_reference;
+				subpass.preserveAttachmentCount = 0;
+				subpass.pPreserveAttachments = NULL;
+			
+				VkRenderPassCreateInfo rp_info = {};
+				rp_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+				rp_info.pNext = NULL;
+				rp_info.attachmentCount = 2;
+				rp_info.pAttachments = attachments;
+				rp_info.subpassCount = 1;
+				rp_info.pSubpasses = &subpass;
+				rp_info.dependencyCount = 0;
+				rp_info.pDependencies = NULL;
+			
+			VkResult err;
+
+			err = vkCreateRenderPass(demo->device, &rp_info, NULL, &demo->render_pass);
+			assert(!err);
+		}
+
+		void demo_prepare_descriptor_layout(Demo *demo)
+		{
+			VkDescriptorSetLayoutBinding layout_bindings[2] = {};
+				
+			layout_bindings[0].binding = 0;
+			layout_bindings[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+			layout_bindings[0].descriptorCount = 1;
+			layout_bindings[0].stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+			layout_bindings[0].pImmutableSamplers = NULL;
+			
+			layout_bindings[1].binding = 1;
+			layout_bindings[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+			layout_bindings[1].descriptorCount = DEMO_TEXTURE_COUNT;
+			layout_bindings[1].stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+			layout_bindings[1].pImmutableSamplers = NULL;
 		
+			VkDescriptorSetLayoutCreateInfo descriptor_layout = {};
+			{
+				descriptor_layout.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+				descriptor_layout.pNext = NULL;
+				descriptor_layout.bindingCount = 2;
+				descriptor_layout.pBindings = layout_bindings;
+			};
+
+			VkResult err;
+
+			err = vkCreateDescriptorSetLayout(demo->device, &descriptor_layout, NULL,
+				&demo->desc_layout);
+			assert(!err);
+
+			VkPipelineLayoutCreateInfo pPipelineLayoutCreateInfo = {};
+			{
+				pPipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+				pPipelineLayoutCreateInfo.pNext = NULL;
+				pPipelineLayoutCreateInfo.setLayoutCount = 1;
+				pPipelineLayoutCreateInfo.pSetLayouts = &demo->desc_layout;
+			}
+
+			err = vkCreatePipelineLayout(demo->device, &pPipelineLayoutCreateInfo, NULL,
+				&demo->pipeline_layout);
+			assert(!err);
+		}
+
 		bool memory_type_from_properties(Demo *demo, uint32_t typeBits,
-			VkFlags requirements_mask,
-			uint32_t *typeIndex)
+			VkFlags requirements_mask, uint32_t *typeIndex)
 		{
 			// Search memtypes to find first index with those properties
 			for (uint32_t i = 0; i < VK_MAX_MEMORY_TYPES; i++)
@@ -145,6 +423,78 @@ namespace murkyFramework {
 			}
 			// No memory types matched, return failure
 			return false;
+		}
+
+		void demo_prepare_cube_data_buffer(Demo *demo)
+		{
+			VkBufferCreateInfo buf_info;
+			VkMemoryRequirements mem_reqs;
+			uint8_t *pData;
+			int i;
+			mat4x4 MVP, VP;
+			VkResult  err;
+			bool  pass;
+			struct vktexcube_vs_uniform data;
+
+			mat4x4_mul(VP, demo->projection_matrix, demo->view_matrix);
+			mat4x4_mul(MVP, VP, demo->model_matrix);
+			memcpy(data.mvp, MVP, sizeof(MVP));
+			//    dumpMatrix("MVP", MVP);
+
+			for (i = 0; i < 12 * 3; i++)
+			{
+				data.position[i][0] = g_vertex_buffer_data[i * 3];
+				data.position[i][1] = g_vertex_buffer_data[i * 3 + 1];
+				data.position[i][2] = g_vertex_buffer_data[i * 3 + 2];
+				data.position[i][3] = 1.0f;
+				data.attr[i][0] = g_uv_buffer_data[2 * i];
+				data.attr[i][1] = g_uv_buffer_data[2 * i + 1];
+				data.attr[i][2] = 0;
+				data.attr[i][3] = 0;
+			}
+
+			memset(&buf_info, 0, sizeof(buf_info));
+			buf_info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+			buf_info.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+			buf_info.size = sizeof(data);
+			err =
+				vkCreateBuffer(demo->device, &buf_info, NULL, &demo->uniform_data.buf);
+			assert(!err);
+
+			vkGetBufferMemoryRequirements(demo->device, demo->uniform_data.buf,
+				&mem_reqs);
+
+			demo->uniform_data.mem_alloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+			demo->uniform_data.mem_alloc.pNext = NULL;
+			demo->uniform_data.mem_alloc.allocationSize = mem_reqs.size;
+			demo->uniform_data.mem_alloc.memoryTypeIndex = 0;
+
+			pass = memory_type_from_properties(
+				demo, mem_reqs.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+				VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+				&demo->uniform_data.mem_alloc.memoryTypeIndex);
+			assert(pass);
+
+			err = vkAllocateMemory(demo->device, &demo->uniform_data.mem_alloc, NULL,
+				&(demo->uniform_data.mem));
+			assert(!err);
+
+			err = vkMapMemory(demo->device, demo->uniform_data.mem, 0,
+				demo->uniform_data.mem_alloc.allocationSize, 0,
+				(void **)&pData);
+			assert(!err);
+
+			memcpy(pData, &data, sizeof data);
+
+			vkUnmapMemory(demo->device, demo->uniform_data.mem);
+
+			err = vkBindBufferMemory(demo->device, demo->uniform_data.buf,
+				demo->uniform_data.mem, 0);
+			assert(!err);
+
+			demo->uniform_data.buffer_info.buffer = demo->uniform_data.buf;
+			demo->uniform_data.buffer_info.offset = 0;
+			demo->uniform_data.buffer_info.range = sizeof(data);
 		}
 
 		void demo_set_image_layout(Demo *demo, VkImage image,
@@ -218,6 +568,235 @@ namespace murkyFramework {
 			vkCmdPipelineBarrier(demo->cmd, src_stages, dest_stages, 0, 0, NULL, 0,
 				NULL, 1, pmemory_barrier);
 		}
+
+		void demo_destroy_texture_image(Demo *demo,
+			struct texture_object *tex_objs)
+		{
+			/* clean up staging resources */
+			vkFreeMemory(demo->device, tex_objs->mem, NULL);
+			vkDestroyImage(demo->device, tex_objs->image, NULL);
+		}
+
+		void demo_flush_init_cmd(Demo *demo)
+		{
+			VkResult err;
+
+			if (demo->cmd == VK_NULL_HANDLE)
+				return;
+
+			err = vkEndCommandBuffer(demo->cmd);
+			assert(!err);
+
+			const VkCommandBuffer cmd_bufs[] = { demo->cmd };
+			VkFence nullFence = VK_NULL_HANDLE;
+			VkSubmitInfo submit_info = {};
+			submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+			submit_info.pNext = NULL;
+			submit_info.waitSemaphoreCount = 0;
+			submit_info.pWaitSemaphores = NULL;
+			submit_info.pWaitDstStageMask = NULL;
+			submit_info.commandBufferCount = 1;
+			submit_info.pCommandBuffers = cmd_bufs;
+			submit_info.signalSemaphoreCount = 0;
+			submit_info.pSignalSemaphores = NULL;
+
+			err = vkQueueSubmit(demo->queue, 1, &submit_info, nullFence);
+			assert(!err);
+
+			err = vkQueueWaitIdle(demo->queue);
+			assert(!err);
+
+			vkFreeCommandBuffers(demo->device, demo->cmd_pool, 1, cmd_bufs);
+			demo->cmd = VK_NULL_HANDLE;
+		}
+
+		/* Load a ppm file into memory */
+		bool loadTexture(const char *filename, uint8_t *rgba_data,
+			VkSubresourceLayout *layout, int32_t *width, int32_t *height)
+		{
+#ifdef __ANDROID__
+#include <lunarg.ppm.h>
+			char *cPtr;
+			cPtr = (char*)lunarg_ppm;
+			if ((unsigned char*)cPtr >= (lunarg_ppm + lunarg_ppm_len) || strncmp(cPtr, "P6\n", 3))
+			{
+				return false;
+			}
+			while (strncmp(cPtr++, "\n", 1));
+			sscanf(cPtr, "%u %u", width, height);
+			if (rgba_data == NULL)
+			{
+				return true;
+			}
+			while (strncmp(cPtr++, "\n", 1));
+			if ((unsigned char*)cPtr >= (lunarg_ppm + lunarg_ppm_len) || strncmp(cPtr, "255\n", 4))
+			{
+				return false;
+			}
+			while (strncmp(cPtr++, "\n", 1));
+
+			for (int y = 0; y < *height; y++)
+			{
+				uint8_t *rowPtr = rgba_data;
+				for (int x = 0; x < *width; x++)
+				{
+					memcpy(rowPtr, cPtr, 3);
+					rowPtr[3] = 255; /* Alpha of 1 */
+					rowPtr += 4;
+					cPtr += 3;
+				}
+				rgba_data += layout->rowPitch;
+			}
+
+			return true;
+#else
+			FILE *fPtr = fopen(filename, "rb");
+			char header[256], *cPtr, *tmp;
+
+			if (!fPtr)
+				return false;
+
+			cPtr = fgets(header, 256, fPtr); // P6
+			if (cPtr == NULL || strncmp(header, "P6\n", 3))
+			{
+				fclose(fPtr);
+				return false;
+			}
+
+			do
+			{
+				cPtr = fgets(header, 256, fPtr);
+				if (cPtr == NULL)
+				{
+					fclose(fPtr);
+					return false;
+				}
+			} while (!strncmp(header, "#", 1));
+
+			sscanf(header, "%u %u", width, height);
+			if (rgba_data == NULL)
+			{
+				fclose(fPtr);
+				return true;
+			}
+			tmp = fgets(header, 256, fPtr); // Format
+			(void)tmp;
+			if (cPtr == NULL || strncmp(header, "255\n", 3))
+			{
+				fclose(fPtr);
+				return false;
+			}
+
+			for (int y = 0; y < *height; y++)
+			{
+				uint8_t *rowPtr = rgba_data;
+				for (int x = 0; x < *width; x++)
+				{
+					size_t s = fread(rowPtr, 3, 1, fPtr);
+					(void)s;
+					rowPtr[3] = 255; /* Alpha of 1 */
+					rowPtr += 4;
+				}
+				rgba_data += layout->rowPitch;
+			}
+			fclose(fPtr);
+			return true;
+#endif
+		}
+
+		void demo_prepare_texture_image(Demo *demo, const char *filename,
+			texture_object *tex_obj,
+			VkImageTiling tiling,
+			VkImageUsageFlags usage,
+			VkFlags required_props)
+		{
+			const VkFormat tex_format = VK_FORMAT_R8G8B8A8_UNORM;
+			int32_t tex_width;
+			int32_t tex_height;
+			VkResult err;
+			bool pass;
+
+			if (!loadTexture(filename, NULL, NULL, &tex_width, &tex_height))
+			{
+				ERR_EXIT("Failed to load textures", "Load Texture Failure");
+			}
+
+			tex_obj->tex_width = tex_width;
+			tex_obj->tex_height = tex_height;
+
+			VkImageCreateInfo image_create_info = {};
+			image_create_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+			image_create_info.pNext = NULL;
+			image_create_info.imageType = VK_IMAGE_TYPE_2D;
+			image_create_info.format = tex_format;
+			image_create_info.extent = { (uint32_t)tex_width, (uint32_t)tex_height, (uint32_t)1 };
+			image_create_info.mipLevels = 1;
+			image_create_info.arrayLayers = 1;
+			image_create_info.samples = VK_SAMPLE_COUNT_1_BIT;
+			image_create_info.tiling = tiling;
+			image_create_info.usage = usage;
+			image_create_info.flags = 0;
+			image_create_info.initialLayout = VK_IMAGE_LAYOUT_PREINITIALIZED;
+			
+
+			VkMemoryRequirements mem_reqs;
+
+			err =
+				vkCreateImage(demo->device, &image_create_info, NULL, &tex_obj->image);
+			assert(!err);
+
+			vkGetImageMemoryRequirements(demo->device, tex_obj->image, &mem_reqs);
+
+			tex_obj->mem_alloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+			tex_obj->mem_alloc.pNext = NULL;
+			tex_obj->mem_alloc.allocationSize = mem_reqs.size;
+			tex_obj->mem_alloc.memoryTypeIndex = 0;
+
+			pass = memory_type_from_properties(demo, mem_reqs.memoryTypeBits,
+				required_props,	&tex_obj->mem_alloc.memoryTypeIndex);
+			assert(pass);
+
+			/* allocate memory */
+			err = vkAllocateMemory(demo->device, &tex_obj->mem_alloc, NULL,
+				&(tex_obj->mem));
+			assert(!err);
+
+			/* bind memory */
+			err = vkBindImageMemory(demo->device, tex_obj->image, tex_obj->mem, 0);
+			assert(!err);
+
+			if (required_props & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT)
+			{
+				VkImageSubresource subres = {};
+				subres.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+				subres.mipLevel = 0;
+				subres.arrayLayer = 0;
+				VkSubresourceLayout layout;
+				void *data;
+
+				vkGetImageSubresourceLayout(demo->device, tex_obj->image, &subres,
+					&layout);
+
+				err = vkMapMemory(demo->device, tex_obj->mem, 0,
+					tex_obj->mem_alloc.allocationSize, 0, &data);
+				assert(!err);
+
+				if (!loadTexture(filename, (uint8_t*)data, &layout, &tex_width, &tex_height))
+				{
+					fprintf(stderr, "Error loading texture: %s\n", filename);
+				}
+
+				vkUnmapMemory(demo->device, tex_obj->mem);
+			}
+
+			tex_obj->imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			demo_set_image_layout(demo, tex_obj->image, VK_IMAGE_ASPECT_COLOR_BIT,
+				VK_IMAGE_LAYOUT_PREINITIALIZED, tex_obj->imageLayout,
+				VK_ACCESS_HOST_WRITE_BIT);
+			/* setting the image layout does not reference the actual memory so no need
+			* to add a mem ref */
+		}
+		
 		
 
 		VKAPI_ATTR VkBool32 VKAPI_CALL
@@ -554,6 +1133,302 @@ namespace murkyFramework {
 			assert(!err);
 		}
 
+		void demo_prepare_textures(Demo *demo)
+		{
+			const VkFormat tex_format = VK_FORMAT_R8G8B8A8_UNORM;
+			VkFormatProperties props;
+			uint32_t i;
+
+			vkGetPhysicalDeviceFormatProperties(demo->gpu, tex_format, &props);
+
+			for (i = 0; i < DEMO_TEXTURE_COUNT; i++)
+			{
+				VkResult err;
+
+				if ((props.linearTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT) &&
+					!demo->use_staging_buffer)
+				{
+					/* Device can texture using linear textures */
+					demo_prepare_texture_image(
+						demo, tex_files[i], &demo->textures[i], VK_IMAGE_TILING_LINEAR,
+						VK_IMAGE_USAGE_SAMPLED_BIT,
+						VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+						VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+				}
+				else if (props.optimalTilingFeatures &
+					VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT)
+				{
+					/* Must use staging buffer to copy linear texture to optimized */
+					struct texture_object staging_texture;
+
+					memset(&staging_texture, 0, sizeof(staging_texture));
+					demo_prepare_texture_image(
+						demo, tex_files[i], &staging_texture, VK_IMAGE_TILING_LINEAR,
+						VK_IMAGE_USAGE_TRANSFER_SRC_BIT,
+						VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+						VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+
+					demo_prepare_texture_image(
+						demo, tex_files[i], &demo->textures[i], VK_IMAGE_TILING_OPTIMAL,
+						(VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT),
+						VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+					demo_set_image_layout(demo, staging_texture.image,
+						VK_IMAGE_ASPECT_COLOR_BIT,
+						staging_texture.imageLayout,
+						VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
+						(VkAccessFlagBits)0);
+
+					demo_set_image_layout(demo, demo->textures[i].image,
+						VK_IMAGE_ASPECT_COLOR_BIT,
+						demo->textures[i].imageLayout,
+						VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+						(VkAccessFlagBits)0);
+
+					VkImageCopy copy_region = {};
+					copy_region.srcSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, 1 };
+					copy_region.srcOffset = { 0, 0, 0 };
+					copy_region.dstSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, 1 };
+					copy_region.dstOffset = { 0, 0, 0 };
+					copy_region.extent = { (uint32_t)staging_texture.tex_width,
+						(uint32_t)staging_texture.tex_height, (uint32_t)1 };
+					
+					vkCmdCopyImage(
+						demo->cmd, staging_texture.image,
+						VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, demo->textures[i].image,
+						VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copy_region);
+
+					demo_set_image_layout(demo, demo->textures[i].image,
+						VK_IMAGE_ASPECT_COLOR_BIT,
+						VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+						demo->textures[i].imageLayout,
+						(VkAccessFlagBits)0);
+
+					demo_flush_init_cmd(demo);
+
+					demo_destroy_texture_image(demo, &staging_texture);
+				}
+				else
+				{
+					/* Can't support VK_FORMAT_R8G8B8A8_UNORM !? */
+					assert(!"No support for R8G8B8A8_UNORM as texture image format");
+				}
+
+				VkSamplerCreateInfo sampler = {};
+				sampler.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+				sampler.pNext = NULL;
+				sampler.magFilter = VK_FILTER_NEAREST;
+				sampler.minFilter = VK_FILTER_NEAREST;
+				sampler.mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST;
+				sampler.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+				sampler.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+				sampler.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+				sampler.mipLodBias = 0.0f;
+				sampler.anisotropyEnable = VK_FALSE;
+				sampler.maxAnisotropy = 1;
+				sampler.compareOp = VK_COMPARE_OP_NEVER;
+				sampler.minLod = 0.0f;
+				sampler.maxLod = 0.0f;
+				sampler.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+				sampler.unnormalizedCoordinates = VK_FALSE;
+				
+				VkImageViewCreateInfo view = {};
+				view.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
+				view.pNext = NULL;
+				view.image = VK_NULL_HANDLE;
+				view.viewType = VK_IMAGE_VIEW_TYPE_2D;
+				view.format = tex_format;
+				view.components =
+				{
+					VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G,
+					VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A,
+				};
+				view.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+				view.flags = 0,
+				
+				/* create sampler */
+				err = vkCreateSampler(demo->device, &sampler, NULL,
+					&demo->textures[i].sampler);
+				assert(!err);
+
+				/* create image view */
+				view.image = demo->textures[i].image;
+				err = vkCreateImageView(demo->device, &view, NULL,
+					&demo->textures[i].view);
+				assert(!err);
+			}
+		}
+
+		VkShaderModule demo_prepare_vs(Demo *demo)
+		{
+#ifdef __ANDROID__
+			VkShaderModuleCreateInfo sh_info = {};
+			sh_info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+
+#include "cube.vert.h"
+			sh_info.codeSize = sizeof(cube_vert);
+			sh_info.pCode = cube_vert;
+			VkResult U_ASSERT_ONLY err = vkCreateShaderModule(demo->device, &sh_info, NULL, &demo->vert_shader_module);
+			assert(!err);
+#else
+			void *vertShaderCode;
+			size_t size;
+
+			vertShaderCode = demo_read_spv("murkyFramework/data/cube-vert.spv", &size);
+
+			demo->vert_shader_module =
+				demo_prepare_shader_module(demo, vertShaderCode, size);
+
+			free(vertShaderCode);
+#endif
+
+			return demo->vert_shader_module;
+		}
+
+		VkShaderModule demo_prepare_fs(Demo *demo)
+		{
+#ifdef __ANDROID__
+			VkShaderModuleCreateInfo sh_info = {};
+			sh_info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+
+#include "cube.frag.h"
+			sh_info.codeSize = sizeof(cube_frag);
+			sh_info.pCode = cube_frag;
+			VkResult U_ASSERT_ONLY err = vkCreateShaderModule(demo->device, &sh_info, NULL, &demo->frag_shader_module);
+			assert(!err);
+#else
+			void *fragShaderCode;
+			size_t size;
+
+			fragShaderCode = demo_read_spv("murkyFramework/data/cube-frag.spv", &size);
+
+			demo->frag_shader_module =
+				demo_prepare_shader_module(demo, fragShaderCode, size);
+
+			free(fragShaderCode);
+#endif
+
+			return demo->frag_shader_module;
+		}
+
+		void demo_prepare_pipeline(Demo *demo)
+		{
+			VkGraphicsPipelineCreateInfo pipeline;
+			VkPipelineCacheCreateInfo pipelineCache;
+			VkPipelineVertexInputStateCreateInfo vi;
+			VkPipelineInputAssemblyStateCreateInfo ia;
+			VkPipelineRasterizationStateCreateInfo rs;
+			VkPipelineColorBlendStateCreateInfo cb;
+			VkPipelineDepthStencilStateCreateInfo ds;
+			VkPipelineViewportStateCreateInfo vp;
+			VkPipelineMultisampleStateCreateInfo ms;
+			VkDynamicState dynamicStateEnables[VK_DYNAMIC_STATE_RANGE_SIZE];
+			VkPipelineDynamicStateCreateInfo dynamicState;
+			VkResult err;
+
+			memset(dynamicStateEnables, 0, sizeof dynamicStateEnables);
+			memset(&dynamicState, 0, sizeof dynamicState);
+			dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+			dynamicState.pDynamicStates = dynamicStateEnables;
+
+			memset(&pipeline, 0, sizeof(pipeline));
+			pipeline.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+			pipeline.layout = demo->pipeline_layout;
+
+			memset(&vi, 0, sizeof(vi));
+			vi.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+
+			memset(&ia, 0, sizeof(ia));
+			ia.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+			ia.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+
+			memset(&rs, 0, sizeof(rs));
+			rs.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+			rs.polygonMode = VK_POLYGON_MODE_FILL;
+			rs.cullMode = VK_CULL_MODE_BACK_BIT;
+			rs.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
+			rs.depthClampEnable = VK_FALSE;
+			rs.rasterizerDiscardEnable = VK_FALSE;
+			rs.depthBiasEnable = VK_FALSE;
+			rs.lineWidth = 1.0f;
+
+			memset(&cb, 0, sizeof(cb));
+			cb.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+			VkPipelineColorBlendAttachmentState att_state[1];
+			memset(att_state, 0, sizeof(att_state));
+			att_state[0].colorWriteMask = 0xf;
+			att_state[0].blendEnable = VK_FALSE;
+			cb.attachmentCount = 1;
+			cb.pAttachments = att_state;
+
+			memset(&vp, 0, sizeof(vp));
+			vp.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+			vp.viewportCount = 1;
+			dynamicStateEnables[dynamicState.dynamicStateCount++] =
+				VK_DYNAMIC_STATE_VIEWPORT;
+			vp.scissorCount = 1;
+			dynamicStateEnables[dynamicState.dynamicStateCount++] =
+				VK_DYNAMIC_STATE_SCISSOR;
+
+			memset(&ds, 0, sizeof(ds));
+			ds.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+			ds.depthTestEnable = VK_TRUE;
+			ds.depthWriteEnable = VK_TRUE;
+			ds.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
+			ds.depthBoundsTestEnable = VK_FALSE;
+			ds.back.failOp = VK_STENCIL_OP_KEEP;
+			ds.back.passOp = VK_STENCIL_OP_KEEP;
+			ds.back.compareOp = VK_COMPARE_OP_ALWAYS;
+			ds.stencilTestEnable = VK_FALSE;
+			ds.front = ds.back;
+
+			memset(&ms, 0, sizeof(ms));
+			ms.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+			ms.pSampleMask = NULL;
+			ms.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+
+			// Two stages: vs and fs
+			pipeline.stageCount = 2;
+			VkPipelineShaderStageCreateInfo shaderStages[2];
+			memset(&shaderStages, 0, 2 * sizeof(VkPipelineShaderStageCreateInfo));
+
+			shaderStages[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+			shaderStages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
+			shaderStages[0].module = demo_prepare_vs(demo);
+			shaderStages[0].pName = "main";
+
+			shaderStages[1].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+			shaderStages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+			shaderStages[1].module = demo_prepare_fs(demo);
+			shaderStages[1].pName = "main";
+
+			memset(&pipelineCache, 0, sizeof(pipelineCache));
+			pipelineCache.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
+
+			err = vkCreatePipelineCache(demo->device, &pipelineCache, NULL,
+				&demo->pipelineCache);
+			assert(!err);
+
+			pipeline.pVertexInputState = &vi;
+			pipeline.pInputAssemblyState = &ia;
+			pipeline.pRasterizationState = &rs;
+			pipeline.pColorBlendState = &cb;
+			pipeline.pMultisampleState = &ms;
+			pipeline.pViewportState = &vp;
+			pipeline.pDepthStencilState = &ds;
+			pipeline.pStages = shaderStages;
+			pipeline.renderPass = demo->render_pass;
+			pipeline.pDynamicState = &dynamicState;
+
+			pipeline.renderPass = demo->render_pass;
+
+			err = vkCreateGraphicsPipelines(demo->device, demo->pipelineCache, 1,
+				&pipeline, NULL, &demo->pipeline);
+			assert(!err);
+
+			vkDestroyShaderModule(demo->device, demo->frag_shader_module, NULL);
+			vkDestroyShaderModule(demo->device, demo->vert_shader_module, NULL);
+		}
 
 		GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct) :
 			hDC(initStruct->windowsSpecific->gethDC())
@@ -1212,21 +2087,21 @@ namespace murkyFramework {
 			
 			demo_prepare_buffers(demo);
 			demo_prepare_depth(demo);
-			//crt
-			/*
 			demo_prepare_textures(demo);
 			demo_prepare_cube_data_buffer(demo);
-
 			demo_prepare_descriptor_layout(demo);
 			demo_prepare_render_pass(demo);
 			demo_prepare_pipeline(demo);
-
 			for (uint32_t i = 0; i < demo->swapchainImageCount; i++)
 			{
 				err =
 					vkAllocateCommandBuffers(demo->device, &cmd, &demo->buffers[i].cmd);
 				assert(!err);
 			}
+			int a = 0;
+			//crt
+			/*
+
 
 			demo_prepare_descriptor_pool(demo);
 			demo_prepare_descriptor_set(demo);

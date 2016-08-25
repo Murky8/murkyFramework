@@ -102,6 +102,7 @@
 #include <murkyFramework/src/GfxDevice/vulkan/textureWrapper.hpp>
 #include <murkyFramework/src/GfxDevice/vulkan/vertexBufferWrapper.hpp>
 #include <murkyFramework/src/GfxDevice/vulkan/GfxDeviceObj.hpp>
+#include <murkyFramework/src/GfxDevice/vulkan/external/linmath.h> //note: move
 #endif
 
 #define GLM_FORCE_RADIANS
