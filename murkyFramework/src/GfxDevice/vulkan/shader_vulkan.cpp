@@ -32,7 +32,6 @@ namespace murkyFramework {
             GfxDevice::onGfxDeviceErrorTriggerBreakpoint();
             debugLog << L"GfxLowLevel::Shaders::initialise" << "\n";
 
-
             deviceObj->loadShadersInDir(L"murkyFramework/src/GfxDevice/openGL4/shaders");
 
             {

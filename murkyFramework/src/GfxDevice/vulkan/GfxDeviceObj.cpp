@@ -157,6 +157,11 @@ namespace murkyFramework {
 			VkShaderModule vert_shader_module;
 			VkShaderModule frag_shader_module;
 			VkPipeline pipeline;
+
+			VkDescriptorPool desc_pool;
+			VkDescriptorSet desc_set;
+
+			VkFramebuffer *framebuffers;
 		}gfxinfo;
 		
 		typedef  Gfxinfo Demo;
@@ -1430,6 +1435,199 @@ namespace murkyFramework {
 			vkDestroyShaderModule(demo->device, demo->vert_shader_module, NULL);
 		}
 
+		void demo_prepare_descriptor_pool(Demo *demo)
+		{
+			VkDescriptorPoolSize type_counts[2] = {};
+			
+			type_counts[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+			type_counts[0].descriptorCount = 1;
+			
+			type_counts[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+			type_counts[1].descriptorCount = DEMO_TEXTURE_COUNT;
+			
+			VkDescriptorPoolCreateInfo descriptor_pool = {};
+			descriptor_pool.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+			descriptor_pool.pNext = NULL;
+			descriptor_pool.maxSets = 1;
+			descriptor_pool.poolSizeCount = 2;
+			descriptor_pool.pPoolSizes = type_counts;
+			
+			VkResult err;
+
+			err = vkCreateDescriptorPool(demo->device, &descriptor_pool, NULL,
+				&demo->desc_pool);
+			assert(!err);
+		}
+
+		void demo_prepare_descriptor_set(Demo *demo)
+		{
+			VkDescriptorImageInfo tex_descs[DEMO_TEXTURE_COUNT];
+			VkWriteDescriptorSet writes[2];
+			VkResult err;
+			uint32_t i;
+
+			VkDescriptorSetAllocateInfo alloc_info = {};
+			alloc_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+				alloc_info.pNext = NULL;
+				alloc_info.descriptorPool = demo->desc_pool;
+				alloc_info.descriptorSetCount = 1;
+				alloc_info.pSetLayouts = &demo->desc_layout;
+			err = vkAllocateDescriptorSets(demo->device, &alloc_info, &demo->desc_set);
+			assert(!err);
+
+			memset(&tex_descs, 0, sizeof(tex_descs));
+			for (i = 0; i < DEMO_TEXTURE_COUNT; i++)
+			{
+				tex_descs[i].sampler = demo->textures[i].sampler;
+				tex_descs[i].imageView = demo->textures[i].view;
+				tex_descs[i].imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+			}
+
+			memset(&writes, 0, sizeof(writes));
+
+			writes[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			writes[0].dstSet = demo->desc_set;
+			writes[0].descriptorCount = 1;
+			writes[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+			writes[0].pBufferInfo = &demo->uniform_data.buffer_info;
+
+			writes[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			writes[1].dstSet = demo->desc_set;
+			writes[1].dstBinding = 1;
+			writes[1].descriptorCount = DEMO_TEXTURE_COUNT;
+			writes[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+			writes[1].pImageInfo = tex_descs;
+
+			vkUpdateDescriptorSets(demo->device, 2, writes, 0, NULL);
+		}
+
+		void demo_prepare_framebuffers(Demo *demo)
+		{
+			VkImageView attachments[2];
+			attachments[1] = demo->depth.view;
+
+			VkFramebufferCreateInfo fb_info = {};
+			fb_info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+			fb_info.pNext = NULL;
+			fb_info.renderPass = demo->render_pass;
+			fb_info.attachmentCount = 2;
+			fb_info.pAttachments = attachments;
+			fb_info.width = demo->width;
+			fb_info.height = demo->height;
+			fb_info.layers = 1;
+			
+			VkResult err;
+			uint32_t i;
+
+			demo->framebuffers = (VkFramebuffer *)malloc(demo->swapchainImageCount *
+				sizeof(VkFramebuffer));
+			assert(demo->framebuffers);
+
+			for (i = 0; i < demo->swapchainImageCount; i++)
+			{
+				attachments[0] = demo->buffers[i].view;
+				err = vkCreateFramebuffer(demo->device, &fb_info, NULL,
+					&demo->framebuffers[i]);
+				assert(!err);
+			}
+		}
+
+		void demo_draw_build_cmd(Demo *demo, VkCommandBuffer cmd_buf)
+		{
+			VkCommandBufferBeginInfo cmd_buf_info = {};
+			cmd_buf_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+			cmd_buf_info.pNext = NULL;
+			cmd_buf_info.flags = 0;
+			cmd_buf_info.pInheritanceInfo = NULL;
+
+			VkClearValue clear_values[2] = {};
+			clear_values[0].color.float32[0] = 0.2f;
+			clear_values[0].color.float32[1] = 0.2f;
+			clear_values[0].color.float32[2] = 0.2f;
+			clear_values[0].color.float32[3] = 0.2f;
+		
+			clear_values[1].depthStencil = { 1.0f, 0 };
+			
+			VkRenderPassBeginInfo rp_begin = {};
+			rp_begin.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+			rp_begin.pNext = NULL;
+			rp_begin.renderPass = demo->render_pass;
+			rp_begin.framebuffer = demo->framebuffers[demo->current_buffer];
+			rp_begin.renderArea.offset.x = 0;
+			rp_begin.renderArea.offset.y = 0;
+			rp_begin.renderArea.extent.width = demo->width;
+			rp_begin.renderArea.extent.height = demo->height;
+			rp_begin.clearValueCount = 2;
+			rp_begin.pClearValues = clear_values;
+			
+			VkResult err;
+
+			err = vkBeginCommandBuffer(cmd_buf, &cmd_buf_info);
+			assert(!err);
+
+			// We can use LAYOUT_UNDEFINED as a wildcard here because we don't care what
+			// happens to the previous contents of the image
+			VkImageMemoryBarrier image_memory_barrier = {};
+			image_memory_barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+			image_memory_barrier.pNext = NULL;
+			image_memory_barrier.srcAccessMask = 0;
+			image_memory_barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+			image_memory_barrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+			image_memory_barrier.newLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+			image_memory_barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			image_memory_barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			image_memory_barrier.image = demo->buffers[demo->current_buffer].image;
+			image_memory_barrier.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+
+			vkCmdPipelineBarrier(cmd_buf, VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
+				VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 0, 0, NULL, 0,
+				NULL, 1, &image_memory_barrier);
+
+			vkCmdBeginRenderPass(cmd_buf, &rp_begin, VK_SUBPASS_CONTENTS_INLINE);
+
+			vkCmdBindPipeline(cmd_buf, VK_PIPELINE_BIND_POINT_GRAPHICS, demo->pipeline);
+			vkCmdBindDescriptorSets(cmd_buf, VK_PIPELINE_BIND_POINT_GRAPHICS,
+				demo->pipeline_layout, 0, 1, &demo->desc_set, 0,
+				NULL);
+			VkViewport viewport;
+			memset(&viewport, 0, sizeof(viewport));
+			viewport.height = (float)demo->height;
+			viewport.width = (float)demo->width;
+			viewport.minDepth = (float)0.0f;
+			viewport.maxDepth = (float)1.0f;
+			vkCmdSetViewport(cmd_buf, 0, 1, &viewport);
+
+			VkRect2D scissor;
+			memset(&scissor, 0, sizeof(scissor));
+			scissor.extent.width = demo->width;
+			scissor.extent.height = demo->height;
+			scissor.offset.x = 0;
+			scissor.offset.y = 0;
+			vkCmdSetScissor(cmd_buf, 0, 1, &scissor);
+			vkCmdDraw(cmd_buf, 12 * 3, 1, 0, 0);
+			vkCmdEndRenderPass(cmd_buf);
+
+			VkImageMemoryBarrier prePresentBarrier = {};
+			prePresentBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+			prePresentBarrier.pNext = NULL;
+			prePresentBarrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+			prePresentBarrier.dstAccessMask = VK_ACCESS_MEMORY_READ_BIT;
+			prePresentBarrier.oldLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+			prePresentBarrier.newLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+			prePresentBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			prePresentBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			prePresentBarrier.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+
+			prePresentBarrier.image = demo->buffers[demo->current_buffer].image;
+			VkImageMemoryBarrier *pmemory_barrier = &prePresentBarrier;
+			vkCmdPipelineBarrier(cmd_buf, VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
+				VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 0, 0, NULL, 0,
+				NULL, 1, pmemory_barrier);
+
+			err = vkEndCommandBuffer(cmd_buf);
+			assert(!err);
+		}
+
 		GfxDeviceObj::GfxDeviceObj(GfxDeviceObj_initStruct *const initStruct) :
 			hDC(initStruct->windowsSpecific->gethDC())
 		{
@@ -2098,14 +2296,8 @@ namespace murkyFramework {
 					vkAllocateCommandBuffers(demo->device, &cmd, &demo->buffers[i].cmd);
 				assert(!err);
 			}
-			int a = 0;
-			//crt
-			/*
-
-
 			demo_prepare_descriptor_pool(demo);
 			demo_prepare_descriptor_set(demo);
-
 			demo_prepare_framebuffers(demo);
 
 			for (uint32_t i = 0; i < demo->swapchainImageCount; i++)
@@ -2113,17 +2305,12 @@ namespace murkyFramework {
 				demo->current_buffer = i;
 				demo_draw_build_cmd(demo, demo->buffers[i].cmd);
 			}
-
-			
-			// Prepare functions above may generate pipeline commands
-			// that need to be flushed before beginning the render loop.
-			
+			int a = 0;
 			demo_flush_init_cmd(demo);
-
 			demo->current_buffer = 0;
-			demo->prepared = true;
-			*/
-//crt end			// end of cube.c/demo_prepare(&demo);
+			//demo->prepared = true;
+
+			// end of cube.c/demo_prepare(&demo);
 				
 			// new stuff^
 		}
